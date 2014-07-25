@@ -20,7 +20,7 @@ categories: github博客
 
 
 ####2.在source/_layouts/post.html为每篇文章添加license.html,在article->footer->p标签下，修改如下：
- ｛% img /images/post/2014-07-25-wei-githubbo-ke-tian-jia-license/1.png %｝
+  {% img /images/post/2014-07-25-wei-githubbo-ke-tian-jia-license/1.png %}
 
 ####3. 修改_config.yml文件，对license的支持.
     # Post License
@@ -28,4 +28,4 @@ categories: github博客
 
 效果如下：
 
- ｛% img /images/post/2014-07-25-wei-githubbo-ke-tian-jia-license/action_result.png %｝
+ {% img /images/post/2014-07-25-wei-githubbo-ke-tian-jia-license/action_result.png %}
