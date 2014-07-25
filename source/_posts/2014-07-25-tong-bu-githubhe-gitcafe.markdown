@@ -3,7 +3,7 @@ layout: post
 title: "同步github和gitcafe"
 date: 2014-07-25 16:22
 comments: true
-categories: github
+categories: github博客
 ---
 
 ####1.在博客目录(例如：_config.yml所在目录)，找到Rakefile文件并打开，在
