@@ -49,3 +49,5 @@ self.backgroundColor = [UIColor redColor];
 self.backgroundColor = [UIColor redColor];
 
 {% endcodeblock %}
+
+###3.更多代码高亮方式见：[http://octopress.org/docs/blogging/code/](http://octopress.org/docs/blogging/code/)
