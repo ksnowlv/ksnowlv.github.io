@@ -3,7 +3,7 @@ layout: post
 title: "octopress搭建github博客相关概念"
 date: 2014-07-26 15:21
 comments: true
-categories: 
+categories: github博客
 ---
 
 目前项目开发版本管理工具使用sourcetree，之前对git不太了解，所以，使用octopress搭建个github博客体验一把。
