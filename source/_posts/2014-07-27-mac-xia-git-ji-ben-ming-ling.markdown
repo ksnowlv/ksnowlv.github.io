@@ -1,10 +1,11 @@
---
+---
 layout: post
 title: "mac下git基本命令"
 date: 2014-07-27 11:34
 comments: true
 categories: git
 ---
+
 ##持续整理中...
 
 ####git本地仓库由 git 维护的三棵“树”组成。
@@ -15,14 +16,14 @@ categories: git
 
 ####第三棵是 `HEAD`:它指向你最后一次提交的结果。
 
-git 基本命令
+###git 基本命令
 
 ####1.git help
     git --help              #git相关帮助
     git                     #git相关帮助
     git help -a             #available git commands in '/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core'
-    git help -g            #git使用指南
-    git help <command>     #查看某一git命令的帮助
+    git help -g             #git使用指南
+    git help <command>      #查看某一git命令的帮助
 
 ####2.git init
     git init         #初始化一个版本库
@@ -48,8 +49,11 @@ git 基本命令
     git commit -a –m "注释"     #提交所有的修改
     
 ####6.git push 
-    git push origin branchname      #推送你的更新到远程服务器分支
-    git push origin :<branchname>   #删除远程服务器某一分支，某些情况下无效的。
+    git push origin <branchname>            #推送你的更新到远程分支
+    git push -u origin <branchname>         #将本地分支推到远程(如无远程分支则创建，用于初始化远程仓库)
+    git push origin :<branchname>           #删除远程某一分支，某些情况下无效的。
+    git push origin --delete <branchname>   #删除远程某一分支
+    
     
 ####7.git branch
 
@@ -59,6 +63,7 @@ git 基本命令
     git branch –D  <branchname>  #删除本地分支
     git merge <branchname>       #自动合并分支改动，但是，可能会出现冲突。
     git checkout <branchname>    #切换到新分支，需要确保本地新分支是存在的
+    git branch  --all            #本地所有的本地和远程对应的分支
 
 ####8.git pull
     git pull origin <branchname>  #获取(fetch)并且合并（merge）远端的改动。
@@ -70,6 +75,15 @@ git 基本命令
         
 ####10.git status
     git status    #当前的GIT状态，会指出当前没有可更新的，或者需要添加提交修改等
+    
+####11.git reset
+
+    git reset                  #相当于git reset –mixed HEAD  
+    git reset --hard HEAD      #回到上次提交时的状态 
+    git reset HEAD <filepath>  #取消已经在暂存区里面等待被commit的文件
+    
+
+
            
     
     
