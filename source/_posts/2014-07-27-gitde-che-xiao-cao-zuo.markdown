@@ -12,7 +12,7 @@ git reset三种撤消方式如下：
     此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保留源码，回退commit和index信息git 
        也就是说：取消了commit ，取消了add
 
-####2.reset --soft  HEAD～1
+####2.reset --soft  HEAD～number
     回退到某个版本，只回退了commit的信息，不会恢复到index file一级。如果还要提交，直接commit即可
     也就是说取消了commit
 
