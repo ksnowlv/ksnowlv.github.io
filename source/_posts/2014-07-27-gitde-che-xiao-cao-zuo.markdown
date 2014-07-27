@@ -6,6 +6,25 @@ comments: true
 categories: git
 ---
 
+git reset三种撤消方式如下：
+
+####1.git reset --mixed：
+    此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保留源码，回退commit和index信息git 
+       也就是说：取消了commit ，取消了add
+
+####2.reset --soft  HEAD～1
+    回退到某个版本，只回退了commit的信息，不会恢复到index file一级。如果还要提交，直接commit即可
+    也就是说取消了commit
+
+####3.git reset --hard <version>
+    彻底回退到某个版本，本地的源码也会变为该版本的内容。
+    也就是说取消了commit ，取消了add，取消源文件修改
+    
+####说明：`--soft`和`--hard`后面为版本号  
+`HEAD~number`：`number`表示倒数第number次的提交结果
+`<version>`:可以通过`git log`获取，参见下面的样例。
+
+###样例如下：
 
 ####1.撤消add:撤消提交到暂存区的文件
 
@@ -77,7 +96,7 @@ categories: git
     git push -f origin master
     
     
- ####3.将本地的状态回退到和远程的一样
+####3.将本地的状态回退到和远程的一样
  先将本地文件b.text修改下，观察是否回退到的远程.
  
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ vim b.text 
@@ -85,4 +104,17 @@ categories: git
     HEAD is now at 804b9f4 modify b
    
 b.text是和远程的相同的
+
+####4.使用`HEAD~number`撤消
+
+    ksnowlvdeMacBook-Pro:gittest ksnowlv$ git reset --hard HEAD~1
+    HEAD is now at 5636eac add new file
+    ksnowlvdeMacBook-Pro:gittest ksnowlv$ ls
+    a.text
+    
+再强制推送到远程分支，即回到了想回的状态。
+
+    git push -f origin master
+    
+
 
