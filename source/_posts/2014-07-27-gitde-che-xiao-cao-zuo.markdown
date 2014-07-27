@@ -22,6 +22,7 @@ git reset三种撤消方式如下：
     
 ####说明：`--soft`和`--hard`后面为版本号  
 `HEAD~number`：`number`表示倒数第number次的提交结果
+
 `<version>`:可以通过`git log`获取，参见下面的样例。
 
 ###样例如下：
