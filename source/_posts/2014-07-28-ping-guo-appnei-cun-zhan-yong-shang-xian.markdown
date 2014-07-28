@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "苹果App内存占用上限(二)"
+title: "iOS/iPad App内存占用上限(二)"
 date: 2014-07-28 11:13
 comments: true
 categories: iOS-Memory
@@ -8,6 +8,10 @@ categories: iOS-Memory
 
 ####iOS/iPad App内存占用在打开许多App后，打开demo App,该demo App占用内存的上限能达到多少呢？
 
+####使用下面的代码,点击按钮后，观察内存警告时，App被kill时的日志输出。
+
+
+#####内存警告时
 
 ``` objective-c
 
@@ -20,6 +24,12 @@ categories: iOS-Memory
     [self mallocMemory];
     NSLog(@"------------------------memory warningx");
 }
+
+···
+
+#####手动触发该按钮事件后，等待被“kill”吧。
+
+``` objective-c
 
 - (IBAction)startMallocEvent:(id)sender
 {
@@ -90,7 +100,7 @@ categories: iOS-Memory
 
 ```
 
-#####使用iPad mini2设备，其在被系统杀死时，各项内存占用如下：
+####使用iPad mini2设备，统计7欠被杀死的情况。根据日志输出，整理其在被系统杀死时各项内存占用，如下：
 
 |序号| 内存(M) |虚拟内存(M)|空闲内存(M)|物理内存(M)|非内核内存(M) |
 |----|--------|---------|----------|----------|------------|
@@ -115,3 +125,4 @@ categories: iOS-Memory
     这个会涉及到cache,可能会增加内存的占用。
     尽是提高clean memory，降低dirty memory。
 
+####注：更详细的数据分析及结论，如果需要，可以联系我。
