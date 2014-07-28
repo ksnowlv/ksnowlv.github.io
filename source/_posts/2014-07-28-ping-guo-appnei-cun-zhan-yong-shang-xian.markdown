@@ -25,7 +25,7 @@ categories: iOS-Memory
     NSLog(@"------------------------memory warningx");
 }
 
-···
+```
 
 #####手动触发该按钮事件后，等待被“kill”吧。
 
