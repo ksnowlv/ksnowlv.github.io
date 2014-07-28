@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "iOS/iPad App内存占用上限(1)"
+title: "iOS/iPad App内存占用上限(一)"
 date: 2014-07-27 23:44
 comments: true
-categories: ios-memory
+categories: iOS-Memory
 ---
 
 
