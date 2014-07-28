@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Git revert"
+title: "git revert"
 date: 2014-07-29 00:14
 comments: true
 categories: git
