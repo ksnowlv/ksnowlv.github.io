@@ -3,12 +3,15 @@ layout: post
 title: "mac terminal换主题"
 date: 2014-07-30 9:14
 comments: true
-categories: git
+categories: mac
 ---
 
-####一.安装主题
-1.[ir_black.terminal]()
-2.[saschalein.terminal]()
+####一.打开主题
+1.[ir_black.terminal](https://github.com/ksnowlv/download-Resource/blob/master/mac%20terminal%20theme/IR_Black.terminal)
+
+2.[saschalein.terminal](https://github.com/ksnowlv/download-Resource/blob/master/mac%20terminal%20theme/saschalein.terminal)
+
+创建`ir_black.terminal`和`saschalein.terminal`并执行
 
 在终端的菜单->偏好设置其中之一，再做配置的修改。
 
