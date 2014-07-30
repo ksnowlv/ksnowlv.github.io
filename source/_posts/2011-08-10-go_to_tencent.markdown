@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "入职腾讯的那天"
+title: "入职腾讯"
 date: 2011-08-10 9:00
 comments: true
 categories: 职业生涯
@@ -11,4 +11,5 @@ categories: 职业生涯
    左边是nop,右边是老江，leven，老大在斜对面...
            
     于是开始了在这里的火热激情之旅！....
+    靠谱
     ---今天记录下这个时刻。
