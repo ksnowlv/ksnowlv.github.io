@@ -155,3 +155,4 @@ static NSString *KPicAURL = @"http://d.hiphotos.baidu.com/image/h%3D800%3Bcrop%3
 ####注意事项:
 ####1.这种方法对于基于NSURLConnection的http请求是有效的,例如AFNetworking，对于基于CFNetwork框架的是不支持的,例如：MKNetworkKit,ASIHttpRequest.
 ####2.无论对webView还是native的,只要是基于NSURLConnection的网络请求的,可以根据相关特征进行URL拦截替换.
+#####3.如何一个工程当中，注册了多个拦截基于NSURLConnection的网络请求的类的情况下，最终生效的是最后拦截者。
