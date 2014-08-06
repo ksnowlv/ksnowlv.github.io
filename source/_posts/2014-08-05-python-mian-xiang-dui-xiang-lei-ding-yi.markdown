@@ -26,7 +26,7 @@ categories: python
 #!/usr/bin/python
 
 class Teacher:
-   'Common base class for all employees'
+   'Common base class for all teacher'
    teacherCount = 0
 
    def __init__(self, name, age):
