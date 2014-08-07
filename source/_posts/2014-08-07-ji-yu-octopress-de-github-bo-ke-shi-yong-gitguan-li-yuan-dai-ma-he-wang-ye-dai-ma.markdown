@@ -22,10 +22,10 @@ categories: github博客
 
 详情参考下图:
 
- ![image](/source/images/post/2014-08-07-ji-yu-octopress-de-github-bo-ke-shi-yong-gitguan-li-yuan-dai-ma-he-wang-ye-dai-ma/git-for-master-github-pages.png)    
+ ![image](/images/post/2014-08-07-ji-yu-octopress-de-github-bo-ke-shi-yong-gitguan-li-yuan-dai-ma-he-wang-ye-dai-ma/git-for-master-github-pages.png)    
     
 ####2.网页源代码版本管理
-####blog下的源文件管理，可以通过git相关命令，也可以使用sourcetree等工具进行管理
+####blog下的源文件管理，可以通过git相关命令，也可以使用sourcetree等工具进行管理。可以通过`git status`查看当前所在分支
 
     blog根目录下的git版本库实际上只管理除了public,_deploy两个主要目录以外所有的文件，octopress的配置自动忽略这两个目录。只处理这两个目录以外的版本变化情况。
 
@@ -33,4 +33,4 @@ categories: github博客
 
 详情参考下图:
 
- ![image](/source/images/post/2014-08-07-ji-yu-octopress-de-github-bo-ke-shi-yong-gitguan-li-yuan-dai-ma-he-wang-ye-dai-ma/git-for-source-code.png)    
+ ![image](/images/post/2014-08-07-ji-yu-octopress-de-github-bo-ke-shi-yong-gitguan-li-yuan-dai-ma-he-wang-ye-dai-ma/git-for-source-code.png)    
