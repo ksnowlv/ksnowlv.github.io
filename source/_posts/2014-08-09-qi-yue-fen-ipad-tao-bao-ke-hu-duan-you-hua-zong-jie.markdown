@@ -6,9 +6,14 @@ comments: true
 categories: iOS优化
 ---
 
-###主要内容包含两方面：一.性能优化总览. 二.性能优化阶段详情. 三.归档.
+###主要内容包含三方面
 
-####一.性能优化总览
+    一.性能优化总览. 
+    二.性能优化阶段详情. 
+    三.归档.
+
+###一.性能优化总览
+
 ####1.第一阶段：性能标准/监控/栅栏。		-----已完成，细节可能会有微调。
 
 ####2.第二阶段：目前处于性能优化之内存优化方面
@@ -26,16 +31,19 @@ categories: iOS优化
 ![image](/images/post/2014-08-09-qi-yue-fen-ipad-tao-bao-ke-hu-duan-you-hua-zong-jie/performance-optimization-overview.png)
 
 
-二.性能优化阶段详情
+###二.性能优化阶段详情
 
-1.第一阶段详情
+####1.第一阶段详情
 
 ![image](/images/post/2014-08-09-qi-yue-fen-ipad-tao-bao-ke-hu-duan-you-hua-zong-jie/xingnengyouhuajiduan-yi-xingneng-zhibiao-jiankong.png)
 
-2.第二阶段详情
+####2.第二阶段详情
 
 ![image](/images/post/2014-08-09-qi-yue-fen-ipad-tao-bao-ke-hu-duan-you-hua-zong-jie/xingnengyouhuajiduan-er-zhuantiyouhua.png)
 
-3.第三阶段详情
+####3.第三阶段详情
 
 ![image](/images/post/2014-08-09-qi-yue-fen-ipad-tao-bao-ke-hu-duan-you-hua-zong-jie/xingnengyouhuajiduan-shan-chendian-jilei.png)
+
+###三.归档
+    文档相关链接见...
