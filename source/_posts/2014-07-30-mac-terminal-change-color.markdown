@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "mac terminal换主题"
+title: "Mac terminal换主题"
 date: 2014-07-30 9:14
 comments: true
-categories: mac
+categories: Mac
 ---
 
 ####一.创建主题文件。

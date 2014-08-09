@@ -3,7 +3,7 @@ layout: post
 title: "python调试之pdb"
 date: 2014-08-09 14:40
 comments: true
-categories: Python
+categories: python
 ---
 
 ####学习python调试可参考官方文档的[pdb](https://docs.python.org/2/library/pdb.html).
@@ -139,7 +139,7 @@ print "Exiting Main Thread"
 
 ```
 
-调试示例如下：
+####调试示例如下：
 
     ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python thread_queue.py 
     > /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(9)<module>()
