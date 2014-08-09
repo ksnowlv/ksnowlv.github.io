@@ -56,6 +56,8 @@ def process_data(threadName, q):
 threadList = ["ksnow", "kair", "baby"]
 nameList = ["One", "Two", "Three", "Four", "Five"]
 queueLock = threading.Lock()
+
+#创建FIFO（先入先出)队列Queue
 workQueue = Queue.Queue(5)
 threads = []
 threadID = 1
