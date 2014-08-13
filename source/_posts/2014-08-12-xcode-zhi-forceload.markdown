@@ -29,3 +29,14 @@ categories: Xcode
 ####`other linker flags`设置
 ![image](/images/post/2014-08-12-xcode-zhi-forceload/other_link_flag.png)
 
+###总结:
+####1. -ObjC与-force_load,-all_load的区别呢？
+ 
+    -ObjC加载所有类和有本类的分类，对于系统本类的分类是不加载的。
+    -force_load,-all_load,加载类所有的方法，包括系统本类的分类方法。  
+
+####2.`-force-load`,`-all_load`,所做的事情是相同的.区别如下:
+
+    -all_load是加载所有静态库中所有的类,分类,可能导致冲突。 
+    -force_load是指定加载某个静态库中所有的类,分类,不影响其它类按需加载。
+
