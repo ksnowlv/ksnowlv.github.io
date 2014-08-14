@@ -6,10 +6,10 @@ comments: true
 categories: iOS
 ---
 
-在iOS开发中,经常会遇见"selector not recognized"这种类型的crash,其原因:
+####在iOS开发中,经常会遇见"selector not recognized"这种类型的crash,其原因:
 
 ####1.该方法实际上不存在.
-解决办法:
+####解决办法:
     
     1.检查是否拼写错误。
     2.检查该方法在iOS SDK版本中的适用版本范围。
@@ -29,7 +29,9 @@ categories: iOS
 ####3.使用静态库分类方法加载不当。
 
     静态库的分类方法默认是不加载的,-需要检查编译选项设置。
-    -ObjC,-all_load,-force_load详情见[本文](http://ksnowlv.github.io/blog/2014/08/12/xcode-zhi-forceload/)
+       -ObjC,-all_load,-force_load 
+  
+  详情见[本文](http://ksnowlv.github.io/blog/2014/08/12/xcode-zhi-forceload/)
    
  
     
