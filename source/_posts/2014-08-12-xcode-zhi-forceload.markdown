@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Xcode之forceload"
+title: "Xcode之ObjC/all_load/force_load"
 date: 2014-08-12 23:51
 comments: true
 categories: Xcode
