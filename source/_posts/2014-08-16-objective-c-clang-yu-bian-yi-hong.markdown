@@ -14,9 +14,11 @@ categories: Xcode
 
 `__unsafe_unretained`:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
 
-`__weak`::LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+`__weak`:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
 
-`__strong`::LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+`__strong`:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+
+`__block`:块变量。
  
 等.
 
