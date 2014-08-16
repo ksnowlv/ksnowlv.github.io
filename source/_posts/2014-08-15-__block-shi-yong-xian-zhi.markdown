@@ -25,7 +25,42 @@ categories: iOS
     
 ####总结:
 ####VLA虽然定义时长度可变，但还不是动态数组，在运行期内不能再改变;
-####而动态可变长度数组是在运行期间确定下来的，而且在运行期间也是可以改变的。
+代码示例:
+![image](/images/post/2014-08-15-__block-shi-yong-xian-zhi/var_length_demo.png)
+
+####而指针类型的数组是在运行期间确定下来的，而且在运行期间也是可以改变的。
+
+``` objective-c
+
+     __block char* string = NULL;
+    __block size_t stringLength = 0;
+    
+    void (^showMessage)(NSString *message);
+    
+    showMessage = ^(NSString *message)
+    {
+        int length = [message lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        
+        stringLength = (length + 1) * sizeof(char);
+        string = calloc(stringLength,stringLength);
+        memcpy(string, [message UTF8String], stringLength);
+        NSLog(@"string = %s",string);
+    };
+    
+    showMessage(@"hello world");
+  
+    
+    if (string && stringLength > 0) {
+        
+        NSLog(@"string = %s, string[0] = %c",string,string[0]);
+        
+        free(string);
+        string = NULL;
+    }
+
+
+```
+    
  
 ####2.柔性数组结构成员
      1.结构中的最后一个元素允许是未知大小的数组，这就叫做柔性数组成员；
@@ -43,7 +78,7 @@ categories: iOS
 typedef struct TStudent
 {
     int number;
-    char name[0];
+    char name[];
 }StudentType;
 
 #创建一结构体
