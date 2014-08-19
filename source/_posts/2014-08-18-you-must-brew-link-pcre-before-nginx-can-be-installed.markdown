@@ -18,4 +18,4 @@ categories: nginx
     Linking /usr/local/Cellar/pcre/8.35... 133 symlinks created
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$brew install nginx
     
- ####如果使用上述命令出错，则找到`/usr/local/Cellar/pcre`和`/usr/local/opt/pcre`的`pcre`目录干掉，重新安装pcre,再强制链接。
+如果使用上述命令出错，则找到`/usr/local/Cellar/pcre`和`/usr/local/opt/pcre`的`pcre`目录干掉，重新安装pcre,再强制链接。
