@@ -103,7 +103,7 @@ $config['uri_protocol']	= 'REQUEST_URI';
  
 ####4.在浏览器打开`http://www.ksnowlv.com/index.php`，即可看到`Welcome to CodeIgniter!`欢迎页面。       
 
-![image](/images/post2014-08-21-mac-nginx-xia-codeigniteryu-ming-fu-wu-fang-wen/codeigniter_url_page.png) 
+![image](/images/post/2014-08-21-mac-nginx-xia-codeigniteryu-ming-fu-wu-fang-wen/codeigniter_url_page.png) 
 
 至此，关于`CodeIgniter`的基本安装配置已经OK.下一步,直接投入实战吧!
 
