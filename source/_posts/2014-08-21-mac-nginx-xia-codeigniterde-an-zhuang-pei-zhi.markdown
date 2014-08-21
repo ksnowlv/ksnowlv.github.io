@@ -80,3 +80,7 @@ categories: php
 
 ![image](/images/post/2014-08-21-mac-nginx-xia-codeigniterde-an-zhuang-pei-zhi/codeigniter_page.png) 
 
+**其它**:和凡兄聊的时候,原来已经身在大百度做智能交通,good luck!
+
+**能做自己喜欢做的事，挺爽!**
+
