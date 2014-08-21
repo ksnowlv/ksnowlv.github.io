@@ -99,13 +99,15 @@ $config['uri_protocol']	= 'REQUEST_URI';
     Password:
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$sudo php-fpm
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$
- 此时nginx和php服务启动完成。
+ 此时`nginx`和`php`服务启动完成。
  
 ####4.在浏览器打开`http://www.ksnowlv.com/index.php`，即可看到`Welcome to CodeIgniter!`欢迎页面。       
 
 ![image](/images/post/2014-08-21-mac-nginx-xia-codeigniteryu-ming-fu-wu-fang-wen/codeigniter_url_page.png) 
 
 至此，关于`CodeIgniter`的基本安装配置已经OK.下一步,直接投入实战吧!
+
+**另外**:和磊兄聊的时候,原来已经投身手机游戏开发,赞一个!
 
        
       

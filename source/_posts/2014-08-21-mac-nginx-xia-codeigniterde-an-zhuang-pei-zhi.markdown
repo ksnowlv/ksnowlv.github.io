@@ -15,6 +15,7 @@ categories: php
 详情参看相关开发文档
  
 ####2.修改nginx配置文件。
+
 在`/usr/local/etc/nginx`打开`nginx.conf`进行编辑。
 主要修改点:`root`目录指向`codeigniter`目录.完整内容如下：
 
@@ -73,7 +74,7 @@ categories: php
     Password:
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$sudo php-fpm
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$
- 此时nginx和php服务启动完成。
+ 此时`nginx`和`php`服务启动完成。
  
 ####4.在浏览器打开`http://localhost:8080/index.php`，即可看到`Welcome to CodeIgniter!`欢迎页面。       
 
