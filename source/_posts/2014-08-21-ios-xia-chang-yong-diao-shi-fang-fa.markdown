@@ -6,24 +6,31 @@ comments: true
 categories: iOS
 ---
 
-预编译器内置的宏可用于c/c++/Objective-C
 
- 宏| 格式化 | 含义
---------|---------|-------
-__func__ | %s | 当前函数名
-__LINE__ | %d | 当前代码行号
-__FILE__ | %s | 文件名
-__PRETTY_FUNCTION__ | %s | 当前函数名
+**1.预编译器内置的宏可用于c/c++/Objective-C**
 
-在Objective-C中常用的表达式
+* \__func__ :当前函数名
 
- 表达式        | 格式化 | 含义
---------------|---------|-------
-NSStringFromSelector(_cmd) | %@ | 当前selector
-NSStringFromClass | %@ | class名
-[NSThread callStackSymbols] | %@ | 线程调用栈
+* \__LINE__ :当前代码行号
 
-常用日志函数
+* \__FILE__ :文件名
 
-`NSLog`和`print`
+* \__PRETTY_FUNCTION__ :当前函数名
+
+
+
+**2.在Objective-C中常用的表达式**
+
+* NSStringFromSelector(_cmd)  :当前selector
+* NSStringFromClass           :   class名
+* [NSThread callStackSymbols] :   线程调用栈
+ 
+
+`_cmd`是`objective-c`的方法中内置的变量。
+
+
+**3.常用日志函数**
+
+* NSLog 
+* print
 
