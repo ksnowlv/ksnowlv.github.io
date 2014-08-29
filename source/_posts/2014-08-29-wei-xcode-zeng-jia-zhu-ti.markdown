@@ -10,6 +10,17 @@ categories: Xcode
 
 ![image](/images/post/2014-08-29-wei-xcode-zeng-jia-zhu-ti/xcode_theme_dir.png)
 
+常用的Xcode主题
 
-[Solarized Light & Dark](https://github.com/jbrennan/xcode4themes)
-下载后直接把文件拷贝到`Xcode`主题目录即可。
+1.[Solarized Light & Dark](https://github.com/jbrennan/xcode4themes)
+
+![image](/images/post/2014-08-29-wei-xcode-zeng-jia-zhu-ti/solarized_theme_overview.png)
+
+
+2.[tomorrow-theme](https://github.com/chriskempson/tomorrow-theme)
+
+![image](/images/post/2014-08-29-wei-xcode-zeng-jia-zhu-ti/tomorrow_theme_overview.png)
+
+3.[Twilight](https://github.com/brunodecarvalho/xcode-themes)
+
+![image](/images/post/2014-08-29-wei-xcode-zeng-jia-zhu-ti/twilight_theme_overview.png)
