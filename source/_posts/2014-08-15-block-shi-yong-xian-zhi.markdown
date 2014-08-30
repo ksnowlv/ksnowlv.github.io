@@ -1,12 +1,13 @@
 ---
 layout: post
-title: "__block使用限制"
+title: block关键字使用限制
 date: 2014-08-15 19:53
 comments: true
 categories: iOS
 ---
 
-` __block`变量有两个限制
+ 
+**__block**变量有两个限制
     
     1.不能是可变长度的数组。
     2.不能是包含C99可变长度数组的结构体。
@@ -25,14 +26,16 @@ categories: iOS
     
 ####总结:
 ####VLA虽然定义时长度可变，但还不是动态数组，在运行期内不能再改变;
+
 代码示例:
+
 ![image](/images/post/2014-08-15-__block-shi-yong-xian-zhi/var_length_demo.png)
 
 ####而指针类型的数组是在运行期间确定下来的，而且在运行期间也是可以改变的。
 
 ``` objective-c
 
-     __block char* string = NULL;
+    __block char* string = NULL;
     __block size_t stringLength = 0;
     
     void (^showMessage)(NSString *message);
