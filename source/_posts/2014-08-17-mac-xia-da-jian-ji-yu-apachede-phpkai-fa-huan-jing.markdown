@@ -3,7 +3,7 @@ layout: post
 title: "Mac下搭建基于Apache的PHP开发环境"
 date: 2014-08-17 20:52
 comments: true
-categories: Mac
+categories: php
 ---
 
 ####一.开启Apache服务。
