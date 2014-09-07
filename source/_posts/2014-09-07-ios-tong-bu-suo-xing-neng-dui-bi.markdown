@@ -175,4 +175,13 @@ categories: iOS-多线程
   - NSLock/NSCondition/NSRecursiveLock 耗时接近，220ms上下居中。  
   - NSConditionLock最差，我们常用synchronized倒数第二。
   - dispatch_barrier_async也许，性能并不像我们想象中的那么好.推测与线程同步调度开销有关。单独block耗时在1ms以下基本上可以忽略不计的。
+* 在访问次数比较多的情况下,IMP访问耗时要比消息发送略小。
+  参看`NSLock`与`NSLock + IMP`对比。
+  
+* 为什么不直接使用**IMP**而使用直接声明函数指针的方式?
+  XCode6下IMP不能指定参数，报错如下：
+  ![image](/images/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/error_overview.png) 
+  如何解决呢？修改LLVM预处理设置即可。详情见[XCode6下Too many arguments to function call, expected 0, have 2解决办法](http://ksnowlv.gitcafe.com/blog/2014/09/07/xcode6-too-many-arguments-to-function-call-expected-0-have-2/)
+  
+   
   
