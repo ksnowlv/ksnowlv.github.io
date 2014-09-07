@@ -1,13 +1,12 @@
 ---
 layout: post
-title: "iOS同步锁性能对比"
+title: "iOS同步对象性能对比"
 date: 2014-09-07 10:42
 comments: true
 categories: iOS-多线程
 ---
 
-线程间调度经常会涉及到同步。
-在iOS开发中，各种各样同步方法。
+在iOS开发中，支持多种同步方法，我们从耗时角度出发，评估各种同步对象的性能。
 
 ``` objective-c
 
