@@ -182,5 +182,25 @@ categories: iOS-多线程
   ![image](/images/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/error_overview.png) 
   如何解决呢？修改LLVM预处理设置即可。详情见[XCode6下Too many arguments to function call, expected 0, have 2解决办法](http://ksnowlv.gitcafe.com/blog/2014/09/07/xcode6-too-many-arguments-to-function-call-expected-0-have-2/)
   
-   
+###原因分析
+
+####1.synchronized 
+
+    会创建一个异常捕获handler和一些内部的锁。所以，使用@synchronized替换普通锁的代价是，你付出更多的时间消耗。
+####2.NSConditionLock
+    
+    条件锁，与特定的，用户定义的条件有关。可以确保一个线程可以获取满足一定条件的锁。
+    内部会涉及到信号量机制，一旦一个线程获得锁后，它可以放弃锁并设置相关条件;其它线程竞争该锁。
+    线程之间的竞争激烈，涉及到条件锁检测，线程间通信。系统调用，上下切换方切换比较频繁。
+####3.OSSpinLock
+
+    自旋锁几乎不进入内核，仅仅是重新加载自旋锁。
+    如果自旋锁被占用时间是几十，上百纳秒，性能还是挺高的。减少了代价较高的系统调用和一系列上下文言切换。
+    但是，该锁不是万能的;如果该锁抢占比较多的时候，不要使用该锁。会占用较多cpu,导致耗电较多。
+    这种情况下使用pthread_mutex虽然耗时多一点，但是，避免了电量过多的消耗。是不错的选择。
+    
+####4.pthread_mutex
+
+    底层的API还是性能比较高啊，在各种同步对象中，性能属于佼佼者。
+
   
