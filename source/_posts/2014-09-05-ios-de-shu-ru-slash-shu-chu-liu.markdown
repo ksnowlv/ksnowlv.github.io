@@ -10,8 +10,7 @@ categories: iOS
 
 ####其主要类与方法
 
-![image](/images/post/2014-09-05-ios-de-shu-ru-slash-shu-chu-liu/cocoa_input_output_stream_class.jpg)
-
+![image](/images/post/2014-09-05-ios-de-shu-ru-slash-shu-chu-liu/cocoa_stream_class.jpg)
 
 使用示例：我们从使用输入流从本地文件中读取图片，使用输出流存储读取的图片数据并显示。
 

@@ -349,7 +349,7 @@ class Circle :Shape{
     }
     
     override func area() ->Double{
-        return 3.14159265 * sqrt(self.radius);
+        return 3.14159265 * pow(self.radius,2);
     }
     
     override func circumference() ->Double{
@@ -376,7 +376,7 @@ class Square: Shape{
     }
     
     override func area() -> Double {
-        return sqrt(_size);
+        return pow(_size, 2);
     }
     
     override func circumference() -> Double {
@@ -409,9 +409,9 @@ print("className = \(square.className) square:{description = \(square.descriptio
 shape name = Shape
 className = Shape shape:{description = Shape, area = 0.0, circumference = 0.0}
 shape name = Circle
-className = Circle circle:{description = Circle, area = 10.179923672337, circumference = 65.97344565}
+className = Circle circle:{description = Circle, area = 346.3605896625, circumference = 65.97344565}
 shape name = Square
-className = Square square:{description = Square, area = 2.0, circumference = 16.0}
+className = Square square:{description = Square, area = 16.0, circumference = 16.0}
 Square deinit
 Shape deinit
 Circle deinit
@@ -421,8 +421,14 @@ Shape deinit
 ``` 
 小结:
     
-    1.派生类的初始化顺序，先初始化基类，再初始化自身；析构顺序和初始化顺序相反，
-    2.对象的创建顺序和析构顺序是相反的。
-    3.如果派生类在类的外部调用基类的同名函数，如何调用呢？
+ * 1.派生类的初始化顺序，先初始化基类，再初始化自身；析构顺序和初始化顺序相反，
+ * 2.对象的创建顺序和析构顺序是相反的。
+ * 3.如果派生类在类的外部调用基类的同名函数，如何调用呢？
+    与**objective-c**/**python**中的调用都不太一样。可以使用声明基类指针的方式。
+``` objective-c
 
+   var squareShap:Shape = square;
+   squareShap.draw();
+
+```   
 参考链接：[http://stackoverflow.com/questions/24021093/error-in-swift-class-property-not-initialized-at-super-init-call/24150540#24150540](http://stackoverflow.com/questions/24021093/error-in-swift-class-property-not-initialized-at-super-init-call/24150540#24150540)
