@@ -8,6 +8,7 @@ categories: swift
 
 `objective-c`中`property`方法支持`assign/readonly/retain/readwrite`等。
 `swift`也支持类似这些属性。
+
 ###一.swift属性方法
 
 ####1.readonly
@@ -42,14 +43,14 @@ var age:Int{
 
 ``` 
 
-####read/write  with backing store,信息隐藏，监控属性变化，附加额外处理
+####3.read/write  with backing store,信息隐藏，监控属性变化，附加额外处理
 类似 
 ```objective-c 
  
  @property(nonatomic, retain)NSString address;
 
 ``` 
-  变量自动为_address
+  实例变量自动为_address
 
 ```objective-c
 
