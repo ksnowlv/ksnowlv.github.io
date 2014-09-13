@@ -62,7 +62,7 @@ protocol<协议1, 协议2，...,协议n>
 
 ```objective-c
 
- protocol QBaseClassProtocol{
+protocol QBaseClassProtocol{
     
     var className:String{get}
 }
@@ -73,23 +73,10 @@ protocol<协议1, 协议2，...,协议n>
 }
 
 
-class QClassA:QOutActionProtocol{
-    
-    //from QOutActionProtocol
-    func gotoPark() -> Bool {
-        return true
-    }
-    
-    init(){
-        
-    }
-}
-
-class QBaseClass :QBaseClassProtocol{
+class QBaseClass :QBaseClassProtocol, QOutActionProtocol{
     
     
     private var _className:String = "QBaseClass"
-    var _outActionProtocol:QOutActionProtocol! = QClassA()
     
     init(){
         
@@ -98,23 +85,31 @@ class QBaseClass :QBaseClassProtocol{
     //from QBaseClassProtocol
     var className:String{
         get{
-
+            
             return _className;
         }
     }
     
-    func testOutActionProtocol(){
+    //from QOutActionProtocol
+    func gotoPark() -> Bool {
         
-        if _outActionProtocol?.goShopping? != nil{
-            println("I can go Shopping");
-        }
-        else if _outActionProtocol?.gotoPark?() != nil{
-            println("I can go to park");
-        }
+        return true
     }
     
     func test(){
-        self.testOutActionProtocol()
+        
+        println("className = \(_className)")
+        
+        var gotoPark:Bool  = self.gotoPark()
+        
+        if gotoPark{
+            println("I can go to park")
+        }
+        else{
+            println("I can't go to park")
+        }
+        /// 'QBaseClass' does not have a member named 'goShopping'
+        //self.goShopping()
     }
 }
  
