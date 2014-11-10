@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "UML-用例图"
+title: "uml-用例图"
 date: 2014-10-27 17:15
 comments: true
 categories: UML
