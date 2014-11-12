@@ -3,7 +3,7 @@ layout: post
 title: "iOS设备获取DNS-IP"
 date: 2014-11-11 17:56
 comments: true
-categories: iOS 网络
+categories: iOS-网络
 ---
 
 iOS设备如何获取DNS-IP呢？

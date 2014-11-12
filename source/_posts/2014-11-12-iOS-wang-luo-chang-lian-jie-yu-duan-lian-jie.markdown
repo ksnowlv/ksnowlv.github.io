@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "网络长连接与短连接"
+title: "iOS网络长连接与短连接"
 date: 2014-11-12 15:15
 comments: true
-categories: iOS网络
+categories: iOS-网络
 ---
  
 ###长连接
