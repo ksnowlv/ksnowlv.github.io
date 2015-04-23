@@ -10,7 +10,7 @@ categories: iOS-设计模式
 
 代码如下：
 
-{% codeblock lang:objective-c %}
+```objective-c
 
 @implementation QBaseObject
 
@@ -28,4 +28,4 @@ static BOOL _initialized = NO;
 
 @end
 
-{% endcodeblock %}
+```
