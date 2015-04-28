@@ -7,6 +7,7 @@ categories: Android多线程
 ---
 
 **ExecutorService**继承**Executor**，是线程池的一个服务，可以随时关闭线程池。
+
 **Executors**是个工厂类，专门创建各种线程池。
 
 ####一.Android常用的线程池有以下四种
