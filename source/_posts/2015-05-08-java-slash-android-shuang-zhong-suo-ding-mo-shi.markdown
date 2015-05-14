@@ -10,8 +10,7 @@ categories: Android多线程
 
 #####适用性方面：在J2SE 5.0之前的版本使用，有隐患。在J2SE 5.0开始的版本，可以放心使用，已经解决了原有的问题。可参考链接[双重检查锁定模式](http://zh.wikipedia.org/zh-cn/双重检查锁定模式)
 
-在Java/Android中的示例：
-```Java
+```java
 
 	private volatile static ImageLoader instance;
 
