@@ -3,7 +3,7 @@ layout: post
 title: "iOS镂空UIView"
 date: 2015-05-14 22:46
 comments: true
-categories: iOS UI
+categories: iOS-UI
 ---
 
 如果想把UIView挖空一块，使用遮罩图。效果图如下：

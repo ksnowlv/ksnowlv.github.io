@@ -3,7 +3,7 @@ layout: post
 title: "iOS集合类深拷贝"
 date: 2014-08-19 19:42
 comments: true
-categories: iOS
+categories: iOS-基础
 ---
 
 iOS集合类默认是浅拷贝，那如何深拷贝呢？

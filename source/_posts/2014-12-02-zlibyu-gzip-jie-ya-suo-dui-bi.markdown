@@ -3,7 +3,7 @@ layout: post
 title: "ZLib与GZip解压缩对比"
 date: 2014-12-02 20:51
 comments: true
-categories: C/C++
+categories: iOS-解压缩
 ---
 
 ###1.ZLib与GZip解压缩

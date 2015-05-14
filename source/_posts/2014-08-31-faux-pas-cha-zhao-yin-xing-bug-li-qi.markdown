@@ -5,7 +5,7 @@ date: 2014-08-31 17:16
 comments: true
 categories: Xcode
 ---
-[Faux Pas](http://)是一个Xcode辅助工具，查找隐形bug利器,
+[Faux Pas](http://fauxpasapp.com)是一个Xcode辅助工具，查找隐形bug利器,
 
 主要功能:
 >* 找出隐藏的**bug**。

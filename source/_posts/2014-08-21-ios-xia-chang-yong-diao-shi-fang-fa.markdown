@@ -3,7 +3,7 @@ layout: post
 title: "iOS下常用调试方法"
 date: 2014-08-21 20:10
 comments: true
-categories: iOS
+categories: iOS-调试
 ---
 
 

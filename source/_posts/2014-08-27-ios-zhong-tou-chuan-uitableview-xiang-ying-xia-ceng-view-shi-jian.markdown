@@ -3,7 +3,7 @@ layout: post
 title: "iOS中透穿UITableView响应下层view事件"
 date: 2014-08-27 20:52
 comments: true
-categories: iOS
+categories: iOS-UI
 ---
 
 ![image](/images/post/2014-08-27-ios-zhong-tou-chuan-uitableview-xiang-ying-xia-ceng-view-shi-jian/homepage_1.png)

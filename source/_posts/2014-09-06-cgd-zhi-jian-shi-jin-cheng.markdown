@@ -3,7 +3,7 @@ layout: post
 title: "CGD之监视进程"
 date: 2014-09-06 16:07
 comments: true
-categories: iOS
+categories: iOS-多线程
 ---
 
 **GCD**可以检测进程的运行，退出状态，可以检测到进程间的信号。

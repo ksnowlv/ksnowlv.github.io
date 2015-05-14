@@ -3,7 +3,7 @@ layout: post
 title: "iOS-64位适配"
 date: 2015-01-06 21:31
 comments: true
-categories: iOS
+categories: iOS-基础
 ---
 
 请参考苹果文档链接：[https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html](https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html)

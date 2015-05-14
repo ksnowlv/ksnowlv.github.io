@@ -3,7 +3,7 @@ layout: post
 title: "iOS计算时间差值"
 date: 2014-09-30 15:14
 comments: true
-categories: iOS
+categories: iOS基础
 ---
 
 iOS中，以1970年1月1日00：00：00起始到现在，计算时间差值，可采用NSDate直接合成计算。如果需要重复计算次数较高，可能会导致NSDate大量生成；有没有更好的方法呢？

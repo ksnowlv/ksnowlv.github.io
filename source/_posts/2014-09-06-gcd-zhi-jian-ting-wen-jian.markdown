@@ -3,7 +3,7 @@ layout: post
 title: "GCD之监听文件"
 date: 2014-09-06 17:42
 comments: true
-categories: iOS
+categories: iOS-多线程
 ---
 
 GCD可以用来监听文件变化，例如目录变化，重命名等之类的。
