@@ -91,6 +91,9 @@ zip -r  lua.zip  lua
 
 ```
 
-!!!注意不要用zip工具压缩，不然，解压时会失败。
+####!!!
+* 1.注意不要用zip工具压缩，不然，解压时会失败。
+* 2.64位的适配参考[https://github.com/maxfong/WaxPatch_X64](https://github.com/maxfong/WaxPatch_X64)
+
 
  	           
