@@ -66,10 +66,6 @@ categories: Android-解压缩
 
                 pBuf = byteArrayOutputStream.toByteArray();
 
-                byteArrayInputStream.close();
-                gzipInputStream.close();
-                byteArrayOutputStream.close();
-
             }catch(IOException e){
                 Log.w("gzip uncompressed fail", e.getMessage());
             }
