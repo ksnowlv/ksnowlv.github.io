@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Android平台下的解压缩"
+title: "Android下gzip数据流解压缩"
 date: 2015-08-19 20:21
 comments: true
 categories: Android-解压缩
