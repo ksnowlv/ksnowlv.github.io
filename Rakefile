@@ -260,8 +260,8 @@ multitask :push do
     puts "\n## Pushing generated #{deploy_dir} website"
     system "git push origin #{deploy_branch} --force"
     puts "\n## Github Pages deploy complete"
-    system "git remote add coding git@git.coding.net:ksnowlv/ksnowlv.coding.me.git >> /dev/null 2>&1"
-    system  "git push -u coding master:coding-pages"
+    system "git remote add gitee git@gitee.com:ksnowlv/ksnowlv.gitee.io.git >> /dev/null 2>&1"
+    system  "git push -u gitee master:master"
   end
 end
 
