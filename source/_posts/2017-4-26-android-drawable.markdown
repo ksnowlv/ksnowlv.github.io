@@ -102,8 +102,6 @@ public static Drawable createFromXmlInner(Resources r, XmlPullParser parser, Att
 * 2.svg图像导出工具方便，从而转换成Vector图像功能强大，前端已经广泛使用。
 * 3.android5.0开始支持矢量图，它非常适合图标，是独立于屏幕密度的，一个文件适合所有屏幕。当缩放的时候还可以保存所有的图片质量，通常文件所占用的空间也非常小使用VectorDrawable 可以大幅度的减少apk大小。最新的AppCompat23.2库通过使用VectorDrawableCompat可以支持在android api7+版本上使用矢量图
 
-
-gem install bundler https://ruby.taobao.org
 ####10.AnimatedVectorDrawable
 ####11.ScaleDrawable
 ####12.ClipDrawable
