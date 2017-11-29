@@ -10,6 +10,8 @@ categories: github博客
 
 如果正文太长，不希望在首页直接显示完整内容，如何显示部分内容呢?
 
+<!--more-->
+
 ####1.在_config.yml文件中，添加显示部分内容的支持。
 
     excerpt_link: "阅读全文&rarr;"  

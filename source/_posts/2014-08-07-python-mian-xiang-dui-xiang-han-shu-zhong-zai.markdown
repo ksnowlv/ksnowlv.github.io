@@ -8,6 +8,8 @@ categories: python
 
 ####python支持函数重载，和C++/Objective-c/Java类似。
     适用场景:父类的方法不能满足你的需求.
+  
+  <!--more-->
     
 代码示例如下：
 

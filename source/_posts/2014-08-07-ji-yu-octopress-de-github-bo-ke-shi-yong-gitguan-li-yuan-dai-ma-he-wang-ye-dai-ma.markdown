@@ -8,6 +8,8 @@ categories: github博客
 
 ####基于octopress的github/gitcafe博客，都会涉及到源代码管理。对于git,github/gitcafe的初学者而言，可能容易走弯路。
 
+<!--more-->
+
 先看下博客目录:
  ![image](/images/post/2014-08-07-ji-yu-octopress-de-github-bo-ke-shi-yong-gitguan-li-yuan-dai-ma-he-wang-ye-dai-ma/github-blog-dir.png) 
 

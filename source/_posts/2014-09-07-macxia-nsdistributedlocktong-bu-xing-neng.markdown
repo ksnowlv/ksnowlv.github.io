@@ -7,6 +7,8 @@ categories: Mac-多线程
 ---
 
 ####Mac下[NSDistributedLock](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSDistributedLock_Class/Reference/Reference.html)也可以用来同步。
+
+ <!--more-->
  
 > * 可以用来限制对某些共享资源的访问，比如一个文件。
  * 没有实现**NSLocking**协议，所有没有`lock`方法。一个`lock`方法将会阻塞线程的执行，并要求系统以预定的速度轮询锁。

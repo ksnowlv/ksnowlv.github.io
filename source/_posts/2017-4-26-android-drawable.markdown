@@ -6,7 +6,9 @@ comments: true
 categories: Android绘图。 
 ---
 
-###Drawable
+###Drawable分几种类型呢？
+
+<!--more-->
 
 
 

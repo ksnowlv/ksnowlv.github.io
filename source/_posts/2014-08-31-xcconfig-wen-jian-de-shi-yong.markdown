@@ -7,6 +7,8 @@ categories: Xcode
 ---
 **XCConfig:XCode**的**Config**文件，可以方便的对项目工程进行配置。只需要引入该工程配置文件即可。
 
+<!--more-->
+
 1.分别创建**ConfigDebug.xcconfig**/**ConfigRelease.xcconfig**文件
 
 ![image](/images/post/2014-08-31-xcconfig-wen-jian-de-shi-yong/xconfig_create.png)

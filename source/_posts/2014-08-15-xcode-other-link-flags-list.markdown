@@ -5,7 +5,10 @@ date: 2014-08-15 08:14
 comments: true
 categories: Xcode
 ---
-####Xcode的"`other link flags`"都支持哪些选项呢？可参考[http://stackoverflow.com/questions/14497872/other-linker-flags-list](http://stackoverflow.com/questions/14497872/other-linker-flags-list)中提到的“ `man ld`”命令,在`Mac Terminal`下是有效的
+####Xcode的"`other link flags`"都支持哪些选项呢？
+<!--more-->
+
+可参考[http://stackoverflow.com/questions/14497872/other-linker-flags-list](http://stackoverflow.com/questions/14497872/other-linker-flags-list)中提到的“ `man ld`”命令,在`Mac Terminal`下是有效的
 
 
     ksnowlv@ksnowlvdeMacBook-Pro~$man ld

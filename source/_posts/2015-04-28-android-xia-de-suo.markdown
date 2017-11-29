@@ -7,6 +7,8 @@ categories: Android多线程
 ---
 ###Java下的锁
 
+<!--more-->
+
  * 1.Lock
  * 2.ReentrantLock
  * 3.ReentrantReadWriteLock

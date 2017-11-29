@@ -8,6 +8,7 @@ categories: swift
 
 ###一.swift中闭包
 
+<!--more-->
 swift中的闭包格式
 
 ```objective-c

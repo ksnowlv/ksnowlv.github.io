@@ -8,6 +8,8 @@ categories: iOS-UI
 
 ![image](/images/post/2014-08-27-ios-zhong-tou-chuan-uitableview-xiang-ying-xia-ceng-view-shi-jian/homepage_1.png)
 
+<!--more-->
+
 <!--**图2**
 
 ![image](/images/post/2014-08-27-ios-zhong-tou-chuan-uitableview-xiang-ying-xia-ceng-view-shi-jian/homepage_2.png)

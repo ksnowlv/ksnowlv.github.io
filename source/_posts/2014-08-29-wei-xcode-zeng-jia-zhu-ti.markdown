@@ -8,6 +8,8 @@ categories: Xcode
 
 把`Xcode`主题文件拷贝到`/Users/ksnowlv/Library/Developer/Xcode/UserData/FontAndColorThemes`目录下。
 
+<!--more-->
+
 ![image](/images/post/2014-08-29-wei-xcode-zeng-jia-zhu-ti/xcode_theme_dir.png)
 
 那以`dvtcolortheme`格式是什么文件呢？iOS/Mac OS中的`plist`，实质xml文件。

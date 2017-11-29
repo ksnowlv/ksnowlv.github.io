@@ -7,6 +7,8 @@ categories: iOS-网络
 ---
 
 iOS设备如何获取DNS-IP呢？
+<!--more-->
+
 示例如下：
 
 ``` objective-c

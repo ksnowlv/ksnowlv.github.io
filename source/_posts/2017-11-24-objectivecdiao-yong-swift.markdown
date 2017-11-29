@@ -6,7 +6,9 @@ comments: true
 categories: swift
 ---
 
-objective-c调用swift在混编开发时经常会使用。下面聊下如何使用？
+objective-c调用swift在混编开发时经常会使用。
+<!--more-->
+
 ###一.项目设置
 #####TARGETS ->Build Settings -> Packaging 选项中，
 * Defines Module设置为YES

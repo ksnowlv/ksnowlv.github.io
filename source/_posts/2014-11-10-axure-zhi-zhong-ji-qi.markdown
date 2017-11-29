@@ -7,6 +7,7 @@ categories: 产品设计
 ---
 
 axure中继器，可以添加/移除/更新中继器的项目。
+<!--more-->
 
 我们制作一个demo，效果如下：
 ![image](/images/post/2014-11-10-axure-zhi-zhong-ji-qi/repeater_result.png)

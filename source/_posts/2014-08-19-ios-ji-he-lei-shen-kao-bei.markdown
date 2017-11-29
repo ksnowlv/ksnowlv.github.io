@@ -8,6 +8,8 @@ categories: iOS-基础
 
 iOS集合类默认是浅拷贝，那如何深拷贝呢？
 
+<!--more-->
+
 ####1.集合类的浅拷贝:
 
 ``` objective-c

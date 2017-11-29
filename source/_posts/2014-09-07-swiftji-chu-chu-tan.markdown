@@ -7,6 +7,8 @@ categories: swift
 ---
 
 现在主要体验Swift基础语法，基本数据类型，集合类，控制逻辑(if-else,switch,for循环)等。
+
+<!--more-->
 示例及注释
 
 ``` objective-c

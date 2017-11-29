@@ -9,6 +9,7 @@ categories: UML
 ###时序图（Sequence Diagram）
 
     显示对象之间交互的图，这些对象是按时间顺序排列的。
+<!--more-->
 
 ###时序图中包括的建模元素主要有：
 

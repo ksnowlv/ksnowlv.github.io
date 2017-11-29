@@ -7,6 +7,8 @@ categories: UML
 ---
 ###组件图(Component diagram)
     显示系统组件间的结构关系组件图,有助于直观显示系统的高级结构以及这些结构通过接口提供和使用的服务行为.
+    
+ <!--more-->
 ###组件图示例
 ![image](/images/post/2014-11-04-uml-zu-jian-tu/component_diagram.png)
 

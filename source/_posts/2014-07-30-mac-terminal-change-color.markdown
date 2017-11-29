@@ -5,6 +5,8 @@ date: 2014-07-30 9:14
 comments: true
 categories: Mac
 ---
+为Mac Terminal更换主题
+<!--more-->
 
 ####一.创建主题文件。
 ####1.ir_black.terminal

@@ -6,6 +6,9 @@ comments: true
 categories: java后台
 ---
 
+在着手java-web开发前，需要配置Tomcat和新创建的工程XServer.
+ <!--more-->
+
 ####一.配置Tomcat服务器.
 在系统偏好设置中*server*->*runtime-environment*->*add*
 

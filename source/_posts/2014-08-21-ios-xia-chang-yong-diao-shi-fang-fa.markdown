@@ -18,6 +18,7 @@ categories: iOS-调试
 * \__PRETTY_FUNCTION__ :当前函数名
 
 
+<!--more-->
 
 **2.在Objective-C中常用的表达式**
 

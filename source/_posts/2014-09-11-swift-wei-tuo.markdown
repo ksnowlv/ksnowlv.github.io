@@ -8,6 +8,7 @@ categories: swift
 
 swift中的委托和objective-c中的类似。
 
+<!--more-->
 ###一.协议支持required/optional
 
 如果协议是optional协议

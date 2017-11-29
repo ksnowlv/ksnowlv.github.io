@@ -8,6 +8,8 @@ categories: github博客
 
 目前项目开发版本管理工具使用sourcetree，之前对git不太了解，所以，使用octopress搭建个github博客体验一把。
 
+<!--more-->
+
 那都会涉及到哪些内容呢？先了解下以下概念：
 
 ####[ruby](https://www.ruby-lang.org/zh_cn/):是一种面向对象、命令式、函数式、动态的通用编程语言,参见维基百科的解释：[http://zh.wikipedia.org/zh/Ruby](http://zh.wikipedia.org/zh/Ruby)

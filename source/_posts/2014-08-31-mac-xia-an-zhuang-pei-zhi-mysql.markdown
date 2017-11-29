@@ -9,6 +9,8 @@ categories: 数据库
 ####1。下载安装MySQL.
 在[mysql官网](http://dev.mysql.com/downloads/mysql/)找到**Mac**版本**MySQL Community Server**下载安装即可。
 
+<!--more-->
+
 安装**MySQL**完成后，在在**MySQL的控制面板**(系统偏好设置->MySQL)中，启动**mysql服务**即可。
 
 如遇到不能启动**mysql服务**，参考链接：[解决Mac-mysql-service-can‘t-start的问题](http://ksnowlv.gitcafe.com/blog/2014/08/31/mac-mysql-service-can-not-start/)。

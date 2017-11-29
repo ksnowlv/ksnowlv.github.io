@@ -6,7 +6,9 @@ comments: true
 categories: iOS-UI
 ---
 
-如果想把UIView挖空一块，使用遮罩图。效果图如下：
+如果想把UIView挖空一块，使用遮罩图。
+<!--more-->
+效果图如下：
 
 ![image](/images/post/2015-05-14-ios-lou-kong-uiview/overview.png)
 

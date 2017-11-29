@@ -9,6 +9,7 @@ categories: swift
 `objective-c`中`property`方法支持`assign/readonly/retain/readwrite`等。
 `swift`也支持类似这些属性。
 
+<!--more-->
 ###一.swift属性方法
 
 ####1.readonly

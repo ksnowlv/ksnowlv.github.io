@@ -8,6 +8,8 @@ categories: iOS-网络
 
 iOS系统中，通过公有API不能获取周围所有Wifi的信息，但是，可以获取设备当前连接WiFi的信息。
 
+<!--more-->
+
 ###1.引入头文件和库
 
     #import <SystemConfiguration/SystemConfiguration.h>

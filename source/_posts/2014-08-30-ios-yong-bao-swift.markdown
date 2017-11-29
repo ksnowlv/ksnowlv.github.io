@@ -10,6 +10,8 @@ categories: swift
    
    即使对于现在的**iOS**开发者，也许并不是什么福音,诸如以后**iOS**开发会像曾经的网站开发/**windows**开发沦为白菜价...。
    
+   <!--more-->
+   
    就**iOS/Mac App**开发而言，**objective-c**代表着过去，现在,不远的未来;swift代表着不远的未来，遥远的未来.全面拥抱**swift**吧。
    
    开发环境:[Xcode6-Beta](https://developer.apple.com/xcode/downloads/)

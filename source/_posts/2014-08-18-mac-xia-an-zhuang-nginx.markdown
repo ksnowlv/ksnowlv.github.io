@@ -8,6 +8,7 @@ categories: nginx
 
 
 Mac下安装nginx,我使用的是Homebrew,Homebrew安装好的情况下。
+<!--more-->
 
 ####1.先安装pcre.
 

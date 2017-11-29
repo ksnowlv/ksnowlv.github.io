@@ -8,6 +8,8 @@ categories: python
 
 如果多个线程共同对某个数据修改访问，为了保证数据的正确性，需要对多个线程进行同步。
 
+<!--more-->
+
 使用Thread对象的Lock和Rlock可以实现简单的线程同步，
     
     acquire:请求锁,成功则返回true.

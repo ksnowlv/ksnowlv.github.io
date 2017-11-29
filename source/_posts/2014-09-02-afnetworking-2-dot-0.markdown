@@ -8,6 +8,8 @@ categories: iOS-网络
 
 
 ####AFNetworking-2.0主项目源代码文件组成：
+<!--more-->
+
 ![image](/images/post/2014-09-02-afnetworking-2-dot-0/afnetworking_code_overview.png)
 
 ####AFNetworking-2.0主项目类组成：

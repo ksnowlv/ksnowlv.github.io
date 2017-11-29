@@ -8,6 +8,10 @@ categories: java后台
 
 
 
+Mac下如何配置tomcat呢？
+
+ <!--more-->
+
 ##tomcat目录结构简介
 
 ![image](/images/post/2017-11-28-macpei-zhi-tomcat/tomcat-dir-overview.png) 

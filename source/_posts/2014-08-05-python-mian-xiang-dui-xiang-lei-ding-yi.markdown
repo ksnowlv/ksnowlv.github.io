@@ -7,7 +7,11 @@ categories: python
 ---
 ####1.python类的定义
 
-使用class语句定义一个类，class之后为类的名称并以冒号结尾，如下实例:
+使用class语句定义一个类，class之后为类的名称并以冒号结尾，
+
+<!--more-->
+
+如下实例:
 
     class ClassName:
 

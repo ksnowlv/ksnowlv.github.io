@@ -13,6 +13,7 @@ categories: swift
 >  * **UILabel** 
 >  * **UITableView**
 
+<!--more-->
 ####1.**ViewController**继承`UITableViewDataSource`，`UITableViewDelegate`，重写相应方法。
 ####2.声明`UIButton`/`UIImageView`/`UILabel`/UITableView四种控件和列表数据数组，定义按钮事件。
 ####3.控件及事件在IB连好。

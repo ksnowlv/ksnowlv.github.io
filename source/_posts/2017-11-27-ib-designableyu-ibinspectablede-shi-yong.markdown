@@ -9,6 +9,7 @@ categories: iOS
 
 iOS开发中经常会用到一些自定义UI控件，控件的效果和属性可以通过**IB_DESIGNABLE**和**IBInspectable**预览和修改。
 
+<!--more-->
 
 ####IB_DESIGNABLE 
 自定义 UIView 可以在 XIB 中预览,，查看自定义控件的效果。

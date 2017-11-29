@@ -7,6 +7,8 @@ categories: python
 ---
 Python的Queue模块中提供了同步的、线程安全的队列类.
 
+<!--more-->
+
     1.FIFO（先入先出)队列Queue，
     2.LIFO（后入先出）队列LifoQueue，
     3.优先级队列PriorityQueue。

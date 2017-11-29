@@ -9,6 +9,8 @@ categories: python
 
 ####接上文，介绍下`类包装线程对象方式`使用线程
 
+<!--more-->
+
 ####python通过两个标准库thread和threading提供对线程的支持。thread提供了低级别的、原始的线程以及一个简单的锁。
 
 

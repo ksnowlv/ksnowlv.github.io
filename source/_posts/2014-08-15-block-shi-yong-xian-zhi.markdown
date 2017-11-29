@@ -12,6 +12,7 @@ categories: iOS-block
     1.不能是可变长度的数组。
     2.不能是包含C99可变长度数组的结构体。
     
+<!--more-->
 
 ####1.可变数组
 ####C99中的可变长数组（variable length array，简称VLA）

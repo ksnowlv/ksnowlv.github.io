@@ -19,6 +19,7 @@ categories: Xcode
 
     “Too many arguments to function call, expected 0, have 2”
 
+<!--more-->
 ####后来发现在使用objc_msgSend编译时，与IMP报错类似。
 
 ####原来是LLVM升级后，增加一些默认设置

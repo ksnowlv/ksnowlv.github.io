@@ -13,5 +13,6 @@ categories: UML
     活动图在本质上是一种流程图。
     活动图着重表现从一个活动到另一个活动的控制流，是内部处理驱动的流程
 
+<!--more-->
 ###活动图图参考如下：
 ![image](/images/post/2014-11-03-uml-huo-dong-tu/activity_diagram.jpg)

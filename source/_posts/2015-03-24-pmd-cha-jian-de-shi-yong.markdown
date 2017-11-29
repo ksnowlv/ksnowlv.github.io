@@ -10,6 +10,8 @@ categories: Android插件
 
 **Checkstyle**之类的其它工具可以检查代码是否遵循了约定和标准。
 
+<!--more-->
+
 ###1.下载插件。
 
 ![image](/images/post/2015-03-24-pmd-cha-jian-de-shi-yong/pmd_1.jpg)

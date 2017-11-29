@@ -8,6 +8,8 @@ categories: nginx
 
 Mac上配置nginx,mysql,php开发环境
 
+<!--more-->
+
 ####一.安装nginx.
 
  1.安装pcre.

@@ -8,6 +8,8 @@ categories: python
     
 ####python提供了WSGI:Web Server Gateway Interface 只要求Web开发者实现一个函数即可响应HTTP请求。
 
+<!--more-->
+
 ####application()函数必须由WSGI服务器来调用
 ####先定义hello.py文件。
 

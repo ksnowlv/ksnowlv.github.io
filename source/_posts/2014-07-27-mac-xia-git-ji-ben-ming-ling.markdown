@@ -16,6 +16,8 @@ categories: git
 
 ####第三棵是 `HEAD`:它指向你最后一次提交的结果。
 
+<!--more-->
+
 ###git 基本命令
 
 ####1.git help

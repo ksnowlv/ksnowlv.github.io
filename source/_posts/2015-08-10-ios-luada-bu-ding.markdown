@@ -12,6 +12,8 @@ categories: iOS
 ####2.修复线上App的Bug。
 ####3.对于iOS来讲，避免了漫长的AppStore审核。
 
+<!--more-->
+
 ###二.方案。
 
  ![image](/images/post/2015-08-10-ios-luada-bu-ding/diagram_overview.jpg)

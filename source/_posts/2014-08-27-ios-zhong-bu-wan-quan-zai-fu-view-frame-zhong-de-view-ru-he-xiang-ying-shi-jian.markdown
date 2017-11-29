@@ -8,6 +8,8 @@ categories: iOS
 
 iOS开发中，如何使一个不完全在父**UIView的frame**中的**UIView**响应事件呢？
 
+<!--more-->
+
 可以通过在父**UIView**中重写**pointInside:withEvent**即可.
 
 ``` objective-c

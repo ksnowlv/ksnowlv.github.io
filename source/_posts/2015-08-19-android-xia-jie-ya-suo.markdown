@@ -8,6 +8,8 @@ categories: Android-解压缩
 
 在Android开发中，网络传输的数据如果采用压缩的方式，能大大减少网络流量，对文本的数据效果更明显。
 
+<!--more-->
+
 ####一. gzip压缩.
 
 ```objective-c

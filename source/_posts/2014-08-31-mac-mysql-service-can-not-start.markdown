@@ -7,6 +7,8 @@ categories: 数据库
 ---
 `Mac`上安装[mysql-5.6.20-osx10.8-x86_64-3](http://dev.mysql.com/downloads/mysql/)完成。
 
+<!--more-->
+
 在**MySQL的控制面板**(系统偏好设置->MySQL)上，显示**mac mysql service can't start**。
 
 **解决方案**：

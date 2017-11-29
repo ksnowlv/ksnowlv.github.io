@@ -7,6 +7,9 @@ categories: Mac
 ---
 
 ####mac下如何使用命令行打开App呢？可以使用***open***命令。
+
+<!--more-->
+
 例如：
 
     open -a /Applications/mou.app

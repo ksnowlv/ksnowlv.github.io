@@ -8,6 +8,8 @@ categories: git
 
 使用github和octopress搭建好github博客后，如何把本地源代码上传到服务器上呢？
 
+<!--more-->
+
 ####1.在octopress下或博客目录(***有_config.yml文件的目录***)下，使用git初始化命令，如下所示：
 
 ```

@@ -9,6 +9,8 @@ categories: iOS
 ####1.下载SDK.
    微信SDK网址：[微信SDK](https://open.weixin.qq.com)。
    
+   <!--more-->
+   
    iOS版本的，可以在
    
    **资源中心**->**移动应用开发**->**微信支付功能**

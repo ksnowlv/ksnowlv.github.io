@@ -10,6 +10,8 @@ categories: Android多线程
 
 **Executors**是个工厂类，专门创建各种线程池。
 
+<!--more-->
+
 ####一.Android常用的线程池有以下四种
 
 #####1.newFixedThreadPool

@@ -6,7 +6,10 @@ comments: true
 categories: swift
 ---
 
-swift调用objective-c在混编开发时经常会使用。下面聊下如何使用？
+swift调用objective-c在混编开发时经常会使用。
+
+<!--more-->
+
 ###一.项目设置
 #####TARGETS ->Swift Compiler - General ->Objective-c Bridging Header 选项指定桥接文件，通常该文件命名为：工程名+Bridging-Header.h
 

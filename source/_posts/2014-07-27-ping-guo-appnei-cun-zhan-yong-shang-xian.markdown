@@ -6,7 +6,9 @@ comments: true
 categories: iOS-Memory
 ---
 
+如何测试iOS/iPad App内存占用上限呢？
 
+<!--more-->
 
 ####iOS/iPad App内存占用在只有一个App运行时，该App占用内存的上限能达到多少呢？
 

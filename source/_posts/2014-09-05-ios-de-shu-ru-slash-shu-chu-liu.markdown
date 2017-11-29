@@ -8,6 +8,8 @@ categories: iOS-网络
 
 使用Cocoa框架中的输入输出流，可以从文件或应用中内存读取数据，也可以向文件/应用中内存写入数据。你可以在基于socket连接的远程服务交换数据中使用。---翻译自苹果文档。
 
+<!--more-->
+
 ####其主要类与方法
 
 ![image](/images/post/2014-09-05-ios-de-shu-ru-slash-shu-chu-liu/cocoa_stream_class.jpg)

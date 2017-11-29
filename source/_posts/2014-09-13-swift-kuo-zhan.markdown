@@ -10,6 +10,7 @@ categories: swift
 
 语法格式，使用`extension`关键字修饰
 
+<!--more-->
 ####1.普通扩展
   `extension` 扩展名{
   }

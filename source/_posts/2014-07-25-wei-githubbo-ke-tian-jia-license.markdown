@@ -7,6 +7,8 @@ categories: github博客
 ---
 如何为github博客添加license呢？
 
+<!--more-->
+
 ####1.在source/_includes/post目录创建license.html,内容如下：
 
     <p> 

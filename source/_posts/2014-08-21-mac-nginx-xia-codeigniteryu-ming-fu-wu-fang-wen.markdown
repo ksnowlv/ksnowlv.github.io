@@ -8,6 +8,8 @@ categories: php
 
 我们通过localhost访问php页面，如何使用自定义域名服务在本地生效呢？
 
+<!--more-->
+
 ####1.修改nginx配置文件。
 文件位置:`/usr/local/etc/nginx/nginx.conf`,内容如下:
 

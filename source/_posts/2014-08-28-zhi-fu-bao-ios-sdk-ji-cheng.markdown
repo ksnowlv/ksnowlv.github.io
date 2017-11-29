@@ -9,6 +9,8 @@ categories: iOS
 ####1.下载SDK.
    支付宝API网址：[支付宝SDK](http://club.alipay.com/read-htm-tid-9976972.html)。iOS版本的，可以在无线产品中下载。
 
+<!--more-->
+
 ![image](/images/post/2014-08-28-zhi-fu-bao-ios-sdk-ji-cheng/iOS_Android_API_download.png)
 
 ####2.集成**iOS SDK**前的准备。

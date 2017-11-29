@@ -7,6 +7,8 @@ categories: Mac
 ---
 **Mac**上关于**ssh key**常用的操作命令
 
+<!--more-->
+
 ###1.生成公钥/私钥
 
 ```objective-c

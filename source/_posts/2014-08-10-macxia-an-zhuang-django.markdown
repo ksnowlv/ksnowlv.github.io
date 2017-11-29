@@ -6,6 +6,9 @@ comments: true
 categories: python
 ---
 
+Mac下如何安装Django呢？
+<!--more-->
+
 安装步骤如下
 
 ####1.Django安装前，先安装python,再安装pip

@@ -6,6 +6,10 @@ comments: true
 categories: iOS音频 
 ---
 
+iOS下如何使用FFmpeg呢？
+
+<!--more-->
+
 ####1.[编译FFmpeg所需要的脚本文件gas-preprocessor.pl](https://github.com/mansr/gas-preprocessor) 
 将脚本文件gas-preprocessor.pl复制到 */usr/bin/*目录
 

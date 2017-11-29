@@ -8,6 +8,7 @@ categories: iOS-多线程
 
 GCD可以用来监听文件变化，例如目录变化，重命名等之类的。
 例如我们监听`Document`目录下，`ksnow`目录的变化。
+<!--more-->
 
 ``` objective-c
 

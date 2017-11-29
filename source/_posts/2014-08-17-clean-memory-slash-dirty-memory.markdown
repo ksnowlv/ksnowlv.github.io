@@ -8,6 +8,8 @@ categories: iOS-Memory
 
 iOS系统中,有`clean memory`/`dirty memory`之分；
 
+<!--more-->
+
 ####1.`clean memory`:可以被重新创建的内存块。包含以下三方面：
 
     1.系统framework

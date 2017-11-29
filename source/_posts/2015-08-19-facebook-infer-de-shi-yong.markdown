@@ -8,6 +8,8 @@ categories: 工具
 
 **Facebook**推出潜在一款**bug**扫描工具([http://fbinfer.com](http://fbinfer.com))，可以检查 **iOS/Android** App.
 
+<!--more-->
+
 MAC上的安装
 
 ###一.环境要求

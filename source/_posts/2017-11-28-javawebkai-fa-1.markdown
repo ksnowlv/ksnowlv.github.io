@@ -6,6 +6,10 @@ comments: true
 categories: java后台
 ---
 
+在进行开发前，需要配置好相关开发环境。
+
+<!--more-->
+
 ####1. [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html)
 
 ####2. [eclipse](https://www.eclipse.org/downloads/download.php?file=/oomph/epp/oxygen/R/eclipse-inst-mac64.tar.gz)

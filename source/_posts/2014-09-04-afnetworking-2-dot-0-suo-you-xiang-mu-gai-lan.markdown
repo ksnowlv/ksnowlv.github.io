@@ -8,6 +8,8 @@ categories: iOS-网络
 
 ####AFNetworking-2.x下所有项目概览
 
+<!--more-->
+
 ![image](/images/post/2014-09-04-afnetworking-2-dot-0-suo-you-xiang-mu-gai-lan/AFNetworking_all_projects_overview.png)
 
 ####AFNetworking子项目地址：[https://github.com/AFNetworking](https://github.com/AFNetworking)

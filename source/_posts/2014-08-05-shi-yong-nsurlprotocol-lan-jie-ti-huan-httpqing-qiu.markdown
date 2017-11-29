@@ -6,6 +6,9 @@ comments: true
 categories: iOS-网络
 ---
 ####使用背景:整个工程中中图片url需要添加额外的参数支持图片优化，包括webview部分。
+
+<!--more-->
+
 ####所以使用NSURLProtocol拦截相关URL,替换http请求，实现图片优化参数的统一支持。
 
 ####具体做法如下：

@@ -10,6 +10,8 @@ categories: python
     1.函数式方式
     2.类包装线程对象方式。
 
+<!--more-->
+
 下面使用`函数式方式`，调用thread模块中的start_new_thread()函数来产生新线程。
 
 语法格式如下:

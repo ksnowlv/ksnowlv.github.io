@@ -7,6 +7,8 @@ categories: Xcode
 ---
 [Appledoc](https://github.com/tomaz/appledoc)默认生成的文档风格与苹果的官方文档是一致的,生成docset，可以集成到xcode中。在源码中按住option再单击就可以调出相应方法的帮助。
 
+<!--more-->
+
 ####1.Appledoc安装.
 
     git clone git://github.com/tomaz/appledoc.git

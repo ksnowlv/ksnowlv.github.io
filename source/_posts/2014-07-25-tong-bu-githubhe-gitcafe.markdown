@@ -5,6 +5,9 @@ date: 2014-07-25 16:22
 comments: true
 categories: github博客
 ---
+如何同步github博客内容到gitcafe呢？
+
+<!--more-->
 
 ####1.在博客目录(例如：_config.yml所在目录)，找到Rakefile文件并打开，在
 

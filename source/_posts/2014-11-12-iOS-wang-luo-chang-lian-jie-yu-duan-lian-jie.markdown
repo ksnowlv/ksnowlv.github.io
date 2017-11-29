@@ -1,10 +1,12 @@
 ---
 layout: post
-title: "iOS网络长连接与短连接"
+title: "网络长连接与短连接"
 date: 2014-11-12 15:15
 comments: true
 categories: iOS-网络
 ---
+ 网络长连接与短连接有什么区别呢？
+ <!--more-->
  
 ###长连接
     client与server先建立连接，连接建立后不断开，操持连接，然后进行数据的发送和接收。

@@ -8,6 +8,8 @@ categories: Xcode
 
 
 针对Objective-C-,[Clang](http://zh.wikipedia.org/wiki/Clang)编译器内置哪些宏呢？
+<!--more-->
+
 像平时看到的
 
 `__BLOCK__`:是否支持block?

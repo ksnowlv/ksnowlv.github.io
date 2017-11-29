@@ -7,7 +7,7 @@ categories: php
 ---
 
 ####一.开启Apache服务。
-
+<!--more-->
     #输入sudo apachectl start命令,再输入密码
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$sudo apachectl start
     Password:

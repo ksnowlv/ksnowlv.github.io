@@ -7,6 +7,7 @@ categories: iOS-多线程
 ---
 
 **GCD**可以检测进程的运行，退出状态，可以检测到进程间的信号。
+<!--more-->
 
     #define DISPATCH_PROC_EXIT		0x80000000
     #define DISPATCH_PROC_FORK		0x40000000
