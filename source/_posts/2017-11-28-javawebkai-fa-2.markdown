@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "javaweb开发( 二)-Hello Java World"
+title: "java-web开发( 二)-Hello Java World"
 date: 2017-11-28 17:24
 comments: true
 categories: java后台
