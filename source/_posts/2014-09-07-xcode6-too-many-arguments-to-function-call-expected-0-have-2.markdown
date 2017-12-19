@@ -3,7 +3,7 @@ layout: post
 title: "XCode6下Too many arguments to function call, expected 0, have 2解决办法"
 date: 2014-09-07 15:51
 comments: true
-categories: Xcode
+categories: iOS-基础
 ---
 
 ####在XCode6下，写了如下一段代码：

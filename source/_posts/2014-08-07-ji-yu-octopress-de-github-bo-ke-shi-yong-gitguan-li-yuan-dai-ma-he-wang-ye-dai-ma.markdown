@@ -3,7 +3,7 @@ layout: post
 title: "基于octopress的github博客使用git管理源代码和网页代码"
 date: 2014-08-07 09:12
 comments: true
-categories: github博客
+categories: github-博客
 ---
 
 ####基于octopress的github/gitcafe博客，都会涉及到源代码管理。对于git,github/gitcafe的初学者而言，可能容易走弯路。

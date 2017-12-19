@@ -3,7 +3,7 @@ layout: post
 title: "FaceBook-infer的使用"
 date: 2015-08-19 19:52
 comments: true
-categories: 工具
+categories: iOS-基础
 ---
 
 **Facebook**推出潜在一款**bug**扫描工具([http://fbinfer.com](http://fbinfer.com))，可以检查 **iOS/Android** App.

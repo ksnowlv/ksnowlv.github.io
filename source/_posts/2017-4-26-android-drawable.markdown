@@ -3,7 +3,7 @@ layout: post
 title: "Android drawable"
 date: 2017-4-26 11:55
 comments: true
-categories: Android绘图。 
+categories: Android-UI
 ---
 
 ###Drawable分几种类型呢？

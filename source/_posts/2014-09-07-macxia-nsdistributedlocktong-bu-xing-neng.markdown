@@ -3,7 +3,7 @@ layout: post
 title: "Mac下NSDistributedLock同步性能"
 date: 2014-09-07 14:56
 comments: true
-categories: Mac-多线程
+categories: Mac
 ---
 
 ####Mac下[NSDistributedLock](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSDistributedLock_Class/Reference/Reference.html)也可以用来同步。

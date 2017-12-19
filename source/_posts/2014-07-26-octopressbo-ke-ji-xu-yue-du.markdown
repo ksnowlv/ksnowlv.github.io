@@ -3,7 +3,7 @@ layout: post
 title: "octopress博客继续阅读"
 date: 2014-07-26 20:56
 comments: true
-categories: github博客
+categories: github-博客
 ---
 
 

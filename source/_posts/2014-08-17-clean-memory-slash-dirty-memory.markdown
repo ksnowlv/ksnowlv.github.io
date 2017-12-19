@@ -3,7 +3,7 @@ layout: post
 title: "iOS中clean memory/dirty memory"
 date: 2014-08-17 16:45
 comments: true
-categories: iOS-Memory
+categories: iOS-内存
 ---
 
 iOS系统中,有`clean memory`/`dirty memory`之分；

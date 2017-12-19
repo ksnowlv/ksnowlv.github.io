@@ -3,7 +3,7 @@ layout: post
 title: \"selector not recognized\"的crash原因及解决办法
 date: 2014-08-14 19:17
 comments: true
-categories: iOS-Bug
+categories: iOS-基础
 ---
 
 ####在iOS开发中,经常会遇见"selector not recognized"这种类型的crash,其原因:

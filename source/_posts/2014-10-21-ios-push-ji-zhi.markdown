@@ -3,7 +3,7 @@ layout: post
 title: "iOS push机制"
 date: 2014-10-21 15:57
 comments: true
-categories: iOS-push
+categories: iOS-基础
 ---
 
 

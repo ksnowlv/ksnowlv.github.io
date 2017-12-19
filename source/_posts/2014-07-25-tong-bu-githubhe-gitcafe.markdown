@@ -3,7 +3,7 @@ layout: post
 title: "同步github和gitcafe"
 date: 2014-07-25 16:22
 comments: true
-categories: github博客
+categories: github-博客
 ---
 如何同步github博客内容到gitcafe呢？
 

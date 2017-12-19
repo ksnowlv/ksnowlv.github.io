@@ -3,7 +3,7 @@ layout: post
 title: "Java/Android双重锁定模式"
 date: 2015-05-08 17:51
 comments: true
-categories: Android多线程
+categories: Android-多线程
 ---
 
 **双重检查锁定模式**(*DCLP*)是一种软件设计模式,用来减少并发系统中竞争和同步的开销.

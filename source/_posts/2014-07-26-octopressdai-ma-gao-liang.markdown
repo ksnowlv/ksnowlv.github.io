@@ -3,7 +3,7 @@ layout: post
 title: "Octopress代码高亮"
 date: 2014-07-26 19:33
 comments: true
-categories: github博客
+categories: github-博客
 ---
 
 如何使用markdown文本中的代码高亮呢？

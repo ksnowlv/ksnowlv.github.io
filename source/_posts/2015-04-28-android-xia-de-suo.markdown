@@ -3,7 +3,7 @@ layout: post
 title: "Android下锁"
 date: 2015-04-28 20:45
 comments: true
-categories: Android多线程
+categories: Android-多线程
 ---
 ###Java下的锁
 

@@ -3,7 +3,7 @@ layout: post
 title: "单例的内存泄漏"
 date: 2014-08-11 22:35
 comments: true
-categories: iOS-Memory
+categories: iOS-内存
 ---
 
 今天发现iOS上的单例，在苹果自带memory leak工具中,

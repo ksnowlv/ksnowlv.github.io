@@ -3,7 +3,7 @@ layout: post
 title: "给iOS应用打补丁"
 date: 2014-11-13 14:55
 comments: true
-categories: iOS-Bug
+categories: iOS-基础
 ---
 
 当iOS App出现bug时，由于不能很快上架，如何紧急修复bug呢？

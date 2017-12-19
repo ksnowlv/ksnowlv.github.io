@@ -3,7 +3,7 @@ layout: post
 title: "七月份iPad客户端优化总结"
 date: 2014-08-09 00:11
 comments: true
-categories: iOS优化
+categories: iOS-优化
 ---
 
 ###主要内容包含三方面

@@ -3,7 +3,7 @@ layout: post
 title: "Android线程池"
 date: 2015-04-28 23:57
 comments: true
-categories: Android多线程
+categories: Android-多线程
 ---
 
 **ExecutorService**继承**Executor**，是线程池的一个服务，可以随时关闭线程池。

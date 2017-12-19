@@ -3,7 +3,7 @@ layout: post
 title: "iOS下使用ffmpeg"
 date: 2017-4-22 11:55
 comments: true
-categories: iOS音频 
+categories: iOS-基础 
 ---
 
 iOS下如何使用FFmpeg呢？

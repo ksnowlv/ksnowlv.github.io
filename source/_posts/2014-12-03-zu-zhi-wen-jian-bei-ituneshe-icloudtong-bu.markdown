@@ -3,7 +3,7 @@ layout: post
 title: "阻止文件被iTunes和iCloud同步"
 date: 2014-12-03 21:48
 comments: true
-categories: iOS基础
+categories: iOS-基础
 ---
 
 ###1.参考官方文档[How do I prevent files from being backed up to iCloud and iTunes?](https://developer.apple.com/library/ios/#qa/qa1719/_index.html)

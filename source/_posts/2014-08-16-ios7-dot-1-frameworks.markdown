@@ -3,7 +3,7 @@ layout: post
 title: "iOS7.1-Frameworks"
 date: 2014-08-16 16:15
 comments: true
-categories: iOS
+categories: iOS-基础
 ---
 iOS7.1 Frameworks
 

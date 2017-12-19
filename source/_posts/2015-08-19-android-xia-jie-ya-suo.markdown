@@ -3,7 +3,7 @@ layout: post
 title: "Android下gzip数据流解压缩"
 date: 2015-08-19 20:21
 comments: true
-categories: Android-解压缩
+categories: Android-网络
 ---
 
 在Android开发中，网络传输的数据如果采用压缩的方式，能大大减少网络流量，对文本的数据效果更明显。
@@ -114,7 +114,7 @@ categories: Android-解压缩
 
 ```  
 
-###四.一些点说明
+###四.说明
 
 #####1.KGZipUncompressBuffer
 KGZipUncompressBuffer是一固定大小的内存缓冲区，减少内存的频繁创建与过大内存的分配。

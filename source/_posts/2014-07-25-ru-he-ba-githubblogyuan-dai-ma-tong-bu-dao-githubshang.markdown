@@ -3,7 +3,7 @@ layout: post
 title: "如何把githubblog源代码同步到github上"
 date: 2014-07-25 00:36
 comments: true
-categories: git
+categories: git-博客
 ---
 
 使用github和octopress搭建好github博客后，如何把本地源代码上传到服务器上呢？

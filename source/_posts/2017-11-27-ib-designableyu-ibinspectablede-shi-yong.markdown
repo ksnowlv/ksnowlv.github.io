@@ -3,7 +3,7 @@ layout: post
 title: "IB_DESIGNABLE与IBInspectable的使用"
 date: 2017-11-27 15:45
 comments: true
-categories: iOS
+categories: iOS-UI
 ---
 
 

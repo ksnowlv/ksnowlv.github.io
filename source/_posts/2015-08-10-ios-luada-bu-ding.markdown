@@ -3,7 +3,7 @@ layout: post
 title: "iOS-lua打补丁"
 date: 2015-08-10 11:33
 comments: true
-categories: iOS
+categories: iOS-基础
 ---
 
 ###一.目的

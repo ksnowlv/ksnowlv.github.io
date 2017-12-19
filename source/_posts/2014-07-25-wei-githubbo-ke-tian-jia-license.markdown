@@ -3,7 +3,7 @@ layout: post
 title: "为github博客添加license"
 date: 2014-07-25 08:46
 comments: true
-categories: github博客
+categories: github-博客
 ---
 如何为github博客添加license呢？
 

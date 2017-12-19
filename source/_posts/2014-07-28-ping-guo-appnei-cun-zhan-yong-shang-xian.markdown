@@ -3,7 +3,7 @@ layout: post
 title: "iOS/iPad App内存占用上限(二)"
 date: 2014-07-28 11:13
 comments: true
-categories: iOS-Memory
+categories: iOS-内存
 ---
 
 iOS/iPad App内存占用上限是多少呢？

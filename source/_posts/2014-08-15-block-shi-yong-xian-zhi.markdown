@@ -3,7 +3,7 @@ layout: post
 title: block关键字使用限制
 date: 2014-08-15 19:53
 comments: true
-categories: iOS-block
+categories: iOS-基础
 ---
 
  

@@ -3,7 +3,7 @@ layout: post
 title: "iOS使用OpenSSL"
 date: 2014-11-18 17:18
 comments: true
-categories: iOS-安全
+categories: iOS-基础
 ---
 `iOS`中`OpenSSL`
 

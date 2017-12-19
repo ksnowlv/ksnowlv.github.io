@@ -3,7 +3,7 @@ layout: post
 title: "客户端白屏问题解决方案"
 date: 2017-12-04 10:22
 comments: true
-categories: iOS/Android
+categories: iOS-UI
 ---
 
 ##关于客户端白屏解决方案。

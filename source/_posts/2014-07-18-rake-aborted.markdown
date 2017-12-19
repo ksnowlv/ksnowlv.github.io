@@ -3,7 +3,7 @@ layout: post
 title: "rake-aborted"
 date: 2014-07-08 15:52
 comments: true
-categories: github博客
+categories: github-博客
 ---
 ****当时使用octopress生成网页时，报错如下****
 {% img /images/post/2014-07-18-rake-aborted/rake-aborted-1.png %}
