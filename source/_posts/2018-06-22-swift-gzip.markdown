@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "swift之gzip解压缩(一)-NSData"
+title: "swift之gzip解压缩(二)-NSData"
 date: 2018-06-22 11:28
 comments: true
 categories: swift-基础框架
