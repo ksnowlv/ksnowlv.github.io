@@ -1,0 +1,64 @@
+---
+layout: post
+title: "swift-rsa(二)-SecKeyEncrypt errSecParam(-50)  "
+date: 2018-07-18 10:23
+comments: true
+categories: 
+---
+
+swift中，使用`SecKeyEncrypt`进行RSA加密时，会出现`errSecParam(-50)`?
+
+如何解决呢？
+
+按照苹果官方文档中的`errSecParam`解释如下：
+
+	One or more parameters passed to the function are not valid
+
+#####1.`SecKeyEncrypt`参数	
+	
+* key	
+	
+	Public key with which to encrypt the data.
+* padding	
+
+     The type of padding to use. Possible values are listed in SecPadding. Typically, PKCS1 is used, which adds PKCS1 padding before encryption. If you specify none, the data is encrypted as-is.
+
+* plainText	
+     	The data to encrypt.
+* plainTextLen	
+
+	Length in bytes of the data in the plainText buffer. This must be less than or equal to the value returned by the SecKeyGetBlockSize(_:) function. When PKCS1 padding is performed, the maximum length of data that can be encrypted is 11 bytes less than the value returned by the SecKeyGetBlockSize(_:) function (secKeyGetBlockSize() - 11).
+	
+* cipherText	
+On return, the encrypted text.
+
+* cipherTextLen	
+
+	On entry, the size of the buffer provided in the cipherText parameter. On return, the amount of data actually placed in the buffer.
+
+#####2.SecKeyEncrypt参数解读及注意事项
+
+* key 
+   
+    RSA的公钥，使用公钥加密，私钥解密。公钥加载不对或错误，直接报错`errSecParam`
+
+* padding
+
+	选择PKCS1，不选PKCS1MD2/PKCS1MD5/PKCS1SHA1/PKCS1SHA224/PKCS1SHA256/PKCS1SHA384/PKCS1SHA512，这些是加签/验签时使用。该参数选错了，直接报错`errSecParam`
+
+* plainText/plainTextLen
+  
+  注意加密数据的长度，小于等于SecKeyGetBlockSize(:)-11 ，只要超过了该长度，直接报错`errSecParam`
+  
+* cipherText/cipherTextLen 
+   cipherText加密后数据缓存区大于与cipherTextLen要一致。
+   只要不一致，直接报错`errSecParam`
+   
+#####3.问题：  
+* 1.为什么加密数据长度要求小于等于SecKeyGetBlockSize(:)-11？
+
+		RSA加解密为块加密算法（ block cipher algorithm），在固定长度的数据块上进行操作。
+		block length是跟key length 以及所使用的填充模式相关
+		PKCS1模式时：数据块长度最大为SecKeyGetBlockSize(:)-11
+		OAEP模式时，数据块长度最大为SecKeyGetBlockSize(:)-41
+   
