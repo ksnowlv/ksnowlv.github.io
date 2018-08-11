@@ -1,0 +1,149 @@
+---
+layout: post
+title: "swift-rsa(四)-OAEP模式"
+date: 2018-07-19 14:26
+comments: true
+categories: 
+---
+
+
+swift进行RSA加解密时，如果使用 `OAEP`时，有什么区别？
+
+
+#####1.RSA加密
+```objective-c
+     @objc public func encrypt(source: String, padding: SecPadding = SecPadding.PKCS1) -> String {
+        
+        guard source.count > 0 && self.publicSecKey != nil else {
+            return ""
+        }
+        
+        let data: NSData = (source.data(using: String.Encoding.utf8)! as NSData)
+        
+ /*       if #available(iOS 10.0, *) {
+            var error: Unmanaged<CFError>?
+            resData =  SecKeyCreateEncryptedData(self.publicSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &error)
+
+            print("res = \(String(describing: error?.takeUnretainedValue().localizedDescription))")
+        }
+*/
+        // Fallback on earlier versions
+        let blockLen =  SecKeyGetBlockSize(self.publicSecKey!)
+        var outBuf = [UInt8](repeating: 0, count: blockLen)
+        var outBufLen:Int = blockLen
+        
+        var index = 0
+        let totalLen = data.length
+        
+        let resData = NSMutableData()
+        
+        var blockMaxLen = blockLen
+        
+        switch padding {
+        case SecPadding.PKCS1:
+            blockMaxLen = blockLen - 11
+            break
+        case SecPadding.OAEP:
+            blockMaxLen = blockLen - 42
+            break
+        default:
+            print("blockMaxLen == blockLen")
+        
+            break
+        }
+        
+        while index < totalLen {
+            var curDataLen = totalLen - index;
+            if curDataLen  > blockMaxLen {
+                curDataLen = blockMaxLen;
+            }
+            
+            let curData: NSData = (data.subdata(with: NSMakeRange(index, curDataLen)) as NSData)
+            
+            let status: OSStatus = SecKeyEncrypt(self.publicSecKey!, SecPadding.OAEP, curData.bytes.assumingMemoryBound(to: UInt8.self), curData.length, &outBuf, &outBufLen)
+            
+            if status == noErr {
+                resData.append(outBuf, length: outBufLen)
+            }else{
+                print("encrypt status = \(status)")
+            }
+            
+            index += curDataLen
+        }
+        
+        //base64 encode
+        return resData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: NSData.Base64EncodingOptions.lineLength64Characters.rawValue))
+    }
+    
+```
+
+#####2.RSA解密
+```objective-c
+ @objc public func decrypt(source: String, padding: SecPadding = SecPadding.PKCS1) -> String {
+        
+        guard source.count > 0 && self.privateSecKey != nil else {
+            return ""
+        }
+        
+        //base64 decode
+        let data: Data = (NSData(base64Encoded: (source as String), options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)! as Data)
+        
+        let blockLen =  SecKeyGetBlockSize(self.privateSecKey!)
+        let outBuf = UnsafeMutablePointer<UInt8>.allocate(capacity: blockLen)
+        defer {
+            outBuf.deallocate()
+        }
+        
+        var outBufLen: Int = blockLen
+        
+//        if #available(iOS 10.0, *) {
+//            var error: Unmanaged<CFError>?
+//            resData =  SecKeyCreateDecryptedData(self.privateSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &error)
+//
+//            print("res = \(String(describing: error?.takeUnretainedValue().localizedDescription))")
+//        } else {
+//            // Fallback on earlier versions
+//            //let status = SecKeyEncrypt(seckey, SecPadding.PKCS1, chunkData, chunkData.count, outBuf, &encryptedDataLength)
+//
+//        }
+        
+
+        var index = 0
+        let totalLen = data.count
+        
+        let resData = NSMutableData()
+        
+        while index < totalLen {
+            var curDataLen = totalLen - index;
+            if curDataLen  > blockLen {
+                curDataLen = blockLen;
+            }
+            
+            let curData: Data = data.subdata(in: index ..< index + curDataLen)
+            
+            var status:OSStatus = noErr
+            curData.withUnsafeBytes { (bytes: UnsafePointer<UInt8>) in
+                 status = SecKeyDecrypt(self.privateSecKey!, padding, bytes, curData.count, outBuf, &outBufLen)
+            }
+            
+            if status == noErr {
+                resData.append(outBuf, length: outBufLen)
+            }else{
+                print("decrypt status = \(status)")
+            }
+            
+            index += curDataLen
+        }
+
+        return String(data: (resData as Data), encoding: String.Encoding.utf8)!
+    }
+
+```
+
+#####3.注意事项
+* 1.rsa加解密方式要一致，默认是`SecPadding.PKCS1`模式。
+* 2.rsa不同加密模式，会影响数据分块大小。
+	* `PKCS1`模式时：数据块长度最大为块长度-`11`
+	* `OAEP`模式时，数据块长度最大为块长度-`42`
+
+

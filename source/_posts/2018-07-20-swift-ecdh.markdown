@@ -1,0 +1,77 @@
+---
+layout: post
+title: "swift-ecdh"
+date: 2018-07-20 19:28
+comments: true
+categories: swift-基础框架
+---
+
+
+swift 在iOS10之后，支持ecdh加解密。
+
+####1.生成公钥和私钥。
+```objective-c
+   func generateKey() {
+        
+        let attributes: [String: Any] = [kSecAttrKeySizeInBits as String: 256,
+                                         kSecAttrKeyType as String: kSecAttrKeyTypeEC,
+                                         kSecPrivateKeyAttrs as String: [kSecAttrIsPermanent as String: false]]
+        var error: Unmanaged<CFError>?
+        
+        self.privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, &error)
+        
+        if self.privateKey != nil {
+            self.publicKey = SecKeyCopyPublicKey(self.privateKey!)
+        }
+    }
+```
+
+####2.加密
+```objective-c
+func encryptedData(sourceData: Data, algorithm:SecKeyAlgorithm) -> Data? {
+        
+        guard self.publicKey != nil else {
+            return nil
+        }
+        
+        var error: Unmanaged<CFError>?
+        
+        let encrypted =
+            SecKeyCreateEncryptedData(self.publicKey!, algorithm,
+                                      sourceData as CFData,
+                                      &error)
+        if error == nil {
+            return encrypted! as Data
+        }
+        
+        return nil
+    }
+
+```
+
+####3.解密
+```objective-c
+   func decryptedData(sourceData: Data, algorithm:SecKeyAlgorithm ) -> String? {
+        
+        var error: Unmanaged<CFError>?
+        
+        let resData = SecKeyCreateDecryptedData(self.privateKey! , algorithm,
+                                                sourceData as CFData, &error)
+        
+        if error == nil {
+            return String(data: resData! as Data, encoding: String.Encoding.utf8)
+        }
+        
+        return nil
+    }
+```
+
+####4.示例
+
+```objective-c
+        let sign = YKEcdhSign()
+            sign.generateKey()
+            let enData =  sign.encryptedData(sourceData: originalData!, algorithm: SecKeyAlgorithm.eciesEncryptionStandardX963SHA512AESGCM)
+            let string = sign.decryptedData(sourceData: enData!, algorithm: SecKeyAlgorithm.eciesEncryptionStandardX963SHA512AESGCM)
+            print(string!)
+```
