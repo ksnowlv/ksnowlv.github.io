@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "swift-cocoaframework中module.map配置]"
+title: "swift-cocoaframework中module.map配置"
 date: 2018-07-04 14:22
 comments: true
 categories: swift-基础框架

@@ -14,7 +14,7 @@ swift-objective-c混编的framework如何制作呢？
 
 * 3.把头文件添加到导出头文件
 
-```objctvie-c
+```objective-c
 
 
 //! Project version number for YKBaseFramework.

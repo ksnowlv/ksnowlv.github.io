@@ -18,7 +18,8 @@ categories: swift
     
     测试代码如下：
     
-    ```objective-c
+
+```objective-c
      for i in 1...3 {
             DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
                 NSLog("DispatchQoS.QoSClass.default, %d", i)
@@ -45,11 +46,14 @@ categories: swift
             }
         }
 
-    ```
+
+```    
+ 
+ 
+ 输出日志：
     
-    输出日志：
-    
-```objective-c
+ ```objective-c
+ 
 2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505814] DispatchQoS.QoSClass.userInteractive, 3
 2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505813] DispatchQoS.QoSClass.userInteractive, 2
 2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505825] DispatchQoS.QoSClass.userInteractive, 1
@@ -69,4 +73,4 @@ categories: swift
 2018-07-24 15:04:12.622904+0800 YKBaseSwiftFramework[8252:505832] DispatchQoS.QoSClass.background, 2
 2018-07-24 15:04:12.622998+0800 YKBaseSwiftFramework[8252:505831] DispatchQoS.QoSClass.background, 3
 
-   ```
+ ```

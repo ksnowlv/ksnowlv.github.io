@@ -10,7 +10,7 @@ categories: iOS审核
 
 
 最近苹果开发者账号提醒 "The Apple Developer Program License Agreement has been updated"
-<!--more-->
+
 内容如下：
 
 In order to access certain membership resources, you must accept the latest license agreement. First, you’ll need to update the mobile phone number associated with your Apple ID. Your mobile phone number must be based in your country/region. Edit this number in the Account section of appleid.apple.com, and return to your developer account to continue.
