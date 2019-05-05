@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: swift | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/swift/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[swift call c]]></title>
+    <link href="http://ksnowlv.github.io/blog/2019/04/01/swift-call-c/"/>
+    <updated>2019-04-01T16:13:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2019/04/01/swift-call-c</id>
+    <content type="html"><![CDATA[<p>如何在swift调整c代码呢？</p>
+
+<p><em>swift通过工程的桥接文件，调用oc或c的相关代码!!!</em></p>
+
+<h4>1.创建c文件：<code>test.h</code>和<code>test.c</code></h4>
+
+<p><code>test.h</code>内容如下：</p>
+
+<p>```objective-c</p>
+
+<h1>ifndef test_h</h1>
+
+<h1>define test_h</h1>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>void showValue(int *value);</p>
+
+<h1>endif /<em> test_h </em>/</h1>
+
+<p>```</p>
+
+<p><code>test.c</code>内容如下</p>
+
+<p>```objective-c</p>
+
+<h1>include &ldquo;test.h&rdquo;</h1>
+
+<p>void showValue(int *value) {</p>
+
+<pre><code>printf("old value = %d\n",*value);
+*value = *value + 1;
+printf("new value = %d\n",*value);
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h4>2.在桥接文件中,加入<code>test.h</code>引用：<code>#include "test.h"</code></h4>
+
+<h4>3.swift中调用</h4>
+
+<p>```objective-c
+   var value: Int32 = 0
+   showValue(&amp;value)</p>
+
+<p>```</p>
+
+<p>结果显而易见：</p>
+
+<p>```objective-c
+old value = 0
+new value = 1</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[全局并发队列优先级]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/24/quan-ju-bing-fa-dui-lie-you-xian-ji/"/>
+    <updated>2018-07-24T14:23:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/24/quan-ju-bing-fa-dui-lie-you-xian-ji</id>
+    <content type="html"><![CDATA[<p>全局并发队（Global Queue）</p>
+
+<ul>
+<li><p>老版gcd有四种：<code>high</code>，<code>default</code>，<code>low</code>，<code>background</code>，</p>
+
+<p>  优先级为：high>default>low>background</p></li>
+<li><p>新版gcd有六种：<code>background</code>，<code>utility</code>，<code>default</code>，<code>userInitiated</code>，<code>userInteractive</code>，<code>unspecified</code></p>
+
+<p>  优先级为：userInteractive>default>unspecified>userInitiated>utility>background</p>
+
+<p>  测试代码如下：</p></li>
+</ul>
+
+
+<p>```objective-c</p>
+
+<pre><code> for i in 1...3 {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
+            NSLog("DispatchQoS.QoSClass.default, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
+            NSLog("DispatchQoS.QoSClass.background, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.unspecified).async {
+            NSLog("DispatchQoS.QoSClass.unspecified, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async {
+            NSLog("DispatchQoS.QoSClass.userInitiated, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInteractive).async {
+            NSLog("DispatchQoS.QoSClass.userInteractive, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+            NSLog("DispatchQoS.QoSClass.utility, %d", i)
+        }
+    }
+</code></pre>
+
+<p>```</p>
+
+<p> 输出日志：</p>
+
+<p> ```objective-c</p>
+
+<p>2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505814] DispatchQoS.QoSClass.userInteractive, 3
+2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505813] DispatchQoS.QoSClass.userInteractive, 2
+2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505825] DispatchQoS.QoSClass.userInteractive, 1
+2018-07-24 15:04:12.619716+0800 YKBaseSwiftFramework[8252:505820] DispatchQoS.QoSClass.default, 1
+2018-07-24 15:04:12.619735+0800 YKBaseSwiftFramework[8252:505815] DispatchQoS.QoSClass.unspecified, 1
+2018-07-24 15:04:12.619741+0800 YKBaseSwiftFramework[8252:505828] DispatchQoS.QoSClass.userInitiated, 1
+2018-07-24 15:04:12.620001+0800 YKBaseSwiftFramework[8252:505830] DispatchQoS.QoSClass.default, 2
+2018-07-24 15:04:12.620003+0800 YKBaseSwiftFramework[8252:505814] DispatchQoS.QoSClass.unspecified, 2
+2018-07-24 15:04:12.620065+0800 YKBaseSwiftFramework[8252:505831] DispatchQoS.QoSClass.userInitiated, 2
+2018-07-24 15:04:12.620101+0800 YKBaseSwiftFramework[8252:505832] DispatchQoS.QoSClass.default, 3
+2018-07-24 15:04:12.620122+0800 YKBaseSwiftFramework[8252:505834] DispatchQoS.QoSClass.userInitiated, 3
+2018-07-24 15:04:12.620133+0800 YKBaseSwiftFramework[8252:505833] DispatchQoS.QoSClass.unspecified, 3
+2018-07-24 15:04:12.620143+0800 YKBaseSwiftFramework[8252:505827] DispatchQoS.QoSClass.utility, 1
+2018-07-24 15:04:12.620286+0800 YKBaseSwiftFramework[8252:505829] DispatchQoS.QoSClass.utility, 2
+2018-07-24 15:04:12.620343+0800 YKBaseSwiftFramework[8252:505835] DispatchQoS.QoSClass.utility, 3
+2018-07-24 15:04:12.622419+0800 YKBaseSwiftFramework[8252:505824] DispatchQoS.QoSClass.background, 1
+2018-07-24 15:04:12.622904+0800 YKBaseSwiftFramework[8252:505832] DispatchQoS.QoSClass.background, 2
+2018-07-24 15:04:12.622998+0800 YKBaseSwiftFramework[8252:505831] DispatchQoS.QoSClass.background, 3</p>
+
+<p> ```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift-class与struct区别]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/18/swift-classyu-structqu-bie/"/>
+    <updated>2018-07-18T18:45:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/18/swift-classyu-structqu-bie</id>
+    <content type="html"><![CDATA[<table>
+<thead>
+<tr>
+<th></th>
+<th>比较项</th>
+<th>struct</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> 类型</td>
+<td>值类型</td>
+<td>引用类型|</td>
+</tr>
+<tr>
+<td></td>
+<td> 属性初始化</td>
+<td>可用默认构造直接初始化</td>
+<td>需要自己创建构造方法|</td>
+</tr>
+<tr>
+<td></td>
+<td>变量赋值</td>
+<td>深拷贝</td>
+<td>浅拷贝，增加原对象引用</td>
+</tr>
+<tr>
+<td></td>
+<td>方法中修改属性</td>
+<td>需要添加mutating </td>
+<td>不需要</td>
+</tr>
+<tr>
+<td></td>
+<td>继承关系</td>
+<td>不能继承</td>
+<td>可以继承</td>
+</tr>
+<tr>
+<td></td>
+<td>内存</td>
+<td>栈上，自动内存管理</td>
+<td>堆上，手动内存管理</td>
+</tr>
+<tr>
+<td></td>
+<td>速度</td>
+<td>高效</td>
+<td>相比效率低</td>
+</tr>
+<tr>
+<td></td>
+<td>线程安全</td>
+<td>自动线程安全的</td>
+<td>大多是非线程安全的</td>
+</tr>
+<tr>
+<td></td>
+<td>与oc混编</td>
+<td>不支持，oc无法调struct</td>
+<td>支持混编</td>
+</tr>
+<tr>
+<td></td>
+<td>序列化</td>
+<td>不支持，可用字节转NSData</td>
+<td>支持序列化</td>
+</tr>
+</tbody>
+</table>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift中escaping与noescaping之区别]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/16/swift-escaping/"/>
+    <updated>2018-07-16T16:10:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/16/swift-escaping</id>
+    <content type="html"><![CDATA[<p><code>Swift3之前</code>：</p>
+
+<pre><code>默认escaping，逃逸闭包，是不安全的。对于非逃逸闭包，你需要标记@noescaping
+</code></pre>
+
+<p><code>Swift3及之后</code></p>
+
+<pre><code>默认是noescaping，非逃逸的,默认是安全的：如果一个函数参数可能导致引用循环，那么它需要被escaping显示地标记出来.
+</code></pre>
+
+<h4>一.区别</h4>
+
+<p>具体什么区别呢？先举例说明。</p>
+
+<ul>
+<li>1 声明testBlock</li>
+</ul>
+
+
+<p><code>objective-c
+typealias testBlock = (_ type: Int, _ contextObject: Any) -&gt; Void
+</code></p>
+
+<ul>
+<li>2 <code>noescaping</code></li>
+</ul>
+
+
+<p>```objective-c</p>
+
+<pre><code>func testBlock1(block:testBlock) {
+    block(0,"hello");
+}
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>3 <code>escaping</code></li>
+</ul>
+
+
+<p>```objective-c
+   func testBlock2(block:@escaping testBlock) {</p>
+
+<pre><code>    DispatchQueue.global().async {
+        block(1,"world")
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>4 调用</li>
+</ul>
+
+
+<p>```objective-c</p>
+
+<pre><code>  testBlock1(block:{ (type: Int, contextObject: Any) in
+        print("type=\(type),contextObject=\(contextObject)")
+    } )
+    testBlock2(block: {(type: Int, contextObject: Any) in
+        print("type=\(type),contextObject=\(contextObject)")
+    })
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>5 输出日志</li>
+</ul>
+
+
+<p><code>objective-c
+type=0,contextObject=hello
+type=1,contextObject=world
+</code></p>
+
+<h3>二.区别总结</h3>
+
+<ul>
+<li><p>1.<code>@escaping</code>标明这个闭包是会“逃逸”，通俗点来讲，这个闭包的作用域可能超过该函数的作用域，也就是说，该闭包在函数执行完成之后才被调用。</p></li>
+<li><p>2.<code>@noescaping</code>标明非逃逸的闭包的作用域是不会超过函数作用域的，我们不需要担心在闭包内持有self。</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NS_SWIFT_NAME与@objc区别与用途]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/06/cf-swift-nameyu-at-objc/"/>
+    <updated>2018-07-06T15:57:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/06/cf-swift-nameyu-at-objc</id>
+    <content type="html"><![CDATA[<p>NS_SWIFT_NAME与@objc有什么区别和用途呢？</p>
+
+<ul>
+<li><code>NS_SWIFT_NAME</code>:在objective-c中，重新命名在swift中的名称</li>
+<li><code>@objc</code> 在swift中，重新命名在objective-c中的名称。</li>
+</ul>
+
+
+<p>示例1如下：</p>
+
+<p>```objective-c
+typedef NS_ENUM(NSUInteger, NetErrorType) {</p>
+
+<pre><code>NetErrorTypeNone NS_SWIFT_NAME(None),
+NetErrorTypeNetError NS_SWIFT_NAME(NetError) ,
+</code></pre>
+
+<p>};</p>
+
+<p>@interface YKBaseUIViewController : UIViewController
+&ndash; (void)handleConnectItem:(YKConnectionItem <em>)connectionItem withParser:(YKJsonParser </em>)parser NS_SWIFT_NAME(handleNetResponse(connectionItem:parser:));</p>
+
+<p>@end</p>
+
+<p>```</p>
+
+<p>在swift中调用如下：</p>
+
+<p><code>objective-c
+NetErrorType.None
+let baseUIViewController : YKBaseUIViewController = YKBaseUIViewController()
+baseUIViewController.handleNetResponse(connectionItem: nil, parser: nil)
+</code></p>
+
+<p>示例2如下：</p>
+
+<p>```objective-c
+@objc(showMyAge: address:)
+public static func showMyInfo(age: Int, address: String) &ndash;> String{</p>
+
+<pre><code>    return "ksnowlv"
+}
+</code></pre>
+
+<p>```</p>
+
+<p>在objective-c中调用如下：</p>
+
+<p><code>objective-c
+NSString *string =  [YKDevice showMyAge:0 address:@"abc"];
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

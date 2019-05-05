@@ -1,0 +1,1059 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Swift的类-结构-协议-枚举 - ksnowlv</title>
+  <meta name="author" content="律威">
+
+  
+  <meta name="description" content="现在主要体验swift类(创建，销毁，继承/派生)，结构体，协议，枚举等方面的使用. 1.结构体和常量定义。 结构体定义其实与c/c++大体类似。示例如下: 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+let QMapPointZero:QMapPoint = QMapPoint(x:0 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ksnowlv.github.io/blog/2014/09/08/swift-de-lei-jie-gou-xie-yi-mei-ju">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="ksnowlv" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-39546615-2']);
+    // _gaq.push(['_trackPageview']);
+
+    // (function() {
+    //   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    //   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    // })();
+
+    _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src='http://droidyue-tools.qiniudn.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">ksnowlv</a></h1>
+  
+    <h2>回顾过去,总结以往;立足现在,铭记当下;技术为主,笔记而已.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ksnowlv.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/about-me">关于我</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Swift的类-结构-协议-枚举</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-08T15:38:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>现在主要体验swift类(创建，销毁，继承/派生)，结构体，协议，枚举等方面的使用.</p>
+
+<!--more-->
+
+
+<h4>1.结构体和常量定义。</h4>
+
+<p>结构体定义其实与c/c++大体类似。示例如下:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">let</span> <span class="nl">QMapPointZero:</span><span class="n">QMapPoint</span> <span class="o">=</span> <span class="n">QMapPoint</span><span class="p">(</span><span class="nl">x:</span><span class="mi">0</span><span class="p">,</span><span class="nl">y:</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'><span class="n">let</span> <span class="nl">QMapSizeZero:</span><span class="n">QMapSize</span> <span class="o">=</span> <span class="n">QMapSize</span><span class="p">(</span><span class="nl">width:</span><span class="mi">0</span><span class="p">,</span><span class="nl">height:</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">QMapPoint</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">x:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">y:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">QMapSize</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">width:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">height:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>2.枚举定义(和c/c++中差别比较大)。</h4>
+
+<p> <code>swift</code>中，像类和其它类型命名类似，枚举可以拥有和它关联的方法。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>
+</span><span class='line'><span class="k">enum</span> <span class="nl">QMapType:</span><span class="n">Int</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">QMapTypeNone</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">QMapTypeNoraml</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">QMapTypeStreetView</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">QMapTypeTraffic</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">getMapType</span><span class="p">()</span> <span class="o">-&gt;</span><span class="n">Int</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">switch</span> <span class="n">self</span><span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">QMapTypeNone:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">QMapTypeNoraml:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">QMapTypeStreetView:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">QMapTypeTraffic:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果访问这些枚举变量，需要通过枚举名来访问。以上为例就是通过<code>QMapType.QMapTypeNoraml</code>访问，如果要访问枚举变量的值，可通过<code>getMapType</code>访问。</p>
+
+<h4>3.关于协议/接口。</h4>
+
+<p>与objetive-c类似，不支持多继承，同样需要通过<code>protocol</code>声明定义，同样，分为必选协议和可选协议。但是，swift中的协议可以有成员变量。</p>
+
+<p>必选协议的声明</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">protocol</span> <span class="n">ShapeInterface</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//成员变量</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">className:</span> <span class="n">String</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="c1">//协议默认属性为required</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">draw</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">description</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可选协议声明</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">protocol</span> <span class="n">QMapViewInterface</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//成员变量</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">className:</span> <span class="n">String</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">mapView</span><span class="p">(</span><span class="nl">mapType:</span><span class="n">Int</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">//协议默认属性为required</span>
+</span><span class='line'>    <span class="n">optional</span> <span class="n">func</span> <span class="nf">draw</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>4.类的声明，定义，继承，派生等。</h4>
+
+<p>与<strong>c++</strong>/<strong>objective-c</strong>类似，支持面向对象，有构造初始化，有析构，支持继承/派生。</p>
+
+<p>我们声明shape类，继承<code>ShapeInterface</code>协议。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">class</span> <span class="nl">Shape:</span><span class="n">ShapeInterface</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">className:</span> <span class="n">String</span> <span class="o">=</span> <span class="s">&quot;Shape&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">name:</span><span class="n">NSString</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//可以看作初始化函数</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">name:</span><span class="n">String</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//可以看作析构函数</span>
+</span><span class='line'>    <span class="n">deinit</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Shape deinit&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">draw</span><span class="p">(){</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;shape name = \(name)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">description</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">area</span><span class="p">()</span> <span class="o">-&gt;</span><span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">circumference</span><span class="p">()</span> <span class="o">-&gt;</span><span class="n">Double</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>5.示例:地图类和图形类</h3>
+
+<h4>地图类相关</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">/// 地图坐标相关数据结构和常量定义</span>
+</span><span class='line'><span class="n">let</span> <span class="nl">QMapPointZero:</span><span class="n">QMapPoint</span> <span class="o">=</span> <span class="n">QMapPoint</span><span class="p">(</span><span class="nl">x:</span><span class="mi">0</span><span class="p">,</span><span class="nl">y:</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'><span class="n">let</span> <span class="nl">QMapSizeZero:</span><span class="n">QMapSize</span> <span class="o">=</span> <span class="n">QMapSize</span><span class="p">(</span><span class="nl">width:</span><span class="mi">0</span><span class="p">,</span><span class="nl">height:</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">QMapPoint</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">x:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">y:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">QMapSize</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">width:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">height:</span><span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">QMapRect</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">point:</span><span class="n">QMapPoint</span> <span class="o">=</span> <span class="n">QMapPointZero</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">size:</span><span class="n">QMapSize</span> <span class="o">=</span> <span class="n">QMapSizeZero</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">地图支持底图类型</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">- QMapTypeNone:       初始化类型，无意义</span>
+</span><span class='line'><span class="cm">- QMapTypeNoraml:     普通地图</span>
+</span><span class='line'><span class="cm">- QMapTypeStreetView: 街景地图</span>
+</span><span class='line'><span class="cm">- QMapTypeTraffic:    实时路况地图</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="k">enum</span> <span class="nl">QMapType:</span><span class="n">Int</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">QMapTypeNone</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">QMapTypeNoraml</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">QMapTypeStreetView</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">QMapTypeTraffic</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">getMapType</span><span class="p">()</span> <span class="o">-&gt;</span><span class="n">Int</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">switch</span> <span class="n">self</span><span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">QMapTypeNone:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">QMapTypeNoraml:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">QMapTypeStreetView:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">QMapTypeTraffic:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*  地图View,支持地图显示，拖拽等</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="n">class</span> <span class="n">QMapView</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">mapType:</span><span class="n">QMapType</span> <span class="o">=</span> <span class="n">QMapType</span><span class="p">.</span><span class="n">QMapTypeNone</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">mapRect:</span><span class="n">QMapRect</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">mapType:</span><span class="n">QMapType</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="n">mapType</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">mapRect</span> <span class="o">=</span> <span class="n">QMapRect</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">setMapRect</span><span class="p">(</span><span class="nl">mapRect:</span><span class="n">QMapRect</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">mapRect</span> <span class="o">=</span> <span class="n">mapRect</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">getMapRect</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">QMapRect</span><span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">mapRect</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">deinit</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;QMapView deinit</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">draw</span><span class="p">(){</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;mapType = \(mapType.getMapType()) drawing</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*  地图协议，支持可选协议</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">protocol</span> <span class="n">QMapViewInterface</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//成员变量</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">className:</span> <span class="n">String</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">mapView</span><span class="p">(</span><span class="nl">mapType:</span><span class="n">Int</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">//协议默认属性为required</span>
+</span><span class='line'>    <span class="n">optional</span> <span class="n">func</span> <span class="nf">draw</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>调用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">var</span> <span class="nl">mapView:</span><span class="n">QMapView</span> <span class="o">=</span> <span class="n">QMapView</span><span class="p">(</span><span class="nl">mapType:</span><span class="n">QMapType</span><span class="p">.</span><span class="n">QMapTypeNoraml</span><span class="p">);</span>
+</span><span class='line'><span class="n">var</span> <span class="n">mapSize</span> <span class="o">=</span>  <span class="n">QMapSize</span><span class="p">(</span><span class="nl">width:</span> <span class="n">Int</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">width</span><span class="p">),</span> <span class="nl">height:</span><span class="n">Int</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">height</span><span class="p">));</span>
+</span><span class='line'><span class="n">mapView</span><span class="p">.</span><span class="n">setMapRect</span><span class="p">(</span><span class="n">QMapRect</span><span class="p">(</span><span class="nl">point:</span> <span class="n">QMapPointZero</span><span class="p">,</span> <span class="nl">size:</span> <span class="n">mapSize</span><span class="p">));</span>
+</span><span class='line'><span class="n">mapView</span><span class="p">.</span><span class="n">draw</span><span class="p">();</span>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;mapView rect = {point = {\(mapView.mapRect.point.x),\(mapView.mapRect.point.y)},size = {\(mapView.mapRect.size.width),\(mapView.mapRect.size.height)}}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>日志输出：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">mapType</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">drawing</span>
+</span><span class='line'><span class="n">mapView</span> <span class="n">rect</span> <span class="o">=</span> <span class="p">{</span><span class="n">point</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},</span><span class="n">size</span> <span class="o">=</span> <span class="p">{</span><span class="mi">320</span><span class="p">,</span><span class="mi">480</span><span class="p">}}</span>
+</span><span class='line'><span class="n">QMapView</span> <span class="n">deinit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>图形类(Shape类族)相关</h4>
+
+<p>Shape类族
+<img src="/images/post/2014-09-08-swift-de-lei-jie-gou-xie-yi-mei-ju/shape_class.jpg" alt="image" /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*  图形接口</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="n">protocol</span> <span class="n">ShapeInterface</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//成员变量</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">className:</span> <span class="n">String</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="c1">//协议默认属性为required</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">draw</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">description</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*  图形基类</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="n">class</span> <span class="nl">Shape:</span><span class="n">ShapeInterface</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">className:</span> <span class="n">String</span> <span class="o">=</span> <span class="s">&quot;Shape&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">name:</span><span class="n">NSString</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//可以看作初始化函数</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">name:</span><span class="n">String</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//可以看作析构函数</span>
+</span><span class='line'>    <span class="n">deinit</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Shape deinit</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">draw</span><span class="p">(){</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;shape name = \(name)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">description</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">area</span><span class="p">()</span> <span class="o">-&gt;</span><span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">circumference</span><span class="p">()</span> <span class="o">-&gt;</span><span class="n">Double</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">let</span> <span class="nl">KPI:</span><span class="n">Double</span> <span class="o">=</span> <span class="mf">3.14159265</span><span class="p">;</span>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*  圆类</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="n">class</span> <span class="n">Circle</span> <span class="o">:</span><span class="n">Shape</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">center:</span><span class="n">Point</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">radius:</span><span class="n">Double</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">name:</span><span class="n">String</span><span class="p">,</span> <span class="nl">center:</span><span class="n">Point</span><span class="p">,</span> <span class="nl">radius:</span><span class="n">Double</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">center</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">name:</span><span class="n">name</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">className</span> <span class="o">=</span> <span class="s">&quot;Circle&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">deinit</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Circle deinit</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">description</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">area</span><span class="p">()</span> <span class="o">-&gt;</span><span class="n">Double</span><span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mf">3.14159265</span> <span class="o">*</span> <span class="n">pow</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">radius</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">circumference</span><span class="p">()</span> <span class="o">-&gt;</span><span class="n">Double</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">KPI</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*  正方形类</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="n">class</span> <span class="nl">Square:</span> <span class="n">Shape</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">_size:</span><span class="n">Double</span><span class="o">!</span><span class="p">;</span><span class="c1">//加!后，可以不用添加self._size方法在init方法super.init之前</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">name:</span><span class="n">String</span><span class="p">,</span> <span class="nl">size:</span><span class="n">Double</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">name:</span> <span class="n">name</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">className</span> <span class="o">=</span> <span class="s">&quot;Square&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">_size</span> <span class="o">=</span> <span class="n">size</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">deinit</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Square deinit</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">area</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">pow</span><span class="p">(</span><span class="n">_size</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">circumference</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">_size</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>调用</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">var</span> <span class="nl">shape:</span><span class="n">Shape</span> <span class="o">=</span> <span class="n">Shape</span><span class="p">(</span><span class="nl">name:</span> <span class="s">&quot;Shape&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">shape</span><span class="p">.</span><span class="n">draw</span><span class="p">();</span>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;className = \(shape.className) shape:{description = \(shape.description()), area = \(shape.area()), circumference = \(shape.circumference())}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">var</span> <span class="nl">circle:</span><span class="n">Circle</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="nl">name:</span> <span class="s">&quot;Circle&quot;</span><span class="p">,</span> <span class="nl">center:</span> <span class="n">Point</span><span class="p">(</span><span class="nl">v:</span> <span class="mi">10</span><span class="p">,</span> <span class="nl">h:</span> <span class="mi">20</span><span class="p">),</span> <span class="nl">radius:</span> <span class="mf">10.5</span><span class="p">);</span>
+</span><span class='line'><span class="n">circle</span><span class="p">.</span><span class="n">draw</span><span class="p">();</span>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;className = \(circle.className) circle:{description = \(circle.description()), area = \(circle.area()), circumference = \(circle.circumference())}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">var</span> <span class="nl">square:</span><span class="n">Square</span> <span class="o">=</span> <span class="n">Square</span><span class="p">(</span><span class="nl">name:</span> <span class="s">&quot;Square&quot;</span><span class="p">,</span> <span class="nl">size:</span><span class="mi">4</span><span class="p">);</span>
+</span><span class='line'><span class="n">square</span><span class="p">.</span><span class="n">draw</span><span class="p">();</span>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;className = \(square.className) square:{description = \(square.description()), area = \(square.area()), circumference = \(square.circumference())}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+日志输出</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">shape</span> <span class="n">name</span> <span class="o">=</span> <span class="n">Shape</span>
+</span><span class='line'><span class="n">className</span> <span class="o">=</span> <span class="n">Shape</span> <span class="nl">shape:</span><span class="p">{</span><span class="n">description</span> <span class="o">=</span> <span class="n">Shape</span><span class="p">,</span> <span class="n">area</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">circumference</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">}</span>
+</span><span class='line'><span class="n">shape</span> <span class="n">name</span> <span class="o">=</span> <span class="n">Circle</span>
+</span><span class='line'><span class="n">className</span> <span class="o">=</span> <span class="n">Circle</span> <span class="nl">circle:</span><span class="p">{</span><span class="n">description</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">area</span> <span class="o">=</span> <span class="mf">346.3605896625</span><span class="p">,</span> <span class="n">circumference</span> <span class="o">=</span> <span class="mf">65.97344565</span><span class="p">}</span>
+</span><span class='line'><span class="n">shape</span> <span class="n">name</span> <span class="o">=</span> <span class="n">Square</span>
+</span><span class='line'><span class="n">className</span> <span class="o">=</span> <span class="n">Square</span> <span class="nl">square:</span><span class="p">{</span><span class="n">description</span> <span class="o">=</span> <span class="n">Square</span><span class="p">,</span> <span class="n">area</span> <span class="o">=</span> <span class="mf">16.0</span><span class="p">,</span> <span class="n">circumference</span> <span class="o">=</span> <span class="mf">16.0</span><span class="p">}</span>
+</span><span class='line'><span class="n">Square</span> <span class="n">deinit</span>
+</span><span class='line'><span class="n">Shape</span> <span class="n">deinit</span>
+</span><span class='line'><span class="n">Circle</span> <span class="n">deinit</span>
+</span><span class='line'><span class="n">Shape</span> <span class="n">deinit</span>
+</span><span class='line'><span class="n">Shape</span> <span class="n">deinit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+小结:</p>
+
+<ul>
+<li>1.派生类的初始化顺序，先初始化基类，再初始化自身；析构顺序和初始化顺序相反，</li>
+<li>2.对象的创建顺序和析构顺序是相反的。</li>
+<li>3.如果派生类在类的外部调用基类的同名函数，如何调用呢？
+ 与<strong>objective-c</strong>/<strong>python</strong>中的调用都不太一样。可以使用声明基类指针的方式。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>   <span class="n">var</span> <span class="nl">squareShap:</span><span class="n">Shape</span> <span class="o">=</span> <span class="n">square</span><span class="p">;</span>
+</span><span class='line'>   <span class="n">squareShap</span><span class="p">.</span><span class="n">draw</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> <br/>
+参考链接：<a href="http://stackoverflow.com/questions/24021093/error-in-swift-class-property-not-initialized-at-super-init-call/24150540#24150540">http://stackoverflow.com/questions/24021093/error-in-swift-class-property-not-initialized-at-super-init-call/24150540#24150540</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">律威</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-08T15:38:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+      
+<DIV >
+作者： <A href="/">律威</A> <BR>
+出处： <A href="/">https://ksnowlv.github.io</A> 
+<BR>原创文章，版权声明：自由转载-非商用-非衍生-保持署名
+<a href= "http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh"> Creative Commons BY-NC-ND 3.0 </a>。 </DIV>
+
+
+    </p>
+<!--     
+      Included file 'post/sharing.html' not found in _includes directory
+     -->
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/09/07/swiftji-chu-chu-tan/" title="Previous Post: Swift基础初探">&laquo; Swift基础初探</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/09/08/swift-ui-kong-jian-chu-ti-yan/" title="Next Post: swift-UI-控件初体验">swift-UI-控件初体验 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+var disqus_shortname = 'ksnowlv';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>关于我</h1>
+  <p>律威,QQ:309235009 微信:ksnowlv</p>
+  <p>手机单机游戏/手机网游封神online/手机阅读/腾讯iOS地图客户端&实时公交&开放API(地图&街景)/iPad/iPhone淘宝客户端及性能优化</p>
+  <p>目前在银客做银客/简理财/...</p>
+  <p>能做一点,是一点;不求大成,不求一万年;积少成多,水到渠成!</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/">Kotlin通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/">Android通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>分类</h1>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (2)</a></li><li><a href='/blog/categories/android-jni/'>android-jni (1)</a></li><li><a href='/blog/categories/android-jni/'>Android-JNI (3)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+</section>
+<section>
+  <h1>外部链接</h1>
+    <ul id="外部链接">
+    	<li><a href="https://developer.apple.com">苹果开发者中心</a> </li>
+    	<li><a href="http://stackoverflow.com/questions/tagged/ios">stackoverflow</a></li>
+    	<li><a href="http://ksnowlv.blog.163.com/blog/#m=0">ksnowlv网易博客</a></li>
+    	<li><a href="https://www.jianshu.com/u/6fe5d9875a9e">简书</a></li>
+	</ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - 律威 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271193933'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1271193933%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+  <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F4c1727a94ea20751730e8a556dbdbf82' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ksnowlv';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ksnowlv.github.io/blog/2014/09/08/swift-de-lei-jie-gou-xie-yi-mei-ju/';
+        var disqus_url = 'http://ksnowlv.github.io/blog/2014/09/08/swift-de-lei-jie-gou-xie-yi-mei-ju/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+Included file 'custom/after_footer.html' not found in _includes directory
+
+</body>
+</html>

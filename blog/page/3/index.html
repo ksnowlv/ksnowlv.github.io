@@ -1,0 +1,1670 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ksnowlv</title>
+  <meta name="author" content="律威">
+
+  
+  <meta name="description" content="swift中，如何支持https呢？ https分为单向（客户端校验服务端）的和双向（客户端/服务端相互校验）具体可查阅相关资料。 实现URLSessionDelegate协议中 urlSession(_ session: didReceive challenge: &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ksnowlv.github.io/blog/page/3">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="ksnowlv" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-39546615-2']);
+    // _gaq.push(['_trackPageview']);
+
+    // (function() {
+    //   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    //   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    // })();
+
+    _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src='http://droidyue-tools.qiniudn.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">ksnowlv</a></h1>
+  
+    <h2>回顾过去,总结以往;立足现在,铭记当下;技术为主,笔记而已.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ksnowlv.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/about-me">关于我</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/18/swift-httpsde-zhi-chi/">Swift-https的支持</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-18T16:35:00+08:00" pubdate data-updated="true">Jul 18<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/18/swift-httpsde-zhi-chi/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>swift中，如何支持https呢？</p>
+
+<p>https分为单向（客户端校验服务端）的和双向（客户端/服务端相互校验）具体可查阅相关资料。</p>
+
+<p>实现<code>URLSessionDelegate</code>协议中</p>
+
+<p><code>urlSession(_ session: didReceive challenge: completionHandler: )</code></p>
+
+<p>具体实现如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>    <span class="n">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nl">session:</span> <span class="n">URLSession</span><span class="p">,</span> <span class="n">didReceive</span> <span class="nl">challenge:</span> <span class="n">URLAuthenticationChallenge</span><span class="p">,</span> <span class="nl">completionHandler:</span> <span class="err">@</span><span class="n">escaping</span> <span class="p">(</span><span class="n">URLSession</span><span class="p">.</span><span class="n">AuthChallengeDisposition</span><span class="p">,</span> <span class="n">URLCredential</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="n">disposition</span> <span class="o">=</span> <span class="n">URLSession</span><span class="p">.</span><span class="n">AuthChallengeDisposition</span><span class="p">.</span><span class="n">performDefaultHandling</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">credential:</span><span class="n">URLCredential</span><span class="o">?</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>        <span class="cm">/*disposition：如何处理证书</span>
+</span><span class='line'><span class="cm">         performDefaultHandling:默认方式处理</span>
+</span><span class='line'><span class="cm">         useCredential：使用指定的证书</span>
+</span><span class='line'><span class="cm">         cancelAuthenticationChallenge：取消请求</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">authenticationMethod</span> <span class="o">==</span> <span class="n">NSURLAuthenticationMethodServerTrust</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">credential</span> <span class="o">=</span> <span class="n">URLCredential</span><span class="p">(</span><span class="nl">trust:</span> <span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="n">credential</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">disposition</span> <span class="o">=</span> <span class="n">URLSession</span><span class="p">.</span><span class="n">AuthChallengeDisposition</span><span class="p">.</span><span class="n">useCredential</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">authenticationMethod</span> <span class="o">==</span> <span class="n">NSURLAuthenticationMethodClientCertificate</span> <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//单向验证，客户端不需要服务端验证，此处与默认处理一致即可</span>
+</span><span class='line'>            <span class="n">disposition</span> <span class="o">=</span> <span class="n">URLSession</span><span class="p">.</span><span class="n">AuthChallengeDisposition</span><span class="p">.</span><span class="n">cancelAuthenticationChallenge</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">disposition</span> <span class="o">=</span> <span class="n">URLSession</span><span class="p">.</span><span class="n">AuthChallengeDisposition</span><span class="p">.</span><span class="n">cancelAuthenticationChallenge</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">completionHandler</span><span class="p">(</span><span class="n">disposition</span><span class="p">,</span> <span class="n">credential</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/18/swift-rsa-3/">Swift-rsa(三)-大数据块加解密</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-18T14:47:00+08:00" pubdate data-updated="true">Jul 18<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/18/swift-rsa-3/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>如何使用swift进行RSA大数据块加解密呢？</p>
+
+<h5>1.使用RSA加密</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">encrypt</span><span class="p">(</span><span class="nl">source:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">guard</span> <span class="n">source</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">data:</span> <span class="n">NSData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">data</span><span class="p">(</span><span class="nl">using:</span> <span class="n">String</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span> <span class="n">as</span> <span class="n">NSData</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'> <span class="cm">/*       if #available(iOS 10.0, *) {</span>
+</span><span class='line'><span class="cm">            var error: Unmanaged&lt;CFError&gt;?</span>
+</span><span class='line'><span class="cm">            resData =  SecKeyCreateEncryptedData(self.publicSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">            print(&quot;res = \(String(describing: error?.takeUnretainedValue().localizedDescription))&quot;)</span>
+</span><span class='line'><span class="cm">        }</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>        <span class="c1">// Fallback on earlier versions</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">blockLen</span> <span class="o">=</span>  <span class="n">SecKeyGetBlockSize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">outBuf</span> <span class="o">=</span> <span class="p">[</span><span class="n">UInt8</span><span class="p">](</span><span class="nl">repeating:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">count:</span> <span class="n">blockLen</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">outBufLen:</span><span class="n">Int</span> <span class="o">=</span> <span class="n">blockLen</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">totalLen</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">length</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">resData</span> <span class="o">=</span> <span class="n">NSMutableData</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">totalLen</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">var</span> <span class="n">curDataLen</span> <span class="o">=</span> <span class="n">totalLen</span> <span class="o">-</span> <span class="n">index</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">curDataLen</span>  <span class="o">&gt;</span> <span class="n">blockLen</span> <span class="o">-</span> <span class="mi">11</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">curDataLen</span> <span class="o">=</span> <span class="n">blockLen</span> <span class="o">-</span> <span class="mi">11</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">let</span> <span class="nl">curData:</span> <span class="n">NSData</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">subdata</span><span class="p">(</span><span class="nl">with:</span> <span class="n">NSMakeRange</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">curDataLen</span><span class="p">))</span> <span class="n">as</span> <span class="n">NSData</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">let</span> <span class="nl">status:</span> <span class="n">OSStatus</span> <span class="o">=</span> <span class="n">SecKeyEncrypt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span><span class="o">!</span><span class="p">,</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1</span><span class="p">,</span> <span class="n">curData</span><span class="p">.</span><span class="n">bytes</span><span class="p">.</span><span class="n">assumingMemoryBound</span><span class="p">(</span><span class="nl">to:</span> <span class="n">UInt8</span><span class="p">.</span><span class="n">self</span><span class="p">),</span> <span class="n">curData</span><span class="p">.</span><span class="n">length</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBuf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">resData</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">outBuf</span><span class="p">,</span> <span class="nl">length:</span> <span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                <span class="n">print</span><span class="p">(</span><span class="s">&quot;encrypt status = \(status)&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">index</span> <span class="o">+=</span> <span class="n">curDataLen</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//base64 encode</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">resData</span><span class="p">.</span><span class="n">base64EncodedString</span><span class="p">(</span><span class="nl">options:</span> <span class="n">NSData</span><span class="p">.</span><span class="n">Base64EncodingOptions</span><span class="p">(</span><span class="nl">rawValue:</span> <span class="n">NSData</span><span class="p">.</span><span class="n">Base64EncodingOptions</span><span class="p">.</span><span class="n">lineLength64Characters</span><span class="p">.</span><span class="n">rawValue</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>2.使用RSA解密</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">decrypt</span><span class="p">(</span><span class="nl">source:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">guard</span> <span class="n">source</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//base64 decode</span>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">data:</span> <span class="n">Data</span> <span class="o">=</span> <span class="p">(</span><span class="n">NSData</span><span class="p">(</span><span class="nl">base64Encoded:</span> <span class="p">(</span><span class="n">source</span> <span class="n">as</span> <span class="n">String</span><span class="p">),</span> <span class="nl">options:</span> <span class="n">NSData</span><span class="p">.</span><span class="n">Base64DecodingOptions</span><span class="p">.</span><span class="n">ignoreUnknownCharacters</span><span class="p">)</span><span class="o">!</span> <span class="n">as</span> <span class="n">Data</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">blockLen</span> <span class="o">=</span>  <span class="n">SecKeyGetBlockSize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">outBuf</span> <span class="o">=</span> <span class="n">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="n">UInt8</span><span class="o">&gt;</span><span class="p">.</span><span class="n">allocate</span><span class="p">(</span><span class="nl">capacity:</span> <span class="n">blockLen</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">defer</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">outBuf</span><span class="p">.</span><span class="n">deallocate</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">outBufLen:</span> <span class="n">Int</span> <span class="o">=</span> <span class="n">blockLen</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//        if #available(iOS 10.0, *) {</span>
+</span><span class='line'><span class="c1">//            var error: Unmanaged&lt;CFError&gt;?</span>
+</span><span class='line'><span class="c1">//            resData =  SecKeyCreateDecryptedData(self.privateSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//            print(&quot;res = \(String(describing: error?.takeUnretainedValue().localizedDescription))&quot;)</span>
+</span><span class='line'><span class="c1">//        } else {</span>
+</span><span class='line'><span class="c1">//            // Fallback on earlier versions</span>
+</span><span class='line'><span class="c1">//            //let status = SecKeyEncrypt(seckey, SecPadding.PKCS1, chunkData, chunkData.count, outBuf, &amp;encryptedDataLength)</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//        }</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">totalLen</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">resData</span> <span class="o">=</span> <span class="n">NSMutableData</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">totalLen</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">var</span> <span class="n">curDataLen</span> <span class="o">=</span> <span class="n">totalLen</span> <span class="o">-</span> <span class="n">index</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">curDataLen</span>  <span class="o">&gt;</span> <span class="n">blockLen</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">curDataLen</span> <span class="o">=</span> <span class="n">blockLen</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">let</span> <span class="nl">curData:</span> <span class="n">Data</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">subdata</span><span class="p">(</span><span class="k">in</span><span class="o">:</span> <span class="n">index</span> <span class="p">..</span><span class="o">&lt;</span> <span class="n">index</span> <span class="o">+</span> <span class="n">curDataLen</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">var</span> <span class="nl">status:</span><span class="n">OSStatus</span> <span class="o">=</span> <span class="n">noErr</span>
+</span><span class='line'>            <span class="n">curData</span><span class="p">.</span><span class="n">withUnsafeBytes</span> <span class="p">{</span> <span class="p">(</span><span class="nl">bytes:</span> <span class="n">UnsafePointer</span><span class="o">&lt;</span><span class="n">UInt8</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>                 <span class="n">status</span> <span class="o">=</span> <span class="n">SecKeyDecrypt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span><span class="o">!</span><span class="p">,</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1</span><span class="p">,</span> <span class="n">bytes</span><span class="p">,</span> <span class="n">curData</span><span class="p">.</span><span class="n">count</span><span class="p">,</span> <span class="n">outBuf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">resData</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">outBuf</span><span class="p">,</span> <span class="nl">length:</span> <span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                <span class="n">print</span><span class="p">(</span><span class="s">&quot;decrypt status = \(status)&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">index</span> <span class="o">+=</span> <span class="n">curDataLen</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="nl">data:</span> <span class="p">(</span><span class="n">resData</span> <span class="n">as</span> <span class="n">Data</span><span class="p">),</span> <span class="nl">encoding:</span> <span class="n">String</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3.调用及输出</h5>
+
+<ul>
+<li>调用</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">let</span> <span class="n">originalString</span> <span class="o">=</span> <span class="s">&quot;你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">let</span> <span class="nl">rsaSign:</span> <span class="n">YKRSASign</span> <span class="o">=</span> <span class="n">YKRSASign</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">rsaSign</span><span class="p">.</span><span class="n">publicKey</span><span class="p">(</span><span class="nl">fileFullPath:</span> <span class="n">publicKeyPath</span> <span class="n">as</span> <span class="n">NSString</span><span class="p">,</span> <span class="nl">block:</span> <span class="p">{(</span><span class="n">_</span> <span class="nl">error:</span> <span class="n">NSError</span><span class="o">?</span><span class="p">,</span> <span class="n">_</span> <span class="nl">secKey:</span><span class="n">SecKey</span><span class="o">?</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">rsaSign</span><span class="p">.</span><span class="n">privateKey</span><span class="p">(</span><span class="nl">fileFullPath:</span> <span class="n">privateKeyPath</span><span class="o">!</span> <span class="n">as</span> <span class="n">NSString</span><span class="p">,</span> <span class="nl">password:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="nl">block:</span> <span class="p">{(</span><span class="n">_</span> <span class="nl">error:</span> <span class="n">NSError</span><span class="o">?</span><span class="p">,</span> <span class="n">_</span> <span class="nl">secKey:</span><span class="n">SecKey</span><span class="o">?</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="n">enString</span> <span class="o">=</span> <span class="n">rsaSign</span><span class="p">.</span><span class="n">encrypt</span><span class="p">(</span><span class="nl">source:</span> <span class="n">originalString</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;enString = \(enString)&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="n">deString</span> <span class="o">=</span> <span class="n">rsaSign</span><span class="p">.</span><span class="n">decrypt</span><span class="p">(</span><span class="nl">source:</span> <span class="n">enString</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;deString = \(deString)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>日志</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">publicKeyPath</span> <span class="o">=</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ksnowlv</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">CoreSimulator</span><span class="o">/</span><span class="n">Devices</span><span class="o">/</span><span class="mf">77E5</span><span class="n">D278</span><span class="o">-</span><span class="mi">4788</span><span class="o">-</span><span class="mf">499F</span><span class="o">-</span><span class="mi">9</span><span class="n">B82</span><span class="o">-</span><span class="mi">76</span><span class="n">BE66DA4676</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">Containers</span><span class="o">/</span><span class="n">Bundle</span><span class="o">/</span><span class="n">Application</span><span class="o">/</span><span class="mi">2</span><span class="n">BD97FF3</span><span class="o">-</span><span class="n">B55D</span><span class="o">-</span><span class="mi">4556</span><span class="o">-</span><span class="mi">8232</span><span class="o">-</span><span class="mi">888</span><span class="n">D0D858AD2</span><span class="o">/</span><span class="n">YKBaseSwiftFramework</span><span class="p">.</span><span class="n">app</span><span class="o">/</span><span class="n">public_key</span><span class="p">.</span><span class="n">der</span>
+</span><span class='line'><span class="n">privateKeyPath</span> <span class="o">=</span> <span class="n">Optional</span><span class="p">(</span><span class="s">&quot;/Users/ksnowlv/Library/Developer/CoreSimulator/Devices/77E5D278-4788-499F-9B82-76BE66DA4676/data/Containers/Bundle/Application/2BD97FF3-B55D-4556-8232-888D0D858AD2/YKBaseSwiftFramework.app/private_key.p12&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">enString</span> <span class="o">=</span> <span class="n">HEP0mejSvIfOi4V0uziYNogUStMYG01DmIK25TDR340cc5snt4LGlkNVdGLRb0hP</span>
+</span><span class='line'><span class="n">aCMbKkgDKp1g</span><span class="o">+</span><span class="n">NNpaOF6FO2hongUcsDbwoPZ2Vl6ZHSFi1FGvv5vdUJ7ZGbLivS2</span>
+</span><span class='line'><span class="n">UTU</span><span class="o">+</span><span class="mi">178</span><span class="n">ue</span><span class="c1">//jW64fw4ujrH/OPvbSfBo4c65G9USbGkcWfSfGtWruWz3f7xFreq8Y</span>
+</span><span class='line'><span class="n">N</span><span class="o">+</span><span class="mi">54</span><span class="n">y0XNA2GLw0S3N1Z3uQUZWqCCgPEYVCAW</span><span class="o">/</span><span class="n">w3BiGAKzrv</span><span class="o">+</span><span class="n">nby0yWXyLXbAdJEl</span>
+</span><span class='line'><span class="n">QvlLHGrdeS2i1J448s</span><span class="o">+/</span><span class="mo">01</span><span class="n">UQ2MP9qDSlxJ</span><span class="o">+</span><span class="mi">4</span><span class="n">GqE7</span><span class="o">/</span><span class="n">x3HEYlF</span><span class="o">/</span><span class="n">ZmukSsAzsk4xACG</span>
+</span><span class='line'><span class="mi">4</span><span class="n">A</span><span class="o">+</span><span class="mi">6</span><span class="n">YqgamtflnNdS3Eob6Q</span><span class="o">==</span>
+</span><span class='line'><span class="n">deString</span> <span class="o">=</span> <span class="err">你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，</span><span class="mi">123456789</span><span class="err">，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，</span><span class="n">ksnowlv</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/18/swift-rsa-2/">swift-rsa(二)-SecKeyEncrypt errSecParam(-50)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-18T10:23:00+08:00" pubdate data-updated="true">Jul 18<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/18/swift-rsa-2/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>swift中，使用<code>SecKeyEncrypt</code>进行RSA加密时，会出现<code>errSecParam(-50)</code>?</p>
+
+<p>如何解决呢？</p>
+
+<p>按照苹果官方文档中的<code>errSecParam</code>解释如下：</p>
+
+<pre><code>One or more parameters passed to the function are not valid
+</code></pre>
+
+<h5>1.<code>SecKeyEncrypt</code>参数</h5>
+
+<ul>
+<li><p>key</p>
+
+<p>  Public key with which to encrypt the data.</p></li>
+<li><p>padding</p>
+
+<p>   The type of padding to use. Possible values are listed in SecPadding. Typically, PKCS1 is used, which adds PKCS1 padding before encryption. If you specify none, the data is encrypted as-is.</p></li>
+<li><p>plainText
+      The data to encrypt.</p></li>
+<li><p>plainTextLen</p>
+
+<p>  Length in bytes of the data in the plainText buffer. This must be less than or equal to the value returned by the SecKeyGetBlockSize(<em>:) function. When PKCS1 padding is performed, the maximum length of data that can be encrypted is 11 bytes less than the value returned by the SecKeyGetBlockSize(</em>:) function (secKeyGetBlockSize() &ndash; 11).</p></li>
+<li><p>cipherText  <br/>
+On return, the encrypted text.</p></li>
+<li><p>cipherTextLen</p>
+
+<p>  On entry, the size of the buffer provided in the cipherText parameter. On return, the amount of data actually placed in the buffer.</p></li>
+</ul>
+
+
+<h5>2.SecKeyEncrypt参数解读及注意事项</h5>
+
+<ul>
+<li><p>key</p>
+
+<p>  RSA的公钥，使用公钥加密，私钥解密。公钥加载不对或错误，直接报错<code>errSecParam</code></p></li>
+<li><p>padding</p>
+
+<p>  选择PKCS1，不选PKCS1MD2/PKCS1MD5/PKCS1SHA1/PKCS1SHA224/PKCS1SHA256/PKCS1SHA384/PKCS1SHA512，这些是加签/验签时使用。该参数选错了，直接报错<code>errSecParam</code></p></li>
+<li><p>plainText/plainTextLen</p>
+
+<p>注意加密数据的长度，小于等于SecKeyGetBlockSize(:)-11 ，只要超过了该长度，直接报错<code>errSecParam</code></p></li>
+<li><p>cipherText/cipherTextLen
+ cipherText加密后数据缓存区大于与cipherTextLen要一致。
+ 只要不一致，直接报错<code>errSecParam</code></p></li>
+</ul>
+
+
+<h5>3.问题：</h5>
+
+<ul>
+<li><p>1.为什么加密数据长度要求小于等于SecKeyGetBlockSize(:)-11？</p>
+
+<pre><code>  RSA加解密为块加密算法（ block cipher algorithm），在固定长度的数据块上进行操作。
+  block length是跟key length 以及所使用的填充模式相关
+  PKCS1模式时：数据块长度最大为SecKeyGetBlockSize(:)-11
+  OAEP模式时，数据块长度最大为SecKeyGetBlockSize(:)-42
+</code></pre></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/17/swift-rsa-1/">swift-RSA(一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-17T18:56:00+08:00" pubdate data-updated="true">Jul 17<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/17/swift-rsa-1/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>如何使用swift进行RSA加解密呢？</p>
+
+<h5>一.这四个方面:加载公钥/加载私钥/RSA加密/RSA解密</h5>
+
+<ul>
+<li>1.加载公钥</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">publicKey</span><span class="p">(</span><span class="nl">fileFullPath:</span> <span class="n">NSString</span><span class="p">,</span> <span class="n">block</span> <span class="o">:</span><span class="err">@</span><span class="n">escaping</span> <span class="n">YKRSASignBlock</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="o">!</span><span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">fileExists</span><span class="p">(</span><span class="nl">atPath:</span> <span class="n">fileFullPath</span> <span class="n">as</span> <span class="n">String</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">block</span><span class="p">(</span><span class="n">NSError</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">domain:</span> <span class="s">&quot;file not exist at the full path &quot;</span><span class="p">,</span> <span class="nl">code:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nl">userInfo:</span> <span class="nb">nil</span><span class="p">),</span><span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="n">certificateData</span> <span class="o">=</span> <span class="n">NSData</span><span class="p">(</span><span class="nl">contentsOfFile:</span> <span class="n">fileFullPath</span> <span class="n">as</span> <span class="n">String</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">myCertificate:</span> <span class="n">SecCertificate</span> <span class="o">=</span> <span class="n">SecCertificateCreateWithData</span><span class="p">(</span><span class="n">kCFAllocatorDefault</span><span class="p">,</span> <span class="n">certificateData</span><span class="o">!</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">policy</span> <span class="o">=</span> <span class="n">SecPolicyCreateBasicX509</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">trust:</span> <span class="n">SecTrust</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">status:</span> <span class="n">OSStatus</span> <span class="o">=</span> <span class="n">SecTrustCreateWithCertificates</span><span class="p">(</span><span class="n">myCertificate</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">trust</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">trustResult:</span><span class="n">SecTrustResultType</span> <span class="o">=</span> <span class="n">SecTrustResultType</span><span class="p">(</span><span class="nl">rawValue:</span> <span class="mi">0</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'>        <span class="n">status</span> <span class="o">=</span> <span class="n">SecTrustEvaluate</span><span class="p">(</span><span class="n">trust</span><span class="o">!</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">trustResult</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">secKey</span> <span class="o">=</span>  <span class="n">SecTrustCopyPublicKey</span><span class="p">(</span><span class="n">trust</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span> <span class="o">=</span> <span class="n">secKey</span>
+</span><span class='line'>        <span class="n">block</span><span class="p">(</span><span class="nb">nil</span><span class="p">,</span> <span class="n">secKey</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">block</span><span class="p">(</span><span class="n">NSError</span><span class="p">(</span><span class="nl">domain:</span> <span class="s">&quot;load error&quot;</span><span class="p">,</span> <span class="nl">code:</span> <span class="n">Int</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="nl">userInfo:</span> <span class="nb">nil</span><span class="p">),</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>2.加载私钥</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">privateKey</span><span class="p">(</span><span class="nl">fileFullPath:</span> <span class="n">NSString</span><span class="p">,</span> <span class="nl">password:</span> <span class="n">NSString</span><span class="p">,</span> <span class="n">block</span> <span class="o">:</span><span class="err">@</span><span class="n">escaping</span> <span class="n">YKRSASignBlock</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="o">!</span><span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">fileExists</span><span class="p">(</span><span class="nl">atPath:</span> <span class="n">fileFullPath</span> <span class="n">as</span> <span class="n">String</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">block</span><span class="p">(</span><span class="n">NSError</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">domain:</span> <span class="s">&quot;file not exist at the full path &quot;</span><span class="p">,</span> <span class="nl">code:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nl">userInfo:</span> <span class="nb">nil</span><span class="p">),</span><span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="n">p12Data</span> <span class="o">=</span> <span class="n">NSData</span><span class="p">(</span><span class="nl">contentsOfFile:</span> <span class="n">fileFullPath</span> <span class="n">as</span> <span class="n">String</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">guard</span> <span class="n">p12Data</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="nl">kSecImportExportPassphrase:</span> <span class="n">password</span><span class="p">]</span>  <span class="n">as</span> <span class="p">[</span><span class="n">String</span> <span class="o">:</span> <span class="n">Any</span><span class="p">]</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">items</span> <span class="o">:</span> <span class="n">CFArray</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">status:</span> <span class="n">OSStatus</span> <span class="o">=</span> <span class="n">SecPKCS12Import</span><span class="p">(</span><span class="n">p12Data</span><span class="o">!</span><span class="p">,</span> <span class="n">options</span> <span class="n">as</span> <span class="n">CFDictionary</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">items</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">privateKey:</span><span class="n">SecKey</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">resArray:</span><span class="n">Array</span> <span class="o">=</span> <span class="p">(</span><span class="n">items</span> <span class="n">as</span> <span class="n">Array</span><span class="o">?</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">identityDict:</span> <span class="n">Dictionary</span> <span class="o">=</span> <span class="n">resArray</span><span class="p">.</span><span class="n">first</span> <span class="n">as</span><span class="o">!</span> <span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">AnyObject</span><span class="o">&gt;</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">identity</span> <span class="o">=</span> <span class="n">identityDict</span><span class="p">[</span> <span class="n">kSecImportItemIdentity</span> <span class="n">as</span> <span class="n">String</span><span class="p">]</span>
+</span><span class='line'><span class="c1">//            let identityDict = CFArrayGetValueAtIndex(items, 0)</span>
+</span><span class='line'><span class="c1">//            let secImportItemIdentity = unsafeBitCast(kSecImportItemIdentity, to: UnsafeRawPointer.self)</span>
+</span><span class='line'><span class="c1">//            let identityApp:SecIdentity = CFDictionaryGetValue(identityDict.unsafelyUnwrapped as! CFDictionary, secImportItemIdentity) as! SecIdentity</span>
+</span><span class='line'>        <span class="n">status</span> <span class="o">=</span> <span class="n">SecIdentityCopyPrivateKey</span><span class="p">(</span><span class="n">identity</span> <span class="n">as</span><span class="o">!</span> <span class="n">SecIdentity</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">privateKey</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span> <span class="o">=</span> <span class="n">privateKey</span>
+</span><span class='line'>             <span class="n">block</span><span class="p">(</span><span class="nb">nil</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">block</span><span class="p">(</span><span class="n">NSError</span><span class="p">(</span><span class="nl">domain:</span> <span class="s">&quot;load error&quot;</span><span class="p">,</span> <span class="nl">code:</span> <span class="n">Int</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="nl">userInfo:</span> <span class="nb">nil</span><span class="p">),</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>3.使用RSA加密</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">encrypt</span><span class="p">(</span><span class="nl">source:</span> <span class="n">NSString</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NSString</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">guard</span> <span class="n">source</span><span class="p">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">data:</span> <span class="n">NSData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">data</span><span class="p">(</span><span class="nl">using:</span> <span class="n">String</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">utf8</span><span class="p">.</span><span class="n">rawValue</span><span class="p">)</span><span class="o">!</span> <span class="n">as</span> <span class="n">NSData</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">resData:</span><span class="n">NSData</span><span class="o">?</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//        if #available(iOS 10.0, *) {</span>
+</span><span class='line'><span class="c1">//            var error: Unmanaged&lt;CFError&gt;?</span>
+</span><span class='line'><span class="c1">//            resData =  SecKeyCreateEncryptedData(self.publicSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//            print(&quot;res = \(String(describing: error?.takeUnretainedValue().localizedDescription))&quot;)</span>
+</span><span class='line'><span class="c1">//        } else</span>
+</span><span class='line'>        <span class="c1">//{</span>
+</span><span class='line'>            <span class="c1">// Fallback on earlier versions</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">blockLen</span> <span class="o">=</span>  <span class="n">SecKeyGetBlockSize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">outBuf</span> <span class="o">=</span> <span class="p">[</span><span class="n">UInt8</span><span class="p">](</span><span class="nl">repeating:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">count:</span> <span class="n">blockLen</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">outBufLen:</span><span class="n">Int</span> <span class="o">=</span> <span class="n">blockLen</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">status:</span> <span class="n">OSStatus</span> <span class="o">=</span> <span class="n">SecKeyEncrypt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span><span class="o">!</span><span class="p">,</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">bytes</span><span class="p">.</span><span class="n">assumingMemoryBound</span><span class="p">(</span><span class="nl">to:</span> <span class="n">UInt8</span><span class="p">.</span><span class="n">self</span><span class="p">),</span> <span class="n">data</span><span class="p">.</span><span class="n">length</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBuf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">resData</span> <span class="o">=</span> <span class="n">NSData</span><span class="p">(</span><span class="nl">bytes:</span> <span class="n">outBuf</span><span class="p">,</span> <span class="nl">length:</span> <span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">resData</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">let</span> <span class="n">resString</span> <span class="o">=</span> <span class="n">resData</span><span class="o">!</span><span class="p">.</span><span class="n">base64EncodedString</span><span class="p">(</span><span class="nl">options:</span> <span class="n">NSData</span><span class="p">.</span><span class="n">Base64EncodingOptions</span><span class="p">(</span><span class="nl">rawValue:</span> <span class="n">NSData</span><span class="p">.</span><span class="n">Base64EncodingOptions</span><span class="p">.</span><span class="n">lineLength64Characters</span><span class="p">.</span><span class="n">rawValue</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">return</span> <span class="n">resString</span> <span class="n">as</span> <span class="n">NSString</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>4.使用RSA解密</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">decrypt</span><span class="p">(</span><span class="nl">source:</span> <span class="n">NSString</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NSString</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">guard</span> <span class="n">source</span><span class="p">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">data:</span> <span class="n">Data</span> <span class="o">=</span> <span class="p">(</span><span class="n">NSData</span><span class="p">(</span><span class="nl">base64Encoded:</span> <span class="p">(</span><span class="n">source</span> <span class="n">as</span> <span class="n">String</span><span class="p">),</span> <span class="nl">options:</span> <span class="n">NSData</span><span class="p">.</span><span class="n">Base64DecodingOptions</span><span class="p">.</span><span class="n">ignoreUnknownCharacters</span><span class="p">)</span><span class="o">!</span> <span class="n">as</span> <span class="n">Data</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="n">blockLen</span> <span class="o">=</span>  <span class="n">SecKeyGetBlockSize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="n">outBuf</span> <span class="o">=</span> <span class="n">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="n">UInt8</span><span class="o">&gt;</span><span class="p">.</span><span class="n">allocate</span><span class="p">(</span><span class="nl">capacity:</span> <span class="n">blockLen</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">defer</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">outBuf</span><span class="p">.</span><span class="n">deallocate</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">outLen:</span> <span class="n">Int</span> <span class="o">=</span> <span class="n">blockLen</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">status:</span> <span class="n">OSStatus</span> <span class="o">=</span> <span class="n">noErr</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">resData:</span><span class="n">NSData</span><span class="o">?</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//        if #available(iOS 10.0, *) {</span>
+</span><span class='line'><span class="c1">//            var error: Unmanaged&lt;CFError&gt;?</span>
+</span><span class='line'><span class="c1">//            resData =  SecKeyCreateDecryptedData(self.privateSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//            print(&quot;res = \(String(describing: error?.takeUnretainedValue().localizedDescription))&quot;)</span>
+</span><span class='line'><span class="c1">//        } else {</span>
+</span><span class='line'><span class="c1">//            // Fallback on earlier versions</span>
+</span><span class='line'><span class="c1">//            //let status = SecKeyEncrypt(seckey, SecPadding.PKCS1, chunkData, chunkData.count, outBuf, &amp;encryptedDataLength)</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//        }</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">data</span><span class="p">.</span><span class="n">withUnsafeBytes</span> <span class="p">{</span> <span class="p">(</span><span class="nl">bytes:</span><span class="n">UnsafePointer</span><span class="o">&lt;</span><span class="n">UInt8</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+</span><span class='line'>        <span class="n">status</span> <span class="o">=</span> <span class="n">SecKeyDecrypt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span><span class="o">!</span><span class="p">,</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1</span><span class="p">,</span> <span class="n">bytes</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">count</span><span class="p">,</span> <span class="n">outBuf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outLen</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;status = \(status)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">resData</span> <span class="o">=</span> <span class="n">NSData</span><span class="p">(</span><span class="nl">bytes:</span> <span class="n">outBuf</span><span class="p">,</span> <span class="nl">length:</span> <span class="n">outLen</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">resData</span> <span class="o">!=</span> <span class="nb">nil</span>  <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="nl">data:</span> <span class="p">(</span><span class="n">resData</span><span class="o">!</span> <span class="n">as</span> <span class="n">Data</span><span class="p">),</span> <span class="nl">encoding:</span> <span class="n">String</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span> <span class="n">as</span> <span class="n">NSString</span><span class="o">?</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>二.问题。</h4>
+
+<ul>
+<li>1.返回的为什么是NSString? 返回String也行</li>
+<li>2.为什么不支持超过128 &ndash; 11字节数据加解密？别急，见下一篇</li>
+<li>3.为什么不使用新版的RSA加解密？新版的只支持iOS10以上</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/16/swift-escaping/">Swift中escaping与noescaping之区别</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-16T16:10:00+08:00" pubdate data-updated="true">Jul 16<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/16/swift-escaping/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>Swift3之前</code>：</p>
+
+<pre><code>默认escaping，逃逸闭包，是不安全的。对于非逃逸闭包，你需要标记@noescaping
+</code></pre>
+
+<p><code>Swift3及之后</code></p>
+
+<pre><code>默认是noescaping，非逃逸的,默认是安全的：如果一个函数参数可能导致引用循环，那么它需要被escaping显示地标记出来.
+</code></pre>
+
+<h4>一.区别</h4>
+
+<p>具体什么区别呢？先举例说明。</p>
+
+<ul>
+<li>1 声明testBlock</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">typealias</span> <span class="n">testBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nl">type:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">_</span> <span class="nl">contextObject:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>2 <code>noescaping</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">func</span> <span class="nf">testBlock1</span><span class="p">(</span><span class="nl">block:</span><span class="n">testBlock</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">block</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>3 <code>escaping</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>   <span class="n">func</span> <span class="nf">testBlock2</span><span class="p">(</span><span class="nl">block:</span><span class="err">@</span><span class="n">escaping</span> <span class="n">testBlock</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">DispatchQueue</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">async</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">block</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s">&quot;world&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>4 调用</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">testBlock1</span><span class="p">(</span><span class="nl">block:</span><span class="p">{</span> <span class="p">(</span><span class="nl">type:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">contextObject:</span> <span class="n">Any</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;type=\(type),contextObject=\(contextObject)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span> <span class="p">)</span>
+</span><span class='line'>    <span class="n">testBlock2</span><span class="p">(</span><span class="nl">block:</span> <span class="p">{(</span><span class="nl">type:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">contextObject:</span> <span class="n">Any</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;type=\(type),contextObject=\(contextObject)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>5 输出日志</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">type</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">contextObject</span><span class="o">=</span><span class="n">hello</span>
+</span><span class='line'><span class="n">type</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">contextObject</span><span class="o">=</span><span class="n">world</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>二.区别总结</h3>
+
+<ul>
+<li><p>1.<code>@escaping</code>标明这个闭包是会“逃逸”，通俗点来讲，这个闭包的作用域可能超过该函数的作用域，也就是说，该闭包在函数执行完成之后才被调用。</p></li>
+<li><p>2.<code>@noescaping</code>标明非逃逸的闭包的作用域是不会超过函数作用域的，我们不需要担心在闭包内持有self。</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/06/cf-swift-nameyu-at-objc/">NS_SWIFT_NAME与@objc区别与用途</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-06T15:57:00+08:00" pubdate data-updated="true">Jul 6<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/06/cf-swift-nameyu-at-objc/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NS_SWIFT_NAME与@objc有什么区别和用途呢？</p>
+
+<ul>
+<li><code>NS_SWIFT_NAME</code>:在objective-c中，重新命名在swift中的名称</li>
+<li><code>@objc</code> 在swift中，重新命名在objective-c中的名称。</li>
+</ul>
+
+
+<p>示例1如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">NetErrorType</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NetErrorTypeNone</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">None</span><span class="p">),</span>
+</span><span class='line'>    <span class="n">NetErrorTypeNetError</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">NetError</span><span class="p">)</span> <span class="p">,</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">YKBaseUIViewController</span> : <span class="nc">UIViewController</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleConnectItem:</span><span class="p">(</span><span class="n">YKConnectionItem</span> <span class="o">*</span><span class="p">)</span><span class="nv">connectionItem</span> <span class="nf">withParser:</span><span class="p">(</span><span class="n">YKJsonParser</span> <span class="o">*</span><span class="p">)</span><span class="nv">parser</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">handleNetResponse</span><span class="p">(</span><span class="nl">connectionItem:parser:</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在swift中调用如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NetErrorType</span><span class="p">.</span><span class="n">None</span>
+</span><span class='line'><span class="n">let</span> <span class="n">baseUIViewController</span> <span class="o">:</span> <span class="n">YKBaseUIViewController</span> <span class="o">=</span> <span class="n">YKBaseUIViewController</span><span class="p">()</span>
+</span><span class='line'><span class="n">baseUIViewController</span><span class="p">.</span><span class="n">handleNetResponse</span><span class="p">(</span><span class="nl">connectionItem:</span> <span class="nb">nil</span><span class="p">,</span> <span class="nl">parser:</span> <span class="nb">nil</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>示例2如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span><span class="p">(</span><span class="nl">showMyAge:</span> <span class="nl">address:</span><span class="p">)</span>
+</span><span class='line'><span class="n">public</span> <span class="k">static</span> <span class="n">func</span> <span class="n">showMyInfo</span><span class="p">(</span><span class="nl">age:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">address:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;ksnowlv&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在objective-c中调用如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">string</span> <span class="o">=</span>  <span class="p">[</span><span class="n">YKDevice</span> <span class="nl">showMyAge:</span><span class="mi">0</span> <span class="nl">address:</span><span class="s">@&quot;abc&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/04/swift-frameworkde-he-bing/">Swift-framework的合并</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-04T18:38:00+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/04/swift-frameworkde-he-bing/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>swift framework如何支持合并呢？以YKBaseFramework.framework为例。</p>
+
+<h4>1.lipo合并静态库。</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="n">lipo</span> <span class="o">-</span><span class="n">create</span> <span class="n">Release</span><span class="o">-</span><span class="n">iphoneos</span><span class="o">/</span><span class="n">YKBaseFramework</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">YKBaseFramework</span> <span class="n">Debug</span><span class="o">-</span><span class="n">iphonesimulator</span><span class="o">/</span><span class="n">YKBaseFramework</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">YKBaseFramework</span> <span class="o">-</span><span class="n">output</span> <span class="n">YKBaseFramework</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>生成YKBaseFramework，查看支持架构</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nl">bogon:</span><span class="n">YKBaseSwiftFrameworkLib</span> <span class="n">ksnowlv$</span> <span class="n">lipo</span> <span class="o">-</span><span class="n">info</span> <span class="n">YKBaseFramework</span>
+</span><span class='line'><span class="n">Architectures</span> <span class="k">in</span> <span class="n">the</span> <span class="n">fat</span> <span class="nl">file:</span> <span class="n">YKBaseFramework</span> <span class="nl">are:</span> <span class="n">armv7</span> <span class="n">i386</span> <span class="n">x86_64</span> <span class="n">arm64</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>2.把debug库中的swiftdoc与swiftmodule文件拷贝到release库对应目录下。</h4>
+
+<p><img src="/images/post/2018-07-04-swift-frameworkde-he-bing/swiftframework-export.png" alt="image" /></p>
+
+<h4>3.把合并后的YKBaseFramework文件拷贝到release库对应目录下.</h4>
+
+<p><img src="/images/post/2018-07-04-swift-frameworkde-he-bing/swift-framework.png" alt="image" /></p>
+
+<h4>4.大功告成，可以支持swift/objective-c调用</h4>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/04/swift-cocoaframeworkzhong-module-dot-mappei-zhi/">swift-cocoaframework中module.map配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-04T14:22:00+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/04/swift-cocoaframeworkzhong-module-dot-mappei-zhi/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在swift framework中，如果要引用c库，可采用配置module.map.</p>
+
+<p>那如何配置呢？我们以CommonCrypto为例。</p>
+
+<h5>一.工程目录下创建CommonCrypto文件夹，并分别创建<code>module.map</code>和<code>YKBaseFramework-C.h</code></h5>
+
+<ul>
+<li>1.<code>module.map</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">module</span> <span class="n">CommonCrypto</span> <span class="p">[</span><span class="n">system</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//header &quot;/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/CommonCrypto/CommonCrypto.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//header &quot;/usr/include/CommonCrypto/CommonCrypto.h&quot;</span>
+</span><span class='line'>    <span class="n">header</span> <span class="s">&quot;YKBaseFramework-C.h&quot;</span>
+</span><span class='line'>    <span class="n">link</span> <span class="s">&quot;CommonCrypto&quot;</span>
+</span><span class='line'>    <span class="n">export</span> <span class="o">*</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>目录如下图，注意目录的相对路径
+<img src="/images/post/2018-07-04-swift-cocoaframeworkzhong-module-dot-mappei-zhi/modulemap_file.png" alt="image" /></p>
+
+<ul>
+<li>2.<code>YKBaseFramework-C.h</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  YKBaseFramework-C.h</span>
+</span><span class='line'><span class="c1">//  YKBaseFramework</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  Created by ksnowlv on 2018/7/4.</span>
+</span><span class='line'><span class="c1">//  Copyright © 2018年 ksnowlv. All rights reserved.</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifndef YKBaseFramework_C_h</span>
+</span><span class='line'><span class="cp">#define YKBaseFramework_C_h</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#include &lt;CommonCrypto/CommonCrypto.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#endif </span><span class="cm">/* YKBaseFramework_C_h */</span><span class="cp"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>二.设置module.map编译器目录引用路径。</h5>
+
+<p>在Build Settings, Swift Compiler – Search Paths 下 Import Paths中设置目录路径即可。</p>
+
+<p><em>注意与上图目录实际位置一致!!!</em></p>
+
+<p><img src="/images/post/2018-07-04-swift-cocoaframeworkzhong-module-dot-mappei-zhi/modulemap_setting.png" alt="image" /></p>
+
+<h5>三.引用<code>CommonCrypto</code></h5>
+
+<p>注意clean,在<code>swift code</code>直接引入<code>CommonCrypto</code>即可。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">Foundation</span>
+</span><span class='line'><span class="n">import</span> <span class="n">Security</span>
+</span><span class='line'><span class="n">import</span> <span class="n">CommonCrypto</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>4.其它</h4>
+
+<ul>
+<li><p>1.为什么不采用直接配置绝对路径引用CommonCrypto.h？</p>
+
+<p>  配置为绝对路径，灵活性通用性实在太差，依赖于系统目录。</p></li>
+<li>2.配置<code>CommonCrypto</code>时，注意目录所在路径</li>
+<li>3.<a href="https://github.com/IBM-Swift/CommonCrypto">https://github.com/IBM-Swift/CommonCrypto</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/02/swift-objective-chun-bian-de-framework/">Swift-objective-c混编的framework</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-02T20:59:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/02/swift-objective-chun-bian-de-framework/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>swift-objective-c混编的framework如何制作呢？</p>
+
+<ul>
+<li>1.创建cocoaTouchframework,</li>
+<li><p>2.把需要导出的头文件添加到Headers中，如下图
+<img src="/images/post/2018-07-02-swift-objective-chun-bian-de-framework/overview.png" alt="image" /></p></li>
+<li><p>3.把头文件添加到导出头文件</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//! Project version number for YKBaseFramework.</span>
+</span><span class='line'><span class="n">FOUNDATION_EXPORT</span> <span class="kt">double</span> <span class="n">YKBaseFrameworkVersionNumber</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//! Project version string for YKBaseFramework.</span>
+</span><span class='line'><span class="n">FOUNDATION_EXPORT</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">YKBaseFrameworkVersionString</span><span class="p">[];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// In this header, you should import all the public headers of your framework using statements like #import &lt;YKBaseFramework/PublicHeader.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//#import &lt;YKBaseFramework/YKFile.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &lt;YKBaseFramework/YKString.h&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/02/swiftframeworkfang-fa-ru-he-dao-chu/">Swiftframework方法如何导出</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-02T20:40:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/02/swiftframeworkfang-fa-ru-he-dao-chu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>swift framework中的方法如何在objective-c中调用呢？</p>
+
+<h4>类或属性加@objc public</h4>
+
+<p><a href="https://stackoverflow.com/questions/31099596/importing-swift-framework-into-a-objective-c-project">stackoverflow的解答</a></p>
+
+<p>To access a swift class in objc, that is not inherited from NSObject you need to:
+@objc public class VeediUtils</p>
+
+<p>A Swift class or protocol must be marked with the @objc attribute to be accessible and usable in Objective-C. This attribute tells the compiler that this piece of Swift code can be accessed from Objective-C. If your Swift class is a descendant of an Objective-C class, the compiler automatically adds the @objc attribute for you.</p>
+
+<p><a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html">https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html</a></p>
+
+<p>示例如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">class</span> <span class="nl">YKFile:</span> <span class="n">NSObject</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">var</span> <span class="n">fileName</span> <span class="o">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">var</span> <span class="n">myData</span> <span class="o">:</span> <span class="n">Data</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">myFilePath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;ksnowlv&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="k">static</span> <span class="n">func</span> <span class="n">name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;ksnowlv&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/4/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>关于我</h1>
+  <p>律威,QQ:309235009 微信:ksnowlv</p>
+  <p>手机单机游戏/手机网游封神online/手机阅读/腾讯iOS地图客户端&实时公交&开放API(地图&街景)/iPad/iPhone淘宝客户端及性能优化</p>
+  <p>目前在银客做银客/简理财/&#8230;</p>
+  <p>能做一点,是一点;不求大成,不求一万年;积少成多,水到渠成!</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/">Kotlin通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/">Android通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>分类</h1>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (2)</a></li><li><a href='/blog/categories/android-jni/'>android-jni (1)</a></li><li><a href='/blog/categories/android-jni/'>Android-JNI (3)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+</section>
+<section>
+  <h1>外部链接</h1>
+    <ul id="外部链接">
+    	<li><a href="https://developer.apple.com">苹果开发者中心</a> </li>
+    	<li><a href="http://stackoverflow.com/questions/tagged/ios">stackoverflow</a></li>
+    	<li><a href="http://ksnowlv.blog.163.com/blog/#m=0">ksnowlv网易博客</a></li>
+    	<li><a href="https://www.jianshu.com/u/6fe5d9875a9e">简书</a></li>
+	</ul>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - 律威 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271193933'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1271193933%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+  <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F4c1727a94ea20751730e8a556dbdbf82' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ksnowlv';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+Included file 'custom/after_footer.html' not found in _includes directory
+
+</body>
+</html>

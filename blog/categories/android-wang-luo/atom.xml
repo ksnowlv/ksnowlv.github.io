@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Android-网络 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/android-wang-luo/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Android下gzip数据流解压缩]]></title>
+    <link href="http://ksnowlv.github.io/blog/2015/08/19/android-xia-jie-ya-suo/"/>
+    <updated>2015-08-19T20:21:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2015/08/19/android-xia-jie-ya-suo</id>
+    <content type="html"><![CDATA[<p>在Android开发中，网络传输的数据如果采用压缩的方式，能大大减少网络流量，对文本的数据效果更明显。</p>
+
+<!--more-->
+
+
+<h4>一. gzip压缩.</h4>
+
+<p>```objective-c</p>
+
+<pre><code>public static byte[] gzipCompress(final byte[] data) {
+
+    if (0 == data.length){
+        return KEmptyByteArray;
+    }
+
+
+    byte[] pBuf = KEmptyByteArray;
+
+
+    try {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        GZIPOutputStream gzip = new GZIPOutputStream(byteArrayOutputStream);
+        gzip.write(data);
+        gzip.close();
+        pBuf = byteArrayOutputStream.toByteArray();
+        byteArrayOutputStream.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    return pBuf;
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>二. gzip解压.</h4>
+
+<p>```objective-c</p>
+
+<pre><code>public static byte[] gzipUncompress(final byte[] data) {
+
+    byte[] pBuf = KEmptyByteArray;
+    if (data.length &gt; 0) {
+         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        GZIPInputStream gzipInputStream = null;
+        try {
+
+            gzipInputStream = new GZIPInputStream(byteArrayInputStream);
+
+            int byteCount = 0;
+
+            while (byteCount &gt;= 0) {
+                byteCount = gzipInputStream.read(KGZipUncompressBuffer);
+                if(byteCount&gt;0){
+                    byteArrayOutputStream.write(KGZipUncompressBuffer, 0, byteCount);
+                }
+
+            }
+
+            pBuf = byteArrayOutputStream.toByteArray();
+
+        }catch(IOException e){
+            Log.w("gzip uncompressed fail", e.getMessage());
+        }
+        finally {
+
+            try {
+                if (null !=byteArrayInputStream){
+                    byteArrayInputStream.close();
+                }
+
+                if (null != byteArrayOutputStream){
+                    byteArrayOutputStream.close();
+                }
+
+                if (null != gzipInputStream){
+                    gzipInputStream.close();
+                }
+            }
+            catch (IOException e){
+                Log.w("gzip", e.getMessage());
+            }
+        }
+    }
+
+    return pBuf;
+}
+</code></pre>
+
+<p>```</p>
+
+<h3>三.gzip数据的判断</h3>
+
+<p>```objective-c</p>
+
+<pre><code>//判断一个数据流是否是GZip
+public static boolean isGZipData(final byte[] data){
+
+    if (data.length &gt; 2
+            &amp;&amp; data[0] == KYKGZipHeaderFirstByte
+            &amp;&amp; data[1] == KYKGZipHeaderSecondByte){
+        return true;
+    }
+
+    return false;
+}
+</code></pre>
+
+<p>```</p>
+
+<h3>四.说明</h3>
+
+<h5>1.KGZipUncompressBuffer</h5>
+
+<p>KGZipUncompressBuffer是一固定大小的内存缓冲区，减少内存的频繁创建与过大内存的分配。</p>
+
+<h4>2.GZip数据流识别</h4>
+
+<p>KYKGZipHeaderFirstByte|KYKGZipHeaderSecondByte：第一个字节0x1f(31),第二个字节为0x8b(139),标识为GZIP格式</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android开源网络库]]></title>
+    <link href="http://ksnowlv.github.io/blog/2015/04/16/test/"/>
+    <updated>2015-04-16T20:48:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2015/04/16/test</id>
+    <content type="html"><![CDATA[<h3>目前比较流行的Android网络库</h3>
+
+<ul>
+<li><a href="https://android.googlesource.com/platform/frameworks/volley">volley</a></li>
+<li><a href="https://github.com/loopj/android-async-http">android-async-http</a></li>
+<li><a href="https://github.com/square/retrofit">retrofit</a></li>
+<li><a href="https://github.com/square/okhttp">okhttp(支持spdy)</a></li>
+<li><a href="https://github.com/androidquery/androidquery">androidquery</a></li>
+<li><a href="https://github.com/koush/AndroidAsync">AndroidAsync</a></li>
+<li><a href="https://github.com/litesuits/android-lite-http">LiteHttp</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

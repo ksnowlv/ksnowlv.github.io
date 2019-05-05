@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iOS-网络 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/ios-wang-luo/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ZLib与GZip解压缩对比]]></title>
+    <link href="http://ksnowlv.github.io/blog/2014/12/02/zlibyu-gzip-jie-ya-suo-dui-bi/"/>
+    <updated>2014-12-02T20:51:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2014/12/02/zlibyu-gzip-jie-ya-suo-dui-bi</id>
+    <content type="html"><![CDATA[<h3>1.ZLib与GZip解压缩</h3>
+
+<pre><code>ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。
+zlib(RFC1950):一种格式，是对deflate进行了简单的封装； 
+gzip(RFC1952):一种格式，也是对deflate进行的封装.
+gzip与GZip是一种数据压缩格式，可以大体分为头部，数据部和尾部三个部分
+gzip数据头比zlib数据头要大，因为它保存了文件名和其他文件系统信息，事实上这是广泛使用的gzip文件的数据头格式。
+而zlib和gzip格式的区别仅仅是头部和尾部不一样，而实际的内容都是deflate编码的，即： gzip = gzip头(10字节) + deflate编码的实际内容 + gzip尾(8字节)
+</code></pre>
+
+<!--more-->
+
+
+<h3>ZLib头部</h3>
+
+<p>0x78,0x9c 是zlib数据头(非固定，参考RFC 1951)。或者0x0,0x0,0xFF,0xFF也可以实现正常解压缩，而00 00 FF FF是zlib容错方式的数据块头</p>
+
+<h4>GZip头部：</h4>
+
+<p>第一个字节0x1f(31),第二个字节为0x8b(139),标识为GZIP格式。第三个字节为0x08(8)，指示DEFLATE方法.目前只有一种，CM=8;</p>
+
+<h4>GZip尾部：</h4>
+
+<p>CRC32：4字节。原始(未压缩)数据的32位校验和。
+ISIZE：4字节。原始(未压缩)数据的长度的低32位。
+GZIP中字节排列顺序是LSB方式，即Little-Endian，与ZLIB中的相反</p>
+
+<h3>2.objective-c版本的ZLib与GZip解压缩</h3>
+
+<h4>ZLib压缩</h4>
+
+<p>```objective-c</p>
+
+<ul>
+<li><p>(NSData <em>)zlibCompressData:(NSData </em>)sourceData {</p>
+
+<p>NSUInteger sourceDataLength = [sourceData length];</p>
+
+<p>if (sourceDataLength == 0) {
+  return sourceData;
+}</p>
+
+<p>z_stream stream;
+memset(&amp;stream, 0, sizeof(z_stream));</p>
+
+<p>stream.next_in = (Bytef *)[sourceData bytes];
+stream.avail_in = (uInt)sourceDataLength;
+stream.total_out = 0;
+stream.zalloc = Z_NULL;
+stream.zfree = Z_NULL;</p>
+
+<p>if (deflateInit(&amp;stream, Z_DEFAULT_COMPRESSION) != Z_OK) {
+  return nil;
+}</p>
+
+<p>const int KBufLen = 1024;
+Byte buf[KBufLen];
+memset(buf, 0, KBufLen * sizeof(Byte));</p>
+
+<p>BOOL isCompressOK = NO;</p>
+
+<p>NSMutableData *compressedData =
+    [NSMutableData dataWithLength:sourceDataLength];
+[compressedData setData:nil]; //必须得加</p>
+
+<p>int res = 0;</p>
+
+<p>while (stream.avail_out == 0) {</p>
+
+<p>  memset(buf, 0, KBufLen * sizeof(Byte));
+  stream.avail_out = KBufLen;
+  stream.next_out = buf;</p>
+
+<p>  res = deflate(&amp;stream, Z_FINISH);
+  ;</p>
+
+<p>  switch (res) {
+  case Z_NEED_DICT:
+  case Z_DATA_ERROR:
+  case Z_MEM_ERROR:
+  case Z_STREAM_ERROR:
+  case Z_BUF_ERROR: {
+    isCompressOK = NO;
+    break;
+  }</p>
+
+<p>  default: {
+    if (res == Z_OK || res == Z_STREAM_END) {
+      const int dataLen = KBufLen &ndash; stream.avail_out;
+      isCompressOK = YES;</p>
+
+<pre><code>  if (dataLen &gt; 0) {
+    [compressedData appendBytes:buf length:dataLen];
+  }
+}
+
+break;
+</code></pre>
+
+<p>  }
+  }</p>
+
+<p>  if (!isCompressOK) {
+    break;
+  }
+}</p>
+
+<p>res = deflateEnd(&amp;stream);
+if (res != Z_OK) {
+  return nil;
+}</p>
+
+<p>if (isCompressOK) {
+  return compressedData;
+} else {
+  return nil;
+}
+}</p></li>
+</ul>
+
+
+<p>```</p>
+
+<h4>ZLib解压</h4>
+
+<p>```objective-c
++ (NSData <em>)zlibUncompressData:(NSData </em>)sourceData {</p>
+
+<p>  NSUInteger sourceDataLength = [sourceData length];</p>
+
+<p>  if (sourceDataLength == 0) {</p>
+
+<pre><code>return sourceData;
+</code></pre>
+
+<p>  }</p>
+
+<p>  z_stream stream;
+  memset(&amp;stream, 0, sizeof(z_stream));</p>
+
+<p>  stream.next_in = (Bytef *)[sourceData bytes];
+  stream.avail_in = (uInt)sourceDataLength;
+  stream.total_out = 0;
+  stream.zalloc = Z_NULL;
+  stream.zfree = Z_NULL;</p>
+
+<p>  int res = inflateInit(&amp;stream);
+  // inflateInit2(&amp;strm, (15+32))</p>
+
+<p>  if (res != Z_OK) {</p>
+
+<pre><code>return nil;
+</code></pre>
+
+<p>  }</p>
+
+<p>  const int KBufLen = 1024;
+  Byte buf[KBufLen];
+  memset(buf, 0, KBufLen * sizeof(Byte));</p>
+
+<p>  BOOL isUncompressOK = NO;</p>
+
+<p>  NSMutableData *decompressed = [NSMutableData dataWithLength:sourceDataLength];
+  [decompressed setData:nil]; //必须得加</p>
+
+<p>  while (stream.avail_out == 0) {</p>
+
+<pre><code>memset(buf, 0, KBufLen * sizeof(Byte));
+stream.avail_out = KBufLen;
+stream.next_out = buf;
+
+res = inflate(&amp;stream, Z_NO_FLUSH);
+
+switch (res) {
+case Z_NEED_DICT:
+case Z_DATA_ERROR:
+case Z_MEM_ERROR:
+case Z_STREAM_ERROR:
+case Z_BUF_ERROR: {
+  isUncompressOK = NO;
+  break;
+}
+
+default: {
+  if (res == Z_OK || res == Z_STREAM_END) {
+    const int dataLen = KBufLen - stream.avail_out;
+    isUncompressOK = YES;
+
+    if (dataLen &gt; 0) {
+      [decompressed appendBytes:buf length:dataLen];
+    }
+  }
+
+  break;
+}
+}
+
+if (!isUncompressOK) {
+  break;
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  if (inflateEnd(&amp;stream) != Z_OK) {</p>
+
+<pre><code>return nil;
+</code></pre>
+
+<p>  }</p>
+
+<p>  if (isUncompressOK) {</p>
+
+<pre><code>return decompressed;
+</code></pre>
+
+<p>  } else {</p>
+
+<pre><code>return nil;
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>```</p>
+
+<h4>GZip压缩</h4>
+
+<p>```objective-c
++ (NSData <em>)gzipCompress:(NSData </em>)sourceData {</p>
+
+<p>  NSUInteger sourceDataLength = [sourceData length];</p>
+
+<p>  if (sourceDataLength == 0) {</p>
+
+<pre><code>return sourceData;
+</code></pre>
+
+<p>  }</p>
+
+<p>  z_stream stream;
+  memset(&amp;stream, 0, sizeof(z_stream));</p>
+
+<p>  stream.next_in = (Bytef *)[sourceData bytes];
+  stream.avail_in = (uInt)sourceDataLength;
+  stream.total_out = 0;
+  stream.zalloc = Z_NULL;
+  stream.zfree = Z_NULL;</p>
+
+<p>  //只有设置为MAX_WBITS + 16才能在在压缩文本中带header和trailer
+  if (deflateInit2(&amp;stream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, MAX_WBITS + 16,</p>
+
+<pre><code>               8, Z_DEFAULT_STRATEGY) != Z_OK) {
+return nil;
+</code></pre>
+
+<p>  }</p>
+
+<p>  const int KBufLen = 1024;
+  Byte buf[KBufLen];
+  memset(buf, 0, KBufLen * sizeof(Byte));</p>
+
+<p>  BOOL isCompressOK = NO;</p>
+
+<p>  NSMutableData *compressedData =</p>
+
+<pre><code>  [NSMutableData dataWithLength:sourceDataLength];
+</code></pre>
+
+<p>  [compressedData setData:nil]; //必须得加</p>
+
+<p>  int res = 0;</p>
+
+<p>  while (stream.avail_out == 0) {</p>
+
+<pre><code>memset(buf, 0, KBufLen * sizeof(Byte));
+stream.avail_out = KBufLen;
+stream.next_out = buf;
+
+res = deflate(&amp;stream, Z_FINISH);
+;
+
+switch (res) {
+case Z_NEED_DICT:
+case Z_DATA_ERROR:
+case Z_MEM_ERROR:
+case Z_STREAM_ERROR:
+case Z_BUF_ERROR: {
+  isCompressOK = NO;
+  break;
+}
+
+default: {
+  if (res == Z_OK || res == Z_STREAM_END) {
+    const int dataLen = KBufLen - stream.avail_out;
+    isCompressOK = YES;
+
+    if (dataLen &gt; 0) {
+      [compressedData appendBytes:buf length:dataLen];
+    }
+  }
+
+  break;
+}
+}
+
+if (!isCompressOK) {
+  break;
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  res = deflateEnd(&amp;stream);
+  if (res != Z_OK) {</p>
+
+<pre><code>return nil;
+</code></pre>
+
+<p>  }</p>
+
+<p>  if (isCompressOK) {</p>
+
+<pre><code>return compressedData;
+</code></pre>
+
+<p>  } else {</p>
+
+<pre><code>return nil;
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>```</p>
+
+<h4>GZip解压</h4>
+
+<p>```objective-c
++ (NSData <em>)gzipUncompress:(NSData </em>)sourceData {</p>
+
+<p>  NSUInteger sourceDataLength = [sourceData length];</p>
+
+<p>  if (sourceDataLength == 0) {</p>
+
+<pre><code>return sourceData;
+</code></pre>
+
+<p>  }</p>
+
+<p>  z_stream stream;
+  memset(&amp;stream, 0, sizeof(z_stream));</p>
+
+<p>  stream.next_in = (Bytef *)[sourceData bytes];
+  stream.avail_in = (uInt)sourceDataLength;
+  stream.total_out = 0;
+  stream.zalloc = Z_NULL;
+  stream.zfree = Z_NULL;</p>
+
+<p>  int res = inflateInit2(&amp;stream, MAX_WBITS + 16);
+  // inflateInit2(&amp;strm, (15+32))
+  //只有设置为MAX_WBITS + 16才能在解压带header和trailer的文本</p>
+
+<p>  if (res != Z_OK) {</p>
+
+<pre><code>return nil;
+</code></pre>
+
+<p>  }</p>
+
+<p>  const int KBufLen = 1024;
+  Byte buf[KBufLen];
+  memset(buf, 0, KBufLen * sizeof(Byte));</p>
+
+<p>  BOOL isUncompressOK = NO;</p>
+
+<p>  NSMutableData *decompressed = [NSMutableData dataWithLength:sourceDataLength];
+  [decompressed setData:nil]; //必须得加</p>
+
+<p>  while (stream.avail_out == 0) {</p>
+
+<pre><code>memset(buf, 0, KBufLen * sizeof(Byte));
+stream.avail_out = KBufLen;
+stream.next_out = buf;
+
+res = inflate(&amp;stream, Z_SYNC_FLUSH);
+
+switch (res) {
+case Z_NEED_DICT:
+case Z_DATA_ERROR:
+case Z_MEM_ERROR:
+case Z_STREAM_ERROR:
+case Z_BUF_ERROR: {
+  isUncompressOK = NO;
+  break;
+}
+
+default: {
+  if (res == Z_OK || res == Z_STREAM_END) {
+    const int dataLen = KBufLen - stream.avail_out;
+    isUncompressOK = YES;
+
+    if (dataLen &gt; 0) {
+      [decompressed appendBytes:buf length:dataLen];
+    }
+  }
+
+  break;
+}
+}
+
+if (!isUncompressOK) {
+  break;
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  if (inflateEnd(&amp;stream) != Z_OK) {</p>
+
+<pre><code>return nil;
+</code></pre>
+
+<p>  }</p>
+
+<p>  if (isUncompressOK) {</p>
+
+<pre><code>return decompressed;
+</code></pre>
+
+<p>  } else {</p>
+
+<pre><code>return nil;
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>```</p>
+
+<h3>3.代码示例</h3>
+
+<p>```objective-c
+NSString* hello = @&ldquo;helloabc123&rdquo;;</p>
+
+<pre><code>NSData *helloData = [NSData dataWithBytes:hello.UTF8String length:[hello lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+</code></pre>
+
+<p>NSData *compressData = [CommonFuctions zlibCompressData:helloData];</p>
+
+<p>NSData *unCompressData = [CommonFuctions zlibUncompressData:compressData];</p>
+
+<p>NSString* string = [[NSString alloc] initWithData:unCompressData encoding:NSUTF8StringEncoding];</p>
+
+<p>NSLog(@&ldquo;Zlib compressData Length = %lu compressData = %@&rdquo;, (unsigned long)compressData.length,[compressData description]);</p>
+
+<p>NSData *compressDataGZip = [CommonFuctions gzipCompress:helloData];</p>
+
+<p>NSData *uncompressDataGZip = [CommonFuctions gzipUncompress:compressDataGZip];</p>
+
+<p>NSString* stringRes = [[NSString alloc] initWithData:uncompressDataGZip encoding:NSUTF8StringEncoding];;</p>
+
+<p>NSLog(@&ldquo;GZip compressData Length = %lu compressData = %@&rdquo;, (unsigned long)compressDataGZip.length,[compressDataGZip description]);</p>
+
+<p>```</p>
+
+<h3>4.日志输出：</h3>
+
+<p><code>objective-c
+2014-12-02 21:14:20.946 ZlibGZipTest[14417:4245959] Zlib compressData Length = 19 compressData = &lt;789ccb48 cdc9c94f 4c4a3634 32060019 9003d1&gt;
+2014-12-02 21:14:24.142 ZlibGZipTest[14417:4245959] GZip compressData Length = 31 compressData = &lt;1f8b0800 00000000 0003cb48 cdc9c94f 4c4a3634 32060012 e873880b 000000&gt;
+(lldb)
+</code></p>
+
+<h3>5.结论</h3>
+
+<h4>1.zlib默认压缩后比gzip小一点。</h4>
+
+<h4>2.zlib与gzip头尾对比。</h4>
+
+<ul>
+<li><strong>zlib头</strong>：789ccb48  <strong>zlib尾</strong>：32060019 9003d1</li>
+<li><strong>gzip头</strong>：1f8b0800 00000000 0003cb48 <strong>gzip尾</strong>：32060012 e873880b 000000</li>
+</ul>
+
+
+<p>两者相比差12个字节。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS8中的spdy使用]]></title>
+    <link href="http://ksnowlv.github.io/blog/2014/11/20/ios8-zhong-de-spdy-shi-yong/"/>
+    <updated>2014-11-20T10:56:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2014/11/20/ios8-zhong-de-spdy-shi-yong</id>
+    <content type="html"><![CDATA[<h3>spdy需要客户端和服务端同时支持。</h3>
+
+<!--more-->
+
+
+<h4>1.spdy available on both OS X Yosemite and iOS 8</h4>
+
+<p>SPDY/2, SPDY/3, and SPDY/3.1 are supported Supported transparently by NSURLSession No source changes needed—it just works</p>
+
+<p>``` objective-c
+ NSURL <em>url = [NSURL URLWithString:@&ldquo;<a href="https://www.example.com/">https://www.example.com/</a>&rdquo;];
+  NSURLSessionDataTask </em>task = [[NSURLSession sharedSession]</p>
+
+<pre><code>    dataTaskWithURL:url
+  completionHandler:^(NSData *data, NSURLResponse *response,
+                      NSError *error) {
+</code></pre>
+
+<p>   }];
+  [task resume];</p>
+
+<p>```</p>
+
+<p>直接复用session,启用spdy.</p>
+
+<h4>2.SPDY does require server-side support<em> Client negotiates with server during TLS handshake</em> Uses <a href="https://">https://</a> URLs<em> Existing web server software and many CDNs already support SPDY Will not interfere with your NSURLProtocol subclasses</em> Apps might have their own implementation of SPDY or other protocols</h4>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[网络长连接与短连接]]></title>
+    <link href="http://ksnowlv.github.io/blog/2014/11/12/iOS-wang-luo-chang-lian-jie-yu-duan-lian-jie/"/>
+    <updated>2014-11-12T15:15:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2014/11/12/iOS-wang-luo-chang-lian-jie-yu-duan-lian-jie</id>
+    <content type="html"><![CDATA[<p> 网络长连接与短连接有什么区别呢？
+ <!--more--></p>
+
+<h3>长连接</h3>
+
+<pre><code>client与server先建立连接，连接建立后不断开，操持连接，然后进行数据的发送和接收。
+由于这种形式的网络通讯方式，网络连接一直存在。
+常用于P2P(点对点)通信。像IM类的产品
+</code></pre>
+
+<h3>短连接</h3>
+
+<pre><code>client与server每进行一次报文收发交易时才进行通讯连接，交易完毕后立即断开连接。
+此方式常用于一点对多点通讯。C/S通信。 
+</code></pre>
+
+<h3>长连接有两种：</h3>
+
+<h4>1. 基于socket的网络通讯。</h4>
+
+<blockquote><p>a.要对通讯协议格式，包括消息头，数据包头等特别清楚，可以实现同步异步机制，可以向客户端推送消息。</p>
+
+<p>b.更少的建立和关闭tcp连接，可以减少网络延时和开销。 在使用https连接时更显著。可以减少多次建立高消耗的SSL/TLS握手</p>
+
+<p>c.实现socket对各种不同类型的网络的穿透，才是真正的麻烦，在某些省份或地区是无法实现网络穿透的。</p></blockquote>
+
+<h4>2.基于http的网络通讯</h4>
+
+<blockquote><p>a.例如spdy协议，iOS8中，系统网络接口提供了对spdy的支持。</p>
+
+<p>b.即使是长连接，http也需要client先发起请求(<strong>除了spdy协议，spdy协议支持服务端推送</strong>)。在实际应用中有一些限制。</p></blockquote>
+
+<h4>总体为说，长连接的优点</h4>
+
+<pre><code>1.通过开启、关闭更少的TCP连接，节约CPU时间和内存. 
+2.通过减少TCP开启引起的包的数目，降低网络阻塞.
+</code></pre>
+
+<h4>缺点</h4>
+
+<pre><code>消耗服务器和客户端资源，像电量，网络流量等    
+</code></pre>
+
+<p>在保持长连时，需要发送一些心跳包.在iOS/android移动终端中，</p>
+
+<ul>
+<li>1.心跳信息是单方向的，只有终端发到应用服务器；</li>
+<li>2.心跳信息的周期比较长，比如旧版QQ的心跳周期为30s，新版QQ为180s，微信为300s，Google原生应用为1680s左右。</li>
+</ul>
+
+
+<h3>短连接</h3>
+
+<pre><code>多用于操作频繁、点对点的通讯，且连接数不是太多的情况，应用较为普遍。
+</code></pre>
+
+<p>参考资料：
+<a href="http://labs.chinamobile.com/mblog/31189_199441">试试把APP心跳的前因后果解释更简单明白？</a>
+<a href="http://labs.chinamobile.com/mblog/104209_199343">透视互联网APP的心跳机制</a>
+<a href="http://blog.csdn.net/totogogo/article/details/7329542">Android/iOS Notification feature</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CocoaSPDY理解]]></title>
+    <link href="http://ksnowlv.github.io/blog/2014/10/24/cocoaspdy-li-jie/"/>
+    <updated>2014-10-24T16:54:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2014/10/24/cocoaspdy-li-jie</id>
+    <content type="html"><![CDATA[<h3>源码见<a href="https://github.com/twitter/CocoaSPDY">https://github.com/twitter/CocoaSPDY</a></h3>
+
+<!--more-->
+
+
+<p>其类图如下：</p>
+
+<p><img src="/images/post/2014-10-24-cocoaspdy-li-jie/CocoaSPDY_class_overview.jpg" alt="image" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS spdy概览]]></title>
+    <link href="http://ksnowlv.github.io/blog/2014/10/23/ios-spdy/"/>
+    <updated>2014-10-23T17:00:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2014/10/23/ios-spdy</id>
+    <content type="html"><![CDATA[<p> <a href="http://baike.baidu.com/view/2984528.htm?fr=aladdin">SPDY</a>是Google开发的基于TCP的应用层协议,谷歌表示，引入SPDY协议后，在实验室测试中页面加载速度比原先快64%。</p>
+
+<p> <!--more--></p>
+
+<h3>1.SPDY相关资料</h3>
+
+<ul>
+<li>1.<a href="http://www.fireflysource.com/spdy/spdy-v3-cn.html">SPDY协议 &ndash; v3</a></li>
+<li>2.<a href="http://blog.csdn.net/hursing/article/details/22785475">SPDY、HTTP/2、QUIC协议</a></li>
+<li>3.<a href="http://www.chromium.org/spdy/spdy-whitepaper">SPDY: An experimental protocol for a faster web</a></li>
+<li>4.<a href="http://wufawei.com/2013/12/introduction-to-spdy/">SPDY简介</a></li>
+<li>5.<a href="http://spdycheck.org">spdycheck</a></li>
+</ul>
+
+
+<h3>2.SPDY开源项目</h3>
+
+<ul>
+<li>1.<a href="https://github.com/tatsuhiro-t/spdylay">spdylay</a>：C版本的开源库</li>
+<li>2.<a href="https://github.com/twitter/CocoaSPDY">CocoaSPDY</a>：Twitter推出用于iOS和Mac OS X的SPDY框架，适用于iOS和Mac OS X的SPDY/3.1</li>
+<li>3.<a href="https://github.com/locationlabs/SPDY-for-iPhone.git">SPDY-for-iPhone</a></li>
+<li>4.<a href="https://github.com/Voxer/iSPDY">iSPDY</a>，可参见博客<a href="http://engineering.voxer.com/2014/01/03/ispdy-released/">http://engineering.voxer.com/2014/01/03/ispdy-released/</a></li>
+<li>5.<a href="http://www.chromium.org/spdy/">The Chromium Projects</a></li>
+</ul>
+
+
+<h3>3.其它</h3>
+
+<ul>
+<li><ol>
+<li>iOS 8 和优胜美地开始支持SPDY协议，可参考wwdc 2014中的<a href="http://devstreaming.apple.com/videos/wwdc/2014/707xx1o5tdjnvg9/707/707_whats_new_in_foundation_networking.pdf?dl=1">What&rsquo;s New in Foundation Networking</a></li>
+</ol>
+</li>
+<li><ol>
+<li>目前iOS spdy的实现方案是针对<strong>NSURLConnection</strong>或<strong>NSURLSession</strong>通过<strong>NSURLProtocol</strong>进行拦截。那对于非使用这两种方式实现的网络模块无效果。同时，一个app当中可能会出现多个<strong>NSURLProtocol</strong>拦截的场景，要避免拦截失效的情况。</li>
+</ol>
+</li>
+<li>3.下面会介绍下Twitter推出用于iOS和Mac OS X的SPDY框架- <a href="https://github.com/twitter/CocoaSPDY">CocoaSPDY</a>:大体采用的实现方案是类似的，处理细节上可能会有差异。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,783 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NSMutableArray排序 - ksnowlv</title>
+  <meta name="author" content="律威">
+
+  
+  <meta name="description" content="主要使用sortUsingComparator，sortUsingFunction，sortUsingSelector进行排序。 1.头文件。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+//
+// &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ksnowlv.github.io/blog/2013/04/27/nsmutablearraypai-xu">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="ksnowlv" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-39546615-2']);
+    // _gaq.push(['_trackPageview']);
+
+    // (function() {
+    //   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    //   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    // })();
+
+    _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src='http://droidyue-tools.qiniudn.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">ksnowlv</a></h1>
+  
+    <h2>回顾过去,总结以往;立足现在,铭记当下;技术为主,笔记而已.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ksnowlv.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/about-me">关于我</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">NSMutableArray排序</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-27T16:27:00+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>主要使用sortUsingComparator，sortUsingFunction，sortUsingSelector进行排序。</p>
+
+<h4>1.头文件。</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  ArraryTest_OrderViewController.m</span>
+</span><span class='line'><span class="c1">//  ArraryTest_Order</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-27.</span>
+</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &quot;ArraryTest_OrderViewController.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">QStudent</span> : <span class="nc">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span><span class="o">*</span> <span class="n">studentID</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSComparisonResult</span><span class="p">)</span> <span class="nf">compare:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">element</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>2.实现文件。</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">QStudent</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">studentID</span> <span class="o">=</span> <span class="n">_studentID</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_studentID</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//主要用来演示NSMutableArray的sortUsingSelector如何使用</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSComparisonResult</span><span class="p">)</span><span class="nf">compare:</span><span class="p">(</span><span class="n">QStudent</span><span class="o">*</span><span class="p">)</span><span class="nv">element</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">num1</span> <span class="o">=</span> <span class="p">[</span><span class="n">_studentID</span> <span class="n">intValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">num2</span> <span class="o">=</span> <span class="p">[</span><span class="n">element</span><span class="p">.</span><span class="n">studentID</span> <span class="n">intValue</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">num1</span> <span class="o">==</span> <span class="n">num2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NSOrderedSame</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">num1</span> <span class="o">&lt;</span> <span class="n">num2</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NSOrderedAscending</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">NSOrderedDescending</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">ArraryTest_OrderViewController</span> <span class="p">()</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span><span class="n">NSMutableArray</span><span class="o">*</span> <span class="n">stringList</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">ArraryTest_OrderViewController</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">stringList</span> <span class="o">=</span> <span class="n">_stringList</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSMutableArray</span><span class="o">*</span> <span class="n">stringList</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nl">arrayWithObjects:</span><span class="s">@&quot;90&quot;</span><span class="p">,</span> <span class="s">@&quot;23&quot;</span><span class="p">,</span><span class="s">@&quot;1&quot;</span><span class="p">,</span><span class="s">@&quot;1000&quot;</span><span class="p">,</span><span class="s">@&quot;0&quot;</span><span class="p">,</span><span class="s">@&quot;99&quot;</span><span class="p">,</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">stringList</span> <span class="o">=</span> <span class="n">stringList</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">sortUsingComparator</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">sortComparatorWithOptions</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">sortUsingFuction</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">sortUsingSelector</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sortUsingComparator</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;sortUsingComparator&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSMutableArray</span><span class="o">*</span> <span class="n">stringList</span> <span class="o">=</span> <span class="p">[</span><span class="n">_stringList</span> <span class="n">mutableCopy</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;原始的：%@&quot;</span><span class="p">,</span><span class="n">stringList</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">stringList</span> <span class="nl">sortUsingComparator:</span><span class="o">^</span><span class="n">NSComparisonResult</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj1</span><span class="p">,</span> <span class="kt">id</span> <span class="n">obj2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">obj1</span> <span class="n">intValue</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="n">obj2</span> <span class="n">intValue</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">NSOrderedSame</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="k">if</span><span class="p">([</span><span class="n">obj1</span> <span class="n">intValue</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">[</span><span class="n">obj2</span> <span class="n">intValue</span><span class="p">]</span> <span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">NSOrderedDescending</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NSOrderedAscending</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;排序后:%@&quot;</span><span class="p">,</span><span class="n">stringList</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">stringList</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sortComparatorWithOptions</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;sortComparatorWithOptions&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSMutableArray</span><span class="o">*</span> <span class="n">stringList</span> <span class="o">=</span> <span class="p">[</span><span class="n">_stringList</span> <span class="n">mutableCopy</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;原始的：%@&quot;</span><span class="p">,</span><span class="n">stringList</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">stringList</span> <span class="nl">sortWithOptions:</span><span class="n">NSSortStable</span> <span class="nl">usingComparator:</span><span class="o">^</span><span class="n">NSComparisonResult</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj1</span><span class="p">,</span> <span class="kt">id</span> <span class="n">obj2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">obj1</span> <span class="n">intValue</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="n">obj2</span> <span class="n">intValue</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">NSOrderedSame</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="k">if</span><span class="p">([</span><span class="n">obj1</span> <span class="n">intValue</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">[</span><span class="n">obj2</span> <span class="n">intValue</span><span class="p">]</span> <span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">NSOrderedDescending</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NSOrderedAscending</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;排序后:%@&quot;</span><span class="p">,</span><span class="n">stringList</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">stringList</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="n">NSComparisonResult</span> <span class="nf">ObjectCompare</span><span class="p">(</span><span class="kt">id</span>  <span class="n">obj1</span><span class="p">,</span> <span class="kt">id</span> <span class="n">obj2</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">context</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">obj1</span> <span class="n">intValue</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="n">obj2</span> <span class="n">intValue</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NSOrderedSame</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="k">if</span><span class="p">([</span><span class="n">obj1</span> <span class="n">intValue</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">[</span><span class="n">obj2</span> <span class="n">intValue</span><span class="p">]</span> <span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NSOrderedDescending</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">NSOrderedAscending</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sortUsingFuction</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;sortUsingFuction&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSMutableArray</span><span class="o">*</span> <span class="n">stringList</span> <span class="o">=</span> <span class="p">[</span><span class="n">_stringList</span> <span class="n">mutableCopy</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;原始的：%@&quot;</span><span class="p">,</span><span class="n">stringList</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">stringList</span> <span class="nl">sortUsingFunction:</span><span class="n">ObjectCompare</span> <span class="nl">context:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;排序后:%@&quot;</span><span class="p">,</span><span class="n">stringList</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">stringList</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sortUsingSelector</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;sortUsingSelector&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">const</span> <span class="kt">int</span> <span class="n">KArrayLen</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">array</span><span class="p">[</span><span class="n">KArrayLen</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">90</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">99</span><span class="p">};</span>
+</span><span class='line'>    <span class="n">NSMutableArray</span><span class="o">*</span> <span class="n">stringList</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">KArrayLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">QStudent</span><span class="o">*</span> <span class="n">student</span> <span class="o">=</span> <span class="p">[[</span><span class="n">QStudent</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">student</span><span class="p">.</span><span class="n">studentID</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;%d&quot;</span><span class="p">,</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">stringList</span> <span class="nl">addObject:</span><span class="n">student</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">student</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;原始的：&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">KArrayLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,[[</span><span class="n">stringList</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">]</span> <span class="n">studentID</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">stringList</span> <span class="nl">sortUsingSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">compare:</span><span class="p">)];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;排序后:&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">KArrayLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,[[</span><span class="n">stringList</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">]</span> <span class="n">studentID</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;反序后:&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSEnumerator</span> <span class="o">*</span><span class="n">enumerator</span> <span class="o">=</span> <span class="p">[</span><span class="n">stringList</span> <span class="n">reverseObjectEnumerator</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">stringList</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">stringList</span> <span class="o">=</span><span class="p">[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span><span class="nl">initWithArray:</span> <span class="p">[</span><span class="n">enumerator</span> <span class="n">allObjects</span><span class="p">]];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">KArrayLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,[[</span><span class="n">stringList</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">]</span> <span class="n">studentID</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">stringList</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didReceiveMemoryWarning</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">didReceiveMemoryWarning</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">// Dispose of any resources that can be recreated.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>日志：</p>
+
+<pre><code>2013-04-27 15:55:57.515 ArraryTest_Order[22759:11303] sortUsingComparator
+2013-04-27 15:55:57.516 ArraryTest_Order[22759:11303] 原始的：(
+90,
+23,
+1,
+1000,
+0,
+99
+)
+2013-04-27 15:55:57.517 ArraryTest_Order[22759:11303] 排序后:(
+0,
+1,
+23,
+90,
+99,
+1000
+)
+2013-04-27 15:55:57.517 ArraryTest_Order[22759:11303] sortComparatorWithOptions
+2013-04-27 15:55:57.517 ArraryTest_Order[22759:11303] 原始的：(
+90,
+23,
+1,
+1000,
+0,
+99
+)
+2013-04-27 15:55:57.518 ArraryTest_Order[22759:11303] 排序后:(
+0,
+1,
+23,
+90,
+99,
+1000
+)
+2013-04-27 15:55:57.518 ArraryTest_Order[22759:11303] sortUsingFuction
+2013-04-27 15:55:57.519 ArraryTest_Order[22759:11303] 原始的：(
+90,
+23,
+1,
+1000,
+0,
+99
+)
+2013-04-27 15:55:57.519 ArraryTest_Order[22759:11303] 排序后:(
+0,
+1,
+23,
+90,
+99,
+1000
+)
+2013-04-27 15:55:57.520 ArraryTest_Order[22759:11303] sortUsingSelector
+2013-04-27 15:55:57.520 ArraryTest_Order[22759:11303] 原始的：
+2013-04-27 15:55:57.520 ArraryTest_Order[22759:11303] 90
+2013-04-27 15:55:57.521 ArraryTest_Order[22759:11303] 23
+2013-04-27 15:55:57.521 ArraryTest_Order[22759:11303] 1
+2013-04-27 15:55:57.562 ArraryTest_Order[22759:11303] 1000
+2013-04-27 15:55:57.563 ArraryTest_Order[22759:11303] 0
+2013-04-27 15:55:57.563 ArraryTest_Order[22759:11303] 99
+2013-04-27 15:55:57.564 ArraryTest_Order[22759:11303] 排序后:
+2013-04-27 15:55:57.564 ArraryTest_Order[22759:11303] 0
+2013-04-27 15:55:57.564 ArraryTest_Order[22759:11303] 1
+2013-04-27 15:55:57.565 ArraryTest_Order[22759:11303] 23
+2013-04-27 15:55:57.565 ArraryTest_Order[22759:11303] 90
+2013-04-27 15:55:57.566 ArraryTest_Order[22759:11303] 99
+2013-04-27 15:55:57.566 ArraryTest_Order[22759:11303] 1000
+2013-04-27 15:55:57.566 ArraryTest_Order[22759:11303] 反序后:
+2013-04-27 15:55:57.567 ArraryTest_Order[22759:11303] 1000
+2013-04-27 15:55:57.567 ArraryTest_Order[22759:11303] 99
+2013-04-27 15:55:57.568 ArraryTest_Order[22759:11303] 90
+2013-04-27 15:55:57.568 ArraryTest_Order[22759:11303] 23
+2013-04-27 15:55:57.568 ArraryTest_Order[22759:11303] 1
+2013-04-27 15:55:57.569 ArraryTest_Order[22759:11303] 0
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">律威</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-27T16:27:00+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios-ji-chu/'>iOS-基础</a>
+  
+</span>
+
+
+      
+<DIV >
+作者： <A href="/">律威</A> <BR>
+出处： <A href="/">https://ksnowlv.github.io</A> 
+<BR>原创文章，版权声明：自由转载-非商用-非衍生-保持署名
+<a href= "http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh"> Creative Commons BY-NC-ND 3.0 </a>。 </DIV>
+
+
+    </p>
+<!--     
+      Included file 'post/sharing.html' not found in _includes directory
+     -->
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/04/27/iphonezhi-block-blockzuo-wei-cheng-yuan-shi-yong-shi-de-xian-jing/" title="Previous Post: iphone之block_block作为成员使用时的陷阱">&laquo; iphone之block_block作为成员使用时的陷阱</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/05/06/androiddi-tu-sdkxiu-gai-zong-jie/" title="Next Post: android地图sdk修改总结">android地图sdk修改总结 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+var disqus_shortname = 'ksnowlv';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>关于我</h1>
+  <p>律威,QQ:309235009 微信:ksnowlv</p>
+  <p>手机单机游戏/手机网游封神online/手机阅读/腾讯iOS地图客户端&实时公交&开放API(地图&街景)/iPad/iPhone淘宝客户端及性能优化</p>
+  <p>目前在银客做银客/简理财/...</p>
+  <p>能做一点,是一点;不求大成,不求一万年;积少成多,水到渠成!</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/">Kotlin通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/">Android通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>分类</h1>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (2)</a></li><li><a href='/blog/categories/android-jni/'>android-jni (1)</a></li><li><a href='/blog/categories/android-jni/'>Android-JNI (3)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+</section>
+<section>
+  <h1>外部链接</h1>
+    <ul id="外部链接">
+    	<li><a href="https://developer.apple.com">苹果开发者中心</a> </li>
+    	<li><a href="http://stackoverflow.com/questions/tagged/ios">stackoverflow</a></li>
+    	<li><a href="http://ksnowlv.blog.163.com/blog/#m=0">ksnowlv网易博客</a></li>
+    	<li><a href="https://www.jianshu.com/u/6fe5d9875a9e">简书</a></li>
+	</ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - 律威 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271193933'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1271193933%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+  <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F4c1727a94ea20751730e8a556dbdbf82' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ksnowlv';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ksnowlv.github.io/blog/2013/04/27/nsmutablearraypai-xu/';
+        var disqus_url = 'http://ksnowlv.github.io/blog/2013/04/27/nsmutablearraypai-xu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+Included file 'custom/after_footer.html' not found in _includes directory
+
+</body>
+</html>

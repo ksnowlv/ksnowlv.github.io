@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: swift基础框架 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/swiftji-chu-kuang-jia/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[swift-rsa(三)-大数据块加解密]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/18/swift-rsa-3/"/>
+    <updated>2018-07-18T14:47:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/18/swift-rsa-3</id>
+    <content type="html"><![CDATA[<p>如何使用swift进行RSA大数据块加解密呢？</p>
+
+<h5>1.使用RSA加密</h5>
+
+<p>```objective-c
+ @objc public func encrypt(source: String) &ndash;> String {</p>
+
+<pre><code>    guard source.count &gt; 0 &amp;&amp; self.publicSecKey != nil else {
+        return ""
+    }
+
+    let data: NSData = (source.data(using: String.Encoding.utf8)! as NSData)
+</code></pre>
+
+<p> /<em>       if #available(iOS 10.0, </em>) {</p>
+
+<pre><code>        var error: Unmanaged&lt;CFError&gt;?
+        resData =  SecKeyCreateEncryptedData(self.publicSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)
+
+        print("res = \(String(describing: error?.takeUnretainedValue().localizedDescription))")
+    }
+</code></pre>
+
+<p>*/</p>
+
+<pre><code>    // Fallback on earlier versions
+    let blockLen =  SecKeyGetBlockSize(self.publicSecKey!)
+    var outBuf = [UInt8](repeating: 0, count: blockLen)
+    var outBufLen:Int = blockLen
+
+    var index = 0
+    let totalLen = data.length
+
+    let resData = NSMutableData()
+
+    while index &lt; totalLen {
+        var curDataLen = totalLen - index;
+        if curDataLen  &gt; blockLen - 11 {
+            curDataLen = blockLen - 11;
+        }
+
+        let curData: NSData = (data.subdata(with: NSMakeRange(index, curDataLen)) as NSData)
+
+        let status: OSStatus = SecKeyEncrypt(self.publicSecKey!, SecPadding.PKCS1, curData.bytes.assumingMemoryBound(to: UInt8.self), curData.length, &amp;outBuf, &amp;outBufLen)
+
+        if status == noErr {
+            resData.append(outBuf, length: outBufLen)
+        }else{
+            print("encrypt status = \(status)")
+        }
+
+        index += curDataLen
+    }
+
+    //base64 encode
+    return resData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: NSData.Base64EncodingOptions.lineLength64Characters.rawValue))
+}
+</code></pre>
+
+<p>```</p>
+
+<h5>2.使用RSA解密</h5>
+
+<p>```objective-c
+@objc public func decrypt(source: String) &ndash;> String {</p>
+
+<pre><code>    guard source.count &gt; 0 &amp;&amp; self.privateSecKey != nil else {
+        return ""
+    }
+
+    //base64 decode
+    let data: Data = (NSData(base64Encoded: (source as String), options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)! as Data)
+
+    let blockLen =  SecKeyGetBlockSize(self.privateSecKey!)
+    let outBuf = UnsafeMutablePointer&lt;UInt8&gt;.allocate(capacity: blockLen)
+    defer {
+        outBuf.deallocate()
+    }
+
+    var outBufLen: Int = blockLen
+</code></pre>
+
+<p>//        if #available(iOS 10.0, *) {
+//            var error: Unmanaged<CFError>?
+//            resData =  SecKeyCreateDecryptedData(self.privateSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)
+//
+//            print(&ldquo;res = (String(describing: error?.takeUnretainedValue().localizedDescription))&rdquo;)
+//        } else {
+//            // Fallback on earlier versions
+//            //let status = SecKeyEncrypt(seckey, SecPadding.PKCS1, chunkData, chunkData.count, outBuf, &amp;encryptedDataLength)
+//
+//        }</p>
+
+<pre><code>    var index = 0
+    let totalLen = data.count
+
+    let resData = NSMutableData()
+
+    while index &lt; totalLen {
+        var curDataLen = totalLen - index;
+        if curDataLen  &gt; blockLen {
+            curDataLen = blockLen;
+        }
+
+        let curData: Data = data.subdata(in: index ..&lt; index + curDataLen)
+
+        var status:OSStatus = noErr
+        curData.withUnsafeBytes { (bytes: UnsafePointer&lt;UInt8&gt;) in
+             status = SecKeyDecrypt(self.privateSecKey!, SecPadding.PKCS1, bytes, curData.count, outBuf, &amp;outBufLen)
+        }
+
+        if status == noErr {
+            resData.append(outBuf, length: outBufLen)
+        }else{
+            print("decrypt status = \(status)")
+        }
+
+        index += curDataLen
+    }
+
+    return String(data: (resData as Data), encoding: String.Encoding.utf8)!
+}
+</code></pre>
+
+<p>```</p>
+
+<h5>3.调用及输出</h5>
+
+<ul>
+<li>调用</li>
+</ul>
+
+
+<p>```objective-c</p>
+
+<pre><code>let originalString = "你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv"
+
+  let rsaSign: YKRSASign = YKRSASign()
+    rsaSign.publicKey(fileFullPath: publicKeyPath as NSString, block: {(_ error: NSError?, _ secKey:SecKey?) in
+    })
+
+    rsaSign.privateKey(fileFullPath: privateKeyPath! as NSString, password: "", block: {(_ error: NSError?, _ secKey:SecKey?) in
+    })
+
+    let enString = rsaSign.encrypt(source: originalString)
+    print("enString = \(enString)")
+
+    let deString = rsaSign.decrypt(source: enString)
+    print("deString = \(deString)")
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>日志</li>
+</ul>
+
+
+<p><code>objective-c
+publicKeyPath = /Users/ksnowlv/Library/Developer/CoreSimulator/Devices/77E5D278-4788-499F-9B82-76BE66DA4676/data/Containers/Bundle/Application/2BD97FF3-B55D-4556-8232-888D0D858AD2/YKBaseSwiftFramework.app/public_key.der
+privateKeyPath = Optional("/Users/ksnowlv/Library/Developer/CoreSimulator/Devices/77E5D278-4788-499F-9B82-76BE66DA4676/data/Containers/Bundle/Application/2BD97FF3-B55D-4556-8232-888D0D858AD2/YKBaseSwiftFramework.app/private_key.p12")
+enString = HEP0mejSvIfOi4V0uziYNogUStMYG01DmIK25TDR340cc5snt4LGlkNVdGLRb0hP
+aCMbKkgDKp1g+NNpaOF6FO2hongUcsDbwoPZ2Vl6ZHSFi1FGvv5vdUJ7ZGbLivS2
+UTU+178ue//jW64fw4ujrH/OPvbSfBo4c65G9USbGkcWfSfGtWruWz3f7xFreq8Y
+N+54y0XNA2GLw0S3N1Z3uQUZWqCCgPEYVCAW/w3BiGAKzrv+nby0yWXyLXbAdJEl
+QvlLHGrdeS2i1J448s+/01UQ2MP9qDSlxJ+4GqE7/x3HEYlF/ZmukSsAzsk4xACG
+4A+6YqgamtflnNdS3Eob6Q==
+deString = 你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

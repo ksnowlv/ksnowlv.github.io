@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iOS-基础 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/ios-ji-chu/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS指针集合类]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/04/23/ioszhi-zhen-ji-he-lei/"/>
+    <updated>2018-04-23T15:33:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/04/23/ioszhi-zhen-ji-he-lei</id>
+    <content type="html"><![CDATA[<p>Collections之<a href="https://developer.apple.com/documentation/foundation/collections?language=objc">Pointer Collections</a>
+：指针集合类</p>
+
+<ul>
+<li><ol>
+<li>NSPointerArray</li>
+</ol>
+</li>
+<li><ol>
+<li>NSHashTable</li>
+</ol>
+</li>
+<li><ol>
+<li>NSMapTable</li>
+</ol>
+</li>
+</ul>
+
+
+<h4>1.NSPointerFunctionsOptions</h4>
+
+<p>Defines the memory and personality options for an NSPointerFunctions object.</p>
+
+<ul>
+<li>NSPointerFunctionsMachVirtualMemory</li>
+<li><p>NSPointerFunctionsMallocMemory</p>
+
+<pre><code>   Use free() on removal, calloc() on copy in.
+</code></pre></li>
+<li><p>NSPointerFunctionsOpaqueMemory</p></li>
+<li>NSPointerFunctionsStrongMemory</li>
+<li><p>NSPointerFunctionsWeakMemory</p>
+
+<pre><code>  Uses weak read and write barriers appropriate for ARC or GC. Using NSPointerFunctionsWeakMemory object references will turn to NULL on last release.
+</code></pre></li>
+<li><p>NSMapTableStrongMemory</p>
+
+<p>   Equivalent to  NSPointerFunctionsStrongMemory
+.</p></li>
+<li><p>NSMapTableWeakMemory</p>
+
+<pre><code>  Equivalent to NSPointerFunctionsWeakMemory.
+</code></pre></li>
+</ul>
+
+
+<h4>2. NSPointerArray/NSHashTable/NSMapTable</h4>
+
+<ul>
+<li>可以存储所有指针类型的数据包括nil</li>
+<li>可以添加或删除nil values</li>
+<li>可以弱引用或强引用对象。</li>
+<li>添加元素时，性能很差。慎用！！！</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS之url编解码]]></title>
+    <link href="http://ksnowlv.github.io/blog/2017/12/15/ioszhi-urlbian-jie-ma/"/>
+    <updated>2017-12-15T16:45:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2017/12/15/ioszhi-urlbian-jie-ma</id>
+    <content type="html"><![CDATA[<p>iOS 开发中，经常需要对url编码与解码。</p>
+
+<!--more-->
+
+
+<h3>iOS9之前</h3>
+
+<h4>1.url编码</h4>
+
+<p>```objective-c</p>
+
+<ul>
+<li><p>(NSString<em>)encodeUrl:(NSString </em>)urlString {
+  if (0 == urlString.length) {
+      return KBlankString;
+  }</p>
+
+<p>  return (__bridge_transfer NSString<em>) CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                               (CFStringRef)urlString,
+                                                                               NULL,
+                                                                               (CFStringRef)@&ldquo;!</em>&lsquo;();:@&amp;=+$,/?%#[]&rdquo;,
+                                                                               kCFStringEncodingUTF8);
+}
+```</p></li>
+</ul>
+
+
+<h4>2.url解码</h4>
+
+<p>```objective-c
++ (NSString <em>)decodeUrl:(NSString </em>)urlString {</p>
+
+<pre><code>if (0 == urlString.length) {
+    return KBlankString;
+}
+
+return (__bridge_transfer NSString*) CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
+                                                                                             (__bridge CFStringRef)urlString,
+                                                                                             CFSTR(""),kCFStringEncodingUTF8);
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h3>iOS7之后。</h3>
+
+<h4>1.url编码</h4>
+
+<p>```objective-c
++ (NSString <em>)URLEncode:(NSString </em>)urlString {</p>
+
+<pre><code>if (0 == urlString.length) {
+    return KBlankString;
+}
+return [urlString stringByAddingPercentEncodingWithAllowedCharacters:[self URLEncodeCharSet]];
+</code></pre>
+
+<p>}</p>
+
+<p>static NSCharacterSet *_sharedCharacterSet = nil;</p>
+
+<ul>
+<li><p>(NSCharacterSet *)URLEncodeCharSet {</p>
+
+<p>  if (nil == <em>sharedCharacterSet) {
+      </em>sharedCharacterSet = [[NSCharacterSet characterSetWithCharactersInString:@&ldquo;!*&lsquo;();:@&amp;=+$,/?%#[]&rdquo;] invertedSet];
+  }</p>
+
+<p>  return _sharedCharacterSet;
+}</p></li>
+</ul>
+
+
+<p>```</p>
+
+<h4>2.url解码</h4>
+
+<p>```objective-c
++ (NSString <em>)URLDecode:(NSString </em>)urlString {</p>
+
+<pre><code>if (0 == urlString.length) {
+    return KBlankString;
+}
+
+return [urlString stringByRemovingPercentEncoding];
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS下使用ffmpeg]]></title>
+    <link href="http://ksnowlv.github.io/blog/2017/04/22/iOS-xia-shi-yong-ffmpeg/"/>
+    <updated>2017-04-22T11:55:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2017/04/22/iOS-xia-shi-yong-ffmpeg</id>
+    <content type="html"><![CDATA[<p>iOS下如何使用FFmpeg呢？</p>
+
+<!--more-->
+
+
+<h4>1.<a href="https://github.com/mansr/gas-preprocessor">编译FFmpeg所需要的脚本文件gas-preprocessor.pl</a></h4>
+
+<p>将脚本文件gas-preprocessor.pl复制到 <em>/usr/bin/</em>目录</p>
+
+<h4>2.<a href="https://github.com/kewlbear/FFmpeg-iOS-build-script">iOS平台下编译ffmpeg的脚本</a></h4>
+
+<p>执行<strong>build-ffmpeg.sh</strong>脚本。</p>
+
+<p>```objective-c
+ sudo ./build-ffmpeg.sh</p>
+
+<p>```</p>
+
+<p><img src="/images/post/2017-4-22-iOS-xia-shi-yong-ffmpeg/buildscript.png" alt="image" /></p>
+
+<p>编译成功后：</p>
+
+<p><img src="/images/post/2017-4-22-iOS-xia-shi-yong-ffmpeg/buildscriptresult.png" alt="image" /></p>
+
+<h4>3.iOS工程集成。</h4>
+
+<h5>1.头文件路径设置。</h5>
+
+<p><img src="/images/post/2017-4-22-iOS-xia-shi-yong-ffmpeg/libs.png" alt="image" /></p>
+
+<h5>1.依赖库设置。</h5>
+
+<p><img src="/images/post/2017-4-22-iOS-xia-shi-yong-ffmpeg/pathsetting.png" alt="image" /></p>
+
+<h4>4.编译成功。</h4>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS有限后台任务]]></title>
+    <link href="http://ksnowlv.github.io/blog/2015/08/19/ios-you-xian-hou-tai-ren-wu/"/>
+    <updated>2015-08-19T20:37:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2015/08/19/ios-you-xian-hou-tai-ren-wu</id>
+    <content type="html"><![CDATA[<p>iOS下有限后台任务如何使用呢？</p>
+
+<!--more-->
+
+
+<p>iOS应用，在切换到后台时，可以开启有限后台任务。
+见<a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/">苹果开发文档</a>，</p>
+
+<h4>一.几个相关方法</h4>
+
+<ul>
+<li><p>1.beginBackgroundTaskWithExpirationHandler</p></li>
+<li><p>2.beginBackgroundTaskWithName:expirationHandler</p></li>
+<li>3.endBackgroundTask</li>
+<li>4.setMinimumBackgroundFetchInterval</li>
+</ul>
+
+
+<h4>二.切换到后台的处理</h4>
+
+<p>```objective-c</p>
+
+<ul>
+<li><p>(void)applicationDidEnterBackground:(UIApplication *)application {</p>
+
+<p>  self.backgroundTaskIdentifier =
+  [application beginBackgroundTaskWithExpirationHandler:^{
+      [application endBackgroundTask:self.backgroundTaskIdentifier];
+      self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+  }];</p>
+
+<p>  //添加自己的处理逻辑</p></li>
+</ul>
+
+
+<p>}</p>
+
+<p>```</p>
+
+<h4>三.切换到前台的处理</h4>
+
+<p>```objective-c
+&ndash; (void)applicationWillEnterForeground:(UIApplication *)application {</p>
+
+<p>   if (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid){</p>
+
+<pre><code>     [application endBackgroundTask:self.backgroundTaskIdentifier];
+     self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+</code></pre>
+
+<p>   }</p>
+
+<p>}</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[FaceBook-infer的使用]]></title>
+    <link href="http://ksnowlv.github.io/blog/2015/08/19/facebook-infer-de-shi-yong/"/>
+    <updated>2015-08-19T19:52:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2015/08/19/facebook-infer-de-shi-yong</id>
+    <content type="html"><![CDATA[<p><strong>Facebook</strong>推出潜在一款<strong>bug</strong>扫描工具(<a href="http://fbinfer.com">http://fbinfer.com</a>)，可以检查 <strong>iOS/Android</strong> App.</p>
+
+<!--more-->
+
+
+<p>MAC上的安装</p>
+
+<h3>一.环境要求</h3>
+
+<ul>
+<li>1.Python版本大于等于2.7</li>
+<li>2.<a href="https://opam.ocaml.org/doc/Install.html#OSX">opam</a></li>
+<li>3.对C/Objective-C分析要求
+
+<ul>
+<li> XCode &lt;= 6.3, >= 6.1</li>
+<li>clang (in XCode command line tools. You can install them with the command xcode-select &mdash;install)</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>二.安装步骤</h3>
+
+<h4>1.安装opam。</h4>
+
+<p>```objective-c
+brew install opam   # Homebrew, OSX Mavericks or later</p>
+
+<p>opam init &mdash;comp=4.01.0  # (answer &lsquo;y&rsquo; to the question)</p>
+
+<p>eval `opam config env` #去掉前面\</p>
+
+<p>opam install extlib.1.5.4 atdgen.1.6.0 javalib.2.3.1 sawja.1.5.1</p>
+
+<p>```</p>
+
+<h4>2.对C/Objective-C的分析支持。</h4>
+
+<p>如果你既想支持Java,也想支持C/Objective-C,那么换下面的方式执行</p>
+
+<p>```objective-c</p>
+
+<p>cd infer
+./update-fcp.sh &amp;&amp; ../facebook-clang-plugin/clang/setup.sh &amp;&amp; ./compile-fcp.sh # go have a coffee :)
+make -C infer
+export PATH=`pwd`/infer/bin:$PATH #去掉前面\</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

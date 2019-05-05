@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: swift-基础框架 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/swift-ji-chu-kuang-jia/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[swift中pthread_t之mutex]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/08/07/swiftzhong-pthread-tzhi-mutex/"/>
+    <updated>2018-08-07T18:37:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/08/07/swiftzhong-pthread-tzhi-mutex</id>
+    <content type="html"><![CDATA[<p>mutex类型有四种</p>
+
+<ul>
+<li>PTHREAD_MUTEX_NORMAL</li>
+<li>PTHREAD_MUTEX_ERRORCHECK</li>
+<li>PTHREAD_MUTEX_RECURSIVE</li>
+<li>PTHREAD_MUTEX_DEFAULT</li>
+</ul>
+
+
+<h5>1.mutex初始化。</h5>
+
+<p>```objective-c</p>
+
+<pre><code> var mutex = pthread_mutex_t()
+ var attr: pthread_mutexattr_t = pthread_mutexattr_t()
+ pthread_mutexattr_init(&amp;attr)
+ pthread_mutexattr_settype(&amp;attr, PTHREAD_MUTEX_RECURSIVE)
+ pthread_mutex_init(&amp;mutex, &amp;attr)
+</code></pre>
+
+<p>```</p>
+
+<h5>2.mutex使用。</h5>
+
+<p>```objective-c</p>
+
+<pre><code> pthread_mutex_trylock(&amp;mutex)
+    //执行代码块
+ pthread_mutex_unlock(&amp;mutex)
+</code></pre>
+
+<p>```</p>
+
+<h5>3.mutex释放。</h5>
+
+<p>```objective-c</p>
+
+<pre><code>pthread_mutex_destroy(&amp;mutex)
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift-ecdh]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/20/swift-ecdh/"/>
+    <updated>2018-07-20T19:28:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/20/swift-ecdh</id>
+    <content type="html"><![CDATA[<p>swift 在iOS10之后，支持ecdh加解密。</p>
+
+<h4>1.生成公钥和私钥。</h4>
+
+<p>```objective-c
+   func generateKey() {</p>
+
+<pre><code>    let attributes: [String: Any] = [kSecAttrKeySizeInBits as String: 256,
+                                     kSecAttrKeyType as String: kSecAttrKeyTypeEC,
+                                     kSecPrivateKeyAttrs as String: [kSecAttrIsPermanent as String: false]]
+    var error: Unmanaged&lt;CFError&gt;?
+
+    self.privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, &amp;error)
+
+    if self.privateKey != nil {
+        self.publicKey = SecKeyCopyPublicKey(self.privateKey!)
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>2.加密</h4>
+
+<p>```objective-c
+func encryptedData(sourceData: Data, algorithm:SecKeyAlgorithm) &ndash;> Data? {</p>
+
+<pre><code>    guard self.publicKey != nil else {
+        return nil
+    }
+
+    var error: Unmanaged&lt;CFError&gt;?
+
+    let encrypted =
+        SecKeyCreateEncryptedData(self.publicKey!, algorithm,
+                                  sourceData as CFData,
+                                  &amp;error)
+    if error == nil {
+        return encrypted! as Data
+    }
+
+    return nil
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>3.解密</h4>
+
+<p>```objective-c
+   func decryptedData(sourceData: Data, algorithm:SecKeyAlgorithm ) &ndash;> String? {</p>
+
+<pre><code>    var error: Unmanaged&lt;CFError&gt;?
+
+    let resData = SecKeyCreateDecryptedData(self.privateKey! , algorithm,
+                                            sourceData as CFData, &amp;error)
+
+    if error == nil {
+        return String(data: resData! as Data, encoding: String.Encoding.utf8)
+    }
+
+    return nil
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>4.示例</h4>
+
+<p>```objective-c</p>
+
+<pre><code>    let sign = YKEcdhSign()
+        sign.generateKey()
+        let enData =  sign.encryptedData(sourceData: originalData!, algorithm: SecKeyAlgorithm.eciesEncryptionStandardX963SHA512AESGCM)
+        let string = sign.decryptedData(sourceData: enData!, algorithm: SecKeyAlgorithm.eciesEncryptionStandardX963SHA512AESGCM)
+        print(string!)
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift-RSA(五)-签名/验签]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/19/swift-rsa-5/"/>
+    <updated>2018-07-19T17:53:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/19/swift-rsa-5</id>
+    <content type="html"><![CDATA[<p>RSA支持加解密，也支持签名/验签。
+使用rsa如何签名/验签呢？</p>
+
+<h4>1.rsa 签名</h4>
+
+<p>```objective-c</p>
+
+<pre><code>@objc public func sign(source: Data, padding: SecPadding = SecPadding.PKCS1SHA1) -&gt; Data? {
+
+    guard source.count &gt; 0 &amp;&amp; self.privateSecKey != nil else {
+        return nil
+    }
+
+    let hashData: NSData?
+
+    switch padding {
+    case SecPadding.PKCS1SHA1:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha1)
+        break
+    case SecPadding.PKCS1SHA224:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha224)
+        break
+
+    case SecPadding.PKCS1SHA256:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha256)
+        break
+
+    case SecPadding.PKCS1SHA384:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha384)
+        break
+
+    case SecPadding.PKCS1SHA512:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha512)
+        break
+
+    default:do {
+        print("not support this type sign!")
+        return nil
+        }
+    }
+
+    let blockLen =  SecKeyGetBlockSize(self.privateSecKey!)
+    var outBuf = [UInt8](repeating: 0, count: blockLen)
+    var outBufLen:Int = blockLen
+
+    let status: OSStatus = SecKeyRawSign(self.privateSecKey!, padding, hashData!.bytes.assumingMemoryBound(to: UInt8.self), hashData!.length, &amp;outBuf, &amp;outBufLen)
+
+    if status == noErr {
+        return Data(bytes: outBuf, count: outBufLen)
+    }else{
+        print("sign status = \(status)")
+        return nil
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<h5>2.rsa 验签</h5>
+
+<p>```objective-c
+@objc public func verify(source: Data, signData:Data,padding: SecPadding = SecPadding.PKCS1SHA1) &ndash;> Bool {</p>
+
+<pre><code>    guard source.count &gt; 0 &amp;&amp; signData.count &gt; 0 &amp;&amp; self.publicSecKey != nil else {
+        return false
+    }
+
+    let hashData: NSData?
+
+    switch padding {
+    case SecPadding.PKCS1SHA1:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha1)
+        break
+    case SecPadding.PKCS1SHA224:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha224)
+        break
+
+    case SecPadding.PKCS1SHA256:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha256)
+        break
+
+    case SecPadding.PKCS1SHA384:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha384)
+        break
+
+    case SecPadding.PKCS1SHA512:
+        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha512)
+        break
+
+    default:do {
+        print("not support this type sign!")
+        return false
+        }
+    }
+
+    let signBuf: UnsafePointer&lt;UInt8&gt; = (signData as NSData).bytes.assumingMemoryBound(to: UInt8.self)
+
+    let blockLen =  SecKeyGetBlockSize(self.publicSecKey!)
+
+    let status: OSStatus = SecKeyRawVerify(self.publicSecKey!,
+                                           padding,
+                                           hashData!.bytes.assumingMemoryBound(to: UInt8.self),
+                                           hashData!.length,
+                                           signBuf,
+                                           blockLen)
+
+    if status == noErr {
+        return true
+    }else{
+        print("sign status = \(status)")
+    }
+
+    return false
+}
+</code></pre>
+
+<p>```</p>
+
+<h5>3.调用</h5>
+
+<p>```objective-c
+//原始数据</p>
+
+<pre><code>    let originalString = "你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv"
+
+    //let originalString = "123456helloworld"
+    let publicKeyPath:String =   Bundle.main.path(forResource: "public_key", ofType: "der")!
+    let privateKeyPath = Bundle.main.path(forResource: "private_key", ofType: "p12")
+
+    print("publicKeyPath = \(publicKeyPath)")
+    print("privateKeyPath = \(String(describing: privateKeyPath))")
+
+    let rsaSign:YKRSASign = YKRSASign()
+    rsaSign.publicKey(fileFullPath: publicKeyPath as NSString, block: {(_ error: NSError?, _ secKey:SecKey?) in
+    })
+
+    rsaSign.privateKey(fileFullPath: privateKeyPath! as NSString, password: "", block: {(_ error: NSError?, _ secKey:SecKey?) in
+    })
+
+    let originalData = originalString.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+    let signData = rsaSign.sign(source: originalData!, padding: SecPadding.PKCS1SHA512)
+
+    let isVerify = rsaSign.verify(source: originalData!, signData: signData!, padding: SecPadding.PKCS1SHA512)
+
+    if isVerify {
+        print("验证签名通过")
+    }else{
+        print("验证签名失败")
+    }
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift-https的支持]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/18/swift-httpsde-zhi-chi/"/>
+    <updated>2018-07-18T16:35:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/18/swift-httpsde-zhi-chi</id>
+    <content type="html"><![CDATA[<p>swift中，如何支持https呢？</p>
+
+<p>https分为单向（客户端校验服务端）的和双向（客户端/服务端相互校验）具体可查阅相关资料。</p>
+
+<p>实现<code>URLSessionDelegate</code>协议中</p>
+
+<p><code>urlSession(_ session: didReceive challenge: completionHandler: )</code></p>
+
+<p>具体实现如下：</p>
+
+<p>```objective-c</p>
+
+<pre><code>func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -&gt; Void) {
+
+    var disposition = URLSession.AuthChallengeDisposition.performDefaultHandling
+
+    var credential:URLCredential? = nil
+    /*disposition：如何处理证书
+     performDefaultHandling:默认方式处理
+     useCredential：使用指定的证书
+     cancelAuthenticationChallenge：取消请求
+     */
+
+    if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+        credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+
+        if credential != nil {
+            disposition = URLSession.AuthChallengeDisposition.useCredential
+        }
+    }else if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodClientCertificate {
+        //单向验证，客户端不需要服务端验证，此处与默认处理一致即可
+        disposition = URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge
+    }
+    else {
+        disposition = URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge
+    }
+
+    completionHandler(disposition, credential)
+}
+</code></pre>
+
+<p>}
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift-RSA(一)]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/17/swift-rsa-1/"/>
+    <updated>2018-07-17T18:56:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/17/swift-rsa-1</id>
+    <content type="html"><![CDATA[<p>如何使用swift进行RSA加解密呢？</p>
+
+<h5>一.这四个方面:加载公钥/加载私钥/RSA加密/RSA解密</h5>
+
+<ul>
+<li>1.加载公钥</li>
+</ul>
+
+
+<p>```objective-c</p>
+
+<pre><code>@objc public func publicKey(fileFullPath: NSString, block :@escaping YKRSASignBlock ) {
+
+    if !FileManager.default.fileExists(atPath: fileFullPath as String){
+        block(NSError.init(domain: "file not exist at the full path ", code: -1, userInfo: nil),nil)
+    }
+
+    let certificateData = NSData(contentsOfFile: fileFullPath as String);
+
+    let myCertificate: SecCertificate = SecCertificateCreateWithData(kCFAllocatorDefault, certificateData!)!
+    let policy = SecPolicyCreateBasicX509()
+    var trust: SecTrust?
+    var status: OSStatus = SecTrustCreateWithCertificates(myCertificate, policy, &amp;trust)
+
+    if status == noErr {
+        var trustResult:SecTrustResultType = SecTrustResultType(rawValue: 0)!
+        status = SecTrustEvaluate(trust!, &amp;trustResult)
+        let secKey =  SecTrustCopyPublicKey(trust!)
+        self.publicSecKey = secKey
+        block(nil, secKey)
+    }else{
+
+        block(NSError(domain: "load error", code: Int(status), userInfo: nil), nil)
+    }
+}
+</code></pre>
+
+<p>```
+* 2.加载私钥</p>
+
+<p>```objective-c</p>
+
+<pre><code>@objc public func privateKey(fileFullPath: NSString, password: NSString, block :@escaping YKRSASignBlock ) {
+
+    if !FileManager.default.fileExists(atPath: fileFullPath as String){
+        block(NSError.init(domain: "file not exist at the full path ", code: -1, userInfo: nil),nil)
+    }
+
+    let p12Data = NSData(contentsOfFile: fileFullPath as String);
+
+    guard p12Data != nil else {
+        return
+    }
+
+    let options = [kSecImportExportPassphrase: password]  as [String : Any]
+    var items : CFArray?
+    var status: OSStatus = SecPKCS12Import(p12Data!, options as CFDictionary, &amp;items)
+    var privateKey:SecKey?
+
+    if status == noErr {
+
+        let resArray:Array = (items as Array?)!
+        let identityDict: Dictionary = resArray.first as! Dictionary&lt;String, AnyObject&gt;
+        let identity = identityDict[ kSecImportItemIdentity as String]
+</code></pre>
+
+<p>//            let identityDict = CFArrayGetValueAtIndex(items, 0)
+//            let secImportItemIdentity = unsafeBitCast(kSecImportItemIdentity, to: UnsafeRawPointer.self)
+//            let identityApp:SecIdentity = CFDictionaryGetValue(identityDict.unsafelyUnwrapped as! CFDictionary, secImportItemIdentity) as! SecIdentity</p>
+
+<pre><code>        status = SecIdentityCopyPrivateKey(identity as! SecIdentity, &amp;privateKey)
+        if status == noErr {
+            self.privateSecKey = privateKey
+             block(nil, self.privateSecKey)
+            return
+        }
+    }
+    block(NSError(domain: "load error", code: Int(status), userInfo: nil), nil)
+}
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>3.使用RSA加密</li>
+</ul>
+
+
+<p>```objective-c
+@objc public func encrypt(source: NSString) &ndash;> NSString? {</p>
+
+<pre><code>    guard source.length &gt; 0 &amp;&amp; self.publicSecKey != nil else {
+        return ""
+    }
+
+    let data: NSData = (source.data(using: String.Encoding.utf8.rawValue)! as NSData)
+    var resData:NSData? = nil
+</code></pre>
+
+<p>//        if #available(iOS 10.0, *) {
+//            var error: Unmanaged<CFError>?
+//            resData =  SecKeyCreateEncryptedData(self.publicSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)
+//
+//            print(&ldquo;res = (String(describing: error?.takeUnretainedValue().localizedDescription))&rdquo;)
+//        } else</p>
+
+<pre><code>    //{
+        // Fallback on earlier versions
+
+    let blockLen =  SecKeyGetBlockSize(self.publicSecKey!)
+    var outBuf = [UInt8](repeating: 0, count: blockLen)
+    var outBufLen:Int = blockLen
+
+    let status: OSStatus = SecKeyEncrypt(self.publicSecKey!, SecPadding.PKCS1, data.bytes.assumingMemoryBound(to: UInt8.self), data.length, &amp;outBuf, &amp;outBufLen)
+
+    if status == noErr {
+        resData = NSData(bytes: outBuf, length: outBufLen)
+    }
+
+    if resData != nil {
+
+        let resString = resData!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: NSData.Base64EncodingOptions.lineLength64Characters.rawValue))
+
+        return resString as NSString
+    }
+
+    return nil
+}
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>4.使用RSA解密</li>
+</ul>
+
+
+<p>```objective-c</p>
+
+<pre><code>@objc public func decrypt(source: NSString) -&gt; NSString? {
+
+    guard source.length &gt; 0 &amp;&amp; self.privateSecKey != nil else {
+        return ""
+    }
+
+    let data: Data = (NSData(base64Encoded: (source as String), options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)! as Data)
+
+
+    let blockLen =  SecKeyGetBlockSize(self.privateSecKey!)
+
+    let outBuf = UnsafeMutablePointer&lt;UInt8&gt;.allocate(capacity: blockLen)
+
+    defer {
+        outBuf.deallocate()
+    }
+
+    var outLen: Int = blockLen
+    var status: OSStatus = noErr
+
+    var resData:NSData? = nil
+</code></pre>
+
+<p>//        if #available(iOS 10.0, *) {
+//            var error: Unmanaged<CFError>?
+//            resData =  SecKeyCreateDecryptedData(self.privateSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)
+//
+//            print(&ldquo;res = (String(describing: error?.takeUnretainedValue().localizedDescription))&rdquo;)
+//        } else {
+//            // Fallback on earlier versions
+//            //let status = SecKeyEncrypt(seckey, SecPadding.PKCS1, chunkData, chunkData.count, outBuf, &amp;encryptedDataLength)
+//
+//        }</p>
+
+<pre><code>    data.withUnsafeBytes { (bytes:UnsafePointer&lt;UInt8&gt;) -&gt; Void in
+        status = SecKeyDecrypt(self.privateSecKey!, SecPadding.PKCS1, bytes, data.count, outBuf, &amp;outLen)
+
+        print("status = \(status)")
+    }
+
+    if status == noErr {
+        resData = NSData(bytes: outBuf, length: outLen)
+    }
+
+    if resData != nil  {
+        return String(data: (resData! as Data), encoding: String.Encoding.utf8) as NSString?
+    }
+
+    return nil
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>二.问题。</h4>
+
+<ul>
+<li>1.返回的为什么是NSString? 返回String也行</li>
+<li>2.为什么不支持超过128 &ndash; 11字节数据加解密？别急，见下一篇</li>
+<li>3.为什么不使用新版的RSA加解密？新版的只支持iOS10以上</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

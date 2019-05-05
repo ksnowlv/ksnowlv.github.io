@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 数据库 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/shu-ju-ku/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mac下找回sql密码]]></title>
+    <link href="http://ksnowlv.github.io/blog/2017/11/28/macxia-zhao-hui-sqlmi-ma/"/>
+    <updated>2017-11-28T19:41:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2017/11/28/macxia-zhao-hui-sqlmi-ma</id>
+    <content type="html"><![CDATA[<p>安装好MySQL，系统给了个默认的的密码。然而，很不幸，忘记了默认的密码。如何找回呢？</p>
+
+<p> <!--more--></p>
+
+<h4>1.设置中把MySQL关闭。</h4>
+
+<p><img src="/images/post/2017-11-28-macxia-zhao-hui-sqlmi-ma/sql-control.png" alt="image" /></p>
+
+<h4>2.切换到MySQL目录下。</h4>
+
+<p>MySQL目录：usr/local/mysql-5.7.20-macos10.12-x86_64/bin</p>
+
+<p><code>objective-c
+sudo ./mysqld_safe --skip-grant-table
+</code>
+<img src="/images/post/2017-11-28-macxia-zhao-hui-sqlmi-ma/sql_mysqld_safe.png" alt="image" /></p>
+
+<h4>3.设置新密码</h4>
+
+<ul>
+<li><p>另开个终端，配置短命令：alias mysql=/usr/local/mysql/bin/mysql</p></li>
+<li><p>置root用户的密码为；123</p></li>
+</ul>
+
+
+<p><code>objective-c
+mysql&gt; update mysql.user set password=‘123' whereUser='root'
+mysql&gt; flush privileges;
+mysql&gt; quit
+</code></p>
+
+<p><img src="/images/post/2017-11-28-macxia-zhao-hui-sqlmi-ma/sql_reset_passoword.png" alt="image" /></p>
+
+<p>再重启MySQL即可，MySQL Workbench也可以正常使用啦!!!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[mac下安装配置mysql]]></title>
+    <link href="http://ksnowlv.github.io/blog/2014/08/31/mac-xia-an-zhuang-pei-zhi-mysql/"/>
+    <updated>2014-08-31T23:25:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2014/08/31/mac-xia-an-zhuang-pei-zhi-mysql</id>
+    <content type="html"><![CDATA[<h4>1。下载安装MySQL.</h4>
+
+<p>在<a href="http://dev.mysql.com/downloads/mysql/">mysql官网</a>找到<strong>Mac</strong>版本<strong>MySQL Community Server</strong>下载安装即可。</p>
+
+<!--more-->
+
+
+<p>安装<strong>MySQL</strong>完成后，在在<strong>MySQL的控制面板</strong>(系统偏好设置->MySQL)中，启动<strong>mysql服务</strong>即可。</p>
+
+<p>如遇到不能启动<strong>mysql服务</strong>，参考链接：<a href="http://ksnowlv.gitcafe.com/blog/2014/08/31/mac-mysql-service-can-not-start/">解决Mac-mysql-service-can‘t-start的问题</a>。</p>
+
+<h4>2.安装MySQL Workbench(GUI Tool)</h4>
+
+<p> 在<a href="http://dev.mysql.com/downloads/workbench/">mysql官网</a>找到<strong>Mac</strong>版本<strong>MySQL Workbench</strong>下载安装即可。</p>
+
+<p> 安装启动成功后，创建phpDataBase的数据库连接。</p>
+
+<p> <img src="/images/post/2014-08-31-mac-xia-an-zhuang-pei-zhi-mysql/mysql_workbench_overview.png" alt="image" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[解决mac-mysql-service-can‘t-start的问题]]></title>
+    <link href="http://ksnowlv.github.io/blog/2014/08/31/mac-mysql-service-can-not-start/"/>
+    <updated>2014-08-31T22:26:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2014/08/31/mac-mysql-service-can-not-start</id>
+    <content type="html"><![CDATA[<p><code>Mac</code>上安装<a href="http://dev.mysql.com/downloads/mysql/">mysql-5.6.20-osx10.8-x86_64-3</a>完成。</p>
+
+<!--more-->
+
+
+<p>在<strong>MySQL的控制面板</strong>(系统偏好设置->MySQL)上，显示<strong>mac mysql service can&rsquo;t start</strong>。</p>
+
+<p><strong>解决方案</strong>：</p>
+
+<p>编辑<code>/usr/local/mysql-5.6.20-osx10.8-x86_64/support-files/</code>目录下<code>mysql.server</code>文件,把</p>
+
+<pre><code>basedir=
+datadir=
+</code></pre>
+
+<p>替换为</p>
+
+<pre><code>basedir=/usr/local/mysql 
+datadir=/usr/local/mysql/data 
+</code></pre>
+
+<p>重启下<code>mysql service</code>，即可。</p>
+
+<p>如果重启失败，重启下电脑吧。</p>
+
+<p><code>mysql service</code>启动成功后的界面。</p>
+
+<p><img src="/images/post/2014-08-31-mac-mysql-service-can-not-start/mysql_service_ok.png" alt="image" /></p>
+]]></content>
+  </entry>
+  
+</feed>

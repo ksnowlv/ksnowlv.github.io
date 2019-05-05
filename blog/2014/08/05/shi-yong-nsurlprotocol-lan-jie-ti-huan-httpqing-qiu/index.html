@@ -1,0 +1,556 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>使用NSURLProtocol拦截替换http请求 - ksnowlv</title>
+  <meta name="author" content="律威">
+
+  
+  <meta name="description" content="使用背景:整个工程中中图片url需要添加额外的参数支持图片优化，包括webview部分。 所以使用NSURLProtocol拦截相关URL,替换http请求，实现图片优化参数的统一支持。 具体做法如下： 1.声明继承NSURLProtocol的子类QImageURLProtocol. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ksnowlv.github.io/blog/2014/08/05/shi-yong-nsurlprotocol-lan-jie-ti-huan-httpqing-qiu">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="ksnowlv" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-39546615-2']);
+    // _gaq.push(['_trackPageview']);
+
+    // (function() {
+    //   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    //   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    // })();
+
+    _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src='http://droidyue-tools.qiniudn.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">ksnowlv</a></h1>
+  
+    <h2>回顾过去,总结以往;立足现在,铭记当下;技术为主,笔记而已.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ksnowlv.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/about-me">关于我</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">使用NSURLProtocol拦截替换http请求</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-05T05:51:00+08:00" pubdate data-updated="true">Aug 5<span>th</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4>使用背景:整个工程中中图片url需要添加额外的参数支持图片优化，包括webview部分。</h4>
+
+<!--more-->
+
+
+<h4>所以使用NSURLProtocol拦截相关URL,替换http请求，实现图片优化参数的统一支持。</h4>
+
+<h4>具体做法如下：</h4>
+
+<h4>1.声明继承NSURLProtocol的子类QImageURLProtocol.</h4>
+
+<p>头文件内容如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *  用于测试的url</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="k">static</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">KPicBURL</span> <span class="o">=</span> <span class="s">@&quot;http://g.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=ee4c561ac1fdfc03fa78eeb8e404e4e6/a686c9177f3e6709ef8de51b39c79f3df9dc5540.jpg&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">static</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">KPicAURL</span> <span class="o">=</span> <span class="s">@&quot;http://d.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=ee81c70e83cb39dbdec06a56e02d6a56/b812c8fcc3cec3fdcf460491d488d43f869427dd.jpg&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">QImageURLProtocol</span> : <span class="nc">NSURLProtocol</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>实现文件内容如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">QImageURLProtocol</span> <span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSURLConnection</span> <span class="o">*</span><span class="n">connection</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">QImageURLProtocol</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark -----------NSURLProtocol-------------</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">canInitWithRequest:</span><span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;----origin request url = %@&quot;</span><span class="p">,</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="nl">isQImageURLRequest:</span><span class="n">request</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nf">canonicalRequestForRequest:</span><span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">cdnRequest</span> <span class="o">=</span> <span class="p">[</span><span class="n">request</span> <span class="n">mutableCopy</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">cdnRequest</span><span class="p">.</span><span class="n">URL</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">imagesForQImageURL:</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">//[NSURLProtocol setProperty:@&quot;YES&quot; forKey:@&quot;QImageURL&quot; inRequest:cdnRequest];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">cdnRequest</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startLoading</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">connection</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLConnection</span> <span class="nl">connectionWithRequest:</span><span class="p">[</span><span class="n">QImageURLProtocol</span> <span class="nl">canonicalRequestForRequest:</span><span class="n">self</span><span class="p">.</span><span class="n">request</span> <span class="p">]</span> <span class="nl">delegate:</span><span class="n">self</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stopLoading</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">connection</span> <span class="n">cancel</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">connection</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="n">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="nv">connection</span> <span class="nf">didReceiveResponse:</span><span class="p">(</span><span class="n">NSURLResponse</span> <span class="o">*</span><span class="p">)</span><span class="nv">response</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">client</span> <span class="nl">URLProtocol:</span><span class="n">self</span> <span class="nl">didReceiveResponse:</span><span class="n">response</span> <span class="nl">cacheStoragePolicy:</span><span class="n">NSURLCacheStorageNotAllowed</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="n">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="nv">connection</span> <span class="nf">didReceiveData:</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">client</span> <span class="nl">URLProtocol:</span><span class="n">self</span> <span class="nl">didLoadData:</span><span class="n">data</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connectionDidFinishLoading:</span><span class="p">(</span><span class="n">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="nv">connection</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">client</span> <span class="nl">URLProtocolDidFinishLoading:</span><span class="n">self</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="n">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="nv">connection</span> <span class="nf">didFailWithError:</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">client</span> <span class="nl">URLProtocol:</span><span class="n">self</span> <span class="nl">didFailWithError:</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark -----------------private method---------</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">isQImageURLRequest:</span><span class="p">(</span><span class="n">NSURLRequest</span><span class="o">*</span><span class="p">)</span><span class="nv">request</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="p">[</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">.</span><span class="n">host</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;d.hiphotos.baidu.com&quot;</span><span class="p">]</span>
+</span><span class='line'>        <span class="c1">//&amp;&amp;nil == [NSURLProtocol propertyForKey:@&quot;QImageURL&quot; inRequest:request]</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;isQImageURLRequest&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="n">NSURL</span><span class="o">*</span><span class="p">)</span><span class="nf">imagesForQImageURL:</span><span class="p">(</span><span class="n">NSURL</span><span class="o">*</span><span class="p">)</span><span class="nv">url</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//只要是KPicAURL，会被直接替换为KPicBURL</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">url</span><span class="p">.</span><span class="n">host</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;d.hiphotos.baidu.com&quot;</span> <span class="p">]</span>
+</span><span class='line'>        <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">url</span><span class="p">.</span><span class="n">absoluteString</span> <span class="nl">isEqualToString:</span><span class="n">KPicAURL</span> <span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>         <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;----real request url = %@&quot;</span><span class="p">,</span><span class="n">KPicBURL</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString:</span><span class="n">KPicBURL</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">url</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>调用如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">NSURLProtocol</span> <span class="nl">unregisterClass:</span><span class="p">[</span><span class="n">QImageURLProtocol</span> <span class="n">class</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//关键一步</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">NSURLProtocol</span> <span class="nl">registerClass:</span><span class="p">[</span><span class="n">QImageURLProtocol</span> <span class="n">class</span><span class="p">]];</span>
+</span><span class='line'>    <span class="n">_imageDownloadQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">requestImageEvent:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span> <span class="n">NSURLRequest</span> <span class="nl">requestWithURL:</span><span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString:</span><span class="n">KPicAURL</span><span class="p">]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">NSURLConnection</span> <span class="nl">sendAsynchronousRequest:</span><span class="n">request</span> <span class="nl">queue:</span><span class="n">_imageDownloadQueue</span> <span class="nl">completionHandler:</span><span class="o">^</span><span class="p">(</span><span class="n">NSURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">,</span> <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">connectionError</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nb">nil</span> <span class="o">==</span> <span class="n">connectionError</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageWithData:</span><span class="n">data</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>                <span class="n">_imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">});</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>注意事项:</h4>
+
+<h4>1.这种方法对于基于NSURLConnection的http请求是有效的,例如AFNetworking，对于基于CFNetwork框架的是不支持的,例如：MKNetworkKit,ASIHttpRequest.</h4>
+
+<h4>2.无论对webView还是native的,只要是基于NSURLConnection的网络请求的,可以根据相关特征进行URL拦截替换.</h4>
+
+<h5>3.如何一个工程当中，注册了多个拦截基于NSURLConnection的网络请求的类的情况下，最终生效的是最后拦截者。</h5>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">律威</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-05T05:51:00+08:00" pubdate data-updated="true">Aug 5<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios-wang-luo/'>iOS-网络</a>
+  
+</span>
+
+
+      
+<DIV >
+作者： <A href="/">律威</A> <BR>
+出处： <A href="/">https://ksnowlv.github.io</A> 
+<BR>原创文章，版权声明：自由转载-非商用-非衍生-保持署名
+<a href= "http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh"> Creative Commons BY-NC-ND 3.0 </a>。 </DIV>
+
+
+    </p>
+<!--     
+      Included file 'post/sharing.html' not found in _includes directory
+     -->
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/08/04/ios-ipad-ce-shi-gong-ju-zong-lan/" title="Previous Post: iOS/iPad测试工具总览">&laquo; iOS/iPad测试工具总览</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/08/05/python-mian-xiang-dui-xiang-lei-ding-yi/" title="Next Post: python面向对象-类定义">python面向对象-类定义 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+var disqus_shortname = 'ksnowlv';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>关于我</h1>
+  <p>律威,QQ:309235009 微信:ksnowlv</p>
+  <p>手机单机游戏/手机网游封神online/手机阅读/腾讯iOS地图客户端&实时公交&开放API(地图&街景)/iPad/iPhone淘宝客户端及性能优化</p>
+  <p>目前在银客做银客/简理财/...</p>
+  <p>能做一点,是一点;不求大成,不求一万年;积少成多,水到渠成!</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/">Kotlin通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/">Android通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>分类</h1>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (2)</a></li><li><a href='/blog/categories/android-jni/'>android-jni (1)</a></li><li><a href='/blog/categories/android-jni/'>Android-JNI (3)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+</section>
+<section>
+  <h1>外部链接</h1>
+    <ul id="外部链接">
+    	<li><a href="https://developer.apple.com">苹果开发者中心</a> </li>
+    	<li><a href="http://stackoverflow.com/questions/tagged/ios">stackoverflow</a></li>
+    	<li><a href="http://ksnowlv.blog.163.com/blog/#m=0">ksnowlv网易博客</a></li>
+    	<li><a href="https://www.jianshu.com/u/6fe5d9875a9e">简书</a></li>
+	</ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - 律威 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271193933'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1271193933%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+  <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F4c1727a94ea20751730e8a556dbdbf82' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ksnowlv';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ksnowlv.github.io/blog/2014/08/05/shi-yong-nsurlprotocol-lan-jie-ti-huan-httpqing-qiu/';
+        var disqus_url = 'http://ksnowlv.github.io/blog/2014/08/05/shi-yong-nsurlprotocol-lan-jie-ti-huan-httpqing-qiu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+Included file 'custom/after_footer.html' not found in _includes directory
+
+</body>
+</html>

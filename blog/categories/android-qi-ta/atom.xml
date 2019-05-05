@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Android-其它 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/android-qi-ta/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[trying to use a recycled bitmap android.graphics.Bitmap@bffc9a0解决方案]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/01/02/recycled-bitmap-resolve/"/>
+    <updated>2018-01-02T19:39:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/01/02/recycled-bitmap-resolve</id>
+    <content type="html"><![CDATA[<p>最近项目中出现了一批“trying to use a recycled bitmap android.graphics.Bitmap@bffc9a0”异常，是什么原因导致的呢？</p>
+
+<!--more-->
+
+
+<p>原因：图片在回收后，依然有一些地方引用该Bitmap.</p>
+
+<p>解决方案：可以在使用Bitmap的地方解除对Bitmap引用后再回收。</p>
+
+<p>如果使用的是ImageView,可以在回收时，先解除ImageView对Bitmap的使用，再回收Bitmap。例如：</p>
+
+<p>```objective-c
+ protected void onDestroy() {</p>
+
+<pre><code>    mStarterImageView.setImageBitmap(null);
+    if (null  != mStartBitmap&amp;&amp; !mStartBitmap.isRecycled()) {
+        mStartBitmap.recycle();
+        mStartBitmap = null;
+    }
+
+    super.onDestroy();
+</code></pre>
+
+<p>   }
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

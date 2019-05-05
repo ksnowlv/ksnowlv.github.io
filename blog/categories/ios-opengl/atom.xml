@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iOS-OpenGL | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/ios-opengl/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[opengl坐标系]]></title>
+    <link href="http://ksnowlv.github.io/blog/2013/04/12/openglzuo-biao-xi/"/>
+    <updated>2013-04-12T15:33:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2013/04/12/openglzuo-biao-xi</id>
+    <content type="html"><![CDATA[<p>OpenGL坐标系可分为</p>
+
+<ul>
+<li>世界坐标系</li>
+<li>当前绘图坐标系。</li>
+</ul>
+
+
+<h5>1.世界坐标系：</h5>
+
+<p>在OpenGL中，世界坐标系是以屏幕中心为原点(0, 0, 0)，且是始终不变的。屏幕向右为x正轴正向，屏幕向上为y正轴正向，屏幕向外为z正轴正向。</p>
+
+<p>  单位长度这样来定：窗口范围按此单位恰好是(-1,-1)到(1,1)，即屏幕左下角坐标为（-1，-1），右上角坐标为（1,1）。</p>
+
+<h5>2.当前绘图坐标系：</h5>
+
+<p>是绘制物体时的坐标系。程序刚初始化时，世界坐标系和当前绘图坐标系是重合的。</p>
+
+<p>当用glTranslatef()，glScalef(), glRotatef()等对当前绘图坐标系进行平移、伸缩、旋转变换之后，世界坐标系和当前绘图坐标系不再重合。</p>
+
+<p>注意:</p>
+
+<p>这里的平移旋转是将当前绘图坐标系看做一个整体在世界坐标系中进行旋转平移。然后，改变以后，再用glVertex3f()等绘图函数绘图时，都是在当前绘图坐标系进行绘图，所有的函数参数也都是相对当前绘图坐标系来讲的。</p>
+
+<h5>3.openGL使用右手坐标</h5>
+
+<p>从左到右，x递增
+从下到上，y递增
+从远到近，z递增</p>
+
+<h5>4.绘图的基本过程</h5>
+
+<ul>
+<li>初始化GC</li>
+<li>进行投影变换->视口变换->模型变换，</li>
+<li>完成变换过程，把数据缓存到帧缓冲区，</li>
+<li>把帧缓冲区数据填充到渲染缓冲区</li>
+<li>然后，渲染到屏幕上。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iPhone-OpenGL绘图坐标和纹理坐标问题]]></title>
+    <link href="http://ksnowlv.github.io/blog/2013/04/12/iphone-openglhui-tu-zuo-biao-he-wen-li-zuo-biao-wen-ti/"/>
+    <updated>2013-04-12T14:09:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2013/04/12/iphone-openglhui-tu-zuo-biao-he-wen-li-zuo-biao-wen-ti</id>
+    <content type="html"><![CDATA[<p>当我们使用标准的OpenGL 绘制纹理图像时，我们得到了一个翻转的图像。为什么呢？</p>
+
+<pre><code>iPhone中用于Core Graphics的图像坐标系统，其y轴在屏幕从上到下而增加，与OpenGL ES中的坐标系正好相反，OpenGL ES坐标系的y轴从下向上增加。其结果就是我们早先传递给OpenGL ES中的图像数据从OpenGL ES的角度看完全颠倒了。所以，如果我们要保证显示的纹理正常，需要把纹理坐标的上下颠倒下。当然，你也可以修改投影来正常显示纹理
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

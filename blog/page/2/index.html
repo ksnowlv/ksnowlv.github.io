@@ -1,0 +1,1692 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ksnowlv</title>
+  <meta name="author" content="律威">
+
+  
+  <meta name="description" content="如何在swift调整c代码呢？ swift通过工程的桥接文件，调用oc或c的相关代码!!! 1.创建c文件：test.h和test.c test.h内容如下： 1
+2
+3
+4
+5
+6
+7
+8
+#ifndef test_h
+#define test_h #include &lt;stdio.h&gt &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ksnowlv.github.io/blog/page/2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="ksnowlv" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-39546615-2']);
+    // _gaq.push(['_trackPageview']);
+
+    // (function() {
+    //   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    //   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    // })();
+
+    _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src='http://droidyue-tools.qiniudn.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">ksnowlv</a></h1>
+  
+    <h2>回顾过去,总结以往;立足现在,铭记当下;技术为主,笔记而已.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ksnowlv.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/about-me">关于我</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/04/01/swift-call-c/">Swift Call C</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-04-01T16:13:00+08:00" pubdate data-updated="true">Apr 1<span>st</span>, 2019</time>
+        
+         | <a href="/blog/2019/04/01/swift-call-c/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>如何在swift调整c代码呢？</p>
+
+<p><em>swift通过工程的桥接文件，调用oc或c的相关代码!!!</em></p>
+
+<h4>1.创建c文件：<code>test.h</code>和<code>test.c</code></h4>
+
+<p><code>test.h</code>内容如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#ifndef test_h</span>
+</span><span class='line'><span class="cp">#define test_h</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="nf">showValue</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">value</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#endif </span><span class="cm">/* test_h */</span><span class="cp"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>test.c</code>内容如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#include &quot;test.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="nf">showValue</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;old value = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">*</span><span class="n">value</span><span class="p">);</span>
+</span><span class='line'>    <span class="o">*</span><span class="n">value</span> <span class="o">=</span> <span class="o">*</span><span class="n">value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;new value = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">*</span><span class="n">value</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>2.在桥接文件中,加入<code>test.h</code>引用：<code>#include "test.h"</code></h4>
+
+<h4>3.swift中调用</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>   <span class="n">var</span> <span class="nl">value:</span> <span class="n">Int32</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>   <span class="n">showValue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结果显而易见：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">old</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">new</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/02/01/gobian-liang/">Go变量声明和使用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-02-01T16:31:00+08:00" pubdate data-updated="true">Feb 1<span>st</span>, 2019</time>
+        
+         | <a href="/blog/2019/02/01/gobian-liang/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>go变量声明和使用</p>
+
+<p>···objective-c</p>
+
+<p>package main</p>
+
+<p>import &ldquo;fmt&rdquo;</p>
+
+<p>var x, y int</p>
+
+<p>var (</p>
+
+<pre><code>a int
+b bool
+</code></pre>
+
+<p>)</p>
+
+<p>var c, d int = 1, 2</p>
+
+<p>var e, f = 123, &ldquo;hello&rdquo;</p>
+
+<p>func main() {</p>
+
+<pre><code>//这咱不带声明格式的用法，只能出现在函数休内
+g, h := 123, "hello"
+
+println(x, y, a, b, c, d, e, f, g, h)
+
+var testString string = "hello world!"
+
+fmt.Println(testString)
+
+var a, b int
+
+a, b = 5, 7
+
+println("a=", a, "b=", b)
+
+a, b = b, a
+
+println("a和b交换后 a=", a, "b=", b)
+</code></pre>
+
+<p>}</p>
+
+<p>···</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/08/07/swiftzhong-pthread-tzhi-mutex/">Swift中pthread_t之mutex</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-08-07T18:37:00+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/08/07/swiftzhong-pthread-tzhi-mutex/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>mutex类型有四种</p>
+
+<ul>
+<li>PTHREAD_MUTEX_NORMAL</li>
+<li>PTHREAD_MUTEX_ERRORCHECK</li>
+<li>PTHREAD_MUTEX_RECURSIVE</li>
+<li>PTHREAD_MUTEX_DEFAULT</li>
+</ul>
+
+
+<h5>1.mutex初始化。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="n">var</span> <span class="n">mutex</span> <span class="o">=</span> <span class="n">pthread_mutex_t</span><span class="p">()</span>
+</span><span class='line'> <span class="n">var</span> <span class="nl">attr:</span> <span class="n">pthread_mutexattr_t</span> <span class="o">=</span> <span class="n">pthread_mutexattr_t</span><span class="p">()</span>
+</span><span class='line'> <span class="n">pthread_mutexattr_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">attr</span><span class="p">)</span>
+</span><span class='line'> <span class="n">pthread_mutexattr_settype</span><span class="p">(</span><span class="o">&amp;</span><span class="n">attr</span><span class="p">,</span> <span class="n">PTHREAD_MUTEX_RECURSIVE</span><span class="p">)</span>
+</span><span class='line'> <span class="n">pthread_mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">attr</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>2.mutex使用。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="n">pthread_mutex_trylock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1">//执行代码块</span>
+</span><span class='line'> <span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3.mutex释放。</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">pthread_mutex_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/08/07/swiftzhong-yu-oczhong-yong-fa-qu-bie/">Synchronized到objc_sync_enter/objc_sync_exit</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-08-07T17:18:00+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/08/07/swiftzhong-yu-oczhong-yong-fa-qu-bie/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>synchronized</code>&ndash;><code>objc_sync_enter/objc_sync_exit</code></p>
+
+<p><code>objc_sync_enter</code>：递归锁，与objc_sync_exit配合使用，注意死锁</p>
+
+<ul>
+<li>Begin synchronizing on &lsquo;obj&rsquo;. Allocates recursive pthread_mutex associated with &lsquo;obj&rsquo; if needed.</li>
+<li>Parameters  <br/>
+  obj
+  The object to begin synchronizing on.</li>
+<li>Returns <br/>
+OBJC_SYNC_SUCCESS once lock is acquired.</li>
+</ul>
+
+
+<p><code>objc_sync_exit</code></p>
+
+<ul>
+<li>End synchronizing on &lsquo;obj&rsquo;.</li>
+<li>Parameters  <br/>
+  obj
+  The object to end synchronizing on.</li>
+<li>Returns <br/>
+OBJC_SYNC_SUCCESS or OBJC_SYNC_NOT_OWNING_THREAD_ERROR</li>
+</ul>
+
+
+<p>示例如下：</p>
+
+<p> &#8220;`objective-c
+   let lockValue = 0
+   objc_sync_enter(lockValue)</p>
+
+<pre><code>    //执行代码块
+</code></pre>
+
+<p>   objc_sync_exit(lockValue)
+ &#8220;`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/24/quan-ju-bing-fa-dui-lie-you-xian-ji/">全局并发队列优先级</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-24T14:23:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/24/quan-ju-bing-fa-dui-lie-you-xian-ji/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>全局并发队（Global Queue）</p>
+
+<ul>
+<li><p>老版gcd有四种：<code>high</code>，<code>default</code>，<code>low</code>，<code>background</code>，</p>
+
+<p>  优先级为：high>default>low>background</p></li>
+<li><p>新版gcd有六种：<code>background</code>，<code>utility</code>，<code>default</code>，<code>userInitiated</code>，<code>userInteractive</code>，<code>unspecified</code></p>
+
+<p>  优先级为：userInteractive>default>unspecified>userInitiated>utility>background</p>
+
+<p>  测试代码如下：</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="mf">.3</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">DispatchQueue</span><span class="p">.</span><span class="n">global</span><span class="p">(</span><span class="nl">qos:</span> <span class="n">DispatchQoS</span><span class="p">.</span><span class="n">QoSClass</span><span class="p">.</span><span class="k">default</span><span class="p">).</span><span class="n">async</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;DispatchQoS.QoSClass.default, %d&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">DispatchQueue</span><span class="p">.</span><span class="n">global</span><span class="p">(</span><span class="nl">qos:</span> <span class="n">DispatchQoS</span><span class="p">.</span><span class="n">QoSClass</span><span class="p">.</span><span class="n">background</span><span class="p">).</span><span class="n">async</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;DispatchQoS.QoSClass.background, %d&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">DispatchQueue</span><span class="p">.</span><span class="n">global</span><span class="p">(</span><span class="nl">qos:</span> <span class="n">DispatchQoS</span><span class="p">.</span><span class="n">QoSClass</span><span class="p">.</span><span class="n">unspecified</span><span class="p">).</span><span class="n">async</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;DispatchQoS.QoSClass.unspecified, %d&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">DispatchQueue</span><span class="p">.</span><span class="n">global</span><span class="p">(</span><span class="nl">qos:</span> <span class="n">DispatchQoS</span><span class="p">.</span><span class="n">QoSClass</span><span class="p">.</span><span class="n">userInitiated</span><span class="p">).</span><span class="n">async</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;DispatchQoS.QoSClass.userInitiated, %d&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">DispatchQueue</span><span class="p">.</span><span class="n">global</span><span class="p">(</span><span class="nl">qos:</span> <span class="n">DispatchQoS</span><span class="p">.</span><span class="n">QoSClass</span><span class="p">.</span><span class="n">userInteractive</span><span class="p">).</span><span class="n">async</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;DispatchQoS.QoSClass.userInteractive, %d&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">DispatchQueue</span><span class="p">.</span><span class="n">global</span><span class="p">(</span><span class="nl">qos:</span> <span class="n">DispatchQoS</span><span class="p">.</span><span class="n">QoSClass</span><span class="p">.</span><span class="n">utility</span><span class="p">).</span><span class="n">async</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;DispatchQoS.QoSClass.utility, %d&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p> 输出日志：</p>
+
+<p> &#8220;`objective-c</p>
+
+<p>2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505814] DispatchQoS.QoSClass.userInteractive, 3
+2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505813] DispatchQoS.QoSClass.userInteractive, 2
+2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505825] DispatchQoS.QoSClass.userInteractive, 1
+2018-07-24 15:04:12.619716+0800 YKBaseSwiftFramework[8252:505820] DispatchQoS.QoSClass.default, 1
+2018-07-24 15:04:12.619735+0800 YKBaseSwiftFramework[8252:505815] DispatchQoS.QoSClass.unspecified, 1
+2018-07-24 15:04:12.619741+0800 YKBaseSwiftFramework[8252:505828] DispatchQoS.QoSClass.userInitiated, 1
+2018-07-24 15:04:12.620001+0800 YKBaseSwiftFramework[8252:505830] DispatchQoS.QoSClass.default, 2
+2018-07-24 15:04:12.620003+0800 YKBaseSwiftFramework[8252:505814] DispatchQoS.QoSClass.unspecified, 2
+2018-07-24 15:04:12.620065+0800 YKBaseSwiftFramework[8252:505831] DispatchQoS.QoSClass.userInitiated, 2
+2018-07-24 15:04:12.620101+0800 YKBaseSwiftFramework[8252:505832] DispatchQoS.QoSClass.default, 3
+2018-07-24 15:04:12.620122+0800 YKBaseSwiftFramework[8252:505834] DispatchQoS.QoSClass.userInitiated, 3
+2018-07-24 15:04:12.620133+0800 YKBaseSwiftFramework[8252:505833] DispatchQoS.QoSClass.unspecified, 3
+2018-07-24 15:04:12.620143+0800 YKBaseSwiftFramework[8252:505827] DispatchQoS.QoSClass.utility, 1
+2018-07-24 15:04:12.620286+0800 YKBaseSwiftFramework[8252:505829] DispatchQoS.QoSClass.utility, 2
+2018-07-24 15:04:12.620343+0800 YKBaseSwiftFramework[8252:505835] DispatchQoS.QoSClass.utility, 3
+2018-07-24 15:04:12.622419+0800 YKBaseSwiftFramework[8252:505824] DispatchQoS.QoSClass.background, 1
+2018-07-24 15:04:12.622904+0800 YKBaseSwiftFramework[8252:505832] DispatchQoS.QoSClass.background, 2
+2018-07-24 15:04:12.622998+0800 YKBaseSwiftFramework[8252:505831] DispatchQoS.QoSClass.background, 3</p>
+
+<p> &#8220;`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/23/zhi-bo-xie-yi-dui-bi/">直播协议对比</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-23T16:45:00+08:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/23/zhi-bo-xie-yi-dui-bi/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><table>
+<thead>
+<tr>
+<th></th>
+<th>直播协议</th>
+<th>优势</th>
+<th>劣势</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> RTP /RTCP</td>
+<td>RTP 实行有序传送,RTP中的序列号允许接收方重组发送方的包序列，同时序列号也能用于决定适当的包位置，如在视频解码中，就不需要顺序解码。RTCP的主要功能是为RTP所提供的服务质量提供反馈，例如：RTP传输字节数，传输分组数，丢失分组数，单向和双向网络延迟等。网络应用程序可以利用RTCP所提供的信息来提高服务质量，比如限制流量或改用压缩比小的编解码器</td>
+<td>RTP载荷的最大尺寸为1460字 节。以H264 为例，如果一帧数据大于1460，则需要分片打包，然后到接收端再拆包，组合成一帧数据，进行解码播放。|</td>
+</tr>
+<tr>
+<td></td>
+<td>RTSP:(Real Time Streaming Protocol)实时流协议</td>
+<td>RTSP 是一种双向实时数据传输协议，它允许客户端向服务器端发送请求，如回放、快进、倒退等操作。而且，RTSP 可基于RTP 来传送数据，还可以选择 TCP、UDP、组播 UDP 等通道来发送数据，具有很好的扩展性</td>
+<td>1.服务端实现复杂。2.代理服务器弱：数量少，优化少3. 无路由器防火墙穿透。4. 管流分离：需要1-3个通道|</td>
+</tr>
+<tr>
+<td></td>
+<td>RTMP协议(Real Time Messaging Protocol)实时消息传输协议</td>
+<td>RTMP是Adobe Systems公司为Flash播放器和服务器之间音频、视频和数据传输开发的开放协议。该协议基于TCP，RTMP是一种设计用来进行实时数据通信的网络协议，主要用来在Flash/AIR平台和支持RTMP协议的流媒体/交互服务器之间进行音视频和数据通信。1.速度快，误码率低，延迟低 。2.RTMP 是专为流媒体服务而生，协议在制定的时候就考虑到很多底层的优化3.消息块的传输能够提供更加稳定的直播环境，在硬件上要求会更高，但是却能够缓解http的繁琐的传输介质</td>
+<td>1.不支持Html5传播、浏览器推送 2.基于TCP协议,虽然开发难度大，推广度还不够，对于开发人员来说门槛比较高 3.硬件要求相较于HLS较高。 4. 协议复杂：开发者写起来累，效率也不行。5.Cache麻烦：流协议做缓存不方便。|</td>
+</tr>
+<tr>
+<td></td>
+<td>HTTP-FLV协议</td>
+<td>FLV协议由Adobe公司主推，即将音视频数据封装成 FLV，然后通过 HTTP 协议传输给客户端，格式极其简单，只是在大块的视频帧和音视频头部加入一些标记头信息，在延迟表现和大规模并发方面都很成熟。但是在手机浏览器上的支持非常有限，但是用作手机端APP直播协议却异常合适。</td>
+<td>1.需要http长连接 2.h5中需要使用插件。3.需要flash技术支持，不支持多音频流，多视频流，不便于拖动|</td>
+</tr>
+<tr>
+<td></td>
+<td>HLS协议</td>
+<td>HLS协议苹果推出，将视频分成5-10秒的视频小分片，然后用m3u8索引表进行管理，由于客户端下载到的视频都是5-10秒的完整数据，故视频的流畅性很好，但也同样引入了很大的延迟(HLS的一般延迟在10-30s左右)。实际上还是纯“文本协议”相比于FLV，HLS在iPhone和大部分android手机浏览器上的支持非常给力。HLS协议客户端支持简单, 只需要支持 HTTP 请求即可, HTTP 协议无状态, 只需要按顺序下载媒体片段即可，而且网络兼容性好, HTTP 数据包也可以方便地通过防火墙或者代理服务器。但是相比RTMP 这类长连接协议, 用到互动直播场景延时较高。</td>
+<td>相比 RTMP 这类长连接协议, 延时较高, 难以用到直播场景。对于点播服务来说, 由于 TS 切片通常较小, 海量碎片在文件分发, 一致性缓存, 存储等方面都有较大挑战，小文件碎片化严重|</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>直播协议hls，rtmp，http flv，rtsp</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>协议</th>
+<th>传输方式</th>
+<th>视频封装格式</th>
+<th>延时</th>
+<th>数据分段</th>
+<th> HTML5直播</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>HLS</td>
+<td>Http流</td>
+<td>ts文件</td>
+<td>10~30s</td>
+<td>切片</td>
+<td>支持</td>
+<td>H5直播，游戏直播</td>
+</tr>
+<tr>
+<td></td>
+<td> RTMP </td>
+<td>tcp流</td>
+<td>flv tag</td>
+<td>2s~5s</td>
+<td>连续流</td>
+<td>不支持</td>
+<td>互动直播|</td>
+</tr>
+<tr>
+<td></td>
+<td>http flv</td>
+<td>HTTP流</td>
+<td>flv</td>
+<td>2s~5s，优于rtmp</td>
+<td>连续流</td>
+<td>支持</td>
+<td>互动直播|</td>
+</tr>
+<tr>
+<td></td>
+<td>rtsp</td>
+<td>tcp/udp流</td>
+<td>flv</td>
+<td>一般做到500ms以下</td>
+<td>连续流</td>
+<td>不支持</td>
+<td>互动直播|</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/20/swift-ecdh/">Swift-ecdh</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-20T19:28:00+08:00" pubdate data-updated="true">Jul 20<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/20/swift-ecdh/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>swift 在iOS10之后，支持ecdh加解密。</p>
+
+<h4>1.生成公钥和私钥。</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>   <span class="n">func</span> <span class="nf">generateKey</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">attributes:</span> <span class="p">[</span><span class="nl">String:</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">kSecAttrKeySizeInBits</span> <span class="n">as</span> <span class="nl">String:</span> <span class="mi">256</span><span class="p">,</span>
+</span><span class='line'>                                         <span class="n">kSecAttrKeyType</span> <span class="n">as</span> <span class="nl">String:</span> <span class="n">kSecAttrKeyTypeEC</span><span class="p">,</span>
+</span><span class='line'>                                         <span class="n">kSecPrivateKeyAttrs</span> <span class="n">as</span> <span class="nl">String:</span> <span class="p">[</span><span class="n">kSecAttrIsPermanent</span> <span class="n">as</span> <span class="nl">String:</span> <span class="n">false</span><span class="p">]]</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">error:</span> <span class="n">Unmanaged</span><span class="o">&lt;</span><span class="n">CFError</span><span class="o">&gt;?</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">privateKey</span> <span class="o">=</span> <span class="n">SecKeyCreateRandomKey</span><span class="p">(</span><span class="n">attributes</span> <span class="n">as</span> <span class="n">CFDictionary</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">privateKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">publicKey</span> <span class="o">=</span> <span class="n">SecKeyCopyPublicKey</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateKey</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>2.加密</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">func</span> <span class="n">encryptedData</span><span class="p">(</span><span class="nl">sourceData:</span> <span class="n">Data</span><span class="p">,</span> <span class="nl">algorithm:</span><span class="n">SecKeyAlgorithm</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">guard</span> <span class="n">self</span><span class="p">.</span><span class="n">publicKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">error:</span> <span class="n">Unmanaged</span><span class="o">&lt;</span><span class="n">CFError</span><span class="o">&gt;?</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">encrypted</span> <span class="o">=</span>
+</span><span class='line'>            <span class="n">SecKeyCreateEncryptedData</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">publicKey</span><span class="o">!</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span>
+</span><span class='line'>                                      <span class="n">sourceData</span> <span class="n">as</span> <span class="n">CFData</span><span class="p">,</span>
+</span><span class='line'>                                      <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">error</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">encrypted</span><span class="o">!</span> <span class="n">as</span> <span class="n">Data</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>3.解密</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>   <span class="n">func</span> <span class="n">decryptedData</span><span class="p">(</span><span class="nl">sourceData:</span> <span class="n">Data</span><span class="p">,</span> <span class="nl">algorithm:</span><span class="n">SecKeyAlgorithm</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">error:</span> <span class="n">Unmanaged</span><span class="o">&lt;</span><span class="n">CFError</span><span class="o">&gt;?</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">resData</span> <span class="o">=</span> <span class="n">SecKeyCreateDecryptedData</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateKey</span><span class="o">!</span> <span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span>
+</span><span class='line'>                                                <span class="n">sourceData</span> <span class="n">as</span> <span class="n">CFData</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">error</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="nl">data:</span> <span class="n">resData</span><span class="o">!</span> <span class="n">as</span> <span class="n">Data</span><span class="p">,</span> <span class="nl">encoding:</span> <span class="n">String</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>4.示例</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>    <span class="n">let</span> <span class="n">sign</span> <span class="o">=</span> <span class="n">YKEcdhSign</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">sign</span><span class="p">.</span><span class="n">generateKey</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">enData</span> <span class="o">=</span>  <span class="n">sign</span><span class="p">.</span><span class="n">encryptedData</span><span class="p">(</span><span class="nl">sourceData:</span> <span class="n">originalData</span><span class="o">!</span><span class="p">,</span> <span class="nl">algorithm:</span> <span class="n">SecKeyAlgorithm</span><span class="p">.</span><span class="n">eciesEncryptionStandardX963SHA512AESGCM</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">string</span> <span class="o">=</span> <span class="n">sign</span><span class="p">.</span><span class="n">decryptedData</span><span class="p">(</span><span class="nl">sourceData:</span> <span class="n">enData</span><span class="o">!</span><span class="p">,</span> <span class="nl">algorithm:</span> <span class="n">SecKeyAlgorithm</span><span class="p">.</span><span class="n">eciesEncryptionStandardX963SHA512AESGCM</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="n">string</span><span class="o">!</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/19/swift-rsa-5/">swift-RSA(五)-签名/验签</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-19T17:53:00+08:00" pubdate data-updated="true">Jul 19<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/19/swift-rsa-5/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>RSA支持加解密，也支持签名/验签。
+使用rsa如何签名/验签呢？</p>
+
+<h4>1.rsa 签名</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">sign</span><span class="p">(</span><span class="nl">source:</span> <span class="n">Data</span><span class="p">,</span> <span class="nl">padding:</span> <span class="n">SecPadding</span> <span class="o">=</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1SHA1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">guard</span> <span class="n">source</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">hashData:</span> <span class="n">NSData</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">switch</span> <span class="n">padding</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA1:</span>
+</span><span class='line'>        <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha1</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA224:</span>
+</span><span class='line'>        <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha224</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA256:</span>
+</span><span class='line'>        <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha256</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA384:</span>
+</span><span class='line'>        <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha384</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA512:</span>
+</span><span class='line'>        <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha512</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">default</span><span class="o">:</span><span class="k">do</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;not support this type sign!&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="n">blockLen</span> <span class="o">=</span>  <span class="n">SecKeyGetBlockSize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">outBuf</span> <span class="o">=</span> <span class="p">[</span><span class="n">UInt8</span><span class="p">](</span><span class="nl">repeating:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">count:</span> <span class="n">blockLen</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">outBufLen:</span><span class="n">Int</span> <span class="o">=</span> <span class="n">blockLen</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">status:</span> <span class="n">OSStatus</span> <span class="o">=</span> <span class="n">SecKeyRawSign</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span><span class="o">!</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">hashData</span><span class="o">!</span><span class="p">.</span><span class="n">bytes</span><span class="p">.</span><span class="n">assumingMemoryBound</span><span class="p">(</span><span class="nl">to:</span> <span class="n">UInt8</span><span class="p">.</span><span class="n">self</span><span class="p">),</span> <span class="n">hashData</span><span class="o">!</span><span class="p">.</span><span class="n">length</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBuf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">Data</span><span class="p">(</span><span class="nl">bytes:</span> <span class="n">outBuf</span><span class="p">,</span> <span class="nl">count:</span> <span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;sign status = \(status)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>2.rsa 验签</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">verify</span><span class="p">(</span><span class="nl">source:</span> <span class="n">Data</span><span class="p">,</span> <span class="nl">signData:</span><span class="n">Data</span><span class="p">,</span><span class="nl">padding:</span> <span class="n">SecPadding</span> <span class="o">=</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1SHA1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">guard</span> <span class="n">source</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">signData</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">false</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">hashData:</span> <span class="n">NSData</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">switch</span> <span class="n">padding</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA1:</span>
+</span><span class='line'>            <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha1</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA224:</span>
+</span><span class='line'>            <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha224</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA256:</span>
+</span><span class='line'>            <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha256</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA384:</span>
+</span><span class='line'>            <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha384</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1SHA512:</span>
+</span><span class='line'>            <span class="n">hashData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span>  <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">shaWithType</span><span class="p">(</span><span class="nl">shaType:</span> <span class="n">YKShaType</span><span class="p">.</span><span class="n">sha512</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">default</span><span class="o">:</span><span class="k">do</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">print</span><span class="p">(</span><span class="s">&quot;not support this type sign!&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">false</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">signBuf:</span> <span class="n">UnsafePointer</span><span class="o">&lt;</span><span class="n">UInt8</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">(</span><span class="n">signData</span> <span class="n">as</span> <span class="n">NSData</span><span class="p">).</span><span class="n">bytes</span><span class="p">.</span><span class="n">assumingMemoryBound</span><span class="p">(</span><span class="nl">to:</span> <span class="n">UInt8</span><span class="p">.</span><span class="n">self</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">blockLen</span> <span class="o">=</span>  <span class="n">SecKeyGetBlockSize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">status:</span> <span class="n">OSStatus</span> <span class="o">=</span> <span class="n">SecKeyRawVerify</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span><span class="o">!</span><span class="p">,</span>
+</span><span class='line'>                                               <span class="n">padding</span><span class="p">,</span>
+</span><span class='line'>                                               <span class="n">hashData</span><span class="o">!</span><span class="p">.</span><span class="n">bytes</span><span class="p">.</span><span class="n">assumingMemoryBound</span><span class="p">(</span><span class="nl">to:</span> <span class="n">UInt8</span><span class="p">.</span><span class="n">self</span><span class="p">),</span>
+</span><span class='line'>                                               <span class="n">hashData</span><span class="o">!</span><span class="p">.</span><span class="n">length</span><span class="p">,</span>
+</span><span class='line'>                                               <span class="n">signBuf</span><span class="p">,</span>
+</span><span class='line'>                                               <span class="n">blockLen</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">true</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>            <span class="n">print</span><span class="p">(</span><span class="s">&quot;sign status = \(status)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">false</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3.调用</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//原始数据</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">originalString</span> <span class="o">=</span> <span class="s">&quot;你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv&quot;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//let originalString = &quot;123456helloworld&quot;</span>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">publicKeyPath:</span><span class="n">String</span> <span class="o">=</span>   <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="nl">forResource:</span> <span class="s">&quot;public_key&quot;</span><span class="p">,</span> <span class="nl">ofType:</span> <span class="s">&quot;der&quot;</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">privateKeyPath</span> <span class="o">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="nl">forResource:</span> <span class="s">&quot;private_key&quot;</span><span class="p">,</span> <span class="nl">ofType:</span> <span class="s">&quot;p12&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;publicKeyPath = \(publicKeyPath)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;privateKeyPath = \(String(describing: privateKeyPath))&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">rsaSign:</span><span class="n">YKRSASign</span> <span class="o">=</span> <span class="n">YKRSASign</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">rsaSign</span><span class="p">.</span><span class="n">publicKey</span><span class="p">(</span><span class="nl">fileFullPath:</span> <span class="n">publicKeyPath</span> <span class="n">as</span> <span class="n">NSString</span><span class="p">,</span> <span class="nl">block:</span> <span class="p">{(</span><span class="n">_</span> <span class="nl">error:</span> <span class="n">NSError</span><span class="o">?</span><span class="p">,</span> <span class="n">_</span> <span class="nl">secKey:</span><span class="n">SecKey</span><span class="o">?</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">rsaSign</span><span class="p">.</span><span class="n">privateKey</span><span class="p">(</span><span class="nl">fileFullPath:</span> <span class="n">privateKeyPath</span><span class="o">!</span> <span class="n">as</span> <span class="n">NSString</span><span class="p">,</span> <span class="nl">password:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="nl">block:</span> <span class="p">{(</span><span class="n">_</span> <span class="nl">error:</span> <span class="n">NSError</span><span class="o">?</span><span class="p">,</span> <span class="n">_</span> <span class="nl">secKey:</span><span class="n">SecKey</span><span class="o">?</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">originalData</span> <span class="o">=</span> <span class="n">originalString</span><span class="p">.</span><span class="n">data</span><span class="p">(</span><span class="nl">using:</span> <span class="n">String</span><span class="p">.</span><span class="n">Encoding</span><span class="p">(</span><span class="nl">rawValue:</span> <span class="n">String</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">utf8</span><span class="p">.</span><span class="n">rawValue</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">signData</span> <span class="o">=</span> <span class="n">rsaSign</span><span class="p">.</span><span class="n">sign</span><span class="p">(</span><span class="nl">source:</span> <span class="n">originalData</span><span class="o">!</span><span class="p">,</span> <span class="nl">padding:</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1SHA512</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">isVerify</span> <span class="o">=</span> <span class="n">rsaSign</span><span class="p">.</span><span class="n">verify</span><span class="p">(</span><span class="nl">source:</span> <span class="n">originalData</span><span class="o">!</span><span class="p">,</span> <span class="nl">signData:</span> <span class="n">signData</span><span class="o">!</span><span class="p">,</span> <span class="nl">padding:</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1SHA512</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">isVerify</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">print</span><span class="p">(</span><span class="s">&quot;验证签名通过&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>            <span class="n">print</span><span class="p">(</span><span class="s">&quot;验证签名失败&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/19/swift-rsa-4/">swift-rsa(四)-OAEP模式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-19T14:26:00+08:00" pubdate data-updated="true">Jul 19<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/19/swift-rsa-4/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>swift进行RSA加解密时，如果使用 <code>OAEP</code>时，有什么区别？</p>
+
+<h5>1.RSA加密</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">encrypt</span><span class="p">(</span><span class="nl">source:</span> <span class="n">String</span><span class="p">,</span> <span class="nl">padding:</span> <span class="n">SecPadding</span> <span class="o">=</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">guard</span> <span class="n">source</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">data:</span> <span class="n">NSData</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">data</span><span class="p">(</span><span class="nl">using:</span> <span class="n">String</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span> <span class="n">as</span> <span class="n">NSData</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'> <span class="cm">/*       if #available(iOS 10.0, *) {</span>
+</span><span class='line'><span class="cm">        var error: Unmanaged&lt;CFError&gt;?</span>
+</span><span class='line'><span class="cm">        resData =  SecKeyCreateEncryptedData(self.publicSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">        print(&quot;res = \(String(describing: error?.takeUnretainedValue().localizedDescription))&quot;)</span>
+</span><span class='line'><span class="cm">    }</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>    <span class="c1">// Fallback on earlier versions</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">blockLen</span> <span class="o">=</span>  <span class="n">SecKeyGetBlockSize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">outBuf</span> <span class="o">=</span> <span class="p">[</span><span class="n">UInt8</span><span class="p">](</span><span class="nl">repeating:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">count:</span> <span class="n">blockLen</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">outBufLen:</span><span class="n">Int</span> <span class="o">=</span> <span class="n">blockLen</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">totalLen</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">length</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">let</span> <span class="n">resData</span> <span class="o">=</span> <span class="n">NSMutableData</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="n">blockMaxLen</span> <span class="o">=</span> <span class="n">blockLen</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">switch</span> <span class="n">padding</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">PKCS1:</span>
+</span><span class='line'>        <span class="n">blockMaxLen</span> <span class="o">=</span> <span class="n">blockLen</span> <span class="o">-</span> <span class="mi">11</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">SecPadding</span><span class="p">.</span><span class="nl">OAEP:</span>
+</span><span class='line'>        <span class="n">blockMaxLen</span> <span class="o">=</span> <span class="n">blockLen</span> <span class="o">-</span> <span class="mi">42</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>    <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;blockMaxLen == blockLen&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">totalLen</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">curDataLen</span> <span class="o">=</span> <span class="n">totalLen</span> <span class="o">-</span> <span class="n">index</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">curDataLen</span>  <span class="o">&gt;</span> <span class="n">blockMaxLen</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">curDataLen</span> <span class="o">=</span> <span class="n">blockMaxLen</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">curData:</span> <span class="n">NSData</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">subdata</span><span class="p">(</span><span class="nl">with:</span> <span class="n">NSMakeRange</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">curDataLen</span><span class="p">))</span> <span class="n">as</span> <span class="n">NSData</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">status:</span> <span class="n">OSStatus</span> <span class="o">=</span> <span class="n">SecKeyEncrypt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">publicSecKey</span><span class="o">!</span><span class="p">,</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">OAEP</span><span class="p">,</span> <span class="n">curData</span><span class="p">.</span><span class="n">bytes</span><span class="p">.</span><span class="n">assumingMemoryBound</span><span class="p">(</span><span class="nl">to:</span> <span class="n">UInt8</span><span class="p">.</span><span class="n">self</span><span class="p">),</span> <span class="n">curData</span><span class="p">.</span><span class="n">length</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBuf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">resData</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">outBuf</span><span class="p">,</span> <span class="nl">length:</span> <span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>            <span class="n">print</span><span class="p">(</span><span class="s">&quot;encrypt status = \(status)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">index</span> <span class="o">+=</span> <span class="n">curDataLen</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//base64 encode</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">resData</span><span class="p">.</span><span class="n">base64EncodedString</span><span class="p">(</span><span class="nl">options:</span> <span class="n">NSData</span><span class="p">.</span><span class="n">Base64EncodingOptions</span><span class="p">(</span><span class="nl">rawValue:</span> <span class="n">NSData</span><span class="p">.</span><span class="n">Base64EncodingOptions</span><span class="p">.</span><span class="n">lineLength64Characters</span><span class="p">.</span><span class="n">rawValue</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>2.RSA解密</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="err">@</span><span class="n">objc</span> <span class="n">public</span> <span class="n">func</span> <span class="n">decrypt</span><span class="p">(</span><span class="nl">source:</span> <span class="n">String</span><span class="p">,</span> <span class="nl">padding:</span> <span class="n">SecPadding</span> <span class="o">=</span> <span class="n">SecPadding</span><span class="p">.</span><span class="n">PKCS1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">guard</span> <span class="n">source</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//base64 decode</span>
+</span><span class='line'>        <span class="n">let</span> <span class="nl">data:</span> <span class="n">Data</span> <span class="o">=</span> <span class="p">(</span><span class="n">NSData</span><span class="p">(</span><span class="nl">base64Encoded:</span> <span class="p">(</span><span class="n">source</span> <span class="n">as</span> <span class="n">String</span><span class="p">),</span> <span class="nl">options:</span> <span class="n">NSData</span><span class="p">.</span><span class="n">Base64DecodingOptions</span><span class="p">.</span><span class="n">ignoreUnknownCharacters</span><span class="p">)</span><span class="o">!</span> <span class="n">as</span> <span class="n">Data</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">blockLen</span> <span class="o">=</span>  <span class="n">SecKeyGetBlockSize</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">outBuf</span> <span class="o">=</span> <span class="n">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="n">UInt8</span><span class="o">&gt;</span><span class="p">.</span><span class="n">allocate</span><span class="p">(</span><span class="nl">capacity:</span> <span class="n">blockLen</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">defer</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">outBuf</span><span class="p">.</span><span class="n">deallocate</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">outBufLen:</span> <span class="n">Int</span> <span class="o">=</span> <span class="n">blockLen</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//        if #available(iOS 10.0, *) {</span>
+</span><span class='line'><span class="c1">//            var error: Unmanaged&lt;CFError&gt;?</span>
+</span><span class='line'><span class="c1">//            resData =  SecKeyCreateDecryptedData(self.privateSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//            print(&quot;res = \(String(describing: error?.takeUnretainedValue().localizedDescription))&quot;)</span>
+</span><span class='line'><span class="c1">//        } else {</span>
+</span><span class='line'><span class="c1">//            // Fallback on earlier versions</span>
+</span><span class='line'><span class="c1">//            //let status = SecKeyEncrypt(seckey, SecPadding.PKCS1, chunkData, chunkData.count, outBuf, &amp;encryptedDataLength)</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//        }</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">totalLen</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">resData</span> <span class="o">=</span> <span class="n">NSMutableData</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">totalLen</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">var</span> <span class="n">curDataLen</span> <span class="o">=</span> <span class="n">totalLen</span> <span class="o">-</span> <span class="n">index</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">curDataLen</span>  <span class="o">&gt;</span> <span class="n">blockLen</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">curDataLen</span> <span class="o">=</span> <span class="n">blockLen</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">let</span> <span class="nl">curData:</span> <span class="n">Data</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">subdata</span><span class="p">(</span><span class="k">in</span><span class="o">:</span> <span class="n">index</span> <span class="p">..</span><span class="o">&lt;</span> <span class="n">index</span> <span class="o">+</span> <span class="n">curDataLen</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">var</span> <span class="nl">status:</span><span class="n">OSStatus</span> <span class="o">=</span> <span class="n">noErr</span>
+</span><span class='line'>            <span class="n">curData</span><span class="p">.</span><span class="n">withUnsafeBytes</span> <span class="p">{</span> <span class="p">(</span><span class="nl">bytes:</span> <span class="n">UnsafePointer</span><span class="o">&lt;</span><span class="n">UInt8</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>                 <span class="n">status</span> <span class="o">=</span> <span class="n">SecKeyDecrypt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">privateSecKey</span><span class="o">!</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">bytes</span><span class="p">,</span> <span class="n">curData</span><span class="p">.</span><span class="n">count</span><span class="p">,</span> <span class="n">outBuf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">noErr</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">resData</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">outBuf</span><span class="p">,</span> <span class="nl">length:</span> <span class="n">outBufLen</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                <span class="n">print</span><span class="p">(</span><span class="s">&quot;decrypt status = \(status)&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">index</span> <span class="o">+=</span> <span class="n">curDataLen</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="nl">data:</span> <span class="p">(</span><span class="n">resData</span> <span class="n">as</span> <span class="n">Data</span><span class="p">),</span> <span class="nl">encoding:</span> <span class="n">String</span><span class="p">.</span><span class="n">Encoding</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3.注意事项</h5>
+
+<ul>
+<li>1.rsa加解密方式要一致，默认是<code>SecPadding.PKCS1</code>模式。</li>
+<li>2.rsa不同加密模式，会影响数据分块大小。
+
+<ul>
+<li><code>PKCS1</code>模式时：数据块长度最大为块长度-<code>11</code></li>
+<li><code>OAEP</code>模式时，数据块长度最大为块长度-<code>42</code></li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/18/swift-classyu-structqu-bie/">Swift-class与struct区别</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-18T18:45:00+08:00" pubdate data-updated="true">Jul 18<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/18/swift-classyu-structqu-bie/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><table>
+<thead>
+<tr>
+<th></th>
+<th>比较项</th>
+<th>struct</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> 类型</td>
+<td>值类型</td>
+<td>引用类型|</td>
+</tr>
+<tr>
+<td></td>
+<td> 属性初始化</td>
+<td>可用默认构造直接初始化</td>
+<td>需要自己创建构造方法|</td>
+</tr>
+<tr>
+<td></td>
+<td>变量赋值</td>
+<td>深拷贝</td>
+<td>浅拷贝，增加原对象引用</td>
+</tr>
+<tr>
+<td></td>
+<td>方法中修改属性</td>
+<td>需要添加mutating </td>
+<td>不需要</td>
+</tr>
+<tr>
+<td></td>
+<td>继承关系</td>
+<td>不能继承</td>
+<td>可以继承</td>
+</tr>
+<tr>
+<td></td>
+<td>内存</td>
+<td>栈上，自动内存管理</td>
+<td>堆上，手动内存管理</td>
+</tr>
+<tr>
+<td></td>
+<td>速度</td>
+<td>高效</td>
+<td>相比效率低</td>
+</tr>
+<tr>
+<td></td>
+<td>线程安全</td>
+<td>自动线程安全的</td>
+<td>大多是非线程安全的</td>
+</tr>
+<tr>
+<td></td>
+<td>与oc混编</td>
+<td>不支持，oc无法调struct</td>
+<td>支持混编</td>
+</tr>
+<tr>
+<td></td>
+<td>序列化</td>
+<td>不支持，可用字节转NSData</td>
+<td>支持序列化</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>关于我</h1>
+  <p>律威,QQ:309235009 微信:ksnowlv</p>
+  <p>手机单机游戏/手机网游封神online/手机阅读/腾讯iOS地图客户端&实时公交&开放API(地图&街景)/iPad/iPhone淘宝客户端及性能优化</p>
+  <p>目前在银客做银客/简理财/&#8230;</p>
+  <p>能做一点,是一点;不求大成,不求一万年;积少成多,水到渠成!</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/">Kotlin通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/">Android通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>分类</h1>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (2)</a></li><li><a href='/blog/categories/android-jni/'>android-jni (1)</a></li><li><a href='/blog/categories/android-jni/'>Android-JNI (3)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+</section>
+<section>
+  <h1>外部链接</h1>
+    <ul id="外部链接">
+    	<li><a href="https://developer.apple.com">苹果开发者中心</a> </li>
+    	<li><a href="http://stackoverflow.com/questions/tagged/ios">stackoverflow</a></li>
+    	<li><a href="http://ksnowlv.blog.163.com/blog/#m=0">ksnowlv网易博客</a></li>
+    	<li><a href="https://www.jianshu.com/u/6fe5d9875a9e">简书</a></li>
+	</ul>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - 律威 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271193933'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1271193933%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+  <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F4c1727a94ea20751730e8a556dbdbf82' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ksnowlv';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+Included file 'custom/after_footer.html' not found in _includes directory
+
+</body>
+</html>

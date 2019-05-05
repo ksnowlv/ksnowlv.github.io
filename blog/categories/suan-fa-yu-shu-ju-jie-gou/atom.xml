@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 算法与数据结构 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/suan-fa-yu-shu-ju-jie-gou/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2019-05-05T15:25:26+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[排序-插入冒泡交换选择与二分查找]]></title>
+    <link href="http://ksnowlv.github.io/blog/2013/05/15/pai-xu-cha-ru-mou-pao-jiao-huan-xuan-ze-yu-er-fen-cha-zhao/"/>
+    <updated>2013-05-15T10:35:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2013/05/15/pai-xu-cha-ru-mou-pao-jiao-huan-xuan-ze-yu-er-fen-cha-zhao</id>
+    <content type="html"><![CDATA[<p><img src="/images/post/2013-05-15-pai-xu-cha-ru-mou-pao-jiao-huan-xuan-ze-yu-er-fen-cha-zhao/1.png" alt="image" /></p>
+
+<h5>核心点是：模板不支持分离编译。（当然，如果你仅仅是编译模板函数而不调用不会导致如上错误！注意前提条件）</h5>
+
+<p>```objective-c
+/<strong>交换T的值</strong>/
+template <typename T>
+void swap(T<em> p, T</em> q)
+{</p>
+
+<pre><code>T tmp = *p;
+*p = *q;
+*q = tmp;
+</code></pre>
+
+<p>}</p>
+
+<p>/<strong>输出T数组中各个元素的值</strong>/
+template <typename T>
+void showArray(const T* pArray,const int arrayLen)
+{</p>
+
+<pre><code>for (int i = 0; i &lt; arrayLen; ++i) {
+    printf("%d-&gt;",pArray[i]);
+}
+printf("end");
+</code></pre>
+
+<p>}</p>
+
+<p>/<strong>直接插入排序，时间复杂度，平方级，稳定排序</strong>/
+template <typename T>
+void insertSort(T* pArray, const int arrayLen)
+{</p>
+
+<pre><code>T tmp;
+
+for (int i = 1; i &lt; arrayLen; ++i) {
+
+    tmp = pArray[i];
+    int j = 0;
+
+    for (j = i; j &gt; 0; --j) {
+
+        if (tmp &lt; pArray[j - 1]) {
+            pArray[j] = pArray[j - 1];
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    pArray[j] = tmp;
+
+}
+</code></pre>
+
+<p>}</p>
+
+<p>/<strong>冒泡排序，时间复杂度，平方级，稳定排序</strong>/
+template <typename T>
+void bubbleSort(T* pArray, const int arrayLen)
+{</p>
+
+<pre><code>bool isExchanged = false;
+for (int i = arrayLen - 1; i &gt;= 0; --i) {
+
+    isExchanged = false;
+
+    for (int j = 0 ; j &lt; i; ++j) {
+        if (pArray[j + 1] &lt; pArray[j]) {
+            swap(&amp;pArray[j + 1], &amp;pArray[j]);
+            isExchanged = true;
+        }
+    }
+
+    if (!isExchanged) {
+        break;
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>/<strong>交换排序</strong>/
+template <typename T>
+void exchangeSort(T* pArray, const int arrayLen)
+{</p>
+
+<pre><code>for (int i = 0; i &lt; arrayLen; ++i) {
+
+    for (int j = i + 1; j &lt; arrayLen; ++j) {
+
+        if (pArray[j] &lt; pArray[i]) {
+            swap(&amp;pArray[j], &amp;pArray[i]);
+        }
+
+    }
+
+}
+</code></pre>
+
+<p>}</p>
+
+<p>/<strong>选择排序</strong>/
+template <typename T>
+void selectSort(T* pArray, const int arrayLen)
+{</p>
+
+<pre><code>int smallIndex = 0;
+
+for (int i = 0; i &lt; arrayLen; ++i) {
+
+    smallIndex = i;
+
+    for (int j = i + 1; j &lt; arrayLen; ++j) {
+        if (pArray[smallIndex] &gt; pArray[j]) {
+            smallIndex = j;
+        }
+    }
+
+    if (i != smallIndex) {
+        swap(&amp;pArray[i], &amp;pArray[smallIndex]);
+    }
+
+}
+</code></pre>
+
+<p>}</p>
+
+<p>template <typename T>
+const int binaryFind(const T* pArray, const int arrayLen,const T value)
+{</p>
+
+<pre><code>int mid = 0;
+int low = 0;
+int high = arrayLen - 1;
+
+while (low &lt;= high) {
+    mid = low + (high - low)/2;
+
+    if (pArray[mid] &gt; value)
+    {
+        high = mid - 1;
+    }
+    else if (pArray[mid] &lt; value)
+    {
+        low = mid + 1;
+    }
+    else if (pArray[mid] == value) {
+        return mid;
+    }
+}
+
+return -1;
+</code></pre>
+
+<p>}</p>
+
+<p>调用CODE如下：
+&ndash; (void)viewDidLoad
+{</p>
+
+<pre><code>[super viewDidLoad];
+</code></pre>
+
+<p>// Do any additional setup after loading the view, typically from a nib.</p>
+
+<pre><code>const int  KArrayLength = 10;
+int  pArray[KArrayLength] = {22,34,89,0,3,81,99,23,1,10} ;
+
+showArray(pArray, KArrayLength);
+//insertSort(pArray, KArrayLength);
+//bubbleSort(pArray, KArrayLength);
+//selectSort(pArray, KArrayLength);
+exchangeSort(pArray, KArrayLength);
+printf("\n");
+showArray(pArray, KArrayLength);
+
+int index = binaryFind(pArray, KArrayLength, 81);
+printf("\nindex = %d\n",index);
+
+index = binaryFind(pArray, KArrayLength, 811);
+printf("index = %d",index);
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>执行如下：</p>
+
+<pre><code>22-&gt;34-&gt;89-&gt;0-&gt;3-&gt;81-&gt;99-&gt;23-&gt;1-&gt;10-&gt;end
+0-&gt;1-&gt;3-&gt;10-&gt;22-&gt;23-&gt;34-&gt;81-&gt;89-&gt;99-&gt;end
+index = 7
+index = -1
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

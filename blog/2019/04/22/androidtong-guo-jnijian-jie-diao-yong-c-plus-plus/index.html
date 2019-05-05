@@ -1,0 +1,767 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android通过jni间接调用c++ - ksnowlv</title>
+  <meta name="author" content="律威">
+
+  
+  <meta name="description" content="本篇重点内容，C如何调用C++类，思路是JAVA通过JNI直接调用C，C调用C++相关的类。 1.JAVA层接口Person类相关接口 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+public class JavaCallJNI { static { &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ksnowlv.github.io/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="ksnowlv" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-39546615-2']);
+    // _gaq.push(['_trackPageview']);
+
+    // (function() {
+    //   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    //   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    // })();
+
+    _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src='http://droidyue-tools.qiniudn.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">ksnowlv</a></h1>
+  
+    <h2>回顾过去,总结以往;立足现在,铭记当下;技术为主,笔记而已.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ksnowlv.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/about-me">关于我</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android通过jni间接调用c++</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-04-22T11:23:00+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2019</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>本篇重点内容，C如何调用C++类，思路是JAVA通过JNI直接调用C，C调用C++相关的类。</p>
+
+<h4>1.JAVA层接口Person类相关接口</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">public</span> <span class="n">class</span> <span class="n">JavaCallJNI</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">static</span>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="p">.</span><span class="n">loadLibrary</span><span class="p">(</span><span class="s">&quot;JNITest&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  
+</span><span class='line'>  
+</span><span class='line'>  <span class="n">public</span> <span class="k">static</span> <span class="n">native</span> <span class="kt">int</span> <span class="n">showValue</span><span class="p">(</span><span class="kt">int</span> <span class="n">value</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="n">public</span> <span class="k">static</span> <span class="n">native</span> <span class="kt">long</span>  <span class="nf">createPerson</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">public</span> <span class="k">static</span> <span class="n">native</span> <span class="kt">void</span> <span class="nf">destroyPerson</span><span class="p">(</span><span class="kt">long</span> <span class="n">person</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">public</span> <span class="k">static</span> <span class="n">native</span> <span class="kt">void</span> <span class="nf">setPersonAge</span><span class="p">(</span><span class="kt">long</span> <span class="n">person</span><span class="p">,</span>  <span class="kt">int</span> <span class="n">age</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">public</span> <span class="k">static</span> <span class="n">native</span> <span class="kt">int</span> <span class="nf">personAge</span><span class="p">(</span><span class="kt">long</span> <span class="n">person</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">public</span> <span class="k">static</span> <span class="n">native</span> <span class="kt">void</span> <span class="nf">setPersonName</span><span class="p">(</span><span class="kt">long</span> <span class="n">person</span><span class="p">,</span> <span class="n">String</span> <span class="n">name</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">public</span> <span class="k">static</span> <span class="n">native</span> <span class="n">String</span>  <span class="nf">personName</span><span class="p">(</span><span class="kt">long</span> <span class="n">person</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.C接口及实现</h3>
+
+<p><code>com_ksnowlv_hellojniforjava_JavaCallJNI.h</code>内容如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">jni</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="cm">/* Header for class com_ksnowlv_hellojniforjava_JavaCallJNI */</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="err">#</span><span class="n">ifndef</span> <span class="n">_Included_com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'>  <span class="err">#</span><span class="n">define</span> <span class="n">_Included_com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'>  <span class="err">#</span><span class="n">ifdef</span> <span class="n">__cplusplus</span>
+</span><span class='line'>  <span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="err">#</span><span class="n">endif</span>
+</span><span class='line'>  <span class="cm">/*</span>
+</span><span class='line'><span class="cm">  * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm">  * Method:    showValue</span>
+</span><span class='line'><span class="cm">  * Signature: (I)I</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="n">JNIEXPORT</span> <span class="n">jint</span> <span class="n">JNICALL</span> <span class="n">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_showValue</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="p">,</span> <span class="n">jclass</span><span class="p">,</span> <span class="n">jint</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="cm">/*</span>
+</span><span class='line'><span class="cm">  * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm">  * Method:    createPerson</span>
+</span><span class='line'><span class="cm">  * Signature: ()J</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="n">JNIEXPORT</span> <span class="n">jlong</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_createPerson</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="p">,</span> <span class="n">jclass</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="cm">/*</span>
+</span><span class='line'><span class="cm">  * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm">  * Method:    destroyPerson</span>
+</span><span class='line'><span class="cm">  * Signature: (J)V</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_destroyPerson</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="p">,</span> <span class="n">jclass</span><span class="p">,</span> <span class="n">jlong</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="cm">/*</span>
+</span><span class='line'><span class="cm">  * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm">  * Method:    setPersonAge</span>
+</span><span class='line'><span class="cm">  * Signature: (JI)V</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_setPersonAge</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="p">,</span> <span class="n">jclass</span><span class="p">,</span> <span class="n">jlong</span><span class="p">,</span> <span class="n">jint</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="cm">/*</span>
+</span><span class='line'><span class="cm">  * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm">  * Method:    personAge</span>
+</span><span class='line'><span class="cm">  * Signature: (J)I</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="n">JNIEXPORT</span> <span class="n">jint</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_personAge</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="p">,</span> <span class="n">jclass</span><span class="p">,</span> <span class="n">jlong</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="cm">/*</span>
+</span><span class='line'><span class="cm">  * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm">  * Method:    setPersonName</span>
+</span><span class='line'><span class="cm">  * Signature: (JLjava/lang/String;)V</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_setPersonName</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="p">,</span> <span class="n">jclass</span><span class="p">,</span> <span class="n">jlong</span><span class="p">,</span> <span class="n">jstring</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="cm">/*</span>
+</span><span class='line'><span class="cm">  * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm">  * Method:    personName</span>
+</span><span class='line'><span class="cm">  * Signature: (J)Ljava/lang/String;</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="n">JNIEXPORT</span> <span class="n">jstring</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_personName</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="p">,</span> <span class="n">jclass</span><span class="p">,</span> <span class="n">jlong</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="err">#</span><span class="n">ifdef</span> <span class="n">__cplusplus</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="err">#</span><span class="n">endif</span>
+</span><span class='line'>  <span class="err">#</span><span class="n">endif</span>
+</span><span class='line'>  
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p><code>com_ksnowlv_hellojniforjava_JavaCallJNI.c</code>内容如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#include &quot;com_ksnowlv_hellojniforjava_JavaCallJNI.h&quot;</span>
+</span><span class='line'><span class="cp">#include &quot;PersonExtension.hpp&quot;</span>
+</span><span class='line'><span class="cp">#include &quot;JNILog.h&quot;</span>
+</span><span class='line'><span class="cp">#include &lt;stdlib.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;string.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">JNIEXPORT</span> <span class="n">jint</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_showValue</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span> <span class="n">enc</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">cls</span> <span class="p">,</span> <span class="n">jint</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">LOGI</span><span class="p">(</span><span class="s">&quot;jni value = %d&quot;</span><span class="p">,</span><span class="n">value</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">LOGI</span><span class="p">(</span><span class="s">&quot;jni value +1 = %d&quot;</span><span class="p">,</span><span class="n">value</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm"> * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm"> * Method:    createPerson</span>
+</span><span class='line'><span class="cm"> * Signature: ()Ljava/lang/Object;</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="n">JNIEXPORT</span> <span class="n">jlong</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_createPerson</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">cls</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">void</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">createPerson</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">jlong</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm"> * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm"> * Method:    destroyPerson</span>
+</span><span class='line'><span class="cm"> * Signature: (Ljava/lang/Object;)V</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_destroyPerson</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">cls</span><span class="p">,</span> <span class="n">jlong</span> <span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">destroyPerson</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">o</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm"> * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm"> * Method:    setPersonAge</span>
+</span><span class='line'><span class="cm"> * Signature: (Ljava/lang/Object;I)V</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_setPersonAge</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">cls</span><span class="p">,</span> <span class="n">jlong</span> <span class="n">o</span><span class="p">,</span> <span class="n">jint</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">setPersonAge</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">o</span><span class="p">,</span><span class="n">value</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm"> * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm"> * Method:    personAge</span>
+</span><span class='line'><span class="cm"> * Signature: (Ljava/lang/Object;)I</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="n">JNIEXPORT</span> <span class="n">jint</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_personAge</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">cls</span><span class="p">,</span> <span class="n">jlong</span> <span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">return</span> <span class="n">personAge</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">o</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm"> * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm"> * Method:    setPersonName</span>
+</span><span class='line'><span class="cm"> * Signature: (Ljava/lang/Object;Ljava/lang/String;)V</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_setPersonName</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">cls</span><span class="p">,</span> <span class="n">jlong</span> <span class="n">o</span><span class="p">,</span> <span class="n">jstring</span> <span class="n">string</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">length1</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStringLength</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">string</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">const</span> <span class="n">jchar</span> <span class="o">*</span> <span class="n">jcstr</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStringChars</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>     <span class="n">jclass</span>   <span class="n">clsstring</span>   <span class="o">=</span>   <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">FindClass</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="s">&quot;java/lang/String&quot;</span><span class="p">);</span>  <span class="c1">//String</span>
+</span><span class='line'>     <span class="n">jstring</span>   <span class="n">code</span>   <span class="o">=</span>   <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="s">&quot;UTF-8&quot;</span><span class="p">);</span> <span class="c1">//&quot;UTF-8&quot;</span>
+</span><span class='line'>     <span class="n">jmethodID</span>   <span class="n">methodID</span>   <span class="o">=</span>   <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetMethodID</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">clsstring</span><span class="p">,</span>   <span class="s">&quot;getBytes&quot;</span><span class="p">,</span>   <span class="s">&quot;(Ljava/lang/String;)[B&quot;</span><span class="p">);</span> <span class="c1">//getBytes();</span>
+</span><span class='line'>     <span class="n">jbyteArray</span>   <span class="n">byteArray</span> <span class="o">=</span>   <span class="p">(</span><span class="n">jbyteArray</span><span class="p">)(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">CallObjectMethod</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">string</span><span class="p">,</span><span class="n">methodID</span><span class="p">,</span><span class="n">code</span><span class="p">);</span>
+</span><span class='line'>     <span class="n">jsize</span>   <span class="n">length</span>   <span class="o">=</span>   <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetArrayLength</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">byteArray</span><span class="p">);</span>
+</span><span class='line'>     <span class="n">jbyte</span><span class="o">*</span>   <span class="n">bytes</span>   <span class="o">=</span>   <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetByteArrayElements</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">byteArray</span><span class="p">,</span><span class="n">JNI_FALSE</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>     <span class="k">if</span><span class="p">(</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">char</span><span class="o">*</span> <span class="n">buf</span> <span class="o">=</span>   <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">length</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>         <span class="c1">//&quot;\0&quot;</span>
+</span><span class='line'>        <span class="n">memcpy</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">bytes</span><span class="p">,</span><span class="n">length</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">buf</span><span class="p">[</span><span class="n">length</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">setPersonName</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">o</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">LOGI</span><span class="p">(</span><span class="s">&quot;set name = %s&quot;</span><span class="p">,</span><span class="n">buf</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">free</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+</span><span class='line'>     <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">setPersonName</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">o</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>     <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">ReleaseByteArrayElements</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">byteArray</span><span class="p">,</span><span class="n">bytes</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">//释放内存空间</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm"> * Class:     com_ksnowlv_hellojniforjava_JavaCallJNI</span>
+</span><span class='line'><span class="cm"> * Method:    personName</span>
+</span><span class='line'><span class="cm"> * Signature: (Ljava/lang/Object;)Ljava/lang/String;</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="n">JNIEXPORT</span> <span class="n">jstring</span> <span class="n">JNICALL</span> <span class="nf">Java_com_ksnowlv_hellojniforjava_JavaCallJNI_personName</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">cls</span><span class="p">,</span> <span class="n">jlong</span> <span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">LOGI</span><span class="p">(</span><span class="s">&quot;jni get name&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="n">personName</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">o</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="n">name</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">LOGI</span><span class="p">(</span><span class="s">&quot;jni name = %s&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span>  <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="n">name</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">NewStringUTF</span><span class="p">(</span><span class="n">env</span><span class="p">,</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.JAVA调用</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">int</span> <span class="n">value</span> <span class="o">=</span>  <span class="n">JavaCallJNI</span><span class="p">.</span><span class="n">showValue</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="n">Log</span><span class="p">.</span><span class="n">i</span><span class="p">(</span><span class="s">&quot;------Android &quot;</span><span class="p">,</span><span class="s">&quot;&quot;</span> <span class="o">+</span> <span class="n">value</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">long</span> <span class="n">p</span> <span class="o">=</span>  <span class="n">JavaCallJNI</span><span class="p">.</span><span class="n">createPerson</span><span class="p">();</span>
+</span><span class='line'><span class="n">JavaCallJNI</span><span class="p">.</span><span class="n">setPersonAge</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="n">JavaCallJNI</span><span class="p">.</span><span class="n">personAge</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'><span class="n">Log</span><span class="p">.</span><span class="n">i</span><span class="p">(</span><span class="s">&quot;------Android &quot;</span><span class="p">,</span><span class="s">&quot;&quot;</span> <span class="o">+</span> <span class="n">age</span><span class="p">);</span>
+</span><span class='line'><span class="n">JavaCallJNI</span><span class="p">.</span><span class="n">setPersonName</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="s">&quot;ksnowlv(律威)&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">JavaCallJNI</span><span class="p">.</span><span class="n">personName</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'><span class="n">Log</span><span class="p">.</span><span class="n">i</span><span class="p">(</span><span class="s">&quot;------Android &quot;</span><span class="p">,</span><span class="n">name</span><span class="p">);</span>
+</span><span class='line'><span class="n">JavaCallJNI</span><span class="p">.</span><span class="n">destroyPerson</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>4.日志输出</h3>
+
+<pre><code>28410-28410/com.ksnowlv.hellojniforjava I/------JNITest: jni value = 1
+2019-04-24 16:42:40.759 28410-28410/com.ksnowlv.hellojniforjava I/------JNITest: jni value +1 = 2
+2019-04-24 16:42:40.759 28410-28410/com.ksnowlv.hellojniforjava I/------Android: 2
+2019-04-24 16:42:40.759 28410-28410/com.ksnowlv.hellojniforjava I/------Android: 10
+2019-04-24 16:42:40.759 28410-28410/com.ksnowlv.hellojniforjava I/------JNITest: set name = ksnowlv(律威)
+2019-04-24 16:42:40.759 28410-28410/com.ksnowlv.hellojniforjava I/------JNITest: jni get name
+2019-04-24 16:42:40.759 28410-28410/com.ksnowlv.hellojniforjava I/------JNITest: jni name = ksnowlv(律威)
+2019-04-24 16:42:40.759 28410-28410/com.ksnowlv.hellojniforjava I/------Android: ksnowlv(律威)
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">律威</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-04-22T11:23:00+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android-jni/'>Android-JNI</a>
+  
+</span>
+
+
+      
+<DIV >
+作者： <A href="/">律威</A> <BR>
+出处： <A href="/">https://ksnowlv.github.io</A> 
+<BR>原创文章，版权声明：自由转载-非商用-非衍生-保持署名
+<a href= "http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh"> Creative Commons BY-NC-ND 3.0 </a>。 </DIV>
+
+
+    </p>
+<!--     
+      Included file 'post/sharing.html' not found in _includes directory
+     -->
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/" title="Previous Post: Android通过jni调用c++">&laquo; Android通过jni调用c++</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/" title="Next Post: Kotlin通过jni间接调用c++">Kotlin通过jni间接调用c++ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+var disqus_shortname = 'ksnowlv';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>关于我</h1>
+  <p>律威,QQ:309235009 微信:ksnowlv</p>
+  <p>手机单机游戏/手机网游封神online/手机阅读/腾讯iOS地图客户端&实时公交&开放API(地图&街景)/iPad/iPhone淘宝客户端及性能优化</p>
+  <p>目前在银客做银客/简理财/...</p>
+  <p>能做一点,是一点;不求大成,不求一万年;积少成多,水到渠成!</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/">Kotlin通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/">Android通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>分类</h1>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (2)</a></li><li><a href='/blog/categories/android-jni/'>android-jni (1)</a></li><li><a href='/blog/categories/android-jni/'>Android-JNI (3)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+</section>
+<section>
+  <h1>外部链接</h1>
+    <ul id="外部链接">
+    	<li><a href="https://developer.apple.com">苹果开发者中心</a> </li>
+    	<li><a href="http://stackoverflow.com/questions/tagged/ios">stackoverflow</a></li>
+    	<li><a href="http://ksnowlv.blog.163.com/blog/#m=0">ksnowlv网易博客</a></li>
+    	<li><a href="https://www.jianshu.com/u/6fe5d9875a9e">简书</a></li>
+	</ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - 律威 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271193933'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1271193933%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+  <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F4c1727a94ea20751730e8a556dbdbf82' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ksnowlv';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ksnowlv.github.io/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/';
+        var disqus_url = 'http://ksnowlv.github.io/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+Included file 'custom/after_footer.html' not found in _includes directory
+
+</body>
+</html>

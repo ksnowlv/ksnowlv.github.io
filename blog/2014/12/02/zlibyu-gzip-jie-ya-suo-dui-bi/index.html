@@ -1,0 +1,1061 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ZLib与GZip解压缩对比 - ksnowlv</title>
+  <meta name="author" content="律威">
+
+  
+  <meta name="description" content="1.ZLib与GZip解压缩 ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。
+zlib(RFC1950):一种格式，是对deflate进行了简单的封装； gzip(RFC1952):一种格式，也是对deflate进行的封装.
+gzip与GZip是一种数据压缩格式，可以大体分为头部， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ksnowlv.github.io/blog/2014/12/02/zlibyu-gzip-jie-ya-suo-dui-bi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="ksnowlv" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-39546615-2']);
+    // _gaq.push(['_trackPageview']);
+
+    // (function() {
+    //   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    //   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    // })();
+
+    _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src='http://droidyue-tools.qiniudn.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">ksnowlv</a></h1>
+  
+    <h2>回顾过去,总结以往;立足现在,铭记当下;技术为主,笔记而已.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ksnowlv.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客首页</a></li>
+  <li><a href="/blog/archives">文章列表</a></li>
+  <li><a href="/about-me">关于我</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ZLib与GZip解压缩对比</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-02T20:51:00+08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>1.ZLib与GZip解压缩</h3>
+
+<pre><code>ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。
+zlib(RFC1950):一种格式，是对deflate进行了简单的封装； 
+gzip(RFC1952):一种格式，也是对deflate进行的封装.
+gzip与GZip是一种数据压缩格式，可以大体分为头部，数据部和尾部三个部分
+gzip数据头比zlib数据头要大，因为它保存了文件名和其他文件系统信息，事实上这是广泛使用的gzip文件的数据头格式。
+而zlib和gzip格式的区别仅仅是头部和尾部不一样，而实际的内容都是deflate编码的，即： gzip = gzip头(10字节) + deflate编码的实际内容 + gzip尾(8字节)
+</code></pre>
+
+<!--more-->
+
+
+<h3>ZLib头部</h3>
+
+<p>0x78,0x9c 是zlib数据头(非固定，参考RFC 1951)。或者0x0,0x0,0xFF,0xFF也可以实现正常解压缩，而00 00 FF FF是zlib容错方式的数据块头</p>
+
+<h4>GZip头部：</h4>
+
+<p>第一个字节0x1f(31),第二个字节为0x8b(139),标识为GZIP格式。第三个字节为0x08(8)，指示DEFLATE方法.目前只有一种，CM=8;</p>
+
+<h4>GZip尾部：</h4>
+
+<p>CRC32：4字节。原始(未压缩)数据的32位校验和。
+ISIZE：4字节。原始(未压缩)数据的长度的低32位。
+GZIP中字节排列顺序是LSB方式，即Little-Endian，与ZLIB中的相反</p>
+
+<h3>2.objective-c版本的ZLib与GZip解压缩</h3>
+
+<h4>ZLib压缩</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">zlibCompressData:</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">sourceData</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSUInteger</span> <span class="n">sourceDataLength</span> <span class="o">=</span> <span class="p">[</span><span class="n">sourceData</span> <span class="n">length</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">sourceDataLength</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sourceData</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">z_stream</span> <span class="n">stream</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">z_stream</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">next_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">Bytef</span> <span class="o">*</span><span class="p">)[</span><span class="n">sourceData</span> <span class="n">bytes</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">avail_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">uInt</span><span class="p">)</span><span class="n">sourceDataLength</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">total_out</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">zalloc</span> <span class="o">=</span> <span class="n">Z_NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">zfree</span> <span class="o">=</span> <span class="n">Z_NULL</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">deflateInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="n">Z_DEFAULT_COMPRESSION</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Z_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">int</span> <span class="n">KBufLen</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">Byte</span> <span class="n">buf</span><span class="p">[</span><span class="n">KBufLen</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">KBufLen</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Byte</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">BOOL</span> <span class="n">isCompressOK</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSMutableData</span> <span class="o">*</span><span class="n">compressedData</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">NSMutableData</span> <span class="nl">dataWithLength:</span><span class="n">sourceDataLength</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">compressedData</span> <span class="nl">setData:</span><span class="nb">nil</span><span class="p">];</span> <span class="c1">//必须得加</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">KBufLen</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Byte</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">=</span> <span class="n">KBufLen</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">stream</span><span class="p">.</span><span class="n">next_out</span> <span class="o">=</span> <span class="n">buf</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">res</span> <span class="o">=</span> <span class="n">deflate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="n">Z_FINISH</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">switch</span> <span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_NEED_DICT:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_DATA_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_MEM_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_STREAM_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_BUF_ERROR:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">isCompressOK</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">default</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="n">Z_OK</span> <span class="o">||</span> <span class="n">res</span> <span class="o">==</span> <span class="n">Z_STREAM_END</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">const</span> <span class="kt">int</span> <span class="n">dataLen</span> <span class="o">=</span> <span class="n">KBufLen</span> <span class="o">-</span> <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">isCompressOK</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">dataLen</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">compressedData</span> <span class="nl">appendBytes:</span><span class="n">buf</span> <span class="nl">length:</span><span class="n">dataLen</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isCompressOK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">res</span> <span class="o">=</span> <span class="n">deflateEnd</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">Z_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">isCompressOK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">compressedData</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>ZLib解压</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">zlibUncompressData:</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">sourceData</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSUInteger</span> <span class="n">sourceDataLength</span> <span class="o">=</span> <span class="p">[</span><span class="n">sourceData</span> <span class="n">length</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">sourceDataLength</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sourceData</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">z_stream</span> <span class="n">stream</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">z_stream</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">next_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">Bytef</span> <span class="o">*</span><span class="p">)[</span><span class="n">sourceData</span> <span class="n">bytes</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">avail_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">uInt</span><span class="p">)</span><span class="n">sourceDataLength</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">total_out</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">zalloc</span> <span class="o">=</span> <span class="n">Z_NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">zfree</span> <span class="o">=</span> <span class="n">Z_NULL</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">inflateInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">// inflateInit2(&amp;strm, (15+32))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">Z_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">int</span> <span class="n">KBufLen</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">Byte</span> <span class="n">buf</span><span class="p">[</span><span class="n">KBufLen</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">KBufLen</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Byte</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">BOOL</span> <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSMutableData</span> <span class="o">*</span><span class="n">decompressed</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableData</span> <span class="nl">dataWithLength:</span><span class="n">sourceDataLength</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">decompressed</span> <span class="nl">setData:</span><span class="nb">nil</span><span class="p">];</span> <span class="c1">//必须得加</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">KBufLen</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Byte</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">=</span> <span class="n">KBufLen</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">stream</span><span class="p">.</span><span class="n">next_out</span> <span class="o">=</span> <span class="n">buf</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">res</span> <span class="o">=</span> <span class="n">inflate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="n">Z_NO_FLUSH</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">switch</span> <span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_NEED_DICT:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_DATA_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_MEM_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_STREAM_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_BUF_ERROR:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">default</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="n">Z_OK</span> <span class="o">||</span> <span class="n">res</span> <span class="o">==</span> <span class="n">Z_STREAM_END</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">const</span> <span class="kt">int</span> <span class="n">dataLen</span> <span class="o">=</span> <span class="n">KBufLen</span> <span class="o">-</span> <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">dataLen</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">decompressed</span> <span class="nl">appendBytes:</span><span class="n">buf</span> <span class="nl">length:</span><span class="n">dataLen</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isUncompressOK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">inflateEnd</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Z_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">isUncompressOK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">decompressed</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>GZip压缩</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">gzipCompress:</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">sourceData</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSUInteger</span> <span class="n">sourceDataLength</span> <span class="o">=</span> <span class="p">[</span><span class="n">sourceData</span> <span class="n">length</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">sourceDataLength</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sourceData</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">z_stream</span> <span class="n">stream</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">z_stream</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">next_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">Bytef</span> <span class="o">*</span><span class="p">)[</span><span class="n">sourceData</span> <span class="n">bytes</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">avail_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">uInt</span><span class="p">)</span><span class="n">sourceDataLength</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">total_out</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">zalloc</span> <span class="o">=</span> <span class="n">Z_NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">zfree</span> <span class="o">=</span> <span class="n">Z_NULL</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//只有设置为MAX_WBITS + 16才能在在压缩文本中带header和trailer</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">deflateInit2</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="n">Z_DEFAULT_COMPRESSION</span><span class="p">,</span> <span class="n">Z_DEFLATED</span><span class="p">,</span> <span class="n">MAX_WBITS</span> <span class="o">+</span> <span class="mi">16</span><span class="p">,</span>
+</span><span class='line'>                   <span class="mi">8</span><span class="p">,</span> <span class="n">Z_DEFAULT_STRATEGY</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Z_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">int</span> <span class="n">KBufLen</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">Byte</span> <span class="n">buf</span><span class="p">[</span><span class="n">KBufLen</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">KBufLen</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Byte</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">BOOL</span> <span class="n">isCompressOK</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSMutableData</span> <span class="o">*</span><span class="n">compressedData</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">NSMutableData</span> <span class="nl">dataWithLength:</span><span class="n">sourceDataLength</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">compressedData</span> <span class="nl">setData:</span><span class="nb">nil</span><span class="p">];</span> <span class="c1">//必须得加</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">KBufLen</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Byte</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">=</span> <span class="n">KBufLen</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">stream</span><span class="p">.</span><span class="n">next_out</span> <span class="o">=</span> <span class="n">buf</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">res</span> <span class="o">=</span> <span class="n">deflate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="n">Z_FINISH</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">switch</span> <span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_NEED_DICT:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_DATA_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_MEM_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_STREAM_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_BUF_ERROR:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">isCompressOK</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">default</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="n">Z_OK</span> <span class="o">||</span> <span class="n">res</span> <span class="o">==</span> <span class="n">Z_STREAM_END</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">const</span> <span class="kt">int</span> <span class="n">dataLen</span> <span class="o">=</span> <span class="n">KBufLen</span> <span class="o">-</span> <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">isCompressOK</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">dataLen</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">compressedData</span> <span class="nl">appendBytes:</span><span class="n">buf</span> <span class="nl">length:</span><span class="n">dataLen</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isCompressOK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">res</span> <span class="o">=</span> <span class="n">deflateEnd</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">Z_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">isCompressOK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">compressedData</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>GZip解压</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">gzipUncompress:</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">sourceData</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSUInteger</span> <span class="n">sourceDataLength</span> <span class="o">=</span> <span class="p">[</span><span class="n">sourceData</span> <span class="n">length</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">sourceDataLength</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sourceData</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">z_stream</span> <span class="n">stream</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">z_stream</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">next_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">Bytef</span> <span class="o">*</span><span class="p">)[</span><span class="n">sourceData</span> <span class="n">bytes</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">avail_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">uInt</span><span class="p">)</span><span class="n">sourceDataLength</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">total_out</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">zalloc</span> <span class="o">=</span> <span class="n">Z_NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">zfree</span> <span class="o">=</span> <span class="n">Z_NULL</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">inflateInit2</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="n">MAX_WBITS</span> <span class="o">+</span> <span class="mi">16</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">// inflateInit2(&amp;strm, (15+32))</span>
+</span><span class='line'>  <span class="c1">//只有设置为MAX_WBITS + 16才能在解压带header和trailer的文本</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">Z_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">int</span> <span class="n">KBufLen</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">Byte</span> <span class="n">buf</span><span class="p">[</span><span class="n">KBufLen</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">KBufLen</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Byte</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">BOOL</span> <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSMutableData</span> <span class="o">*</span><span class="n">decompressed</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableData</span> <span class="nl">dataWithLength:</span><span class="n">sourceDataLength</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">decompressed</span> <span class="nl">setData:</span><span class="nb">nil</span><span class="p">];</span> <span class="c1">//必须得加</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">KBufLen</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Byte</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">=</span> <span class="n">KBufLen</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">stream</span><span class="p">.</span><span class="n">next_out</span> <span class="o">=</span> <span class="n">buf</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">res</span> <span class="o">=</span> <span class="n">inflate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="n">Z_SYNC_FLUSH</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">switch</span> <span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_NEED_DICT:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_DATA_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_MEM_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_STREAM_ERROR:</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">Z_BUF_ERROR:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">default</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="n">Z_OK</span> <span class="o">||</span> <span class="n">res</span> <span class="o">==</span> <span class="n">Z_STREAM_END</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">const</span> <span class="kt">int</span> <span class="n">dataLen</span> <span class="o">=</span> <span class="n">KBufLen</span> <span class="o">-</span> <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">dataLen</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">decompressed</span> <span class="nl">appendBytes:</span><span class="n">buf</span> <span class="nl">length:</span><span class="n">dataLen</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isUncompressOK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">inflateEnd</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Z_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">isUncompressOK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">decompressed</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.代码示例</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSString</span><span class="o">*</span> <span class="n">hello</span> <span class="o">=</span> <span class="s">@&quot;helloabc123&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">helloData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithBytes:</span><span class="n">hello</span><span class="p">.</span><span class="n">UTF8String</span> <span class="nl">length:</span><span class="p">[</span><span class="n">hello</span> <span class="nl">lengthOfBytesUsingEncoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">compressData</span> <span class="o">=</span> <span class="p">[</span><span class="n">CommonFuctions</span> <span class="nl">zlibCompressData:</span><span class="n">helloData</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">unCompressData</span> <span class="o">=</span> <span class="p">[</span><span class="n">CommonFuctions</span> <span class="nl">zlibUncompressData:</span><span class="n">compressData</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSString</span><span class="o">*</span> <span class="n">string</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData:</span><span class="n">unCompressData</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Zlib compressData Length = %lu compressData = %@&quot;</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">compressData</span><span class="p">.</span><span class="n">length</span><span class="p">,[</span><span class="n">compressData</span> <span class="n">description</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">compressDataGZip</span> <span class="o">=</span> <span class="p">[</span><span class="n">CommonFuctions</span> <span class="nl">gzipCompress:</span><span class="n">helloData</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">uncompressDataGZip</span> <span class="o">=</span> <span class="p">[</span><span class="n">CommonFuctions</span> <span class="nl">gzipUncompress:</span><span class="n">compressDataGZip</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSString</span><span class="o">*</span> <span class="n">stringRes</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData:</span><span class="n">uncompressDataGZip</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;GZip compressData Length = %lu compressData = %@&quot;</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">compressDataGZip</span><span class="p">.</span><span class="n">length</span><span class="p">,[</span><span class="n">compressDataGZip</span> <span class="n">description</span><span class="p">]);</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4.日志输出：</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="mi">2014</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">02</span> <span class="mi">21</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">20.946</span> <span class="n">ZlibGZipTest</span><span class="p">[</span><span class="mi">14417</span><span class="o">:</span><span class="mi">4245959</span><span class="p">]</span> <span class="n">Zlib</span> <span class="n">compressData</span> <span class="n">Length</span> <span class="o">=</span> <span class="mi">19</span> <span class="n">compressData</span> <span class="o">=</span> <span class="o">&lt;</span><span class="mi">789</span><span class="n">ccb48</span> <span class="n">cdc9c94f</span> <span class="mi">4</span><span class="n">c4a3634</span> <span class="mi">32060019</span> <span class="mi">9003</span><span class="n">d1</span><span class="o">&gt;</span>
+</span><span class='line'><span class="mi">2014</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">02</span> <span class="mi">21</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">24.142</span> <span class="n">ZlibGZipTest</span><span class="p">[</span><span class="mi">14417</span><span class="o">:</span><span class="mi">4245959</span><span class="p">]</span> <span class="n">GZip</span> <span class="n">compressData</span> <span class="n">Length</span> <span class="o">=</span> <span class="mi">31</span> <span class="n">compressData</span> <span class="o">=</span> <span class="o">&lt;</span><span class="mf">1f</span><span class="mi">8</span><span class="n">b0800</span> <span class="mo">00000000</span> <span class="mo">0003</span><span class="n">cb48</span> <span class="n">cdc9c94f</span> <span class="mi">4</span><span class="n">c4a3634</span> <span class="mi">32060012</span> <span class="n">e873880b</span> <span class="mo">000000</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">(</span><span class="n">lldb</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>5.结论</h3>
+
+<h4>1.zlib默认压缩后比gzip小一点。</h4>
+
+<h4>2.zlib与gzip头尾对比。</h4>
+
+<ul>
+<li><strong>zlib头</strong>：789ccb48  <strong>zlib尾</strong>：32060019 9003d1</li>
+<li><strong>gzip头</strong>：1f8b0800 00000000 0003cb48 <strong>gzip尾</strong>：32060012 e873880b 000000</li>
+</ul>
+
+
+<p>两者相比差12个字节。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">律威</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-02T20:51:00+08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios-wang-luo/'>iOS-网络</a>
+  
+</span>
+
+
+      
+<DIV >
+作者： <A href="/">律威</A> <BR>
+出处： <A href="/">https://ksnowlv.github.io</A> 
+<BR>原创文章，版权声明：自由转载-非商用-非衍生-保持署名
+<a href= "http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh"> Creative Commons BY-NC-ND 3.0 </a>。 </DIV>
+
+
+    </p>
+<!--     
+      Included file 'post/sharing.html' not found in _includes directory
+     -->
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/20/ios8-zhong-de-spdy-shi-yong/" title="Previous Post: iOS8中的spdy使用">&laquo; iOS8中的spdy使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/12/03/zu-zhi-wen-jian-bei-ituneshe-icloudtong-bu/" title="Next Post: 阻止文件被iTunes和iCloud同步">阻止文件被iTunes和iCloud同步 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+var disqus_shortname = 'ksnowlv';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>关于我</h1>
+  <p>律威,QQ:309235009 微信:ksnowlv</p>
+  <p>手机单机游戏/手机网游封神online/手机阅读/腾讯iOS地图客户端&实时公交&开放API(地图&街景)/iPad/iPhone淘宝客户端及性能优化</p>
+  <p>目前在银客做银客/简理财/...</p>
+  <p>能做一点,是一点;不求大成,不求一万年;积少成多,水到渠成!</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/">Kotlin通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/">Android通过jni间接调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>分类</h1>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (2)</a></li><li><a href='/blog/categories/android-jni/'>android-jni (1)</a></li><li><a href='/blog/categories/android-jni/'>Android-JNI (3)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+</section>
+<section>
+  <h1>外部链接</h1>
+    <ul id="外部链接">
+    	<li><a href="https://developer.apple.com">苹果开发者中心</a> </li>
+    	<li><a href="http://stackoverflow.com/questions/tagged/ios">stackoverflow</a></li>
+    	<li><a href="http://ksnowlv.blog.163.com/blog/#m=0">ksnowlv网易博客</a></li>
+    	<li><a href="https://www.jianshu.com/u/6fe5d9875a9e">简书</a></li>
+	</ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - 律威 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271193933'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1271193933%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+  <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F4c1727a94ea20751730e8a556dbdbf82' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ksnowlv';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ksnowlv.github.io/blog/2014/12/02/zlibyu-gzip-jie-ya-suo-dui-bi/';
+        var disqus_url = 'http://ksnowlv.github.io/blog/2014/12/02/zlibyu-gzip-jie-ya-suo-dui-bi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+Included file 'custom/after_footer.html' not found in _includes directory
+
+</body>
+</html>
