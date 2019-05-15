@@ -9,7 +9,7 @@
   <meta name="author" content="律威">
 
   
-  <meta name="description" content="如何查看rake相关命令呢？ ">
+  <meta name="description" content="当时使用octopress生成网页时，报错如下 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/08/rake-aborted/">Rake-aborted</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-08T15:52:00+08:00" pubdate data-updated="true">Jul 8<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/07/08/rake-aborted/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong><strong>当时使用octopress生成网页时，报错如下</strong></strong>
+<img src="/images/post/2014-07-18-rake-aborted/rake-aborted-1.png"></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/07/08/rake-aborted/">阅读全文&rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -1575,433 +1619,6 @@ createBitmap 不会重新创建一个图片，而是直接指向源图。这时�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/27/iphonezhi-block-blockzuo-wei-cheng-yuan-shi-yong-shi-de-xian-jing/">Iphone之block_block作为成员使用时的陷阱</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-27T11:43:00+08:00" pubdate data-updated="true">Apr 27<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/27/iphonezhi-block-blockzuo-wei-cheng-yuan-shi-yong-shi-de-xian-jing/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><code>block</code>作为成员使用时，避免直接引用成员变量，造成block和所在的类相互retain引发内存泄露。</p>
-
-<h5>解决方法：</h5>
-
-<ul>
-<li>1.解除相互引用关系，在释放对象时先把成员BLOCK释放，再释放自己。</li>
-<li>2.间接使用成员变量，调整BLOCK参数和相关代码，避免出现问题。</li>
-</ul>
-
-
-<p>首先声明一个块。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-<span class='line-number'>157</span>
-<span class='line-number'>158</span>
-<span class='line-number'>159</span>
-<span class='line-number'>160</span>
-<span class='line-number'>161</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Block_common.h</span>
-</span><span class='line'><span class="c1">//  memorytest_block</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-27.</span>
-</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#ifndef memorytest_block_Block_common_h</span>
-</span><span class='line'><span class="cp">#define memorytest_block_Block_common_h</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">^</span><span class="n">output</span><span class="p">)();</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#endif</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">声明一个</span><span class="n">BLOCK</span><span class="err">作为非成员使用的类</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Block_notmember.h</span>
-</span><span class='line'><span class="c1">//  memorytest_block</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-27.</span>
-</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">Block_notmember</span> : <span class="nc">NSObject</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">output</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Block_notmember.m</span>
-</span><span class='line'><span class="c1">//  memorytest_block</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-27.</span>
-</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#import &quot;Block_notmember.h&quot;</span>
-</span><span class='line'><span class="cp">#import &quot;Block_common.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">Block_notmember</span> <span class="p">()</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span><span class="n">NSString</span><span class="o">*</span> <span class="n">infomation</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">Block_notmember</span>
-</span><span class='line'><span class="k">@synthesize</span> <span class="n">infomation</span> <span class="o">=</span> <span class="n">_infomation</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">infomation</span> <span class="o">=</span> <span class="s">@&quot;ksnowlv&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">output</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">output</span> <span class="n">o</span> <span class="o">=</span>  <span class="o">^</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block_notmember information:%@&quot;</span><span class="p">,</span><span class="n">_infomation</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">o</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block_notmember Object destory&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="err">声明一个</span><span class="n">BLOCK</span><span class="err">作为成员使用的类</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Block_member.h</span>
-</span><span class='line'><span class="c1">//  memorytest_block</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-27.</span>
-</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
-</span><span class='line'><span class="cp">#import &quot;Block_common.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">Block_member</span> : <span class="nc">NSObject</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">output</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">destroy</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Block_member.m</span>
-</span><span class='line'><span class="c1">//  memorytest_block</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-27.</span>
-</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
-</span><span class='line'><span class="c1">//</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#import &quot;Block_member.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">Block_member</span> <span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">output</span> <span class="n">_myOutput</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span><span class="n">NSString</span><span class="o">*</span> <span class="n">infomation</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">Block_member</span>
-</span><span class='line'><span class="k">@synthesize</span> <span class="n">infomation</span> <span class="o">=</span> <span class="n">_infomation</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">init</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">infomation</span> <span class="o">=</span> <span class="s">@&quot;kair&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>       <span class="c1">// NSString* info = _infomation;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">output</span> <span class="n">o</span> <span class="o">=</span>  <span class="o">^</span><span class="p">()</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block_member information:%@&quot;</span><span class="p">,</span><span class="n">_infomation</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">_myOutput</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span> <span class="n">copy</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">output</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">_myOutput</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">destroy</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">_myOutput</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">_myOutput</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">_myOutput</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block_member Object destory&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如下方式调用：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Block_member</span><span class="o">*</span> <span class="n">member</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Block_member</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">member</span> <span class="n">output</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">member</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">Block_notmember</span><span class="o">*</span> <span class="n">notMember</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Block_notmember</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">notMember</span> <span class="n">output</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">notMember</span> <span class="n">release</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>运行结果如下：</p>
-
-<pre><code>2013-04-27 11:25:08.569 memorytest_block[9073:11303] Block_member information:kair
-2013-04-27 11:25:08.570 memorytest_block[9073:11303] Block_notmember information:ksnowlv
-2013-04-27 11:25:08.570 memorytest_block[9073:11303] Block_notmember Object destory
-</code></pre>
-
-<p>从上面日志看，member并没有正常释放，造成内存泄露。
-如果对Block_member如下调用，替换上面的。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Block_member</span><span class="o">*</span> <span class="n">member</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Block_member</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">member</span> <span class="n">output</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">member</span> <span class="n">destroy</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">member</span> <span class="n">release</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>运行结果如下：</p>
-
-<pre><code>2013-04-27 11:39:04.187 memorytest_block[10853:11303] Block_member information:kair
-2013-04-27 11:39:04.188 memorytest_block[10853:11303] Block_member Object destory
-2013-04-27 11:39:04.188 memorytest_block[10853:11303] Block_notmember information:ksnowlv
-2013-04-27 11:39:04.189 memorytest_block[10853:11303] Block_notmember Object destory
-</code></pre>
-
-<p>从上面日志看，member对象得到了正常释放。
-以上仅仅是演示，不一一列举解决方法。重在产生问题的原因。
-你也许会问，为什么非成员的BLOCK直接引用了成员为啥没有出现问题呢？</p>
-
-<p>原因是块是临时的，块的生命周期结束后会释放对self的引用，就不存在相互retain的问题。和Timer,runloop等类似，只要没有导致相互retain这种循环引用，会避免这种情况下的内存泄露。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/21/">&larr; Older</a>
@@ -2026,6 +1643,10 @@ createBitmap 不会重新创建一个图片，而是直接指向源图。这时�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg%2Cpng%2Cbmpge-shi-de-tu-pian/">python筛选目录下非jpeg，png，bmp格式的图片</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
       </li>
     
@@ -2041,15 +1662,11 @@ createBitmap 不会重新创建一个图片，而是直接指向源图。这时�
         <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/pythonxiao-gong-ju/'>Python小工具 (1)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
 </section>
 <section>
   <h1>外部链接</h1>

@@ -4,7 +4,7 @@
   <title><![CDATA[ksnowlv]]></title>
   <link href="http://ksnowlv.github.io/atom.xml" rel="self"/>
   <link href="http://ksnowlv.github.io/"/>
-  <updated>2019-05-15T17:09:38+08:00</updated>
+  <updated>2019-05-15T20:03:47+08:00</updated>
   <id>http://ksnowlv.github.io/</id>
   <author>
     <name><![CDATA[律威]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[python筛选目录下非jpeg，png，bmp格式的图片]]></title>
+    <link href="http://ksnowlv.github.io/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg%2Cpng%2Cbmpge-shi-de-tu-pian/"/>
+    <updated>2019-05-15T20:01:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg,png,bmpge-shi-de-tu-pian</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">imghdr</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">##工具功能：筛选目录下非jpeg，png，bmp格式的图片，并输出其路径</span>
+</span><span class='line'><span class="c">##Python 3.0</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#图片文件夹目录</span>
+</span><span class='line'><span class="n">IMAGEPATH</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#初始化</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">global</span> <span class="n">IMAGEPATH</span>
+</span><span class='line'>    <span class="n">IMAGEPATH</span>  <span class="o">=</span> <span class="s">&quot;/Users/ksnowlv/Documents/image&quot;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 功能：读取指定目录下的所有文件绝对路径（包括该目录下所有子目录），并以列表形式返回</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">readDir</span><span class="p">(</span><span class="n">dirPath</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">myDirPath</span> <span class="o">=</span> <span class="n">dirPath</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">dirPath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">):</span><span class="c"># 要求传入的路径参数最后不能有斜杠,目的是为了递归时格式统一</span>
+</span><span class='line'>        <span class="n">myDirPath</span> <span class="o">=</span> <span class="n">dirPath</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="s">&#39;文件夹路径末尾删除/ = </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">myDirPath</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">allFiles</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">myDirPath</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">fileList</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">myDirPath</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">f</span> <span class="o">=</span> <span class="n">myDirPath</span><span class="o">+</span><span class="s">&#39;/&#39;</span><span class="o">+</span><span class="n">f</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+</span><span class='line'>                <span class="n">subFiles</span> <span class="o">=</span> <span class="n">readDir</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span><span class='line'>                <span class="n">allFiles</span> <span class="o">=</span> <span class="n">subFiles</span> <span class="o">+</span> <span class="n">allFiles</span> <span class="c">#合并当前目录与子目录的所有文件路径</span>
+</span><span class='line'>            <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>                <span class="n">allFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">allFiles</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Error,not a dir&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">allFiles</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#根据路径筛选出非目标图片的路径</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">filterPicture</span><span class="p">(</span><span class="n">fileList</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">fileName</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
+</span><span class='line'>        <span class="c"># data = open(fileName, &#39;rb&#39;).read(20)</span>
+</span><span class='line'>        <span class="n">fileType</span> <span class="o">=</span> <span class="n">imghdr</span><span class="o">.</span><span class="n">what</span><span class="p">(</span><span class="n">fileName</span><span class="p">)</span>
+</span><span class='line'>        <span class="c"># print(&quot;filename = %s fileType = %s&quot; % (fileName,fileType))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">fileType</span> <span class="o">!=</span> <span class="s">&quot;jpeg&quot;</span> <span class="ow">and</span> <span class="n">fileType</span> <span class="o">!=</span> <span class="s">&quot;png&quot;</span> <span class="ow">and</span> <span class="n">fileType</span> <span class="o">!=</span> <span class="s">&quot;bmp&quot;</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">print</span><span class="p">(</span><span class="s">&quot;filename = </span><span class="si">%s</span><span class="s"> can not parse fileType = </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">fileType</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">fileList</span> <span class="o">=</span> <span class="n">readDir</span><span class="p">(</span><span class="n">IMAGEPATH</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">filterPicture</span><span class="p">(</span><span class="n">fileList</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">main</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[kotlin-native]]></title>
@@ -3801,87 +3927,6 @@ OBJC_SYNC_SUCCESS or OBJC_SYNC_NOT_OWNING_THREAD_ERROR</li>
 </ul>
 </li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift-class与struct区别]]></title>
-    <link href="http://ksnowlv.github.io/blog/2018/07/18/swift-classyu-structqu-bie/"/>
-    <updated>2018-07-18T18:45:00+08:00</updated>
-    <id>http://ksnowlv.github.io/blog/2018/07/18/swift-classyu-structqu-bie</id>
-    <content type="html"><![CDATA[<table>
-<thead>
-<tr>
-<th></th>
-<th>比较项</th>
-<th>struct</th>
-<th>class</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> 类型</td>
-<td>值类型</td>
-<td>引用类型|</td>
-</tr>
-<tr>
-<td></td>
-<td> 属性初始化</td>
-<td>可用默认构造直接初始化</td>
-<td>需要自己创建构造方法|</td>
-</tr>
-<tr>
-<td></td>
-<td>变量赋值</td>
-<td>深拷贝</td>
-<td>浅拷贝，增加原对象引用</td>
-</tr>
-<tr>
-<td></td>
-<td>方法中修改属性</td>
-<td>需要添加mutating </td>
-<td>不需要</td>
-</tr>
-<tr>
-<td></td>
-<td>继承关系</td>
-<td>不能继承</td>
-<td>可以继承</td>
-</tr>
-<tr>
-<td></td>
-<td>内存</td>
-<td>栈上，自动内存管理</td>
-<td>堆上，手动内存管理</td>
-</tr>
-<tr>
-<td></td>
-<td>速度</td>
-<td>高效</td>
-<td>相比效率低</td>
-</tr>
-<tr>
-<td></td>
-<td>线程安全</td>
-<td>自动线程安全的</td>
-<td>大多是非线程安全的</td>
-</tr>
-<tr>
-<td></td>
-<td>与oc混编</td>
-<td>不支持，oc无法调struct</td>
-<td>支持混编</td>
-</tr>
-<tr>
-<td></td>
-<td>序列化</td>
-<td>不支持，可用字节转NSData</td>
-<td>支持序列化</td>
-</tr>
-</tbody>
-</table>
 
 ]]></content>
   </entry>

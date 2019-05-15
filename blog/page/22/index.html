@@ -9,8 +9,19 @@
   <meta name="author" content="律威">
 
   
-  <meta name="description" content="OpenGL坐标系可分为 世界坐标系
-当前绘图坐标系。 1.世界坐标系： 在OpenGL中，世界坐标系是以屏幕中心为原点(0, 0, 0)，且是始终不变的。屏幕向右为x正轴正向，屏幕向上为y正轴正向，屏幕向外为z正轴正向。 单位长度这样来定：窗口范围按此单位恰好是(-1,-1)到(1,1)， &hellip;">
+  <meta name="description" content="NSXMLParser为IPHONE SDK 自带的，还是很方便的。 1.头文件 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+// ViewController.h
+#import &lt;UIKit/UIKit.h&gt; @interface ViewController : &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +99,322 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/16/xmljie-xi-zhi-nsxmlparser/">XML解析之NSXMLParser</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-16T18:56:00+08:00" pubdate data-updated="true">Apr 16<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/16/xmljie-xi-zhi-nsxmlparser/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NSXMLParser为IPHONE SDK 自带的，还是很方便的。</p>
+
+<h4>1.头文件</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  ViewController.h</span>
+</span><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span> : <span class="nc">UIViewController</span><span class="o">&lt;</span><span class="n">NSXMLParserDelegate</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span><span class="n">NSXMLParser</span><span class="o">*</span> <span class="n">xmlParser</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">testNSXMLParserEvent:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>2.实现文件</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  ViewController.m</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &quot;ViewController.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span> <span class="n">NSData</span><span class="o">*</span> <span class="n">xmlData</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">ViewController</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">xmlData</span> <span class="o">=</span> <span class="n">_xmlData</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">xmlParser</span> <span class="o">=</span> <span class="n">_xmlParser</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">str</span> <span class="o">=</span> <span class="s">@&quot;&lt;city&gt;\</span>
+</span><span class='line'><span class="s">    \</span>
+</span><span class='line'><span class="s">    &lt;pois&gt;\</span>
+</span><span class='line'><span class="s">    &lt;poi catalog=</span><span class="se">\&quot;</span><span class="s">生活服务</span><span class="se">\&quot;</span><span class="s">   name=</span><span class="se">\&quot;</span><span class="s">火车票飞机票售票处</span><span class="se">\&quot;</span><span class="s">  x=</span><span class="se">\&quot;</span><span class="s">12960121.140000</span><span class="se">\&quot;</span><span class="s"> y=</span><span class="se">\&quot;</span><span class="s">4864264.440000</span><span class="se">\&quot;</span><span class="s"> /&gt;\</span>
+</span><span class='line'><span class="s">    &lt;poi catalog=</span><span class="se">\&quot;</span><span class="s">购物</span><span class="se">\&quot;</span><span class="s">   name=</span><span class="se">\&quot;</span><span class="s">皂就人生</span><span class="se">\&quot;</span><span class="s">  x=</span><span class="se">\&quot;</span><span class="s">12960087.850000</span><span class="se">\&quot;</span><span class="s"> y=</span><span class="se">\&quot;</span><span class="s">4864269.380000</span><span class="se">\&quot;</span><span class="s"> /&gt;\</span>
+</span><span class='line'><span class="s">    &lt;poi catalog=</span><span class="se">\&quot;</span><span class="s">美食</span><span class="se">\&quot;</span><span class="s">   name=</span><span class="se">\&quot;</span><span class="s">必胜客(惠新东桥店)</span><span class="se">\&quot;</span><span class="s">  x=</span><span class="se">\&quot;</span><span class="s">12960191.040000</span><span class="se">\&quot;</span><span class="s"> y=</span><span class="se">\&quot;</span><span class="s">4864423.390000</span><span class="se">\&quot;</span><span class="s"> /&gt; \</span>
+</span><span class='line'><span class="s">    &lt;poi catalog=</span><span class="se">\&quot;</span><span class="s">房产小区</span><span class="se">\&quot;</span><span class="s">   name=</span><span class="se">\&quot;</span><span class="s">惠中园小区(北门)</span><span class="se">\&quot;</span><span class="s"> x=</span><span class="se">\&quot;</span><span class="s">12960001.910000</span><span class="se">\&quot;</span><span class="s"> y=</span><span class="se">\&quot;</span><span class="s">4864271.850000</span><span class="se">\&quot;</span><span class="s"> /&gt;\</span>
+</span><span class='line'><span class="s">    &lt;/pois&gt;\</span>
+</span><span class='line'><span class="s">    \</span>
+</span><span class='line'><span class="s">    &lt;roads&gt;\</span>
+</span><span class='line'><span class="s">    &lt;road id=</span><span class="se">\&quot;</span><span class="s">J50F001020_37715</span><span class="se">\&quot;</span><span class="s"> name=</span><span class="se">\&quot;</span><span class="s">北四环东路</span><span class="se">\&quot;</span><span class="s"> valid=</span><span class="se">\&quot;</span><span class="s">1</span><span class="se">\&quot;</span><span class="s"> width=</span><span class="se">\&quot;</span><span class="s">2</span><span class="se">\&quot;</span><span class="s"> &gt;\</span>
+</span><span class='line'><span class="s">        &lt;points&gt;\</span>
+</span><span class='line'><span class="s">            &lt;point order=</span><span class="se">\&quot;</span><span class="s">0</span><span class="se">\&quot;</span><span class="s"> vid=</span><span class="se">\&quot;</span><span class="s">10011018120904120936600</span><span class="se">\&quot;</span><span class="s"> x=</span><span class="se">\&quot;</span><span class="s">12960310.270000</span><span class="se">\&quot;</span><span class="s"> y=</span><span class="se">\&quot;</span><span class="s">4864348.300000</span><span class="se">\&quot;</span><span class="s"> /&gt;\</span>
+</span><span class='line'><span class="s">            &lt;point order=</span><span class="se">\&quot;</span><span class="s">1</span><span class="se">\&quot;</span><span class="s"> vid=</span><span class="se">\&quot;</span><span class="s">10011018120904120937600</span><span class="se">\&quot;</span><span class="s"> x=</span><span class="se">\&quot;</span><span class="s">12960296.410000</span><span class="se">\&quot;</span><span class="s"> y=</span><span class="se">\&quot;</span><span class="s">4864347.700000</span><span class="se">\&quot;</span><span class="s"> /&gt;\</span>
+</span><span class='line'><span class="s">        &lt;/points&gt;\</span>
+</span><span class='line'><span class="s">    &lt;/road&gt;\</span>
+</span><span class='line'><span class="s">    &lt;/roads&gt;\</span>
+</span><span class='line'><span class="s">    &lt;/city&gt;&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">str</span> <span class="o">=</span> <span class="p">[</span><span class="n">str</span> <span class="nl">stringByAppendingString:</span><span class="n">str</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">xmlData</span> <span class="o">=</span> <span class="p">[</span><span class="n">str</span> <span class="nl">dataUsingEncoding:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">xmlData</span> <span class="o">=</span> <span class="n">xmlData</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didReceiveMemoryWarning</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">didReceiveMemoryWarning</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">// Dispose of any resources that can be recreated.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_xmlData</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">_xmlParser</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_xmlParser</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark----NSXMLParser----</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">testNSXMLParserEvent:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//对xml进行解析需要使用NSXMLParser类，首先声明一个NSXMLParser对象</span>
+</span><span class='line'>    <span class="c1">//开始解析</span>
+</span><span class='line'>    <span class="n">NSXMLParser</span><span class="o">*</span> <span class="n">xmlParser</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSXMLParser</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData:</span><span class="n">_xmlData</span><span class="p">];</span><span class="c1">//初始化NSXMLParser对象</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">xmlParser</span> <span class="nl">setDelegate:</span><span class="n">self</span><span class="p">];</span><span class="c1">//设置NSXMLParser对象的解析方法代理</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">xmlParser</span> <span class="n">parse</span><span class="p">];</span><span class="c1">//调用代理解析NSXMLParser对象，看解析是否成功</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">xmlParser</span> <span class="o">=</span> <span class="n">xmlParser</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">xmlParser</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">////解析器，从两个结点之间读取内容</span>
+</span><span class='line'><span class="c1">//- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {</span>
+</span><span class='line'><span class="c1">//    NSLog(@&quot;foundCharacters  %@&quot;,string);</span>
+</span><span class='line'><span class="c1">//}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//获得结点结尾的值</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">parser:</span><span class="p">(</span><span class="n">NSXMLParser</span> <span class="o">*</span><span class="p">)</span><span class="nv">parser</span> <span class="nf">didEndElement:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">elementName</span>
+</span><span class='line'>  <span class="nf">namespaceURI:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">namespaceURI</span> <span class="nf">qualifiedName:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">qName</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didEndElement  %@&quot;</span><span class="p">,</span><span class="n">elementName</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">elementName</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;road&quot;</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//这样可以把road关于刚才记录的point数组放进来，组成road完整的数据</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//获得结点头的值</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">parser:</span><span class="p">(</span><span class="n">NSXMLParser</span> <span class="o">*</span><span class="p">)</span><span class="nv">parser</span> <span class="nf">didStartElement:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">elementName</span>
+</span><span class='line'>  <span class="nf">namespaceURI:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">namespaceURI</span> <span class="nf">qualifiedName:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">qName</span>
+</span><span class='line'>    <span class="nf">attributes:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">attributeDict</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didStartElement %@&quot;</span><span class="p">,</span><span class="n">elementName</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">([</span><span class="n">elementName</span> <span class="nl">isEqualToString:</span> <span class="s">@&quot;poi&quot;</span><span class="p">])</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">catalog</span> <span class="o">=</span> <span class="p">[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;catalog&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;x&quot;</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;y&quot;</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;poi data = {catalog=%@,name=%@,x =%lf,y = %lf}&quot;</span><span class="p">,</span><span class="n">catalog</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="k">if</span><span class="p">([</span><span class="n">elementName</span> <span class="nl">isEqualToString:</span> <span class="s">@&quot;point&quot;</span><span class="p">])</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSInteger</span> <span class="n">order</span> <span class="o">=</span> <span class="p">[[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;order&quot;</span><span class="p">]</span> <span class="n">intValue</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">vid</span> <span class="o">=</span> <span class="p">[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;vid&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;x&quot;</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;y&quot;</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;point data = {order=%d,vid=%@,x =%lf,y = %lf}&quot;</span><span class="p">,</span><span class="n">order</span><span class="p">,</span><span class="n">vid</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="k">if</span><span class="p">([</span><span class="n">elementName</span> <span class="nl">isEqualToString:</span> <span class="s">@&quot;road&quot;</span><span class="p">])</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">roadID</span> <span class="o">=</span> <span class="p">[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;id&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSInteger</span> <span class="n">width</span> <span class="o">=</span> <span class="p">[[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;width&quot;</span><span class="p">]</span> <span class="n">intValue</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSInteger</span> <span class="n">valid</span> <span class="o">=</span> <span class="p">[[</span><span class="n">attributeDict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;valid&quot;</span><span class="p">]</span> <span class="n">intValue</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;road data = {name=%@,roadID=%@,width=%d,valid  %d}&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">roadID</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">valid</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1116,151 +1443,6 @@ Block_copy和Block_release的调用不能与Objective-c的copy和release，或au
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/05/iphonezhi-block-ju-bu-block/">iPhone之block_一局部block</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-05T14:14:00+08:00" pubdate data-updated="true">Apr 5<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/05/iphonezhi-block-ju-bu-block/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS4在UIKit中引入了block,可以帮助我们组织独立的代码段，并提高复用性和可读性.</p>
-
-<p>Block是符合如下要求的匿名内联的代码集：</p>
-
-<ul>
-<li>和函数一样具有一个指定类型的参数列表</li>
-<li>有一个可以推导或声明的返回值类型</li>
-<li>可以从它被定义的词义范围中捕捉状态</li>
-<li>可以在需要的时候改变词义范围的状态</li>
-<li>可以和相同的词义范围中定义的其他的Block共享更改的可能。</li>
-<li>可以在词义范围（堆栈帧）被销毁后继续共享和修改该词义范围（堆栈帧）的状态。
-Block是一个自包含的小代码段，封装了用于遍历（线性遍历）或者回调，可以并发执行的任务单元。</li>
-</ul>
-
-
-<h4>1.示例1</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">void</span><span class="p">(</span><span class="o">^</span><span class="n">printBlock</span><span class="p">)(</span><span class="n">NSString</span><span class="o">*</span> <span class="n">toDo</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">printBlock</span> <span class="n">pb</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;john&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">pb</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span> <span class="n">toDo</span><span class="p">){</span>
-</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;%@ %@&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">toDo</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;infomation:%@&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;tom&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">pb</span><span class="p">(</span><span class="s">@&quot;go to park&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其输出为</p>
-
-<pre><code>2013-04-05 13:59:16.039 test[15932:c303] infomation:john go to park
-</code></pre>
-
-<p>创建block对象时，此对象只会捕获当前引用值。以后引用值怎么变，只会使用之前的值。</p>
-
-<h4>2.示例2</h4>
-
-<p>如果用__block修饰name</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>   <span class="k">typedef</span> <span class="nf">void</span><span class="p">(</span><span class="o">^</span><span class="n">printBlock</span><span class="p">)(</span><span class="n">NSString</span><span class="o">*</span> <span class="n">toDo</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">printBlock</span> <span class="n">pb</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="n">__block</span>  <span class="n">NSString</span><span class="o">*</span> <span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;john&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">pb</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span> <span class="n">toDo</span><span class="p">){</span>
-</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;%@ %@&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">toDo</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;infomation:%@&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;tom&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">pb</span><span class="p">(</span><span class="s">@&quot;go to park&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其输出为：</p>
-
-<pre><code>2013-04-05 14:05:56.893 test[16610:c303] infomation:tom go to park
-</code></pre>
-
-<h4>3.关于__block</h4>
-
-<p>__block 存储类型</p>
-
-<p>你可以规定一个外部的变量是否可变——可读写——通过使用<strong>block存储类型修饰符。</strong>block存储类似但不同于register，auto和static存储类型。</p>
-
-<p>__block变量在变量声明的作用域、所有同一作用域内的块，以及块拷贝之间同享存储。而且这个存储将在栈帧（stack frame）释放时得以保留，只要同一帧内申明的块的拷贝仍然存活（例如，被入栈以便再次使用）。在指定作用域内的多个块能同时使用共享变量。</p>
-
-<p>作为一种优化，块存储使用栈存储，就如同块自身一样。如果使用Block_copy拷贝块（或者在O-C向块发送copy消息），变量被拷贝到堆里。而且，__block变量的地址随后就会改变。</p>
-
-<p>__block变量有两个限制</p>
-
-<ul>
-<li>不能是可变长度的数组</li>
-<li>不能是包含C99可变长度数组的结构体</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/23/">&larr; Older</a>
@@ -1285,6 +1467,10 @@ Block是一个自包含的小代码段，封装了用于遍历（线性遍历）
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg%2Cpng%2Cbmpge-shi-de-tu-pian/">python筛选目录下非jpeg，png，bmp格式的图片</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
       </li>
     
@@ -1300,15 +1486,11 @@ Block是一个自包含的小代码段，封装了用于遍历（线性遍历）
         <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/pythonxiao-gong-ju/'>Python小工具 (1)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
 </section>
 <section>
   <h1>外部链接</h1>

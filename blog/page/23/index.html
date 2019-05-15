@@ -9,32 +9,10 @@
   <meta name="author" content="律威">
 
   
-  <meta name="description" content="以下面数据作为样例 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-{
-&quot;info&quot;:{
-&quot;type&quot;:34,
-&quot;error&quot;:0
-},
-&quot;poilist&quot;:[
-{
-&quot &hellip;">
+  <meta name="description" content="iOS4在UIKit中引入了block,可以帮助我们组织独立的代码段，并提高复用性和可读性. Block是符合如下要求的匿名内联的代码集： 和函数一样具有一个指定类型的参数列表
+有一个可以推导或声明的返回值类型
+可以从它被定义的词义范围中捕捉状态
+可以在需要的时候改变词义范围的状态 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -112,6 +90,151 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/05/iphonezhi-block-ju-bu-block/">iPhone之block_一局部block</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-05T14:14:00+08:00" pubdate data-updated="true">Apr 5<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/05/iphonezhi-block-ju-bu-block/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS4在UIKit中引入了block,可以帮助我们组织独立的代码段，并提高复用性和可读性.</p>
+
+<p>Block是符合如下要求的匿名内联的代码集：</p>
+
+<ul>
+<li>和函数一样具有一个指定类型的参数列表</li>
+<li>有一个可以推导或声明的返回值类型</li>
+<li>可以从它被定义的词义范围中捕捉状态</li>
+<li>可以在需要的时候改变词义范围的状态</li>
+<li>可以和相同的词义范围中定义的其他的Block共享更改的可能。</li>
+<li>可以在词义范围（堆栈帧）被销毁后继续共享和修改该词义范围（堆栈帧）的状态。
+Block是一个自包含的小代码段，封装了用于遍历（线性遍历）或者回调，可以并发执行的任务单元。</li>
+</ul>
+
+
+<h4>1.示例1</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">void</span><span class="p">(</span><span class="o">^</span><span class="n">printBlock</span><span class="p">)(</span><span class="n">NSString</span><span class="o">*</span> <span class="n">toDo</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">printBlock</span> <span class="n">pb</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;john&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pb</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span> <span class="n">toDo</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;%@ %@&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">toDo</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;infomation:%@&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;tom&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pb</span><span class="p">(</span><span class="s">@&quot;go to park&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其输出为</p>
+
+<pre><code>2013-04-05 13:59:16.039 test[15932:c303] infomation:john go to park
+</code></pre>
+
+<p>创建block对象时，此对象只会捕获当前引用值。以后引用值怎么变，只会使用之前的值。</p>
+
+<h4>2.示例2</h4>
+
+<p>如果用__block修饰name</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>   <span class="k">typedef</span> <span class="nf">void</span><span class="p">(</span><span class="o">^</span><span class="n">printBlock</span><span class="p">)(</span><span class="n">NSString</span><span class="o">*</span> <span class="n">toDo</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">printBlock</span> <span class="n">pb</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="n">__block</span>  <span class="n">NSString</span><span class="o">*</span> <span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;john&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pb</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span> <span class="n">toDo</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;%@ %@&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">toDo</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;infomation:%@&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;tom&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">pb</span><span class="p">(</span><span class="s">@&quot;go to park&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其输出为：</p>
+
+<pre><code>2013-04-05 14:05:56.893 test[16610:c303] infomation:tom go to park
+</code></pre>
+
+<h4>3.关于__block</h4>
+
+<p>__block 存储类型</p>
+
+<p>你可以规定一个外部的变量是否可变——可读写——通过使用<strong>block存储类型修饰符。</strong>block存储类似但不同于register，auto和static存储类型。</p>
+
+<p>__block变量在变量声明的作用域、所有同一作用域内的块，以及块拷贝之间同享存储。而且这个存储将在栈帧（stack frame）释放时得以保留，只要同一帧内申明的块的拷贝仍然存活（例如，被入栈以便再次使用）。在指定作用域内的多个块能同时使用共享变量。</p>
+
+<p>作为一种优化，块存储使用栈存储，就如同块自身一样。如果使用Block_copy拷贝块（或者在O-C向块发送copy消息），变量被拷贝到堆里。而且，__block变量的地址随后就会改变。</p>
+
+<p>__block变量有两个限制</p>
+
+<ul>
+<li>不能是可变长度的数组</li>
+<li>不能是包含C99可变长度数组的结构体</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1427,53 +1550,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/08/10/go_to_tencent/">入职腾讯</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-10T09:00:00+08:00" pubdate data-updated="true">Aug 10<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/08/10/go_to_tencent/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>早上9点入职，中午的时候，还没有办完入职手续，因为入职的人特别多，排队填写一堆东东，看样子要到下午了。</p>
-
-<p>   下午吃完饭后，去那像是网吧一样的工位。但是，人与人却是近距离接触的。
-   左边是nop,右边是老江，leven，老大在斜对面&hellip;</p>
-
-<pre><code>于是开始了在这里的火热激情之旅！....
-靠谱！给力！
----今天记录下这个时刻。
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/24/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -1495,6 +1574,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg%2Cpng%2Cbmpge-shi-de-tu-pian/">python筛选目录下非jpeg，png，bmp格式的图片</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
       </li>
     
@@ -1510,15 +1593,11 @@
         <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2019/04/10/android-jni-demo/">Android-jni-demo</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/pythonxiao-gong-ju/'>Python小工具 (1)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
 </section>
 <section>
   <h1>外部链接</h1>
