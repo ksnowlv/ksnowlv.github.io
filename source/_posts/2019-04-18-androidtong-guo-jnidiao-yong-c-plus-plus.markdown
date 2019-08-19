@@ -3,7 +3,7 @@ layout: post
 title: "Android通过jni调用c++"
 date: 2019-04-18 15:16
 comments: true
-categories: Android-JNI
+categories: Android-jni
 ---
 
 

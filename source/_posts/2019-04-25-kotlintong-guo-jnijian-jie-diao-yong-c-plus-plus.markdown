@@ -3,7 +3,7 @@ layout: post
 title: "Kotlin通过jni间接调用c++"
 date: 2019-04-25 19:44
 comments: true
-categories: Android-JNI
+categories: Android-jni
 ---
 
 

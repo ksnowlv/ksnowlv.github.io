@@ -3,7 +3,7 @@ layout: post
 title: "”mac下android配置jni开发环境(一)“"
 date: 2019-04-09 18:39
 comments: true
-categories: android-jni
+categories: Android-jni
 ---
 
 mac机器上，在进行jni开发之前，android studio 3.3.2，需要配置java环境与ndk环境。
