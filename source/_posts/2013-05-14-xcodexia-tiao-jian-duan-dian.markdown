@@ -3,7 +3,7 @@ layout: post
 title: "Xcode下条件断点"
 date: 2013-05-14 10:48
 comments: true
-categories: XCode
+categories: xcode
 ---
 
 ![image](/images/post/2013-05-14-xcodexia-tiao-jian-duan-dian/1.png) 

@@ -3,7 +3,7 @@ layout: post
 title: "swift call c++（一）"
 date: 2019-04-01 17:23
 comments: true
-categories: swift基础
+categories: swift-基础
 ---
 
 
