@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift-基础框架 | ksnowlv]]></title>
   <link href="http://ksnowlv.github.io/blog/categories/swift-ji-chu-kuang-jia/atom.xml" rel="self"/>
   <link href="http://ksnowlv.github.io/"/>
-  <updated>2019-05-15T21:18:45+08:00</updated>
+  <updated>2020-05-21T17:06:06+08:00</updated>
   <id>http://ksnowlv.github.io/</id>
   <author>
     <name><![CDATA[律威]]></name>
@@ -14,50 +14,622 @@
 
   
   <entry>
-    <title type="html"><![CDATA[swift中pthread_t之mutex]]></title>
-    <link href="http://ksnowlv.github.io/blog/2018/08/07/swiftzhong-pthread-tzhi-mutex/"/>
-    <updated>2018-08-07T18:37:00+08:00</updated>
-    <id>http://ksnowlv.github.io/blog/2018/08/07/swiftzhong-pthread-tzhi-mutex</id>
-    <content type="html"><![CDATA[<p>mutex类型有四种</p>
+    <title type="html"><![CDATA[swift call c++（二）]]></title>
+    <link href="http://ksnowlv.github.io/blog/2019/04/01/swift-call-c-plus-plus-%28er%29/"/>
+    <updated>2019-04-01T17:35:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2019/04/01/swift-call-c-plus-plus-(er)</id>
+    <content type="html"><![CDATA[<p>如何在swift调整c++代码呢？</p>
+
+<p><em>swift通过工程的桥接文件，调用oc的代码，间接调用c++代码!!!</em></p>
+
+<h4>1.创建C++ Person类文件：<code>Person.hpp</code>和<code>Person.cpp</code></h4>
+
+<p><code>Person.hpp</code>内容如下：</p>
+
+<p>```objective-c</p>
+
+<p>//
+//  Person.hpp
+//  SwiftCallC
+//
+//  Created by ksnowlv on 2019/3/28.
+//  Copyright © 2019 ksnowlv. All rights reserved.
+//</p>
+
+<h1>ifndef Person_hpp</h1>
+
+<h1>define Person_hpp</h1>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>class Person {
+public:</p>
+
+<pre><code>Person();
+~Person();
+
+void setName(const char* pName);
+const char* name();
+
+void setAge(const int age);
+const int age() const;
+</code></pre>
+
+<p>private:</p>
+
+<pre><code>char *m_pName;
+int m_age;
+</code></pre>
+
+<p>};</p>
+
+<h1>endif /<em> Person_hpp </em>/</h1>
+
+<p>```</p>
+
+<p><code>Person.cpp</code>内容如下</p>
+
+<p>```objective-c</p>
+
+<p>//
+//  Person.cpp
+//  SwiftCallC
+//
+//  Created by ksnowlv on 2019/3/28.
+//  Copyright © 2019 ksnowlv. All rights reserved.
+//</p>
+
+<h1>include &ldquo;Person.hpp&rdquo;</h1>
+
+<h1>include &lt;string.h></h1>
+
+<p>Person::Person() {</p>
+
+<pre><code>m_pName = nullptr;
+m_age = 0;
+</code></pre>
+
+<p>}</p>
+
+<p>Person::~Person() {</p>
+
+<pre><code>if (m_pName) {
+    delete [] m_pName;
+    m_pName = nullptr;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>void Person::setAge(const int age) {</p>
+
+<pre><code>m_age = age;
+</code></pre>
+
+<p>}</p>
+
+<p>const int Person::age()const {</p>
+
+<pre><code>return m_age;
+</code></pre>
+
+<p>}</p>
+
+<p>void Person::setName(const char *pName) {</p>
+
+<pre><code>if (m_pName) {
+    delete [] m_pName;
+    m_pName = nullptr;
+}
+
+if (pName) {
+    const size_t len = strlen(pName) + 1;
+    m_pName = new char[len];
+    memset(m_pName, 0, len);
+    strcpy(m_pName, pName);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>const char* Person::name() {</p>
+
+<pre><code>return m_pName;
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h4>2.创建oc类文件：<code>PersonExt.h</code>和<code>PersonExt.mm</code></h4>
+
+<p><code>PersonExt.h</code>内容如下</p>
+
+<p>```objective-c
+//
+//  PersonExt.h
+//  SwiftCallC
+//
+//  Created by ksnowlv on 2019/4/1.
+//  Copyright © 2019 ksnowlv. All rights reserved.
+//</p>
+
+<h1>import &lt;Foundation/Foundation.h></h1>
+
+<p>NS_ASSUME_NONNULL_BEGIN</p>
+
+<p>@interface PersonExt : NSObject</p>
+
+<p>@property(nonatomic, strong) NSString *name;
+@property(nonatomic, assign) NSInteger age;</p>
+
+<p>@end</p>
+
+<p>NS_ASSUME_NONNULL_END</p>
+
+<p>```</p>
+
+<p><code>PersonExt.mm</code>内容如下</p>
+
+<p>```objective-c</p>
+
+<p>//
+//  PersonExt.m
+//  SwiftCallC
+//
+//  Created by ksnowlv on 2019/4/1.
+//  Copyright © 2019 ksnowlv. All rights reserved.
+//</p>
+
+<h1>import &ldquo;PersonExt.h&rdquo;</h1>
+
+<h1>include &ldquo;Person.hpp&rdquo;</h1>
+
+<p>@interface PersonExt () {</p>
+
+<pre><code>Person *_person;
+</code></pre>
+
+<p>}</p>
+
+<p>@end</p>
+
+<p>@implementation PersonExt</p>
 
 <ul>
-<li>PTHREAD_MUTEX_NORMAL</li>
-<li>PTHREAD_MUTEX_ERRORCHECK</li>
-<li>PTHREAD_MUTEX_RECURSIVE</li>
-<li>PTHREAD_MUTEX_DEFAULT</li>
+<li><p>(id)init {
+  self = [super init];</p>
+
+<p>  if (self) {
+      _person = new Person();
+  }</p>
+
+<p>  return self;
+}</p></li>
+<li><p>(void)dealloc {</p>
+
+<p>  if (<em>person) {
+      delete </em>person;
+      _person = nil;
+  }
+}</p></li>
+<li><p>(void)setName:(NSString *)name {
+  if (<em>person) {
+      </em>person->setName([name UTF8String]);
+  }
+}</p></li>
+<li><p>(NSString <em>)name {
+  if (_person) {
+      const char </em>name = _person->name();</p>
+
+<pre><code>  if (name) {
+      return  [NSString stringWithUTF8String:name];
+  }
+</code></pre>
+
+<p>  }</p>
+
+<p>  return nil;
+}</p></li>
+<li><p>(void)setAge:(NSInteger)age {</p>
+
+<p>  if (<em>person) {
+      </em>person->setAge((const int)age);
+  }
+}</p></li>
+<li><p>(NSInteger)age {
+  if (<em>person) {
+      return  </em>person->age();
+  }</p>
+
+<p>  return 0;
+}</p></li>
 </ul>
 
 
-<h5>1.mutex初始化。</h5>
+<p>@end</p>
+
+<p>```</p>
+
+<h4>3.在桥接文件中,加入<code>PersonExt.h</code>引用：<code>#include "PersonExt.h"</code></h4>
+
+<h4>4.swift中调用</h4>
 
 <p>```objective-c</p>
 
-<pre><code> var mutex = pthread_mutex_t()
- var attr: pthread_mutexattr_t = pthread_mutexattr_t()
- pthread_mutexattr_init(&amp;attr)
- pthread_mutexattr_settype(&amp;attr, PTHREAD_MUTEX_RECURSIVE)
- pthread_mutex_init(&amp;mutex, &amp;attr)
+<pre><code>let personExt = PersonExt()
+var age = personExt.age
+print("age =",age)
+personExt.age = 20
+age = personExt.age
+print("age =",age)
+
+personExt.name = "ksnowlv"
+print("name = ",personExt.name) 
 </code></pre>
 
 <p>```</p>
 
-<h5>2.mutex使用。</h5>
+<p>结果显而易见：</p>
+
+<p>```objective-c
+age = 0
+age = 20
+name =  ksnowlv</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift call c++（一）]]></title>
+    <link href="http://ksnowlv.github.io/blog/2019/04/01/swift-call-c-plus-plus-%28yi%29/"/>
+    <updated>2019-04-01T17:23:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2019/04/01/swift-call-c-plus-plus-(yi)</id>
+    <content type="html"><![CDATA[<p>如何在swift调整c++代码呢？</p>
+
+<p><em>swift通过工程的桥接文件，调用c的代码，间接调用c++代码!!!</em></p>
+
+<h4>1.创建C++ Person类文件：<code>Person.hpp</code>和<code>Person.cpp</code></h4>
+
+<p><code>Person.hpp</code>内容如下：</p>
 
 <p>```objective-c</p>
 
-<pre><code> pthread_mutex_trylock(&amp;mutex)
-    //执行代码块
- pthread_mutex_unlock(&amp;mutex)
+<p>//
+//  Person.hpp
+//  SwiftCallC
+//
+//  Created by ksnowlv on 2019/3/28.
+//  Copyright © 2019 ksnowlv. All rights reserved.
+//</p>
+
+<h1>ifndef Person_hpp</h1>
+
+<h1>define Person_hpp</h1>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>class Person {
+public:</p>
+
+<pre><code>Person();
+~Person();
+
+void setName(const char* pName);
+const char* name();
+
+void setAge(const int age);
+const int age() const;
+</code></pre>
+
+<p>private:</p>
+
+<pre><code>char *m_pName;
+int m_age;
+</code></pre>
+
+<p>};</p>
+
+<h1>endif /<em> Person_hpp </em>/</h1>
+
+<p>```</p>
+
+<p><code>Person.cpp</code>内容如下</p>
+
+<p>```objective-c</p>
+
+<p>//
+//  Person.cpp
+//  SwiftCallC
+//
+//  Created by ksnowlv on 2019/3/28.
+//  Copyright © 2019 ksnowlv. All rights reserved.
+//</p>
+
+<h1>include &ldquo;Person.hpp&rdquo;</h1>
+
+<h1>include &lt;string.h></h1>
+
+<p>Person::Person() {</p>
+
+<pre><code>m_pName = nullptr;
+m_age = 0;
+</code></pre>
+
+<p>}</p>
+
+<p>Person::~Person() {</p>
+
+<pre><code>if (m_pName) {
+    delete [] m_pName;
+    m_pName = nullptr;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>void Person::setAge(const int age) {</p>
+
+<pre><code>m_age = age;
+</code></pre>
+
+<p>}</p>
+
+<p>const int Person::age()const {</p>
+
+<pre><code>return m_age;
+</code></pre>
+
+<p>}</p>
+
+<p>void Person::setName(const char *pName) {</p>
+
+<pre><code>if (m_pName) {
+    delete [] m_pName;
+    m_pName = nullptr;
+}
+
+if (pName) {
+    const size_t len = strlen(pName) + 1;
+    m_pName = new char[len];
+    memset(m_pName, 0, len);
+    strcpy(m_pName, pName);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>const char* Person::name() {</p>
+
+<pre><code>return m_pName;
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h4>2.创建c类文件：<code>PersonExtension.hpp</code>和<code>PersonExtension.cpp</code></h4>
+
+<p><code>PersonExtension.hpp</code>内容如下</p>
+
+<p>```objective-c
+//
+//  PersonExtension.hpp
+//  SwiftCallC
+//
+//  Created by ksnowlv on 2019/3/29.
+//  Copyright © 2019 ksnowlv. All rights reserved.
+//</p>
+
+<h1>ifndef PersonExtension_hpp</h1>
+
+<h1>define PersonExtension_hpp</h1>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>ifdef __cplusplus</h1>
+
+<p>extern &ldquo;C&rdquo;{</p>
+
+<h1>endif</h1>
+
+<pre><code>//在这里写上c的代码
+
+//初始化一个Person的实例
+
+const void * createPerson();
+const void destroyPerson(void* p);
+const void setPersonAge(void* p, const int age);
+const int personAge(void* p);
+const void setPersonName(void* p, const char* name);
+const char* personName(void* p);
+</code></pre>
+
+<h1>ifdef __cplusplus</h1>
+
+<p>}</p>
+
+<h1>endif</h1>
+
+<h1>endif /<em> PersonExtension_hpp </em>/</h1>
+
+<p>```</p>
+
+<p><code>PersonExtension.cpp</code>内容如下</p>
+
+<p>```objective-c</p>
+
+<p>//
+//  PersonExtension.cpp
+//  SwiftCallC
+//
+//  Created by ksnowlv on 2019/3/29.
+//  Copyright © 2019 ksnowlv. All rights reserved.
+//</p>
+
+<h1>include &ldquo;PersonExtension.hpp&rdquo;</h1>
+
+<h1>include &ldquo;Person.hpp&rdquo;</h1>
+
+<p>const void * createPerson()
+{</p>
+
+<pre><code>Person *p = new Person();
+
+return (void *)p;
+</code></pre>
+
+<p>}</p>
+
+<p>const void destroyPerson(void* p) {</p>
+
+<pre><code>if (p) {
+    Person *person = (Person*)p;
+    delete person;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>const void setPersonAge(void* p, const int age) {</p>
+
+<pre><code>if (p) {
+    Person *person = (Person*)p;
+    person-&gt;setAge(age);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>const int personAge(void* p) {</p>
+
+<pre><code>if (p) {
+    Person *person = (Person*)p;
+    return person-&gt;age();
+}
+
+return 0;
+</code></pre>
+
+<p>}</p>
+
+<p>const void setPersonName(void<em> p, const char</em> name) {</p>
+
+<pre><code>if (p) {
+    Person *person = (Person*)p;
+    person-&gt;setName(name);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>const char<em> personName(void</em> p) {</p>
+
+<pre><code>if (p) {
+    Person *person = (Person*)p;
+    return person-&gt;name();
+}
+
+return nullptr;
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h4>3.在桥接文件中,加入<code>PersonExtension.hpp</code>引用：<code>#include "PersonExtension.hpp""</code></h4>
+
+<h4>4.swift中调用</h4>
+
+<p>```objective-c</p>
+
+<pre><code>  let person = UnsafeMutableRawPointer(mutating: createPerson())
+  print("age =",personAge(person))
+  setPersonAge(person, 10)
+  print("age =",personAge(person))
+
+  setPersonName(person, "ksnowlv")
+
+  let nameBuf:UnsafePointer&lt;Int8&gt; = personName(person)
+  print("name = ",String(cString: nameBuf))
+
+  destroyPerson(person)   
 </code></pre>
 
 <p>```</p>
 
-<h5>3.mutex释放。</h5>
+<p>结果显而易见：</p>
 
 <p>```objective-c</p>
 
-<pre><code>pthread_mutex_destroy(&amp;mutex)
+<p>age = 0
+age = 10
+name =  ksnowlv</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift call c]]></title>
+    <link href="http://ksnowlv.github.io/blog/2019/04/01/swift-call-c/"/>
+    <updated>2019-04-01T16:13:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2019/04/01/swift-call-c</id>
+    <content type="html"><![CDATA[<p>如何在swift调整c代码呢？</p>
+
+<p><em>swift通过工程的桥接文件，调用oc或c的相关代码!!!</em></p>
+
+<h4>1.创建c文件：<code>test.h</code>和<code>test.c</code></h4>
+
+<p><code>test.h</code>内容如下：</p>
+
+<p>```objective-c</p>
+
+<h1>ifndef test_h</h1>
+
+<h1>define test_h</h1>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>void showValue(int *value);</p>
+
+<h1>endif /<em> test_h </em>/</h1>
+
+<p>```</p>
+
+<p><code>test.c</code>内容如下</p>
+
+<p>```objective-c</p>
+
+<h1>include &ldquo;test.h&rdquo;</h1>
+
+<p>void showValue(int *value) {</p>
+
+<pre><code>printf("old value = %d\n",*value);
+*value = *value + 1;
+printf("new value = %d\n",*value);
 </code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h4>2.在桥接文件中,加入<code>test.h</code>引用：<code>#include "test.h"</code></h4>
+
+<h4>3.swift中调用</h4>
+
+<p>```objective-c
+   var value: Int32 = 0
+   showValue(&amp;value)</p>
+
+<p>```</p>
+
+<p>结果显而易见：</p>
+
+<p>```objective-c
+old value = 0
+new value = 1</p>
 
 <p>```</p>
 ]]></content>
@@ -307,266 +879,6 @@ func encryptedData(sourceData: Data, algorithm:SecKeyAlgorithm) &ndash;> Data? {
 </code></pre>
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift-https的支持]]></title>
-    <link href="http://ksnowlv.github.io/blog/2018/07/18/swift-httpsde-zhi-chi/"/>
-    <updated>2018-07-18T16:35:00+08:00</updated>
-    <id>http://ksnowlv.github.io/blog/2018/07/18/swift-httpsde-zhi-chi</id>
-    <content type="html"><![CDATA[<p>swift中，如何支持https呢？</p>
-
-<p>https分为单向（客户端校验服务端）的和双向（客户端/服务端相互校验）具体可查阅相关资料。</p>
-
-<p>实现<code>URLSessionDelegate</code>协议中</p>
-
-<p><code>urlSession(_ session: didReceive challenge: completionHandler: )</code></p>
-
-<p>具体实现如下：</p>
-
-<p>```objective-c</p>
-
-<pre><code>func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -&gt; Void) {
-
-    var disposition = URLSession.AuthChallengeDisposition.performDefaultHandling
-
-    var credential:URLCredential? = nil
-    /*disposition：如何处理证书
-     performDefaultHandling:默认方式处理
-     useCredential：使用指定的证书
-     cancelAuthenticationChallenge：取消请求
-     */
-
-    if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
-        credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
-
-        if credential != nil {
-            disposition = URLSession.AuthChallengeDisposition.useCredential
-        }
-    }else if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodClientCertificate {
-        //单向验证，客户端不需要服务端验证，此处与默认处理一致即可
-        disposition = URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge
-    }
-    else {
-        disposition = URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge
-    }
-
-    completionHandler(disposition, credential)
-}
-</code></pre>
-
-<p>}
-```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift-RSA(一)]]></title>
-    <link href="http://ksnowlv.github.io/blog/2018/07/17/swift-rsa-1/"/>
-    <updated>2018-07-17T18:56:00+08:00</updated>
-    <id>http://ksnowlv.github.io/blog/2018/07/17/swift-rsa-1</id>
-    <content type="html"><![CDATA[<p>如何使用swift进行RSA加解密呢？</p>
-
-<h5>一.这四个方面:加载公钥/加载私钥/RSA加密/RSA解密</h5>
-
-<ul>
-<li>1.加载公钥</li>
-</ul>
-
-
-<p>```objective-c</p>
-
-<pre><code>@objc public func publicKey(fileFullPath: NSString, block :@escaping YKRSASignBlock ) {
-
-    if !FileManager.default.fileExists(atPath: fileFullPath as String){
-        block(NSError.init(domain: "file not exist at the full path ", code: -1, userInfo: nil),nil)
-    }
-
-    let certificateData = NSData(contentsOfFile: fileFullPath as String);
-
-    let myCertificate: SecCertificate = SecCertificateCreateWithData(kCFAllocatorDefault, certificateData!)!
-    let policy = SecPolicyCreateBasicX509()
-    var trust: SecTrust?
-    var status: OSStatus = SecTrustCreateWithCertificates(myCertificate, policy, &amp;trust)
-
-    if status == noErr {
-        var trustResult:SecTrustResultType = SecTrustResultType(rawValue: 0)!
-        status = SecTrustEvaluate(trust!, &amp;trustResult)
-        let secKey =  SecTrustCopyPublicKey(trust!)
-        self.publicSecKey = secKey
-        block(nil, secKey)
-    }else{
-
-        block(NSError(domain: "load error", code: Int(status), userInfo: nil), nil)
-    }
-}
-</code></pre>
-
-<p>```
-* 2.加载私钥</p>
-
-<p>```objective-c</p>
-
-<pre><code>@objc public func privateKey(fileFullPath: NSString, password: NSString, block :@escaping YKRSASignBlock ) {
-
-    if !FileManager.default.fileExists(atPath: fileFullPath as String){
-        block(NSError.init(domain: "file not exist at the full path ", code: -1, userInfo: nil),nil)
-    }
-
-    let p12Data = NSData(contentsOfFile: fileFullPath as String);
-
-    guard p12Data != nil else {
-        return
-    }
-
-    let options = [kSecImportExportPassphrase: password]  as [String : Any]
-    var items : CFArray?
-    var status: OSStatus = SecPKCS12Import(p12Data!, options as CFDictionary, &amp;items)
-    var privateKey:SecKey?
-
-    if status == noErr {
-
-        let resArray:Array = (items as Array?)!
-        let identityDict: Dictionary = resArray.first as! Dictionary&lt;String, AnyObject&gt;
-        let identity = identityDict[ kSecImportItemIdentity as String]
-</code></pre>
-
-<p>//            let identityDict = CFArrayGetValueAtIndex(items, 0)
-//            let secImportItemIdentity = unsafeBitCast(kSecImportItemIdentity, to: UnsafeRawPointer.self)
-//            let identityApp:SecIdentity = CFDictionaryGetValue(identityDict.unsafelyUnwrapped as! CFDictionary, secImportItemIdentity) as! SecIdentity</p>
-
-<pre><code>        status = SecIdentityCopyPrivateKey(identity as! SecIdentity, &amp;privateKey)
-        if status == noErr {
-            self.privateSecKey = privateKey
-             block(nil, self.privateSecKey)
-            return
-        }
-    }
-    block(NSError(domain: "load error", code: Int(status), userInfo: nil), nil)
-}
-</code></pre>
-
-<p>```</p>
-
-<ul>
-<li>3.使用RSA加密</li>
-</ul>
-
-
-<p>```objective-c
-@objc public func encrypt(source: NSString) &ndash;> NSString? {</p>
-
-<pre><code>    guard source.length &gt; 0 &amp;&amp; self.publicSecKey != nil else {
-        return ""
-    }
-
-    let data: NSData = (source.data(using: String.Encoding.utf8.rawValue)! as NSData)
-    var resData:NSData? = nil
-</code></pre>
-
-<p>//        if #available(iOS 10.0, *) {
-//            var error: Unmanaged<CFError>?
-//            resData =  SecKeyCreateEncryptedData(self.publicSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)
-//
-//            print(&ldquo;res = (String(describing: error?.takeUnretainedValue().localizedDescription))&rdquo;)
-//        } else</p>
-
-<pre><code>    //{
-        // Fallback on earlier versions
-
-    let blockLen =  SecKeyGetBlockSize(self.publicSecKey!)
-    var outBuf = [UInt8](repeating: 0, count: blockLen)
-    var outBufLen:Int = blockLen
-
-    let status: OSStatus = SecKeyEncrypt(self.publicSecKey!, SecPadding.PKCS1, data.bytes.assumingMemoryBound(to: UInt8.self), data.length, &amp;outBuf, &amp;outBufLen)
-
-    if status == noErr {
-        resData = NSData(bytes: outBuf, length: outBufLen)
-    }
-
-    if resData != nil {
-
-        let resString = resData!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: NSData.Base64EncodingOptions.lineLength64Characters.rawValue))
-
-        return resString as NSString
-    }
-
-    return nil
-}
-</code></pre>
-
-<p>```</p>
-
-<ul>
-<li>4.使用RSA解密</li>
-</ul>
-
-
-<p>```objective-c</p>
-
-<pre><code>@objc public func decrypt(source: NSString) -&gt; NSString? {
-
-    guard source.length &gt; 0 &amp;&amp; self.privateSecKey != nil else {
-        return ""
-    }
-
-    let data: Data = (NSData(base64Encoded: (source as String), options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)! as Data)
-
-
-    let blockLen =  SecKeyGetBlockSize(self.privateSecKey!)
-
-    let outBuf = UnsafeMutablePointer&lt;UInt8&gt;.allocate(capacity: blockLen)
-
-    defer {
-        outBuf.deallocate()
-    }
-
-    var outLen: Int = blockLen
-    var status: OSStatus = noErr
-
-    var resData:NSData? = nil
-</code></pre>
-
-<p>//        if #available(iOS 10.0, *) {
-//            var error: Unmanaged<CFError>?
-//            resData =  SecKeyCreateDecryptedData(self.privateSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &amp;error)
-//
-//            print(&ldquo;res = (String(describing: error?.takeUnretainedValue().localizedDescription))&rdquo;)
-//        } else {
-//            // Fallback on earlier versions
-//            //let status = SecKeyEncrypt(seckey, SecPadding.PKCS1, chunkData, chunkData.count, outBuf, &amp;encryptedDataLength)
-//
-//        }</p>
-
-<pre><code>    data.withUnsafeBytes { (bytes:UnsafePointer&lt;UInt8&gt;) -&gt; Void in
-        status = SecKeyDecrypt(self.privateSecKey!, SecPadding.PKCS1, bytes, data.count, outBuf, &amp;outLen)
-
-        print("status = \(status)")
-    }
-
-    if status == noErr {
-        resData = NSData(bytes: outBuf, length: outLen)
-    }
-
-    if resData != nil  {
-        return String(data: (resData! as Data), encoding: String.Encoding.utf8) as NSString?
-    }
-
-    return nil
-}
-</code></pre>
-
-<p>```</p>
-
-<h4>二.问题。</h4>
-
-<ul>
-<li>1.返回的为什么是NSString? 返回String也行</li>
-<li>2.为什么不支持超过128 &ndash; 11字节数据加解密？别急，见下一篇</li>
-<li>3.为什么不使用新版的RSA加解密？新版的只支持iOS10以上</li>
-</ul>
-
 ]]></content>
   </entry>
   

@@ -9,8 +9,7 @@
   <meta name="author" content="律威">
 
   
-  <meta name="description" content="早上9点入职，中午的时候，还没有办完入职手续，因为入职的人特别多，排队填写一堆东东，看样子要到下午了。 下午吃完饭后，去那像是网吧一样的工位。但是，人与人却是近距离接触的。 左边是nop,右边是老江，leven，老大在斜对面&hellip; 于是开始了在这里的火热激情之旅！....
-靠谱！给力 &hellip;">
+  <meta name="description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIView一般释放时不需要手动调用清理函数，而Timer如果直接添加到街景View中会造成相互retain，导致即使在街景View中添加Timer的释放, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,6 +93,339 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/04/02/ioszhong-de-ding-shi-qi/">iOS中的定时器</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-02T16:59:00+08:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/02/ioszhong-de-ding-shi-qi/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>一.背景</h4>
+
+<p>  在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIView一般释放时不需要手动调用清理函数，而Timer如果直接添加到街景View中会造成相互retain，导致即使在街景View中添加Timer的释放,也不能完成正常的释放.</p>
+
+<h4>二. QOpenGLRenderTimer</h4>
+
+<h4>1.头文件</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  QOpenGLTimer.h</span>
+</span><span class='line'><span class="c1">//  SOSOStreetViewMapAPI</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  Created by lv wei on 13-3-27.</span>
+</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *QOpenGLRenderTimer的Delegate,通知绘制OPENGL</span>
+</span><span class='line'><span class="cm"> *Author:ksnowlv</span>
+</span><span class='line'><span class="cm"> **/</span>
+</span><span class='line'><span class="k">@protocol</span> <span class="nc">QOpenGLRenderTimerDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">@optional</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *地图区域即将改变时会调用此接</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">renderOpenGLEvent</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">QOpenGLRenderTimer</span> : <span class="nc">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">QOpenGLRenderTimerDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">CADisplayLink</span> <span class="o">*</span><span class="n">displayLink</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startOpenGLRenderTimer</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stopOpenGLRenderTimer</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>2.实现文件</h4>
+
+<p>  &#8220;`objective-c
+  //
+//  QOpenGLRenderTimer.m
+//  SOSOStreetViewMapAPI
+//
+//  Created by lv wei on 13-3-27.
+//  Copyright &copy; 2013年 lv wei. All rights reserved.
+//</p>
+
+<h1>import &ldquo;QOpenGLRenderTimer.h&rdquo;</h1>
+
+<h1>import &lt;QuartzCore/QuartzCore.h></h1>
+
+<p>@implementation QOpenGLRenderTimer
+@synthesize delegate = <em>delegate;
+@synthesize displayLink = </em>displayLink;</p>
+
+<ul>
+<li><p>(void)dealloc {
+  [self stopOpenGLRenderTimer];
+  [super dealloc];
+}</p></li>
+<li><p>(void)startOpenGLRenderTimer{</p>
+
+<p>  if (self.displayLink != nil)
+  {
+      [self.displayLink invalidate];
+  }</p>
+
+<p>  CADisplayLink *aDisplayLink = [[UIScreen mainScreen] displayLinkWithTarget:self selector:@selector(renderOpenGL)];
+  [aDisplayLink setFrameInterval:1.0f];</p>
+
+<p>  [aDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+  self.displayLink = aDisplayLink;
+}</p></li>
+<li><p>(void)stopOpenGLRenderTimer
+{
+  if (<em>displayLink) {
+      [</em>displayLink invalidate];
+      _displayLink = nil;
+  }
+}</p></li>
+<li><p>(void)renderOpenGL
+{
+  [_delegate renderOpenGLEvent];
+}</p>
+
+<p>&#8220;`</p></li>
+</ul>
+
+
+<h4>三. QOpenGLRenderTimer的使用</h4>
+
+<h5>1.街景View中开启OpenGL渲染循环如下：</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>    <span class="n">QOpenGLRenderTimer</span><span class="o">*</span> <span class="n">timer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">QOpenGLRenderTimer</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">timer</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">timer</span> <span class="n">startOpenGLRenderTimer</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">openGLRenderTimer</span> <span class="o">=</span> <span class="n">timer</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">timer</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'> <span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#####2.在街景View的dealloc 方法中</span>
+</span><span class='line'> <span class="err">停止</span><span class="n">OpenGL</span><span class="err">渲染循环</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'> <span class="err">```</span><span class="n">objective</span><span class="o">-</span><span class="n">c</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span>  <span class="p">{</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">_openGLRenderTimer</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">_openGLRenderTimer</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_openGLRenderTimer</span> <span class="n">stopOpenGLRenderTimer</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_openGLRenderTimer</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">_openGLRenderTimer</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>四.其它。</h4>
+
+<h5>1.当时考虑过放在街景的代理中，根据代理设置的是否为空，启用或停止OPENGL渲染的逻辑。但是，为什么没有那么做呢？</h5>
+
+<ul>
+<li>1.开发者使用街景View，不一定会设置代理。</li>
+<li>2.即使创建街景View设置代理了，这种设计和实现不太好。</li>
+<li>3.有更好的解决方案。</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/02/ioszhong-de-jing-tai-ku-zhu-yi-shi-xiang/">iOS中的静态库注意事项</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-02T13:25:00+08:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/02/ioszhong-de-jing-tai-ku-zhu-yi-shi-xiang/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>1.确保静态库需要的文件全部编译。</h4>
+
+<h4>2.RELEASE版本可以去掉DEBUG信息，不然生成静态库会比较大。</h4>
+
+<p><img src="/images/post/2013-04-02-ioszhong-de-jing-tai-ku-zhu-yi-shi-xiang/1.jpg" alt="image" /></p>
+
+<h4>3.如果加载静态库，分类的方法CRASH，请检查是否在“Linking”的编译选项中是否添加“－all_load”标记，不然，分类方法不会正常加载。</h4>
+
+<p><img src="/images/post/2013-04-02-ioszhong-de-jing-tai-ku-zhu-yi-shi-xiang/2.jpg" alt="image" /></p>
+
+<h4>4.确保当前工程编译的版本和静态库版本是匹配的，模拟器和真机版本各自对应。除非你加载的库同时包含这两个版本。</h4>
+
+<p>合并库可以参考如下CODE</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">lipo</span><span class="err">–</span><span class="n">create</span> <span class="n">Release</span><span class="o">-</span><span class="n">iphoneos</span><span class="o">/</span><span class="n">libSOSOMapAPILib</span><span class="p">.</span><span class="n">a</span> <span class="n">Release</span><span class="o">-</span><span class="n">iphonesimulator</span><span class="c1">//libmapApi.a –output /libSOSOMapAPILib.a</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/02/iPhone-map+sdk-shi-xiang/">iPhone Map Sdk需要注意的事项</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-02T09:00:00+08:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/02/iPhone-map+sdk-shi-xiang/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>1.慎用消息通知,避免给某一类对象发送消息通知。</h4>
+
+<h4>2.慎用全局或静态对象,避免多个对象共享一份数据导致 UI 或数据 操作混乱。</h4>
+
+<h4>3.在开发上,非必要情况,尽量使用 OC 语法,不使用 Objective-C++。</h4>
+
+<h4>4.尽量减少分类的使用,可以用全局函数来替代。</h4>
+
+<h4>5.在内存使用上,尽量减少内存使用。能 release 的,尽量不 要 autorelease,需要注意内存 cache 合适的大小.</h4>
+
+<h4>6.网络请求,代理等,取消操作需要特别注意,避免出现 CRASH 等 意外情况,多线程下的同步需要注意。</h4>
+
+<h4>7.在遵循 IPHONE 设计相关原则时,尽量减少文件个数,减少生成库 的大小。</h4>
+
+<h4>8.资源包尽量小,像图片包,配置文件等,在满足基本需求的情况下, 尽量不引入不必要的资源文件。</h4>
+
+<h4>9.接口制定尽量考虑扩展性,可维护性,在添加接口前,需要明确目 标和需求。</h4>
+
+<h4>10.尽量可以适配 iPhone 更多的 SDK 版本</h4>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2011/08/10/go_to_tencent/">入职腾讯</a></h1>
     
     
@@ -157,6 +489,18 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/05/22/flutter-cannot-create-a-project-within-the-flutter-sdk/">flutter创建工程报错:Cannot create a project within the Flutter SDK. Target directory &#8216;x&#8217; is within the Flutter SDK at&#8217;/Users/x/Music/flutter/flutter&#8217;</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/05/22/flutteran-zhuang-he-yun-xing/">flutter安装和运行</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/05/16/swiftfan-xing/">swift泛型</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg%2Cpng%2Cbmpge-shi-de-tu-pian/">python筛选目录下非jpeg，png，bmp格式的图片</a>
       </li>
     
@@ -164,23 +508,11 @@
         <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/">Kotlin通过jni间接调用c++</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/">Android通过jni间接调用c++</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/pythonxiao-gong-ju/'>Python小工具 (1)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/flutter/'>flutter (2)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/pythonxiao-gong-ju/'>Python小工具 (1)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swift-ji-chu-zhi-shi/'>swift-基础知识 (1)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
 </section>
 <section>
   <h1>外部链接</h1>

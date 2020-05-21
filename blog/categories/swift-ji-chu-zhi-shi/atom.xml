@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: swift-基础知识 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/swift-ji-chu-zhi-shi/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2020-05-21T17:06:06+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[swift泛型]]></title>
+    <link href="http://ksnowlv.github.io/blog/2019/05/16/swiftfan-xing/"/>
+    <updated>2019-05-16T19:53:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2019/05/16/swiftfan-xing</id>
+    <content type="html"><![CDATA[<p>```objective-c</p>
+
+<p>/// 交换两个对象的值
+///
+/// &ndash; Parameters:
+///   &ndash; aValue: 对象a
+///   &ndash; bValue: 对象b
+func swapValues<T>(_ aValue: inout T, _ bValue: inout T) {</p>
+
+<pre><code>let temp = aValue
+aValue = bValue
+bValue = temp
+</code></pre>
+
+<p>}</p>
+
+<p>/// 栈模板
+struct QStack<T> {</p>
+
+<pre><code>var items = [T]()
+mutating func push(_ item: T) {
+    items.append(item)
+}
+
+mutating func pop() -&gt; T {
+    return self.items.removeLast()
+}
+
+func isEmpty() -&gt; Bool {
+   return (0 == self.items.count)
+}
+
+var count: Int {
+    return self.items.count
+}
+
+subscript(i: Int) -&gt; T {
+    return self.items[i]
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift中pthread_t之mutex]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/08/07/swiftzhong-pthread-tzhi-mutex/"/>
+    <updated>2018-08-07T18:37:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/08/07/swiftzhong-pthread-tzhi-mutex</id>
+    <content type="html"><![CDATA[<p>mutex类型有四种</p>
+
+<ul>
+<li>PTHREAD_MUTEX_NORMAL</li>
+<li>PTHREAD_MUTEX_ERRORCHECK</li>
+<li>PTHREAD_MUTEX_RECURSIVE</li>
+<li>PTHREAD_MUTEX_DEFAULT</li>
+</ul>
+
+
+<h5>1.mutex初始化。</h5>
+
+<p>```objective-c</p>
+
+<pre><code> var mutex = pthread_mutex_t()
+ var attr: pthread_mutexattr_t = pthread_mutexattr_t()
+ pthread_mutexattr_init(&amp;attr)
+ pthread_mutexattr_settype(&amp;attr, PTHREAD_MUTEX_RECURSIVE)
+ pthread_mutex_init(&amp;mutex, &amp;attr)
+</code></pre>
+
+<p>```</p>
+
+<h5>2.mutex使用。</h5>
+
+<p>```objective-c</p>
+
+<pre><code> pthread_mutex_trylock(&amp;mutex)
+    //执行代码块
+ pthread_mutex_unlock(&amp;mutex)
+</code></pre>
+
+<p>```</p>
+
+<h5>3.mutex释放。</h5>
+
+<p>```objective-c</p>
+
+<pre><code>pthread_mutex_destroy(&amp;mutex)
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[synchronized到objc_sync_enter/objc_sync_exit]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/08/07/swiftzhong-yu-oczhong-yong-fa-qu-bie/"/>
+    <updated>2018-08-07T17:18:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/08/07/swiftzhong-yu-oczhong-yong-fa-qu-bie</id>
+    <content type="html"><![CDATA[<p><code>synchronized</code>&ndash;><code>objc_sync_enter/objc_sync_exit</code></p>
+
+<p><code>objc_sync_enter</code>：递归锁，与objc_sync_exit配合使用，注意死锁</p>
+
+<ul>
+<li>Begin synchronizing on &lsquo;obj&rsquo;. Allocates recursive pthread_mutex associated with &lsquo;obj&rsquo; if needed.</li>
+<li>Parameters  <br/>
+  obj
+  The object to begin synchronizing on.</li>
+<li>Returns <br/>
+OBJC_SYNC_SUCCESS once lock is acquired.</li>
+</ul>
+
+
+<p><code>objc_sync_exit</code></p>
+
+<ul>
+<li>End synchronizing on &lsquo;obj&rsquo;.</li>
+<li>Parameters  <br/>
+  obj
+  The object to end synchronizing on.</li>
+<li>Returns <br/>
+OBJC_SYNC_SUCCESS or OBJC_SYNC_NOT_OWNING_THREAD_ERROR</li>
+</ul>
+
+
+<p>示例如下：</p>
+
+<p> ```objective-c
+   let lockValue = 0
+   objc_sync_enter(lockValue)</p>
+
+<pre><code>    //执行代码块
+</code></pre>
+
+<p>   objc_sync_exit(lockValue)
+ ```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[全局并发队列优先级]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/24/quan-ju-bing-fa-dui-lie-you-xian-ji/"/>
+    <updated>2018-07-24T14:23:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/24/quan-ju-bing-fa-dui-lie-you-xian-ji</id>
+    <content type="html"><![CDATA[<p>全局并发队（Global Queue）</p>
+
+<ul>
+<li><p>老版gcd有四种：<code>high</code>，<code>default</code>，<code>low</code>，<code>background</code>，</p>
+
+<p>  优先级为：high>default>low>background</p></li>
+<li><p>新版gcd有六种：<code>background</code>，<code>utility</code>，<code>default</code>，<code>userInitiated</code>，<code>userInteractive</code>，<code>unspecified</code></p>
+
+<p>  优先级为：userInteractive>default>unspecified>userInitiated>utility>background</p>
+
+<p>  测试代码如下：</p></li>
+</ul>
+
+
+<p>```objective-c</p>
+
+<pre><code> for i in 1...3 {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
+            NSLog("DispatchQoS.QoSClass.default, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
+            NSLog("DispatchQoS.QoSClass.background, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.unspecified).async {
+            NSLog("DispatchQoS.QoSClass.unspecified, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async {
+            NSLog("DispatchQoS.QoSClass.userInitiated, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInteractive).async {
+            NSLog("DispatchQoS.QoSClass.userInteractive, %d", i)
+        }
+
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
+            NSLog("DispatchQoS.QoSClass.utility, %d", i)
+        }
+    }
+</code></pre>
+
+<p>```</p>
+
+<p> 输出日志：</p>
+
+<p> ```objective-c</p>
+
+<p>2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505814] DispatchQoS.QoSClass.userInteractive, 3
+2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505813] DispatchQoS.QoSClass.userInteractive, 2
+2018-07-24 15:04:12.619688+0800 YKBaseSwiftFramework[8252:505825] DispatchQoS.QoSClass.userInteractive, 1
+2018-07-24 15:04:12.619716+0800 YKBaseSwiftFramework[8252:505820] DispatchQoS.QoSClass.default, 1
+2018-07-24 15:04:12.619735+0800 YKBaseSwiftFramework[8252:505815] DispatchQoS.QoSClass.unspecified, 1
+2018-07-24 15:04:12.619741+0800 YKBaseSwiftFramework[8252:505828] DispatchQoS.QoSClass.userInitiated, 1
+2018-07-24 15:04:12.620001+0800 YKBaseSwiftFramework[8252:505830] DispatchQoS.QoSClass.default, 2
+2018-07-24 15:04:12.620003+0800 YKBaseSwiftFramework[8252:505814] DispatchQoS.QoSClass.unspecified, 2
+2018-07-24 15:04:12.620065+0800 YKBaseSwiftFramework[8252:505831] DispatchQoS.QoSClass.userInitiated, 2
+2018-07-24 15:04:12.620101+0800 YKBaseSwiftFramework[8252:505832] DispatchQoS.QoSClass.default, 3
+2018-07-24 15:04:12.620122+0800 YKBaseSwiftFramework[8252:505834] DispatchQoS.QoSClass.userInitiated, 3
+2018-07-24 15:04:12.620133+0800 YKBaseSwiftFramework[8252:505833] DispatchQoS.QoSClass.unspecified, 3
+2018-07-24 15:04:12.620143+0800 YKBaseSwiftFramework[8252:505827] DispatchQoS.QoSClass.utility, 1
+2018-07-24 15:04:12.620286+0800 YKBaseSwiftFramework[8252:505829] DispatchQoS.QoSClass.utility, 2
+2018-07-24 15:04:12.620343+0800 YKBaseSwiftFramework[8252:505835] DispatchQoS.QoSClass.utility, 3
+2018-07-24 15:04:12.622419+0800 YKBaseSwiftFramework[8252:505824] DispatchQoS.QoSClass.background, 1
+2018-07-24 15:04:12.622904+0800 YKBaseSwiftFramework[8252:505832] DispatchQoS.QoSClass.background, 2
+2018-07-24 15:04:12.622998+0800 YKBaseSwiftFramework[8252:505831] DispatchQoS.QoSClass.background, 3</p>
+
+<p> ```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[swift-class与struct区别]]></title>
+    <link href="http://ksnowlv.github.io/blog/2018/07/18/swift-classyu-structqu-bie/"/>
+    <updated>2018-07-18T18:45:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2018/07/18/swift-classyu-structqu-bie</id>
+    <content type="html"><![CDATA[<table>
+<thead>
+<tr>
+<th></th>
+<th>比较项</th>
+<th>struct</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> 类型</td>
+<td>值类型</td>
+<td>引用类型|</td>
+</tr>
+<tr>
+<td></td>
+<td> 属性初始化</td>
+<td>可用默认构造直接初始化</td>
+<td>需要自己创建构造方法|</td>
+</tr>
+<tr>
+<td></td>
+<td>变量赋值</td>
+<td>深拷贝</td>
+<td>浅拷贝，增加原对象引用</td>
+</tr>
+<tr>
+<td></td>
+<td>方法中修改属性</td>
+<td>需要添加mutating </td>
+<td>不需要</td>
+</tr>
+<tr>
+<td></td>
+<td>继承关系</td>
+<td>不能继承</td>
+<td>可以继承</td>
+</tr>
+<tr>
+<td></td>
+<td>内存</td>
+<td>栈上，自动内存管理</td>
+<td>堆上，手动内存管理</td>
+</tr>
+<tr>
+<td></td>
+<td>速度</td>
+<td>高效</td>
+<td>相比效率低</td>
+</tr>
+<tr>
+<td></td>
+<td>线程安全</td>
+<td>自动线程安全的</td>
+<td>大多是非线程安全的</td>
+</tr>
+<tr>
+<td></td>
+<td>与oc混编</td>
+<td>不支持，oc无法调struct</td>
+<td>支持混编</td>
+</tr>
+<tr>
+<td></td>
+<td>序列化</td>
+<td>不支持，可用字节转NSData</td>
+<td>支持序列化</td>
+</tr>
+</tbody>
+</table>
+
+]]></content>
+  </entry>
+  
+</feed>

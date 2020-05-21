@@ -9,7 +9,7 @@
   <meta name="author" content="律威">
 
   
-  <meta name="description" content="swift framework中的方法如何在objective-c中调用呢？ 类或属性加@objc public stackoverflow的解答 To access a swift class in objc, that is not inherited from NSObject you &hellip;">
+  <meta name="description" content="swift framework如何支持合并呢？以YKBaseFramework.framework为例。 1.lipo合并静态库。 1 lipo -create Release-iphoneos/YKBaseFramework.framework/YKBaseFramework Debug- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,276 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/04/swift-frameworkde-he-bing/">Swift-framework的合并</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-04T18:38:00+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/04/swift-frameworkde-he-bing/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>swift framework如何支持合并呢？以YKBaseFramework.framework为例。</p>
+
+<h4>1.lipo合并静态库。</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="n">lipo</span> <span class="o">-</span><span class="n">create</span> <span class="n">Release</span><span class="o">-</span><span class="n">iphoneos</span><span class="o">/</span><span class="n">YKBaseFramework</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">YKBaseFramework</span> <span class="n">Debug</span><span class="o">-</span><span class="n">iphonesimulator</span><span class="o">/</span><span class="n">YKBaseFramework</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">YKBaseFramework</span> <span class="o">-</span><span class="n">output</span> <span class="n">YKBaseFramework</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>生成YKBaseFramework，查看支持架构</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nl">bogon:</span><span class="n">YKBaseSwiftFrameworkLib</span> <span class="n">ksnowlv$</span> <span class="n">lipo</span> <span class="o">-</span><span class="n">info</span> <span class="n">YKBaseFramework</span>
+</span><span class='line'><span class="n">Architectures</span> <span class="k">in</span> <span class="n">the</span> <span class="n">fat</span> <span class="nl">file:</span> <span class="n">YKBaseFramework</span> <span class="nl">are:</span> <span class="n">armv7</span> <span class="n">i386</span> <span class="n">x86_64</span> <span class="n">arm64</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>2.把debug库中的swiftdoc与swiftmodule文件拷贝到release库对应目录下。</h4>
+
+<p><img src="/images/post/2018-07-04-swift-frameworkde-he-bing/swiftframework-export.png" alt="image" /></p>
+
+<h4>3.把合并后的YKBaseFramework文件拷贝到release库对应目录下.</h4>
+
+<p><img src="/images/post/2018-07-04-swift-frameworkde-he-bing/swift-framework.png" alt="image" /></p>
+
+<h4>4.大功告成，可以支持swift/objective-c调用</h4>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/04/swift-cocoaframeworkzhong-module-dot-mappei-zhi/">swift-cocoaframework中module.map配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-04T14:22:00+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/04/swift-cocoaframeworkzhong-module-dot-mappei-zhi/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在swift framework中，如果要引用c库，可采用配置module.map.</p>
+
+<p>那如何配置呢？我们以CommonCrypto为例。</p>
+
+<h5>一.工程目录下创建CommonCrypto文件夹，并分别创建<code>module.map</code>和<code>YKBaseFramework-C.h</code></h5>
+
+<ul>
+<li>1.<code>module.map</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">module</span> <span class="n">CommonCrypto</span> <span class="p">[</span><span class="n">system</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//header &quot;/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/CommonCrypto/CommonCrypto.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//header &quot;/usr/include/CommonCrypto/CommonCrypto.h&quot;</span>
+</span><span class='line'>    <span class="n">header</span> <span class="s">&quot;YKBaseFramework-C.h&quot;</span>
+</span><span class='line'>    <span class="n">link</span> <span class="s">&quot;CommonCrypto&quot;</span>
+</span><span class='line'>    <span class="n">export</span> <span class="o">*</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>目录如下图，注意目录的相对路径
+<img src="/images/post/2018-07-04-swift-cocoaframeworkzhong-module-dot-mappei-zhi/modulemap_file.png" alt="image" /></p>
+
+<ul>
+<li>2.<code>YKBaseFramework-C.h</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  YKBaseFramework-C.h</span>
+</span><span class='line'><span class="c1">//  YKBaseFramework</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  Created by ksnowlv on 2018/7/4.</span>
+</span><span class='line'><span class="c1">//  Copyright © 2018年 ksnowlv. All rights reserved.</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifndef YKBaseFramework_C_h</span>
+</span><span class='line'><span class="cp">#define YKBaseFramework_C_h</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#include &lt;CommonCrypto/CommonCrypto.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#endif </span><span class="cm">/* YKBaseFramework_C_h */</span><span class="cp"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>二.设置module.map编译器目录引用路径。</h5>
+
+<p>在Build Settings, Swift Compiler – Search Paths 下 Import Paths中设置目录路径即可。</p>
+
+<p><em>注意与上图目录实际位置一致!!!</em></p>
+
+<p><img src="/images/post/2018-07-04-swift-cocoaframeworkzhong-module-dot-mappei-zhi/modulemap_setting.png" alt="image" /></p>
+
+<h5>三.引用<code>CommonCrypto</code></h5>
+
+<p>注意clean,在<code>swift code</code>直接引入<code>CommonCrypto</code>即可。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">Foundation</span>
+</span><span class='line'><span class="n">import</span> <span class="n">Security</span>
+</span><span class='line'><span class="n">import</span> <span class="n">CommonCrypto</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>4.其它</h4>
+
+<ul>
+<li><p>1.为什么不采用直接配置绝对路径引用CommonCrypto.h？</p>
+
+<p>  配置为绝对路径，灵活性通用性实在太差，依赖于系统目录。</p></li>
+<li>2.配置<code>CommonCrypto</code>时，注意目录所在路径</li>
+<li>3.<a href="https://github.com/IBM-Swift/CommonCrypto">https://github.com/IBM-Swift/CommonCrypto</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/02/swift-objective-chun-bian-de-framework/">Swift-objective-c混编的framework</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-02T20:59:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2018</time>
+        
+         | <a href="/blog/2018/07/02/swift-objective-chun-bian-de-framework/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>swift-objective-c混编的framework如何制作呢？</p>
+
+<ul>
+<li>1.创建cocoaTouchframework,</li>
+<li><p>2.把需要导出的头文件添加到Headers中，如下图
+<img src="/images/post/2018-07-02-swift-objective-chun-bian-de-framework/overview.png" alt="image" /></p></li>
+<li><p>3.把头文件添加到导出头文件</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//! Project version number for YKBaseFramework.</span>
+</span><span class='line'><span class="n">FOUNDATION_EXPORT</span> <span class="kt">double</span> <span class="n">YKBaseFrameworkVersionNumber</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//! Project version string for YKBaseFramework.</span>
+</span><span class='line'><span class="n">FOUNDATION_EXPORT</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">YKBaseFrameworkVersionString</span><span class="p">[];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// In this header, you should import all the public headers of your framework using statements like #import &lt;YKBaseFramework/PublicHeader.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//#import &lt;YKBaseFramework/YKFile.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &lt;YKBaseFramework/YKString.h&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -582,144 +852,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/20/fei-dui-cheng-jia-jie-mi-suan-fa-zhi-ecc/">非对称加解密算法之ECC</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-20T16:55:00+08:00" pubdate data-updated="true">Apr 20<span>th</span>, 2018</time>
-        
-         | <a href="/blog/2018/04/20/fei-dui-cheng-jia-jie-mi-suan-fa-zhi-ecc/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>   ECC算法用途比RSA还厉害。</p>
-
-<ul>
-<li> 支持加解密。</li>
-<li> 支持签名验证。</li>
-<li> 支持与DH结合使用，用于密钥磋商，这个密钥交换算法称为ECDH。
-
-<ul>
-<li>交换双方可以在不共享任何秘密的情况下协商出一个密钥。Openssl里面的ECC算法的套件支持是ECDSA/ECDH。</li>
-</ul>
-</li>
-</ul>
-
-
-<p> 开源组件见<a href="https://github.com/ricmoo/GMEllipticCurveCrypto">https://github.com/ricmoo/GMEllipticCurveCrypto</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/20/fei-dui-cheng-jia-jie-mi-suan-fa-zhi-dsa-ioszhong-de-ying-yong/">非对称加解密算法之DSA-iOS中的应用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-20T15:54:00+08:00" pubdate data-updated="true">Apr 20<span>th</span>, 2018</time>
-        
-         | <a href="/blog/2018/04/20/fei-dui-cheng-jia-jie-mi-suan-fa-zhi-dsa-ioszhong-de-ying-yong/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>1.引用openssl库。<a href="https://github.com/x2on/OpenSSL-for-iPhone">https://github.com/x2on/OpenSSL-for-iPhone</a></h4>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/04/20/fei-dui-cheng-jia-jie-mi-suan-fa-zhi-dsa-ioszhong-de-ying-yong/">阅读全文&rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/19/chang-jian-fei-dui-cheng-jia-mi-suan-fa/">常见非对称加密算法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-04-19T19:37:00+08:00" pubdate data-updated="true">Apr 19<span>th</span>, 2018</time>
-        
-         | <a href="/blog/2018/04/19/chang-jian-fei-dui-cheng-jia-mi-suan-fa/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>常见非对称加密算法有哪些呢？</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/04/19/chang-jian-fei-dui-cheng-jia-mi-suan-fa/">阅读全文&rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -744,6 +876,18 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/05/22/flutter-cannot-create-a-project-within-the-flutter-sdk/">flutter创建工程报错:Cannot create a project within the Flutter SDK. Target directory &#8216;x&#8217; is within the Flutter SDK at&#8217;/Users/x/Music/flutter/flutter&#8217;</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/05/22/flutteran-zhuang-he-yun-xing/">flutter安装和运行</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/05/16/swiftfan-xing/">swift泛型</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg%2Cpng%2Cbmpge-shi-de-tu-pian/">python筛选目录下非jpeg，png，bmp格式的图片</a>
       </li>
     
@@ -751,23 +895,11 @@
         <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2019/04/25/kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/">Kotlin通过jni间接调用c++</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/04/22/androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/">Android通过jni间接调用c++</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/04/18/androidtong-guo-jnidiao-yong-c-plus-plus/">Android通过jni调用c++</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/pythonxiao-gong-ju/'>Python小工具 (1)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/flutter/'>flutter (2)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/pythonxiao-gong-ju/'>Python小工具 (1)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swift-ji-chu-zhi-shi/'>swift-基础知识 (1)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
 </section>
 <section>
   <h1>外部链接</h1>

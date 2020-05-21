@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: swift-视频 | ksnowlv]]></title>
+  <link href="http://ksnowlv.github.io/blog/categories/swift-shi-pin/atom.xml" rel="self"/>
+  <link href="http://ksnowlv.github.io/"/>
+  <updated>2020-05-21T17:06:06+08:00</updated>
+  <id>http://ksnowlv.github.io/</id>
+  <author>
+    <name><![CDATA[律威]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS视频播放AVPlayerViewController]]></title>
+    <link href="http://ksnowlv.github.io/blog/2019/11/28/iosshi-pin-bo-fang-avplayerviewcontroller/"/>
+    <updated>2019-11-28T10:31:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2019/11/28/iosshi-pin-bo-fang-avplayerviewcontroller</id>
+    <content type="html"><![CDATA[<p>AVPlayerViewController播放视频分两种形式</p>
+
+<ul>
+<li>内嵌视图的形式显示</li>
+<li>模态视图的形式显示</li>
+</ul>
+
+
+<h4>一.初始化AVPlayerViewController</h4>
+
+<p>```swift</p>
+
+<p> func loadPlayer() &ndash;> Void {</p>
+
+<pre><code>    guard let movieUrl = Bundle.main.path(forResource: "zh-zhfanti-en", ofType: "m4v") else {
+        return
+    }
+
+    let player = AVPlayer(url: URL(fileURLWithPath: movieUrl))
+    playerViewController = AVPlayerViewController()
+    playerViewController!.player = player
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>二.内嵌视图的形式显示</h4>
+
+<p>```swift</p>
+
+<p> @IBAction func handlePlayInViewEvent(sender: AnyObject) {</p>
+
+<pre><code>    loadPlayer()
+
+    guard (playerViewController != nil) else {
+        return
+    }
+
+    containerView?.addSubview(playerViewController!.view)
+    playerViewController?.view.frame = containerView!.bounds
+    self.addChild(playerViewController!)
+    playerViewController?.player?.play()
+</code></pre>
+
+<p>   }</p>
+
+<p>```</p>
+
+<p>效果图如下：</p>
+
+<p>点击<code>AVPlayerViewController</code>可以全屏播放</p>
+
+<h4>三.模态视图的形式显示</h4>
+
+<p>```swift</p>
+
+<pre><code>@IBAction func handlePlayWithModelViewEvent(sender: AnyObject) {
+
+    loadPlayer()
+
+    guard (playerViewController != nil) else {
+        return
+    }
+
+
+    self.present(playerViewController!, animated: true) { [weak self] () -&gt; Void in
+        guard let self = self else {
+            return
+        }
+        self.playerViewController?.player?.play()
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<p>效果图如下：</p>
+
+<h3>四.停止视频播放</h3>
+
+<p>```swift</p>
+
+<p> @IBAction func handleStopPlayEvent(sender: AnyObject? ){</p>
+
+<pre><code>    guard playerViewController != nil else {
+        return
+    }
+
+    if ((playerViewController?.parent) != nil) {
+        playerViewController?.view.removeFromSuperview()
+        playerViewController?.removeFromParent()
+    } else if playerViewController != nil &amp;&amp; playerViewController!.isModalInPresentation {
+        playerViewController?.dismiss(animated: (sender != nil ? true:false), completion: nil)
+    }
+
+    playerViewController?.player?.pause()
+    playerViewController = nil
+</code></pre>
+
+<p>  }</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS视频播放-AVPlayer和AVPlayerLayer]]></title>
+    <link href="http://ksnowlv.github.io/blog/2019/11/26/iosshi-pin-bo-fang-avplayer/"/>
+    <updated>2019-11-26T17:13:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2019/11/26/iosshi-pin-bo-fang-avplayer</id>
+    <content type="html"><![CDATA[<p>本文计划使用<code>AVPlayer</code>和<code>AVPlayerLayer</code>播放视频格式</p>
+
+<ul>
+<li>m4v:MP4的特殊类型，MP4格式的高清；可包含字幕</li>
+<li>mp4：音频、视频信息的压缩编码标准。</li>
+<li>srt：字幕文件格式</li>
+</ul>
+
+
+<h4>一.播放m4v格式</h4>
+
+<p>可通过MP4格式的文件+字幕文件合成m4v格式，可用<a href="https://www.macupdate.com/app/mac/31647/subler">Subler</a>工具合成</p>
+
+<p><img src="/images/post/2019-11-26-iosshi-pin-bo-fang-avplayer/Subler.jpg" alt="image" /></p>
+
+<p>```swift</p>
+
+<p> func playMovieFromLocalFile(fileFullName: String) &ndash;> Bool {</p>
+
+<pre><code>    guard FileManager.default.fileExists(atPath: fileFullName) else {
+        debugPrint("\(fileFullName) not Found")
+        return false
+    }
+
+    //加载视频文件资源（包括视频与所有字幕）
+    let asset = AVAsset(url: URL(fileURLWithPath: fileFullName))
+    let playerItem = AVPlayerItem(asset: asset)
+
+    //视频文件中所有支持的字幕
+    for characteristic in asset.availableMediaCharacteristicsWithMediaSelectionOptions {
+
+        debugPrint("\(characteristic)")
+
+        if let group = asset.mediaSelectionGroup(forMediaCharacteristic: characteristic) {
+            for option in group.options {
+                debugPrint("  Option: \(option.displayName)")
+            }
+        }
+    }
+
+    if let group = asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
+
+        let locale = Locale(identifier: "zh")
+        let options =
+            AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: locale)
+        if let option = options.first {
+            // 如果支持中文，默认选中中文字幕
+            playerItem.select(option, in: group)
+        }
+    }
+
+    player = AVPlayer(playerItem: playerItem)
+    player?.appliesMediaSelectionCriteriaAutomatically = false
+
+    if playerLayer == nil {
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        playerContainerView?.layer.addSublayer(playerLayer!)
+    }
+
+    setupPlayerObserverEvent()
+
+    return true
+}
+
+
+override func viewDidAppear(_ animated: Bool) {
+    playerLayer?.frame = playerContainerView!.bounds
+}
+</code></pre>
+
+<p>```</p>
+
+<p>效果图如下：</p>
+
+<p><img src="/images/post/2019-11-26-iosshi-pin-bo-fang-avplayer/overview_1.png" alt="image" /></p>
+
+<h4>二.播放mp4格式带srt字幕</h4>
+
+<p><code>mp4</code>文件和字幕<code>srt</code>文件通过时间軕实现当前播放进度展示相应文本。
+srt格式解析可参考<a href="https://github.com/mhergon/AVPlayerViewController-Subtitles">AVPlayerViewController-Subtitles</a></p>
+
+<p>```swift</p>
+
+<p>  func playMovie(movieFile: String, captionFile: String) &ndash;> Bool {</p>
+
+<pre><code>    let fileManage = FileManager.default
+    guard fileManage.fileExists(atPath: movieFile) &amp;&amp; fileManage.fileExists(atPath: captionFile) else {
+        debugPrint("movie:\(movieFile)/ or captionFile:\(captionFile)not found")
+        return false
+    }
+
+    //加载视频文件
+    player =  AVPlayer(url: URL(fileURLWithPath: movieFile))
+    //加载视频文件对应字幕文件
+    parser = Subtitles(file: URL(fileURLWithPath: captionFile))
+
+    //创建AVPlayerLayer并加入到视图层中
+    playerLayer = AVPlayerLayer(player: player)
+    playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
+    playerContainerView?.layer.addSublayer(playerLayer!)
+    setupPlayerObserverEvent()
+
+    return true
+}
+</code></pre>
+
+<p>```</p>
+
+<p>  效果图如下：</p>
+
+<p><img src="/images/post/2019-11-26-iosshi-pin-bo-fang-avplayer/overview_2.png" alt="image" /></p>
+
+<h4>三.两种方式需要手动播放或暂停</h4>
+
+<p>```swift</p>
+
+<pre><code>@IBAction func handleStartPlayerEvent(sender: AnyObject) {
+    isPlaying = true
+    player?.play()
+}
+
+@IBAction func handlePausePlayerEvent(sender: AnyObject) {
+
+    if isPlaying {
+        player?.pause()
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<p>详细参考<a href="https://github.com/ksnowlv/MoviePlayerTest">源代码</a></p>
+]]></content>
+  </entry>
+  
+</feed>
