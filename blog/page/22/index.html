@@ -9,35 +9,7 @@
   <meta name="author" content="律威">
 
   
-  <meta name="description" content="iPhone开发过程中，可能会用到加解密之类的，这里使用iPhone SDK自带的加密接口。主要是针对AES256方式下的加解密。 代码如下： 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29 &hellip;">
+  <meta name="description" content="iPhone系统自带SQLite,首先工程中，引入头文件#import &lt;sqlite3.h&gt;和libsqlite3.dylib LIB库。 现在要使用SQLite创建一个数据库文件（ 路径:/Users/lvwei/Library/Application Support/iPhone &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -115,6 +87,1596 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/24/iphonezhi-sqlite/">iPhone之SQLite</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-24T17:55:00+08:00" pubdate data-updated="true">Apr 24<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/24/iphonezhi-sqlite/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iPhone系统自带<code>SQLite</code>,首先工程中，引入头文件<code>#import &lt;sqlite3.h&gt;</code>和<code>libsqlite3.dylib LIB</code>库。</p>
+
+<p>现在要使用SQLite创建一个数据库文件（ 路径:/Users/lvwei/Library/Application Support/iPhone Simulator/4.3.2/Applications/C6B78C3D-8DD5-47B9-B0EE-160B009EA485/Documents/myDbFile/dbFile.db,注意文件名，不要把dbFile.db中的.db去掉，不然，给你创建个目录).</p>
+
+<p>  然后创建个关于学生的表，有SVID（学生学号),name(姓名),sex（性别）,age（年龄）属性，对数据库有增删查改的操作。特别注意SQL语句的写法.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+<span class='line-number'>269</span>
+<span class='line-number'>270</span>
+<span class='line-number'>271</span>
+<span class='line-number'>272</span>
+<span class='line-number'>273</span>
+<span class='line-number'>274</span>
+<span class='line-number'>275</span>
+<span class='line-number'>276</span>
+<span class='line-number'>277</span>
+<span class='line-number'>278</span>
+<span class='line-number'>279</span>
+<span class='line-number'>280</span>
+<span class='line-number'>281</span>
+<span class='line-number'>282</span>
+<span class='line-number'>283</span>
+<span class='line-number'>284</span>
+<span class='line-number'>285</span>
+<span class='line-number'>286</span>
+<span class='line-number'>287</span>
+<span class='line-number'>288</span>
+<span class='line-number'>289</span>
+<span class='line-number'>290</span>
+<span class='line-number'>291</span>
+<span class='line-number'>292</span>
+<span class='line-number'>293</span>
+<span class='line-number'>294</span>
+<span class='line-number'>295</span>
+<span class='line-number'>296</span>
+<span class='line-number'>297</span>
+<span class='line-number'>298</span>
+<span class='line-number'>299</span>
+<span class='line-number'>300</span>
+<span class='line-number'>301</span>
+<span class='line-number'>302</span>
+<span class='line-number'>303</span>
+<span class='line-number'>304</span>
+<span class='line-number'>305</span>
+<span class='line-number'>306</span>
+<span class='line-number'>307</span>
+<span class='line-number'>308</span>
+<span class='line-number'>309</span>
+<span class='line-number'>310</span>
+<span class='line-number'>311</span>
+<span class='line-number'>312</span>
+<span class='line-number'>313</span>
+<span class='line-number'>314</span>
+<span class='line-number'>315</span>
+<span class='line-number'>316</span>
+<span class='line-number'>317</span>
+<span class='line-number'>318</span>
+<span class='line-number'>319</span>
+<span class='line-number'>320</span>
+<span class='line-number'>321</span>
+<span class='line-number'>322</span>
+<span class='line-number'>323</span>
+<span class='line-number'>324</span>
+<span class='line-number'>325</span>
+<span class='line-number'>326</span>
+<span class='line-number'>327</span>
+<span class='line-number'>328</span>
+<span class='line-number'>329</span>
+<span class='line-number'>330</span>
+<span class='line-number'>331</span>
+<span class='line-number'>332</span>
+<span class='line-number'>333</span>
+<span class='line-number'>334</span>
+<span class='line-number'>335</span>
+<span class='line-number'>336</span>
+<span class='line-number'>337</span>
+<span class='line-number'>338</span>
+<span class='line-number'>339</span>
+<span class='line-number'>340</span>
+<span class='line-number'>341</span>
+<span class='line-number'>342</span>
+<span class='line-number'>343</span>
+<span class='line-number'>344</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  dbTest_sqliteViewController.m</span>
+</span><span class='line'><span class="c1">//  dbTest_sqlite</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-23.</span>
+</span><span class='line'><span class="c1">//  Copyright (c) 2013年 kAir. All rights reserved.</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &quot;dbTest_sqliteViewController.h&quot;</span>
+</span><span class='line'><span class="cp">#import &lt;sqlite3.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="n">NSString</span><span class="o">*</span> <span class="k">const</span> <span class="n">KDBFileName</span> <span class="o">=</span> <span class="s">@&quot;dbFile.db&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">QStudent</span> : <span class="nc">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span><span class="n">NSString</span><span class="o">*</span> <span class="n">svid</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span><span class="n">NSString</span><span class="o">*</span> <span class="n">name</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span><span class="n">NSString</span><span class="o">*</span> <span class="n">sex</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span><span class="n">NSUInteger</span> <span class="n">age</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">QStudent</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">svid</span> <span class="o">=</span> <span class="n">_svid</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">name</span> <span class="o">=</span> <span class="n">_name</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">sex</span> <span class="o">=</span> <span class="n">_sex</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">age</span> <span class="o">=</span> <span class="n">_age</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_svid</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_name</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_sex</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">dbTest_sqliteViewController</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>      <span class="n">sqlite3</span><span class="o">*</span> <span class="n">_database</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span><span class="n">NSString</span><span class="o">*</span> <span class="n">dbFileFullPath</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">dbTest_sqliteViewController</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">dbFileFullPath</span> <span class="o">=</span> <span class="n">_dbFileFullPath</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">dbFileCreate</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">dbFileOpen</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">createStudentTable</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">insertRecords1</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">showCurAllRecord</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">insertRecords2</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">showCurAllRecord</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">deleteRecordBySvid:</span><span class="s">@&quot;030341311&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">showCurAllRecord</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didReceiveMemoryWarning</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">didReceiveMemoryWarning</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">// Dispose of any resources that can be recreated.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_dbFileFullPath</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">_database</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">sqlite3_close</span><span class="p">(</span><span class="n">_database</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">_database</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dbFileCreate</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSArray</span> <span class="o">*</span><span class="n">paths</span> <span class="o">=</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(</span><span class="n">NSDocumentDirectory</span><span class="p">,</span> <span class="n">NSUserDomainMask</span><span class="p">,</span> <span class="n">YES</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">paths</span> <span class="n">count</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSArray</span> <span class="o">*</span><span class="n">paths</span> <span class="o">=</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(</span><span class="n">NSDocumentDirectory</span><span class="p">,</span> <span class="n">NSUserDomainMask</span><span class="p">,</span> <span class="n">YES</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">NSString</span> <span class="o">*</span><span class="n">documentsDirectory</span> <span class="o">=</span> <span class="p">[</span><span class="n">paths</span> <span class="nl">objectAtIndex:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSString</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">documentsDirectory</span> <span class="nl">stringByAppendingPathComponent:</span><span class="s">@&quot;myDbFile&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSFileManager</span><span class="o">*</span> <span class="n">fm</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSFileManager</span> <span class="n">defaultManager</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">fm</span> <span class="nl">fileExistsAtPath:</span><span class="n">path</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">fm</span> <span class="nl">createDirectoryAtPath:</span><span class="n">path</span> <span class="nl">withIntermediateDirectories:</span><span class="n">YES</span> <span class="nl">attributes:</span><span class="nb">nil</span> <span class="nl">error:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">dbFileFullPath</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span> <span class="nl">stringByAppendingFormat:</span><span class="s">@&quot;/%@&quot;</span><span class="p">,</span><span class="n">KDBFileName</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">fm</span> <span class="nl">fileExistsAtPath:</span><span class="n">_dbFileFullPath</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">fm</span> <span class="nl">createFileAtPath:</span><span class="n">_dbFileFullPath</span> <span class="nl">contents:</span><span class="nb">nil</span> <span class="nl">attributes:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;filePath = %@&quot;</span><span class="p">,</span><span class="n">_dbFileFullPath</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dbFileOpen</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">sqlite3_open</span><span class="p">([</span><span class="n">_dbFileFullPath</span> <span class="n">UTF8String</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">_database</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">SQLITE_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">sqlite3_close</span><span class="p">(</span><span class="n">_database</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">_database</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span> <span class="nf">createStudentTable</span><span class="p">{</span>
+</span><span class='line'>    <span class="kt">char</span> <span class="o">*</span><span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;CREATE TABLE  student(id integer primary key, \</span>
+</span><span class='line'><span class="s">    svid text,\</span>
+</span><span class='line'><span class="s">    name text, \</span>
+</span><span class='line'><span class="s">    sex text, \</span>
+</span><span class='line'><span class="s">    age integer)&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">char</span> <span class="o">*</span><span class="n">errorMsg</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">success</span> <span class="o">=</span> <span class="n">sqlite3_exec</span><span class="p">(</span><span class="n">_database</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span><span class="nb">NULL</span><span class="p">,</span><span class="o">&amp;</span><span class="n">errorMsg</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">success</span> <span class="o">==</span> <span class="n">SQLITE_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;create table student ok!&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;create table student fail!&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//插入学生记录1</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">insertRecords1</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">const</span> <span class="kt">int</span> <span class="n">KArrayLen</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSArray</span><span class="o">*</span> <span class="n">svidList</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="s">@&quot;030341318&quot;</span><span class="p">,</span><span class="s">@&quot;030341311&quot;</span><span class="p">,</span><span class="s">@&quot;030341309&quot;</span><span class="p">,</span><span class="s">@&quot;030341120&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSArray</span><span class="o">*</span> <span class="n">nameList</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="s">@&quot;ksnow&quot;</span><span class="p">,</span> <span class="s">@&quot;ksnowlv&quot;</span><span class="p">,</span><span class="s">@&quot;kAir&quot;</span><span class="p">,</span><span class="s">@&quot;ksnowk&quot;</span><span class="p">,</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSArray</span><span class="o">*</span> <span class="n">sexList</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="s">@&quot;女&quot;</span><span class="p">,</span> <span class="s">@&quot;男&quot;</span><span class="p">,</span><span class="s">@&quot;男&quot;</span><span class="p">,</span><span class="s">@&quot;女&quot;</span><span class="p">,</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">ageList</span><span class="p">[</span><span class="n">KArrayLen</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">28</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">12</span><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">KArrayLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">QStudent</span><span class="o">*</span> <span class="n">student</span> <span class="o">=</span> <span class="p">[[</span><span class="n">QStudent</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">student</span><span class="p">.</span><span class="n">svid</span> <span class="o">=</span> <span class="p">[</span><span class="n">svidList</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">student</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">nameList</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">student</span><span class="p">.</span><span class="n">sex</span> <span class="o">=</span> <span class="p">[</span><span class="n">sexList</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">student</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">ageList</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">self</span> <span class="nl">findRecordBySVid:</span><span class="n">student</span><span class="p">.</span><span class="n">svid</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">createStudentRecord:</span><span class="n">student</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">updateRecord:</span><span class="n">student</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">[</span><span class="n">student</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//插入学生记录2</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">insertRecords2</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">const</span> <span class="kt">int</span> <span class="n">KArrayLen</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSArray</span><span class="o">*</span> <span class="n">svidList</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="s">@&quot;030341318&quot;</span><span class="p">,</span><span class="s">@&quot;030341300&quot;</span><span class="p">,</span><span class="s">@&quot;030341301&quot;</span><span class="p">,</span><span class="s">@&quot;030341302&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSArray</span><span class="o">*</span> <span class="n">nameList</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="s">@&quot;ksnowlv&quot;</span><span class="p">,</span> <span class="s">@&quot;学生1&quot;</span><span class="p">,</span><span class="s">@&quot;学生2&quot;</span><span class="p">,</span><span class="s">@&quot;学生3&quot;</span><span class="p">,</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSArray</span><span class="o">*</span> <span class="n">sexList</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="s">@&quot;男&quot;</span><span class="p">,</span> <span class="s">@&quot;男&quot;</span><span class="p">,</span><span class="s">@&quot;男&quot;</span><span class="p">,</span><span class="s">@&quot;女&quot;</span><span class="p">,</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">ageList</span><span class="p">[</span><span class="n">KArrayLen</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">29</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">12</span><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">KArrayLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">QStudent</span><span class="o">*</span> <span class="n">student</span> <span class="o">=</span> <span class="p">[[</span><span class="n">QStudent</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">student</span><span class="p">.</span><span class="n">svid</span> <span class="o">=</span> <span class="p">[</span><span class="n">svidList</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">student</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">nameList</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">student</span><span class="p">.</span><span class="n">sex</span> <span class="o">=</span> <span class="p">[</span><span class="n">sexList</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">student</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">ageList</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">self</span> <span class="nl">findRecordBySVid:</span><span class="n">student</span><span class="p">.</span><span class="n">svid</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">createStudentRecord:</span><span class="n">student</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">updateRecord:</span><span class="n">student</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">[</span><span class="n">student</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//创建学生的记录</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">createStudentRecord:</span><span class="p">(</span><span class="n">QStudent</span><span class="o">*</span><span class="p">)</span><span class="nv">student</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">sqlite3_stmt</span> <span class="o">*</span><span class="n">statement</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">static</span> <span class="kt">char</span> <span class="o">*</span><span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO student (svid,name,sex,age)\</span>
+</span><span class='line'><span class="s">    VALUES(?,?,?,?)&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//问号的个数要和(svid,name,sex,age)里面字段的个数匹配，代表未知的值，将在下面将值和字段关联。</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">success</span> <span class="o">=</span> <span class="n">sqlite3_prepare_v2</span><span class="p">(</span><span class="n">_database</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">statement</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">success</span> <span class="o">!=</span> <span class="n">SQLITE_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: failed to insert:channels&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//这里的数字1，2，3，4代表第几个问号</span>
+</span><span class='line'>    <span class="n">sqlite3_bind_text</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="n">student</span><span class="p">.</span><span class="n">svid</span><span class="p">.</span><span class="n">UTF8String</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">SQLITE_TRANSIENT</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">sqlite3_bind_text</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">student</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="n">UTF8String</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">SQLITE_TRANSIENT</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">sqlite3_bind_text</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">student</span><span class="p">.</span><span class="n">sex</span><span class="p">.</span><span class="n">UTF8String</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">SQLITE_TRANSIENT</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">sqlite3_bind_int</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">student</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">success</span> <span class="o">=</span> <span class="n">sqlite3_step</span><span class="p">(</span><span class="n">statement</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">sqlite3_finalize</span><span class="p">(</span><span class="n">statement</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">success</span> <span class="o">==</span> <span class="n">SQLITE_ERROR</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: failed to insert into the database with message.&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;insert student svid = %@, name = %@,sex = %@,age=%d&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="n">student</span><span class="p">.</span><span class="n">svid</span><span class="p">,</span><span class="n">student</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="n">student</span><span class="p">.</span><span class="n">sex</span><span class="p">,</span><span class="n">student</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//显示所有学生的记录</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showCurAllRecord</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;start showAllRecord&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">sqlString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;SELECT * FROM student&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">sqlite3_stmt</span> <span class="o">*</span><span class="n">statement</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">sqlite3_prepare_v2</span><span class="p">(</span><span class="n">_database</span><span class="p">,</span> <span class="p">[</span><span class="n">sqlString</span> <span class="n">UTF8String</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">statement</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="n">res</span> <span class="o">!=</span> <span class="n">SQLITE_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: failed to prepare statement with message:get student.&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//查询结果集中一条一条的遍历所有的记录，这里的数字对应的是列值。</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="n">sqlite3_step</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span> <span class="o">==</span> <span class="n">SQLITE_ROW</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">char</span><span class="o">*</span> <span class="n">svid</span>       <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">sqlite3_column_text</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>        <span class="kt">char</span><span class="o">*</span> <span class="n">name</span>     <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">sqlite3_column_text</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>        <span class="kt">char</span><span class="o">*</span> <span class="n">sex</span>     <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">sqlite3_column_text</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">age</span>    <span class="o">=</span> <span class="n">sqlite3_column_int</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">studentSvid</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCString:</span><span class="n">svid</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">studentName</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCString:</span><span class="n">name</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSString</span><span class="o">*</span> <span class="n">studentSex</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCString:</span><span class="n">sex</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;student svid = %@, name = %@,sex = %@,age=%d&quot;</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">studentSvid</span><span class="p">,</span><span class="n">studentName</span><span class="p">,</span><span class="n">studentSex</span><span class="p">,</span><span class="n">age</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">studentSvid</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">studentName</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">studentSex</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">sqlite3_finalize</span><span class="p">(</span><span class="n">statement</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;complete showAllRecord&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//查询是否存在该SVID的记录？</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span> <span class="nf">findRecordBySVid:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">svid</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">sqlString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;SELECT * FROM student where svid == </span><span class="se">\&quot;</span><span class="s">%@</span><span class="se">\&quot;</span><span class="s">;&quot;</span><span class="p">,</span><span class="n">svid</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">sqlite3_stmt</span> <span class="o">*</span><span class="n">statement</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">sqlite3_prepare_v2</span><span class="p">(</span><span class="n">_database</span><span class="p">,</span> <span class="p">[</span><span class="n">sqlString</span> <span class="n">UTF8String</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">statement</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="n">res</span> <span class="o">!=</span> <span class="n">SQLITE_OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: failed to prepare statement with message:get student.&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">BOOL</span> <span class="n">isExistRecord</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">//查询结果集中一条一条的遍历所有的记录，这里的数字对应的是列值。</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="n">YES</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">res</span> <span class="o">=</span> <span class="n">sqlite3_step</span><span class="p">(</span><span class="n">statement</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="n">SQLITE_ROW</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="kt">char</span><span class="o">*</span> <span class="n">svid</span>       <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">sqlite3_column_text</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>            <span class="kt">char</span><span class="o">*</span> <span class="n">name</span>     <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">sqlite3_column_text</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>            <span class="kt">char</span><span class="o">*</span> <span class="n">sex</span>     <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">sqlite3_column_text</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">age</span>    <span class="o">=</span> <span class="n">sqlite3_column_int</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">NSString</span><span class="o">*</span> <span class="n">studentSvid</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCString:</span><span class="n">svid</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>            <span class="n">NSString</span><span class="o">*</span> <span class="n">studentName</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCString:</span><span class="n">name</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>            <span class="n">NSString</span><span class="o">*</span> <span class="n">studentSex</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCString:</span><span class="n">sex</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;query student svid = %@, name = %@,sex = %@,age=%d&quot;</span><span class="p">,</span>
+</span><span class='line'>                  <span class="n">studentSvid</span><span class="p">,</span><span class="n">studentName</span><span class="p">,</span><span class="n">studentSex</span><span class="p">,</span><span class="n">age</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">studentSvid</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">studentName</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">studentSex</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">isExistRecord</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">sqlite3_finalize</span><span class="p">(</span><span class="n">statement</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">isExistRecord</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//在查询存在该SVID的记录时，更新记录</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">updateRecord:</span><span class="p">(</span><span class="n">QStudent</span><span class="o">*</span><span class="p">)</span><span class="nv">student</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span>   <span class="n">updateSQLString</span> <span class="o">=</span><span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;update student set name= </span><span class="se">\&quot;</span><span class="s">%@</span><span class="se">\&quot;</span><span class="s">, sex=</span><span class="se">\&quot;</span><span class="s">%@</span><span class="se">\&quot;</span><span class="s">,age=%d where svid=</span><span class="se">\&quot;</span><span class="s">%@</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">,</span><span class="n">student</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="n">student</span><span class="p">.</span><span class="n">sex</span><span class="p">,</span><span class="n">student</span><span class="p">.</span><span class="n">age</span><span class="p">,</span><span class="n">student</span><span class="p">.</span><span class="n">svid</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">char</span> <span class="o">*</span><span class="n">errMsg</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">sqlite3_exec</span><span class="p">(</span><span class="n">_database</span><span class="p">,</span> <span class="p">[</span><span class="n">updateSQLString</span> <span class="n">UTF8String</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">errMsg</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">res</span> <span class="o">==</span><span class="n">SQLITE_OK</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;更新成功!&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;更新失败!&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//在查询存在该SVID的记录时，更新记录</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">deleteRecordBySvid:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">svid</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span>   <span class="n">updateSQLString</span> <span class="o">=</span><span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;delete from student where svid=</span><span class="se">\&quot;</span><span class="s">%@</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">,</span><span class="n">svid</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">char</span> <span class="o">*</span><span class="n">errMsg</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">sqlite3_exec</span><span class="p">(</span><span class="n">_database</span><span class="p">,</span> <span class="p">[</span><span class="n">updateSQLString</span> <span class="n">UTF8String</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">errMsg</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">res</span> <span class="o">==</span><span class="n">SQLITE_OK</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;删除成功!&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;删除失败!&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>日志：</p>
+
+<pre><code>2013-04-24 17:53:49.170 dbTest_sqlite[26700:c303] filePath = /Users/lvwei/Library/Application Support/iPhone Simulator/4.3.2/Applications/C6B78C3D-8DD5-47B9-B0EE-160B009EA485/Documents/myDbFile/dbFile.db
+2013-04-24 17:53:49.222 dbTest_sqlite[26700:c303] create table student ok!
+2013-04-24 17:53:49.228 dbTest_sqlite[26700:c303] insert student svid = 030341318, name = ksnow,sex = 女,age=28
+2013-04-24 17:53:49.251 dbTest_sqlite[26700:c303] insert student svid = 030341311, name = ksnowlv,sex = 男,age=25
+2013-04-24 17:53:49.253 dbTest_sqlite[26700:c303] insert student svid = 030341309, name = kAir,sex = 男,age=32
+2013-04-24 17:53:49.258 dbTest_sqlite[26700:c303] insert student svid = 030341120, name = ksnowk,sex = 女,age=12
+2013-04-24 17:53:49.258 dbTest_sqlite[26700:c303] start showAllRecord
+2013-04-24 17:53:49.259 dbTest_sqlite[26700:c303] student svid = 030341318, name = ksnow,sex = 女,age=28
+2013-04-24 17:53:49.259 dbTest_sqlite[26700:c303] student svid = 030341311, name = ksnowlv,sex = 男,age=25
+2013-04-24 17:53:49.259 dbTest_sqlite[26700:c303] student svid = 030341309, name = kAir,sex = 男,age=32
+2013-04-24 17:53:49.260 dbTest_sqlite[26700:c303] student svid = 030341120, name = ksnowk,sex = 女,age=12
+2013-04-24 17:53:49.260 dbTest_sqlite[26700:c303] complete showAllRecord
+2013-04-24 17:53:49.261 dbTest_sqlite[26700:c303] query student svid = 030341318, name = ksnow,sex = 女,age=28
+2013-04-24 17:53:49.333 dbTest_sqlite[26700:c303] 更新成功!
+2013-04-24 17:53:49.336 dbTest_sqlite[26700:c303] insert student svid = 030341300, name = 学生1,sex = 男,age=25
+2013-04-24 17:53:49.338 dbTest_sqlite[26700:c303] insert student svid = 030341301, name = 学生2,sex = 男,age=32
+2013-04-24 17:53:49.341 dbTest_sqlite[26700:c303] insert student svid = 030341302, name = 学生3,sex = 女,age=12
+2013-04-24 17:53:49.342 dbTest_sqlite[26700:c303] start showAllRecord
+2013-04-24 17:53:49.342 dbTest_sqlite[26700:c303] student svid = 030341318, name = ksnowlv,sex = 男,age=29
+2013-04-24 17:53:49.342 dbTest_sqlite[26700:c303] student svid = 030341311, name = ksnowlv,sex = 男,age=25
+2013-04-24 17:53:49.343 dbTest_sqlite[26700:c303] student svid = 030341309, name = kAir,sex = 男,age=32
+2013-04-24 17:53:49.343 dbTest_sqlite[26700:c303] student svid = 030341120, name = ksnowk,sex = 女,age=12
+2013-04-24 17:53:49.344 dbTest_sqlite[26700:c303] student svid = 030341300, name = 学生1,sex = 男,age=25
+2013-04-24 17:53:49.344 dbTest_sqlite[26700:c303] student svid = 030341301, name = 学生2,sex = 男,age=32
+2013-04-24 17:53:49.366 dbTest_sqlite[26700:c303] student svid = 030341302, name = 学生3,sex = 女,age=12
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/23/jsonde-jie-xi-he-sheng-cheng-zhi-nsjsonserialization/">json的解析和生成之_NSJSONSerialization</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-23T10:17:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/23/jsonde-jie-xi-he-sheng-cheng-zhi-nsjsonserialization/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>NSJSONSerialization</code>在(10_7, 5_0)版本中开始出现的，因此，如果使用系统自带的JSON API,需要对系统版本做一下校验或其他方式校验来确定是否使用该类。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  ViewController.m</span>
+</span><span class='line'><span class="c1">//  JsonTest_NSJSONSerialization</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-23.</span>
+</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &quot;ViewController.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">ViewController</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">version</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">UIDevice</span> <span class="n">currentDevice</span><span class="p">]</span> <span class="n">systemVersion</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">//NSJSONSerialization (10_7, 5_0)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">version</span> <span class="o">&gt;=</span><span class="mf">5.0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">jsonParse</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">jsonBuild</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didReceiveMemoryWarning</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">didReceiveMemoryWarning</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">// Dispose of any resources that can be recreated.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">jsonParse</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">jsonString</span> <span class="o">=</span>   <span class="s">@&quot;{</span><span class="se">\&quot;</span><span class="s">info</span><span class="se">\&quot;</span><span class="s">:{</span><span class="se">\&quot;</span><span class="s">error</span><span class="se">\&quot;</span><span class="s">:0,</span><span class="se">\&quot;</span><span class="s">type</span><span class="se">\&quot;</span><span class="s">:34},</span><span class="se">\&quot;</span><span class="s">poilist</span><span class="se">\&quot;</span><span class="s">:[{</span><span class="se">\&quot;</span><span class="s">name</span><span class="se">\&quot;</span><span class="s">:</span><span class="se">\&quot;</span><span class="s">银科大厦</span><span class="se">\&quot;</span><span class="s">,</span><span class="se">\&quot;</span><span class="s">x</span><span class="se">\&quot;</span><span class="s">:116.345,</span><span class="se">\&quot;</span><span class="s">y</span><span class="se">\&quot;</span><span class="s">:39.3334},{</span><span class="se">\&quot;</span><span class="s">name</span><span class="se">\&quot;</span><span class="s">:</span><span class="se">\&quot;</span><span class="s">中国技术交易大厦</span><span class="se">\&quot;</span><span class="s">,</span><span class="se">\&quot;</span><span class="s">x</span><span class="se">\&quot;</span><span class="s">:116.3451,</span><span class="se">\&quot;</span><span class="s">y</span><span class="se">\&quot;</span><span class="s">:39.31334}]}&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSData</span><span class="o">*</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithBytes:</span><span class="p">[</span><span class="n">jsonString</span> <span class="n">UTF8String</span><span class="p">]</span> <span class="nl">length:</span><span class="p">[</span><span class="n">jsonString</span> <span class="nl">lengthOfBytesUsingEncoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;-----NSJSONSerialization-----开始解析&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">__autoreleasing</span> <span class="n">NSError</span><span class="o">*</span> <span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">id</span> <span class="n">root</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSJSONSerialization</span> <span class="nl">JSONObjectWithData:</span><span class="n">jsonData</span>
+</span><span class='line'>                                                <span class="nl">options:</span><span class="n">kNilOptions</span> <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;-----NSJSONSerialization-----解析出错&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">root</span> <span class="nl">isKindOfClass:</span><span class="p">[</span><span class="n">NSDictionary</span> <span class="n">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">id</span> <span class="n">jsonInfo</span> <span class="o">=</span> <span class="p">[</span><span class="n">root</span> <span class="nl">objectForKey:</span><span class="s">@&quot;info&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">jsonInfo</span> <span class="nl">isKindOfClass:</span><span class="p">[</span><span class="n">NSDictionary</span> <span class="n">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">NSInteger</span> <span class="n">error</span> <span class="o">=</span> <span class="p">[[</span><span class="n">jsonInfo</span> <span class="nl">objectForKey:</span><span class="s">@&quot;error&quot;</span><span class="p">]</span> <span class="n">intValue</span><span class="p">];</span>
+</span><span class='line'>            <span class="n">NSInteger</span> <span class="n">type</span> <span class="o">=</span> <span class="p">[[</span><span class="n">jsonInfo</span> <span class="nl">objectForKey:</span><span class="s">@&quot;type&quot;</span><span class="p">]</span> <span class="n">intValue</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;error = %d,type = %d&quot;</span><span class="p">,</span><span class="n">error</span><span class="p">,</span><span class="n">type</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">id</span> <span class="n">jsonPoiList</span> <span class="o">=</span> <span class="p">[</span><span class="n">root</span> <span class="nl">objectForKey:</span><span class="s">@&quot;poilist&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">jsonPoiList</span> <span class="nl">isKindOfClass:</span><span class="p">[</span><span class="n">NSArray</span> <span class="n">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">NSArray</span><span class="o">*</span> <span class="n">jsonPoiArray</span> <span class="o">=</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">*</span><span class="p">)</span><span class="n">jsonPoiList</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kt">id</span> <span class="n">jsonPoiDic</span> <span class="k">in</span> <span class="n">jsonPoiArray</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">if</span> <span class="p">([</span><span class="n">jsonPoiDic</span> <span class="nl">isKindOfClass:</span><span class="p">[</span><span class="n">NSDictionary</span> <span class="n">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="n">NSString</span><span class="o">*</span> <span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">jsonPoiDic</span> <span class="nl">objectForKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+</span><span class='line'>                    <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[[</span><span class="n">jsonPoiDic</span> <span class="nl">objectForKey:</span><span class="s">@&quot;x&quot;</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>                    <span class="kt">double</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[[</span><span class="n">jsonPoiDic</span> <span class="nl">objectForKey:</span><span class="s">@&quot;y&quot;</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>                    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;poi:{name=%@,x=%f,y=%f}&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;-----NSJSONSerialization-----完成解析&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">jsonBuild</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;-----NSJSONSerialization-----开始生成jSON数据&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">jsonDic</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableDictionary</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">//添加info字段</span>
+</span><span class='line'>    <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">jsonInfoDic</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableDictionary</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">jsonInfoDic</span> <span class="nl">setValue:</span><span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithInteger:</span><span class="mi">0</span><span class="p">]</span> <span class="nl">forKey:</span><span class="s">@&quot;error&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">jsonInfoDic</span> <span class="nl">setValue:</span><span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithInteger:</span><span class="mi">34</span><span class="p">]</span> <span class="nl">forKey:</span><span class="s">@&quot;type&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">jsonDic</span> <span class="nl">setValue:</span><span class="n">jsonInfoDic</span> <span class="nl">forKey:</span><span class="s">@&quot;info&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">jsonInfoDic</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//添加poilist字段</span>
+</span><span class='line'>    <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">poi1</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObjectsAndKeys:</span>
+</span><span class='line'>                          <span class="s">@&quot;银科大厦&quot;</span><span class="p">,</span><span class="s">@&quot;name&quot;</span><span class="p">,</span>
+</span><span class='line'>                          <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithDouble:</span><span class="mf">116.345</span><span class="p">],</span><span class="s">@&quot;x&quot;</span><span class="p">,</span>
+</span><span class='line'>                          <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithDouble:</span><span class="mf">39.3334</span><span class="p">],</span><span class="s">@&quot;y&quot;</span><span class="p">,</span>
+</span><span class='line'>                          <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">poi2</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObjectsAndKeys:</span>
+</span><span class='line'>                          <span class="s">@&quot;中国技术交易大厦&quot;</span><span class="p">,</span><span class="s">@&quot;name&quot;</span><span class="p">,</span>
+</span><span class='line'>                          <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithDouble:</span><span class="mf">116.3451</span><span class="p">],</span><span class="s">@&quot;x&quot;</span><span class="p">,</span>
+</span><span class='line'>                          <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithDouble:</span><span class="mf">39.31334</span><span class="p">],</span><span class="s">@&quot;y&quot;</span><span class="p">,</span>
+</span><span class='line'>                          <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSArray</span><span class="o">*</span> <span class="n">jsonPoiList</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="n">poi1</span><span class="p">,</span><span class="n">poi2</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">jsonDic</span> <span class="nl">setValue:</span><span class="n">jsonPoiList</span> <span class="nl">forKey:</span><span class="s">@&quot;poilist&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">__autoreleasing</span> <span class="n">NSError</span><span class="o">*</span> <span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSData</span><span class="o">*</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSJSONSerialization</span> <span class="nl">dataWithJSONObject:</span><span class="n">jsonDic</span>
+</span><span class='line'>                                                       <span class="nl">options:</span><span class="n">NSJSONWritingPrettyPrinted</span> <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="n">__autoreleasing</span> <span class="n">NSString</span><span class="o">*</span> <span class="n">jsonString</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData:</span><span class="n">jsonData</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;jsonString=%@&quot;</span><span class="p">,</span><span class="n">jsonString</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">jsonDic</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;-----NSJSONSerialization-----完成生成jSON数据&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>日志：</p>
+
+<pre><code>2013-04-23 10:06:11.667 JsonTest_NSJSONSerialization[2028:11303] -----NSJSONSerialization-----开始解析
+2013-04-23 10:06:11.705 JsonTest_NSJSONSerialization[2028:11303] error = 0,type = 34
+2013-04-23 10:06:11.705 JsonTest_NSJSONSerialization[2028:11303] poi:{name=银科大厦,x=116.345000,y=39.333400}
+2013-04-23 10:06:11.706 JsonTest_NSJSONSerialization[2028:11303] poi:{name=中国技术交易大厦,x=116.345100,y=39.313340}
+2013-04-23 10:06:11.706 JsonTest_NSJSONSerialization[2028:11303] -----NSJSONSerialization-----完成解析
+2013-04-23 10:06:12.892 JsonTest_NSJSONSerialization[2028:11303] -----NSJSONSerialization-----开始生成jSON数据
+2013-04-23 10:06:12.893 JsonTest_NSJSONSerialization[2028:11303] jsonString={
+"poilist" : [
+{
+  "x" : 116.345,
+  "name" : "银科大厦",
+  "y" : 39.3334
+},
+{
+  "x" : 116.3451,
+  "name" : "中国技术交易大厦",
+  "y" : 39.31334
+}
+ ],
+"info" : {
+"type" : 34,
+"error" : 0
+}
+}
+2013-04-23 10:06:12.893 JsonTest_NSJSONSerialization[2028:11303] -----NSJSONSerialization-----完成生成jSON数据
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/22/jia-jie-mi-zhi-rc4/">加解密之RC4</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-22T17:34:00+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/22/jia-jie-mi-zhi-rc4/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>IPHONE开发过程中，可能会用到加解密之类的，这里使用IPHONE SDK自带的加密接口。主要是针对RC4方式下的加解密。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  ViewController.m</span>
+</span><span class='line'><span class="c1">//  RC4Test</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-22.</span>
+</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &quot;ViewController.h&quot;</span>
+</span><span class='line'><span class="cp">#import &lt;CommonCrypto/CommonDigest.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;CommonCrypto/CommonCryptor.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;CommonCrypto/CommonHMAC.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">ViewController</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">key</span> <span class="o">=</span> <span class="s">@&quot;my little pang bao!&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">content</span> <span class="o">=</span> <span class="s">@&quot;五一回家休息几天啊，好好出去转转玩玩!&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSData</span><span class="o">*</span> <span class="n">initData</span> <span class="o">=</span> <span class="p">[</span><span class="n">content</span> <span class="nl">dataUsingEncoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSData</span><span class="o">*</span> <span class="n">encryptData</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">RC4Encrypt:</span><span class="n">initData</span> <span class="nl">withKey:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;encryptData = %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,[</span><span class="n">encryptData</span> <span class="n">description</span><span class="p">].</span><span class="n">UTF8String</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSData</span><span class="o">*</span> <span class="n">decryptData</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">RC4Decrypt:</span><span class="n">encryptData</span> <span class="nl">withKey:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">utf8String</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData:</span><span class="n">decryptData</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;decryptData = %@&quot;</span><span class="p">,</span><span class="n">utf8String</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">utf8String</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">RC4Encrypt:</span><span class="p">(</span><span class="n">NSData</span><span class="o">*</span><span class="p">)</span><span class="nv">srcData</span> <span class="nf">withKey:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// &#39;key&#39; should be 32 bytes for AES256, will be null-padded otherwise</span>
+</span><span class='line'>    <span class="kt">char</span> <span class="n">keyPtr</span><span class="p">[</span><span class="n">kCCKeySizeMaxRC4</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span> <span class="c1">// room for terminator (unused)</span>
+</span><span class='line'>    <span class="n">bzero</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">));</span> <span class="c1">// fill with zeroes (for padding)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// fetch key data</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">key</span> <span class="nl">getCString:</span><span class="n">keyPtr</span> <span class="nl">maxLength:</span><span class="k">sizeof</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">)</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSUInteger</span> <span class="n">dataLength</span> <span class="o">=</span> <span class="p">[</span><span class="n">srcData</span> <span class="n">length</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//See the doc: For block ciphers, the output size will always be less than or</span>
+</span><span class='line'>    <span class="c1">//equal to the input size plus the size of one block.</span>
+</span><span class='line'>    <span class="c1">//That&#39;s why we need to add the size of one block here</span>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">bufferSize</span> <span class="o">=</span> <span class="n">dataLength</span> <span class="o">+</span> <span class="n">kCCKeySizeMaxRC4</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="o">*</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">bufferSize</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">numBytesEncrypted</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">CCCryptorStatus</span> <span class="n">cryptStatus</span> <span class="o">=</span> <span class="n">CCCrypt</span><span class="p">(</span><span class="n">kCCEncrypt</span><span class="p">,</span> <span class="n">kCCAlgorithmRC4</span><span class="p">,</span> <span class="n">kCCOptionPKCS7Padding</span><span class="o">|</span><span class="n">kCCOptionECBMode</span><span class="p">,</span>
+</span><span class='line'>                                          <span class="n">keyPtr</span><span class="p">,</span> <span class="n">kCCKeySizeMaxRC4</span><span class="p">,</span>
+</span><span class='line'>                                          <span class="nb">NULL</span> <span class="cm">/* initialization vector (optional) */</span><span class="p">,</span>
+</span><span class='line'>                                          <span class="p">[</span><span class="n">srcData</span> <span class="n">bytes</span><span class="p">],</span> <span class="n">dataLength</span><span class="p">,</span> <span class="cm">/* input */</span>
+</span><span class='line'>                                          <span class="n">buffer</span><span class="p">,</span> <span class="n">bufferSize</span><span class="p">,</span> <span class="cm">/* output */</span>
+</span><span class='line'>                                          <span class="o">&amp;</span><span class="n">numBytesEncrypted</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">cryptStatus</span> <span class="o">==</span> <span class="n">kCCSuccess</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//the returned NSData takes ownership of the buffer and will free it on deallocation</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithBytesNoCopy:</span><span class="n">buffer</span> <span class="nl">length:</span><span class="n">numBytesEncrypted</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="c1">//free the buffer;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">RC4Decrypt:</span><span class="p">(</span><span class="n">NSData</span><span class="o">*</span><span class="p">)</span><span class="nv">srcData</span> <span class="nf">withKey:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// &#39;key&#39; should be 32 bytes for AES256, will be null-padded otherwise</span>
+</span><span class='line'>    <span class="kt">char</span> <span class="n">keyPtr</span><span class="p">[</span><span class="n">kCCKeySizeMaxRC4</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span> <span class="c1">// room for terminator (unused)</span>
+</span><span class='line'>    <span class="n">bzero</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">));</span> <span class="c1">// fill with zeroes (for padding)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// fetch key data</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">key</span> <span class="nl">getCString:</span><span class="n">keyPtr</span> <span class="nl">maxLength:</span><span class="k">sizeof</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">)</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSUInteger</span> <span class="n">dataLength</span> <span class="o">=</span> <span class="p">[</span><span class="n">srcData</span> <span class="n">length</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//See the doc: For block ciphers, the output size will always be less than or</span>
+</span><span class='line'>    <span class="c1">//equal to the input size plus the size of one block.</span>
+</span><span class='line'>    <span class="c1">//That&#39;s why we need to add the size of one block here</span>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">bufferSize</span> <span class="o">=</span> <span class="n">dataLength</span> <span class="o">+</span> <span class="n">kCCBlockSizeAES128</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="o">*</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">bufferSize</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">numBytesDecrypted</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">CCCryptorStatus</span> <span class="n">cryptStatus</span> <span class="o">=</span> <span class="n">CCCrypt</span><span class="p">(</span><span class="n">kCCDecrypt</span><span class="p">,</span> <span class="n">kCCAlgorithmRC4</span><span class="p">,</span> <span class="n">kCCOptionPKCS7Padding</span><span class="o">|</span><span class="n">kCCOptionECBMode</span><span class="p">,</span>
+</span><span class='line'>                                          <span class="n">keyPtr</span><span class="p">,</span> <span class="n">kCCKeySizeMaxRC4</span><span class="p">,</span>
+</span><span class='line'>                                          <span class="nb">NULL</span> <span class="cm">/* initialization vector (optional) */</span><span class="p">,</span>
+</span><span class='line'>                                          <span class="p">[</span><span class="n">srcData</span> <span class="n">bytes</span><span class="p">],</span> <span class="n">dataLength</span><span class="p">,</span> <span class="cm">/* input */</span>
+</span><span class='line'>                                          <span class="n">buffer</span><span class="p">,</span> <span class="n">bufferSize</span><span class="p">,</span> <span class="cm">/* output */</span>
+</span><span class='line'>                                          <span class="o">&amp;</span><span class="n">numBytesDecrypted</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">cryptStatus</span> <span class="o">==</span> <span class="n">kCCSuccess</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//the returned NSData takes ownership of the buffer and will free it on deallocation</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithBytesNoCopy:</span><span class="n">buffer</span> <span class="nl">length:</span><span class="n">numBytesDecrypted</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="c1">//free the buffer;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行结果如下：</p>
+
+<pre><code>encryptData = &lt;dc3fcda3 7fcdb553 772337cc eba99575 39a071e7 bdf85b49 c8538ffb 66a0c6f1 d79e1773 51967eae f7da1aac 5574edc4 59595855 8413bf&gt;
+2013-04-22 17:34:16.297 RC4Test[12957:11303] decryptData = 五一回家休息几天啊，好好出去转转玩玩!
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/22/jia-jie-mi-zhi-3des/">加解密之3DES</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-22T15:51:00+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/22/jia-jie-mi-zhi-3des/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iPhone开发过程中，可能会用到加解密之类的，这里使用iPhone SDK自带的加密接口。主要是针对3DES方式下的加解密。CODE如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  ViewController.m</span>
+</span><span class='line'><span class="c1">//  3DESTest</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//  Created by lv wei on 13-4-22.</span>
+</span><span class='line'><span class="c1">//  Copyright (c) 2013年 lv wei. All rights reserved.</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &quot;ViewController.h&quot;</span>
+</span><span class='line'><span class="cp">#import &lt;CommonCrypto/CommonDigest.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;CommonCrypto/CommonCryptor.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;CommonCrypto/CommonHMAC.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">ViewController</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">key</span> <span class="o">=</span> <span class="s">@&quot;my little pang bao!&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">content</span> <span class="o">=</span> <span class="s">@&quot;五一回家休息几天啊，好好出去转转玩玩!&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSData</span><span class="o">*</span> <span class="n">encryptData</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">AESEncrypt:</span><span class="p">[</span><span class="n">content</span> <span class="nl">dataUsingEncoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]</span> <span class="nl">withKey:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;encryptData = %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,[</span><span class="n">encryptData</span> <span class="n">description</span><span class="p">].</span><span class="n">UTF8String</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSData</span><span class="o">*</span> <span class="n">decryptData</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">AESDecrypt:</span><span class="n">encryptData</span> <span class="nl">withKey:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSString</span><span class="o">*</span> <span class="n">utf8String</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData:</span><span class="n">decryptData</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;decryptData = %@&quot;</span><span class="p">,</span><span class="n">utf8String</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">utf8String</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didReceiveMemoryWarning</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">didReceiveMemoryWarning</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">// Dispose of any resources that can be recreated.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span> <span class="nf">AESEncrypt:</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">srcData</span> <span class="nf">withKey:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">key</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">char</span> <span class="n">keyPtr</span><span class="p">[</span><span class="n">kCCKeySize3DES</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span> <span class="c1">// room for terminator (unused)</span>
+</span><span class='line'>    <span class="n">bzero</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">));</span> <span class="c1">// fill with zeroes (for padding)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// fetch key data</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">key</span> <span class="nl">getCString:</span><span class="n">keyPtr</span> <span class="nl">maxLength:</span><span class="k">sizeof</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">)</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSUInteger</span> <span class="n">dataLength</span> <span class="o">=</span> <span class="p">[</span><span class="n">srcData</span> <span class="n">length</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">buffer_size</span>           <span class="o">=</span> <span class="n">dataLength</span> <span class="o">+</span> <span class="n">kCCBlockSize3DES</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">void</span><span class="o">*</span> <span class="n">buffer</span>                 <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">buffer_size</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">num_bytes_encrypted</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">CCCryptorStatus</span> <span class="n">crypt_status</span> <span class="o">=</span> <span class="n">CCCrypt</span><span class="p">(</span><span class="n">kCCEncrypt</span><span class="p">,</span> <span class="n">kCCAlgorithm3DES</span><span class="p">,</span> <span class="n">kCCOptionPKCS7Padding</span><span class="p">,</span>
+</span><span class='line'>                                           <span class="n">keyPtr</span><span class="p">,</span> <span class="n">kCCKeySize3DES</span><span class="p">,</span>
+</span><span class='line'>                                           <span class="nb">NULL</span><span class="p">,</span>
+</span><span class='line'>                                           <span class="p">[</span><span class="n">srcData</span> <span class="n">bytes</span><span class="p">],</span> <span class="n">dataLength</span><span class="p">,</span>
+</span><span class='line'>                                           <span class="n">buffer</span><span class="p">,</span> <span class="n">buffer_size</span><span class="p">,</span>
+</span><span class='line'>                                           <span class="o">&amp;</span><span class="n">num_bytes_encrypted</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">crypt_status</span> <span class="o">==</span> <span class="n">kCCSuccess</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;~~ encrypt data successfully...&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithBytesNoCopy:</span><span class="n">buffer</span> <span class="nl">length:</span><span class="n">num_bytes_encrypted</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="c1">//free the buffer;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span> <span class="nf">AESDecrypt:</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">srcData</span> <span class="nf">withKey:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">key</span><span class="p">{</span>
+</span><span class='line'>    <span class="kt">char</span> <span class="n">keyPtr</span><span class="p">[</span><span class="n">kCCKeySize3DES</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span> <span class="c1">// room for terminator (unused)</span>
+</span><span class='line'>    <span class="n">bzero</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">));</span> <span class="c1">// fill with zeroes (for padding)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// fetch key data</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">key</span> <span class="nl">getCString:</span><span class="n">keyPtr</span> <span class="nl">maxLength:</span><span class="k">sizeof</span><span class="p">(</span><span class="n">keyPtr</span><span class="p">)</span> <span class="nl">encoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSUInteger</span> <span class="n">data_length</span><span class="o">=</span> <span class="p">[</span><span class="n">srcData</span> <span class="n">length</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">buffer_size</span>           <span class="o">=</span> <span class="n">data_length</span> <span class="o">+</span> <span class="n">kCCBlockSize3DES</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">void</span><span class="o">*</span> <span class="n">buffer</span>                 <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">buffer_size</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">num_bytes_decrypted</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">CCCryptorStatus</span> <span class="n">crypt_status</span> <span class="o">=</span> <span class="n">CCCrypt</span><span class="p">(</span><span class="n">kCCDecrypt</span><span class="p">,</span> <span class="n">kCCAlgorithm3DES</span><span class="p">,</span> <span class="n">kCCOptionPKCS7Padding</span><span class="p">,</span>
+</span><span class='line'>                                           <span class="n">keyPtr</span><span class="p">,</span> <span class="n">kCCKeySize3DES</span><span class="p">,</span>
+</span><span class='line'>                                           <span class="nb">NULL</span> <span class="cm">/* initialization vector (optional) */</span><span class="p">,</span>
+</span><span class='line'>                                           <span class="p">[</span><span class="n">srcData</span> <span class="n">bytes</span><span class="p">],</span> <span class="n">data_length</span><span class="p">,</span> <span class="cm">/* input */</span>
+</span><span class='line'>                                           <span class="n">buffer</span><span class="p">,</span> <span class="n">buffer_size</span><span class="p">,</span> <span class="cm">/* output */</span>
+</span><span class='line'>                                           <span class="o">&amp;</span><span class="n">num_bytes_decrypted</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">crypt_status</span> <span class="o">==</span> <span class="n">kCCSuccess</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;decrypt data successfully...&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithBytesNoCopy:</span><span class="n">buffer</span> <span class="nl">length:</span><span class="n">num_bytes_decrypted</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="c1">//free the buffer;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行结果如下：</p>
+
+<pre><code>2013-04-22 15:47:15.207 3DESTest[11832:11303] ~~ encrypt data successfully...
+encryptData = &lt;685d98c2 68e6ea39 f238964b f78b3a46 27a7909f 546da9e3 56c7f844 d2353a51 fdeb2e7c 749dcb17 3c7dc951 0883fe5c cf46974e db2d10a9&gt;
+2013-04-22 15:47:15.209 3DESTest[11832:11303] decrypt data successfully...
+2013-04-22 15:47:15.209 3DESTest[11832:11303] decryptData = 五一回家休息几天啊，好好出去转转玩玩!
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2348,523 +3910,6 @@ roadId=J50F001020_37715roadname=北四环东路valid=1width=2
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/11/symbian-gzipjie-ya-suo/">Symbian-gzip解压缩</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-11T15:04:00+08:00" pubdate data-updated="true">Apr 11<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/11/symbian-gzipjie-ya-suo/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>gbk数据解压缩转成Unicode编码数据</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">const</span> <span class="n">TBool</span> <span class="nf">GBKCompressToUnicodeL</span><span class="p">(</span><span class="k">const</span> <span class="n">TDesC8</span><span class="o">&amp;</span> <span class="n">aGBKData</span><span class="p">,</span><span class="n">RBuf</span><span class="o">&amp;</span> <span class="n">aUnicodeData</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">z_stream</span> <span class="n">stream</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">z_stream</span><span class="p">));</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">const</span> <span class="n">uInt</span> <span class="n">inputBufLen</span> <span class="o">=</span> <span class="n">aGBKData</span><span class="p">.</span><span class="n">Length</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">avail_in</span> <span class="o">=</span> <span class="n">inputBufLen</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">stream</span><span class="p">.</span><span class="n">next_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">Bytef</span><span class="o">*</span><span class="p">)</span><span class="n">aGBKData</span><span class="p">.</span><span class="n">Ptr</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">TInt</span> <span class="n">res</span> <span class="o">=</span> <span class="n">inflateInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">TBool</span> <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">EFalse</span> <span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">RBuf8</span> <span class="n">gbkUncompressData</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">CleanupClosePushL</span><span class="p">(</span><span class="n">gbkUncompressData</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">gbkUncompressData</span><span class="p">.</span><span class="n">Create</span><span class="p">((</span><span class="n">inputBufLen</span><span class="o">&lt;&lt;</span><span class="mi">3</span><span class="p">));</span>
-</span><span class='line'>  <span class="n">gbkUncompressData</span><span class="p">.</span><span class="n">Zero</span><span class="p">();</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">res</span> <span class="o">==</span> <span class="n">Z_OK</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">TInt</span> <span class="n">pakLen</span> <span class="o">=</span> <span class="mi">256</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">Bytef</span><span class="o">*</span> <span class="n">pakBuf</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span> <span class="n">inputBufLen</span> <span class="o">&gt;</span> <span class="mi">120</span> <span class="o">*</span> <span class="mi">1024</span> <span class="p">)</span>
-</span><span class='line'>      <span class="p">{</span>
-</span><span class='line'>          <span class="n">pakLen</span> <span class="o">=</span> <span class="mi">4096</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">inputBufLen</span> <span class="o">&gt;</span> <span class="mi">80</span> <span class="o">*</span> <span class="mi">1024</span> <span class="p">)</span>
-</span><span class='line'>      <span class="p">{</span>
-</span><span class='line'>          <span class="n">pakLen</span> <span class="o">=</span> <span class="mi">2048</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">inputBufLen</span> <span class="o">&gt;</span> <span class="mi">50</span> <span class="o">*</span> <span class="mi">1024</span> <span class="p">)</span>
-</span><span class='line'>      <span class="p">{</span>
-</span><span class='line'>          <span class="n">pakLen</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">inputBufLen</span> <span class="o">&gt;</span> <span class="mi">20</span> <span class="o">*</span> <span class="mi">1024</span> <span class="p">)</span>
-</span><span class='line'>      <span class="p">{</span>
-</span><span class='line'>          <span class="n">pakLen</span> <span class="o">=</span> <span class="mi">512</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="n">pakBuf</span> <span class="o">=</span> <span class="n">new</span> <span class="p">(</span><span class="n">ELeave</span><span class="p">)</span><span class="n">Bytef</span><span class="p">[</span><span class="n">pakLen</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="n">TInt</span> <span class="n">memAllocRes</span> <span class="o">=</span> <span class="n">KErrNone</span><span class="p">;</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>      <span class="p">{</span>
-</span><span class='line'>          <span class="n">memset</span><span class="p">(</span><span class="n">pakBuf</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">pakLen</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Bytef</span><span class="p">));</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span> <span class="o">=</span> <span class="n">pakLen</span><span class="p">;</span>
-</span><span class='line'>          <span class="n">stream</span><span class="p">.</span><span class="n">next_out</span> <span class="o">=</span> <span class="n">pakBuf</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="n">res</span> <span class="o">=</span> <span class="n">inflate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span> <span class="n">Z_NO_FLUSH</span><span class="p">);</span>
-</span><span class='line'>          
-</span><span class='line'>          <span class="k">switch</span> <span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</span><span class='line'>          <span class="p">{</span>
-</span><span class='line'>          <span class="k">case</span> <span class="nl">Z_NEED_DICT:</span>
-</span><span class='line'>          <span class="k">case</span> <span class="nl">Z_DATA_ERROR:</span>
-</span><span class='line'>          <span class="k">case</span> <span class="nl">Z_MEM_ERROR:</span>
-</span><span class='line'>          <span class="k">case</span> <span class="nl">Z_STREAM_ERROR:</span>
-</span><span class='line'>          <span class="k">case</span> <span class="nl">Z_BUF_ERROR:</span>
-</span><span class='line'>          <span class="p">{</span>
-</span><span class='line'>              <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">EFalse</span><span class="p">;</span>
-</span><span class='line'>              <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="k">default</span><span class="o">:</span>
-</span><span class='line'>          <span class="p">{</span>
-</span><span class='line'>              <span class="k">if</span> <span class="p">(</span> <span class="n">res</span> <span class="o">==</span> <span class="n">Z_OK</span> <span class="o">||</span>  <span class="n">res</span> <span class="o">==</span> <span class="n">Z_STREAM_END</span><span class="p">)</span>
-</span><span class='line'>              <span class="p">{</span>
-</span><span class='line'>                  <span class="k">const</span> <span class="n">TInt</span>  <span class="n">dataLen</span> <span class="o">=</span> <span class="n">pakLen</span> <span class="o">-</span> <span class="n">stream</span><span class="p">.</span><span class="n">avail_out</span><span class="p">;</span>
-</span><span class='line'>                  
-</span><span class='line'>                  <span class="k">const</span> <span class="n">TInt</span> <span class="n">curBufLen</span> <span class="o">=</span> <span class="n">gbkUncompressData</span><span class="p">.</span><span class="n">Length</span><span class="p">();</span>
-</span><span class='line'>                  <span class="k">const</span> <span class="n">TInt</span> <span class="n">maxBufLen</span> <span class="o">=</span> <span class="n">gbkUncompressData</span><span class="p">.</span><span class="n">MaxLength</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>                  <span class="k">if</span> <span class="p">(</span> <span class="n">curBufLen</span> <span class="o">+</span> <span class="n">dataLen</span> <span class="o">&gt;</span> <span class="n">maxBufLen</span><span class="p">)</span>
-</span><span class='line'>                  <span class="p">{</span>
-</span><span class='line'>                      <span class="n">memAllocRes</span> <span class="o">=</span> <span class="n">gbkUncompressData</span><span class="p">.</span><span class="n">ReAlloc</span><span class="p">(</span><span class="n">curBufLen</span> <span class="o">+</span> <span class="n">dataLen</span> <span class="o">+</span> <span class="p">(</span><span class="n">pakLen</span><span class="o">&lt;&lt;</span><span class="mi">3</span><span class="p">));</span>
-</span><span class='line'>                  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>                  <span class="k">if</span> <span class="p">(</span> <span class="n">KErrNone</span> <span class="o">==</span> <span class="n">memAllocRes</span> <span class="p">)</span>
-</span><span class='line'>                  <span class="p">{</span>
-</span><span class='line'>                      <span class="n">gbkUncompressData</span><span class="p">.</span><span class="n">Append</span><span class="p">((</span><span class="k">const</span> <span class="n">TUint8</span><span class="o">*</span><span class="p">)</span><span class="n">pakBuf</span><span class="p">,</span><span class="n">dataLen</span><span class="p">);</span>
-</span><span class='line'>                      <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">ETrue</span><span class="p">;</span>
-</span><span class='line'>                  <span class="p">}</span>
-</span><span class='line'>              <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>              <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>          
-</span><span class='line'>          <span class="k">if</span> <span class="p">(</span> <span class="n">KErrNone</span> <span class="o">!=</span> <span class="n">memAllocRes</span> <span class="p">)</span>
-</span><span class='line'>          <span class="p">{</span>
-</span><span class='line'>              <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">EFalse</span><span class="p">;</span>
-</span><span class='line'>              <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      
-</span><span class='line'>      
-</span><span class='line'>      <span class="n">delete</span><span class="p">[]</span> <span class="n">pakBuf</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">pakBuf</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">const</span> <span class="n">TInt</span> <span class="n">len</span> <span class="o">=</span> <span class="n">stream</span><span class="p">.</span><span class="n">total_out</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">inflateEnd</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">aUnicodeData</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span> <span class="n">isUncompressOK</span> <span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">RFs</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">CEikonEnv</span><span class="o">::</span><span class="n">Static</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">FsSession</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="k">const</span> <span class="n">TInt</span> <span class="n">allocRes</span> <span class="o">=</span> <span class="n">aUnicodeData</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="n">gbkUncompressData</span><span class="p">.</span><span class="n">Length</span><span class="p">()</span> <span class="o">*</span> <span class="mi">3</span><span class="p">);</span>    
-</span><span class='line'>      
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span> <span class="n">KErrNone</span> <span class="o">==</span> <span class="n">allocRes</span><span class="p">)</span>
-</span><span class='line'>      <span class="p">{</span>
-</span><span class='line'>          <span class="n">CCnvCharacterSetConverter</span><span class="o">*</span> <span class="n">gbkToUnicodeLE</span> <span class="o">=</span> <span class="n">CCnvCharacterSetConverter</span><span class="o">::</span><span class="n">NewLC</span><span class="p">();</span>
-</span><span class='line'>          <span class="n">gbkToUnicodeLE</span><span class="o">-&gt;</span><span class="n">PrepareToConvertToOrFromL</span><span class="p">(</span><span class="n">KCharacterSetIdentifierGbk</span><span class="p">,</span> <span class="n">fs</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="n">TInt</span> <span class="n">state</span> <span class="o">=</span> <span class="n">CCnvCharacterSetConverter</span><span class="o">::</span><span class="n">KStateDefault</span><span class="p">;</span>
-</span><span class='line'>          <span class="k">const</span> <span class="n">TInt</span> <span class="n">convertRes</span> <span class="o">=</span> <span class="n">gbkToUnicodeLE</span><span class="o">-&gt;</span><span class="n">ConvertToUnicode</span><span class="p">(</span><span class="n">aUnicodeData</span><span class="p">,</span> <span class="n">gbkUncompressData</span><span class="p">,</span> <span class="n">state</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="n">KErrNone</span> <span class="o">!=</span> <span class="n">convertRes</span><span class="p">)</span>
-</span><span class='line'>          <span class="p">{</span>
-</span><span class='line'>              <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">EFalse</span><span class="p">;</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="cm">/**release**/</span>
-</span><span class='line'>          <span class="n">CleanupStack</span><span class="o">::</span><span class="n">PopAndDestroy</span><span class="p">(</span><span class="n">gbkToUnicodeLE</span><span class="p">);</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="k">else</span>
-</span><span class='line'>      <span class="p">{</span>
-</span><span class='line'>          <span class="n">isUncompressOK</span> <span class="o">=</span> <span class="n">EFalse</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>          
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">CleanupStack</span><span class="o">::</span><span class="n">PopAndDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">gbkUncompressData</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">isUncompressOK</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/11/iphonezhong-zi-dong-hua-yun-xing-de-jiao-ben/">iPhone中自动化运行的脚本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-11T14:49:00+08:00" pubdate data-updated="true">Apr 11<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/11/iphonezhong-zi-dong-hua-yun-xing-de-jiao-ben/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>支持点击，拖拽。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="n">var</span> <span class="n">target</span> <span class="o">=</span> <span class="n">UIATarget</span><span class="p">.</span><span class="n">localTarget</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="mi">1000</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">1000</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">xPoint</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mi">268</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">yPoint</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mi">300</span><span class="o">+</span><span class="mi">90</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">target</span><span class="p">.</span><span class="n">tap</span><span class="p">(</span> <span class="p">{</span> <span class="nl">x:</span><span class="n">xPoint</span><span class="p">,</span> <span class="nl">y:</span><span class="n">yPoint</span> <span class="p">}</span> <span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">1000</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">xPoint</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mi">268</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">yPoint</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mi">300</span><span class="o">+</span><span class="mi">90</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">xPoint2</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mi">268</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">yPoint2</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mi">300</span><span class="o">+</span><span class="mi">90</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">target</span><span class="p">.</span><span class="n">dragFromToForDuration</span><span class="p">({</span><span class="nl">x:</span><span class="n">xPoint</span><span class="p">,</span> <span class="nl">y:</span><span class="n">yPoint</span><span class="p">},{</span><span class="nl">x:</span><span class="n">xPoint2</span><span class="p">,</span><span class="nl">y:</span><span class="n">yPoint2</span><span class="p">},</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/07/iphonezhi-block-block%5B%3F%5D-xie-gai-nian-ji-ying-yong/">iPhone之block_block一些概念及应用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-07T21:55:00+08:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/07/iphonezhi-block-block%5B%3F%5D-xie-gai-nian-ji-ying-yong/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h5>1.块直接量</h5>
-
-<p>指的是一个表达式，类似<sup>参数列表</sup>｛body｝,块直接量没有名称，有时候称为匿名函数。</p>
-
-<h5>2.块指针</h5>
-
-<p>指向一个块的指针，例如：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">void</span>  <span class="p">(</span><span class="o">^</span><span class="n">showMessage</span><span class="p">)(</span><span class="n">NSString</span><span class="o">*</span> <span class="n">infomation</span><span class="p">)</span> <span class="p">;</span><span class="c1">//showMesage就是一个指向块的指针。</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>3.块变量</h5>
-
-<p>以<code>__block</code>修饰的变量。例如,__block int i = 10;//i就是一块变量。</p>
-
-<h5>4.关于块的应用</h5>
-
-<p>从10.6以后，cocoa框架开始使用块了，比如说，GCD，NSOperation,集合类，UIKIT中的许多类。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/07/iphonezhi-block-blockde-nei-cun-guan-li/">iPhone之block_block的内存管理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-07T21:28:00+08:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/07/iphonezhi-block-blockde-nei-cun-guan-li/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>   除了上文提到的C语言中块的<code>Block_copy</code>，<code>Block_release</code>和<code>Objective-c</code>的块<code>copy</code>，<code>release</code>，<code>autorelease</code>等简单内存管理，还有一些更为复杂的规则。</p>
-
-<p>   如果一个块引用 了一个对象，那么会保存一个对象的变量，当复制该块时，会保留该对；而释放该块时，也会释放该对象。
-<code>  （注意：当复制引用了__block变量的一个块时，__block变量中保存的对象是不会保留的。同样注意静态变量）</code></p>
-
-<p> 注意以下规则，</p>
-
-<ul>
-<li>1.要复制的块中对于self的直接引用，会导致self被保留。</li>
-<li>2.要复制的块中对一个对象的实例变量的引用（直接的或通过一个访问器方法），会导致self被保留。</li>
-<li><p>3.方法中对本地变量中保存的一个对象的引用，会导致该 对象而不是self被保留。</p>
-
-<p>  当复制一个块时，应该小心。如果复制该块的代码位于一个方法内部，并且该块引用对象的任何实例变量，则复制该块时会导致self被保留。很容易建立一个保留循环，阻止对象被正常销毁。</p></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/23/">&larr; Older</a>
@@ -2889,30 +3934,30 @@ roadId=J50F001020_37715roadname=北四环东路valid=1width=2
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/11/29/macan-zhuang-maven/">Mac安装Maven</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/11/28/iosshi-pin-bo-fang-avplayerviewcontroller/">iOS视频播放AVPlayerViewController</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/11/26/iosshi-pin-bo-fang-avplayer/">iOS视频播放-AVPlayer和AVPlayerLayer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/08/19/xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/">XCode使用PMD扫描重复代码（一）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/05/22/flutter-cannot-create-a-project-within-the-flutter-sdk/">flutter创建工程报错:Cannot create a project within the Flutter SDK. Target directory &#8216;x&#8217; is within the Flutter SDK at&#8217;/Users/x/Music/flutter/flutter&#8217;</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/05/22/flutteran-zhuang-he-yun-xing/">flutter安装和运行</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/05/16/swiftfan-xing/">swift泛型</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg%2Cpng%2Cbmpge-shi-de-tu-pian/">python筛选目录下非jpeg，png，bmp格式的图片</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/05/05/kotlin-native/">kotlin-native</a>
       </li>
     
   </ul>
 </section>
 <section>
   <h1>分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (1)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>c++ (1)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (1)</a></li><li><a href='/blog/categories/flutter/'>flutter (2)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (32)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/pythonxiao-gong-ju/'>Python小工具 (1)</a></li><li><a href='/blog/categories/swift/'>swift (19)</a></li><li><a href='/blog/categories/swift-ji-chu/'>swift-基础 (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (18)</a></li><li><a href='/blog/categories/swift-ji-chu-zhi-shi/'>swift-基础知识 (1)</a></li><li><a href='/blog/categories/swiftji-chu/'>swift基础 (2)</a></li><li><a href='/blog/categories/swiftji-chu-kuang-jia/'>swift基础框架 (1)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>XCode (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (10)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/you-hua/'>优化 (1)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (1)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android-jni/'>Android-jni (6)</a></li><li><a href='/blog/categories/android-qi-ta/'>Android-其它 (2)</a></li><li><a href='/blog/categories/android-duo-xian-cheng/'>Android-多线程 (3)</a></li><li><a href='/blog/categories/android-wang-luo/'>Android-网络 (2)</a></li><li><a href='/blog/categories/c-plus-plus/'>C++ (2)</a></li><li><a href='/blog/categories/flutter/'>flutter (2)</a></li><li><a href='/blog/categories/git/'>git (6)</a></li><li><a href='/blog/categories/github-bo-ke/'>github-博客 (9)</a></li><li><a href='/blog/categories/go/'>go (1)</a></li><li><a href='/blog/categories/ios-opengl/'>iOS-OpenGL (2)</a></li><li><a href='/blog/categories/ios-ui/'>iOS-UI (10)</a></li><li><a href='/blog/categories/ios-you-hua/'>iOS-优化 (2)</a></li><li><a href='/blog/categories/ios-nei-cun/'>iOS-内存 (5)</a></li><li><a href='/blog/categories/ios-ji-chu/'>iOS-基础 (33)</a></li><li><a href='/blog/categories/ios-duo-xian-cheng/'>iOS-多线程 (6)</a></li><li><a href='/blog/categories/ios-cun-chu/'>iOS-存储 (1)</a></li><li><a href='/blog/categories/ios-wang-luo/'>iOS-网络 (13)</a></li><li><a href='/blog/categories/ios-she-ji-mo-shi/'>iOS-设计模式 (1)</a></li><li><a href='/blog/categories/iosshen-he/'>iOS审核 (1)</a></li><li><a href='/blog/categories/javahou-tai/'>java后台 (3)</a></li><li><a href='/blog/categories/kotlin/'>Kotlin (1)</a></li><li><a href='/blog/categories/mac/'>Mac (5)</a></li><li><a href='/blog/categories/nginx/'>nginx (3)</a></li><li><a href='/blog/categories/php/'>php (3)</a></li><li><a href='/blog/categories/python/'>python (12)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li><li><a href='/blog/categories/swift-ji-chu-kuang-jia/'>swift-基础框架 (25)</a></li><li><a href='/blog/categories/swift-ji-chu-zhi-shi/'>swift-基础知识 (19)</a></li><li><a href='/blog/categories/swift-shi-pin/'>swift-视频 (2)</a></li><li><a href='/blog/categories/symbian-jie-ya-suo/'>symbian-解压缩 (1)</a></li><li><a href='/blog/categories/uml/'>UML (8)</a></li><li><a href='/blog/categories/xcode/'>Xcode (12)</a></li><li><a href='/blog/categories/chan-pin-she-ji/'>产品设计 (2)</a></li><li><a href='/blog/categories/an-quan/'>安全 (8)</a></li><li><a href='/blog/categories/gong-ju/'>工具 (1)</a></li><li><a href='/blog/categories/tou-zi-li-cai/'>投资理财 (1)</a></li><li><a href='/blog/categories/shu-ju-ku/'>数据库 (3)</a></li><li><a href='/blog/categories/sheng-huo-pian-duan/'>生活片段 (7)</a></li><li><a href='/blog/categories/suan-fa-yu-shu-ju-jie-gou/'>算法与数据结构 (1)</a></li><li><a href='/blog/categories/wang-luo/'>网络 (2)</a></li><li><a href='/blog/categories/zhi-ye-sheng-ya/'>职业生涯 (4)</a></li><li><a href='/blog/categories/du-shu/'>读书 (2)</a></li></ul>
 </section>
 <section>
   <h1>外部链接</h1>
@@ -2930,7 +3975,7 @@ roadId=J50F001020_37715roadname=北四环东路valid=1width=2
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - 律威 -
+  Copyright &copy; 2020 - 律威 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
   
 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271193933'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1271193933%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
