@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: python | ksnowlv]]></title>
+  <title><![CDATA[Category: Python | ksnowlv]]></title>
   <link href="http://ksnowlv.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://ksnowlv.github.io/"/>
-  <updated>2020-05-22T13:58:52+08:00</updated>
+  <updated>2020-11-05T19:57:02+08:00</updated>
   <id>http://ksnowlv.github.io/</id>
   <author>
     <name><![CDATA[律威]]></name>
@@ -14,656 +14,95 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Mac下安装Django]]></title>
-    <link href="http://ksnowlv.github.io/blog/2014/08/10/macxia-an-zhuang-django/"/>
-    <updated>2014-08-10T20:05:00+08:00</updated>
-    <id>http://ksnowlv.github.io/blog/2014/08/10/macxia-an-zhuang-django</id>
-    <content type="html"><![CDATA[<p>Mac下如何安装Django呢？</p>
+    <title type="html"><![CDATA[python筛选目录下非jpeg，png，bmp格式的图片]]></title>
+    <link href="http://ksnowlv.github.io/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg%2Cpng%2Cbmpge-shi-de-tu-pian/"/>
+    <updated>2019-05-15T20:01:00+08:00</updated>
+    <id>http://ksnowlv.github.io/blog/2019/05/15/pythonshai-xuan-mu-lu-xia-fei-jpeg,png,bmpge-shi-de-tu-pian</id>
+    <content type="html"><![CDATA[<p> 功能：筛选指定目录下非jpeg/png/bmp格式的文件，并把路径以日志形式输出。</p>
 
-<!--more-->
+<p>关键有两点：</p>
+
+<ul>
+<li>目录遍历，记录所有文件路径。</li>
+<li>遍历路径，使用imghdr.what判断文件格式，非jpeg/png/bmp格式的文件路径输出。</li>
+</ul>
 
 
-<p>安装步骤如下</p>
+<p><code>python3.0</code>实现如下：</p>
 
-<h4>1.Django安装前，先安装python,再安装pip</h4>
+<p>```python</p>
 
-<pre><code>ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$sudo easy_install pip
-Password:
-Searching for pip
-Reading http://pypi.python.org/simple/pip/
-Best match: pip 1.5.6
-Downloading https://pypi.python.org/packages/source/p/pip/        pip-1.5.6.tar.gz#md5=01026f87978932060cc86c1dc527903e
-Processing pip-1.5.6.tar.gz
-Running pip-1.5.6/setup.py -q bdist_egg --dist-dir /tmp/easy_install-8B1wUW/pip-1.5.6/egg-dist-tmp-7Tfgxf
-warning: no files found matching 'pip/cacert.pem'
-warning: no files found matching '*.html' under directory 'docs'
-warning: no previously-included files matching '*.rst' found under     directory 'docs/_build'
-no previously-included directories found matching 'docs/_build/_sources'
-Adding pip 1.5.6 to easy-install.pth file
-Installing pip script to /usr/local/bin
-Installing pip2.7 script to /usr/local/bin
-Installing pip2 script to /usr/local/bin
+<p>import os
+import imghdr</p>
 
-Installed /Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg
-Processing dependencies for pip
-Finished processing dependencies for pip
-ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$
+<h2>工具功能：筛选目录下非jpeg，png，bmp格式的图片，并输出其路径</h2>
+
+<h2>Python 3.0</h2>
+
+<h1>图片文件夹目录</h1>
+
+<p>IMAGEPATH = None</p>
+
+<h1>初始化</h1>
+
+<p>def init():</p>
+
+<pre><code>global IMAGEPATH
+IMAGEPATH  = "/Users/ksnowlv/Documents/image"
 </code></pre>
 
-<h4>2.然后安装Django：</h4>
+<h1>功能：读取指定目录下的所有文件绝对路径（包括该目录下所有子目录），并以列表形式返回</h1>
 
-<pre><code>ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$sudo pip install Django
-Password:
-Downloading/unpacking Django
-  Downloading Django-1.6.5-py2.py3-none-any.whl (6.7MB): 6.1MB downloaded
-Cleaning up...
-Exception:
-Traceback (most recent call last):
-  File "/Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg/pip/basecommand.py", line 122, in main
-status = self.run(options, args)
-  File "/Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg/pip/commands/install.py", line 278, in run
-requirement_set.prepare_files(finder, force_root_egg_info=self.bundle, bundle=self.bundle)
-  File "/Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg/pip/req.py", line 1197, in prepare_files
-do_download,
-  File "/Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg/pip/req.py", line 1375, in unpack_url
-self.session,
-  File "/Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg/pip/download.py", line 572, in unpack_http_url
-download_hash = _download_url(resp, link, temp_location)
-  File "/Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg/pip/download.py", line 433, in _download_url
-for chunk in resp_read(4096):
-  File "/Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg/pip/download.py", line 421, in resp_read
-chunk_size, decode_content=False):
-  File "/Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg/pip/_vendor/requests/packages/urllib3/response.py", line 240, in stream
-data = self.read(amt=amt, decode_content=decode_content)
-  File "/Library/Python/2.7/site-packages/pip-1.5.6-py2.7.egg/pip/_vendor/requests/packages/urllib3/response.py", line 187, in read
-data = self._fp.read(amt)
-  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/httplib.py", line 567, in read
-s = self.fp.read(amt)
-  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/socket.py", line 380, in read
-data = self._sock.recv(left)
-  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/ssl.py", line 241, in recv
-return self.read(buflen)
-  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/ssl.py", line 160, in read
-return self._sslobj.read(len)
-SSLError: The read operation timed out
+<p>def readDir(dirPath):</p>
 
-Storing debug log for failure in /Users/ksnowlv/Library/Logs/pip.log
-ksnowlv@ksnowlvdeMa
+<pre><code>myDirPath = dirPath
+if dirPath.endswith('/'):# 要求传入的路径参数最后不能有斜杠,目的是为了递归时格式统一
+    myDirPath = dirPath.rstrip('/')
+    print('文件夹路径末尾删除/ = %s'%(myDirPath))
+
+allFiles = []
+
+if os.path.isdir(myDirPath):
+    fileList = os.listdir(myDirPath)
+    for f in fileList:
+        f = myDirPath+'/'+f
+        if os.path.isdir(f):
+            subFiles = readDir(f)
+            allFiles = subFiles + allFiles #合并当前目录与子目录的所有文件路径
+        else:
+            allFiles.append(f)
+    return allFiles
+else:
+    print('Error,not a dir')
+return allFiles
 </code></pre>
 
-<h4>3.安装出错，如何解决呢？方案是添加两个环境变量:</h4>
+<h1>根据路径筛选出非目标图片的路径</h1>
 
-<pre><code>export CFLAGS=-Qunused-arguments
-export CPPFLAGS=-Qunused-arguments
+<p>def filterPicture(fileList):</p>
+
+<pre><code>for fileName in fileList:
+    # data = open(fileName, 'rb').read(20)
+    fileType = imghdr.what(fileName)
+    # print("filename = %s fileType = %s" % (fileName,fileType))
+
+    if fileType != "jpeg" and fileType != "png" and fileType != "bmp":
+        print("filename = %s can not parse fileType = %s " % (fileName, fileType))
 </code></pre>
 
-<p>示例如下:</p>
+<p>def main():</p>
 
-<pre><code>ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$export CFLAGS=-Qunused-arguments
-ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$export CPPFLAGS=-Qunused-arguments
-ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$sudo pip install Django
-Password:
-Downloading/unpacking Django
-  Downloading Django-1.6.5-py2.py3-none-any.whl (6.7MB): 6.7MB downloaded
-Installing collected packages: Django
-Successfully installed Django
-Cleaning up...
-ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$  
+<pre><code>init()
+fileList = readDir(IMAGEPATH)
+filterPicture(fileList)
 </code></pre>
 
-<p><code>这个过程好折腾，找半天解决方案。希望大家多注意!!!</code></p>
+<p>if <strong>name</strong> == &lsquo;<strong>main</strong>&rsquo;:</p>
 
-<h4>4.验证下是否安装成功</h4>
-
-<pre><code>ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$python
-Python 2.7.5 (default, Mar  9 2014, 22:15:05) 
-[GCC 4.2.1 Compatible Apple LLVM 5.0 (clang-500.0.68)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; import django
-&gt;&gt;&gt; print django.get_version()
-1.6.5
-#输出1.6.5 表示当前最新版本为1.6.5，表示已经安装成功
-&gt;&gt;&gt; ^D
-#退出python control + D
-ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$  
-</code></pre>
-
-<p>终于安装成功,大功告成!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[python-WSGI搭建web-server]]></title>
-    <link href="http://ksnowlv.github.io/blog/2014/08/10/python-wsgi-da-jian-web-server/"/>
-    <updated>2014-08-10T16:43:00+08:00</updated>
-    <id>http://ksnowlv.github.io/blog/2014/08/10/python-wsgi-da-jian-web-server</id>
-    <content type="html"><![CDATA[<h4>python提供了WSGI:Web Server Gateway Interface 只要求Web开发者实现一个函数即可响应HTTP请求。</h4>
-
-<!--more-->
-
-
-<h4>application()函数必须由WSGI服务器来调用</h4>
-
-<h4>先定义hello.py文件。</h4>
-
-<p>``` python</p>
-
-<h1>hello.py</h1>
-
-<p>def application(environ, start_response):</p>
-
-<p>start_response(&lsquo;200 OK&rsquo;, [(&lsquo;Content-Type&rsquo;, &lsquo;text/html&rsquo;)])</p>
-
-<p>  return &lsquo;<h1>Hello, %s!</h1>&rsquo; % (environ[&lsquo;PATH_INFO&rsquo;][1:] or &lsquo;web&rsquo;)</p>
-
-<p>```</p>
-
-<h4>可以从<code>environ</code>里读取<code>PATH_INFO</code>，默认为web.</h4>
-
-<h4>你可以在地址栏输入文本作为URL的一部分，将返回Hello, [输入文本]!</h4>
-
-<h4>定义python_http_server.py文件，代码如下:</h4>
-
-<p>``` python</p>
-
-<h1>python_http_server.py</h1>
-
-<h1>从wsgiref模块导入:</h1>
-
-<p>from wsgiref.simple_server import make_server</p>
-
-<h1>导入我们自己编写的application函数:</h1>
-
-<p>from hello import application</p>
-
-<h1>创建一个服务器，IP地址为空，端口是8000，处理函数是application:</h1>
-
-<p>httpd = make_server(&lsquo;&rsquo;, 8000, application)
-print &ldquo;Serving HTTP on port 8000&hellip;&rdquo;</p>
-
-<h1>开始监听HTTP请求:</h1>
-
-<p>httpd.serve_forever()</p>
-
-<p>```</p>
-
-<h4>运行python_http_server.py</h4>
-
-<pre><code>ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$python python_http_server.py 
-Serving HTTP on port 8000...
-127.0.0.1 - - [10/Aug/2014 16:32:03] "GET / HTTP/1.1" 200 20
-127.0.0.1 - - [10/Aug/2014 16:33:00] "GET /ksnowlv HTTP/1.1" 200 24
-127.0.0.1 - - [10/Aug/2014 17:02:40] "GET /kair HTTP/1.1" 200 21
-</code></pre>
-
-<h4>注意：如果8000端口已被其他程序占用，启动将失败，请修改成其他端口。</h4>
-
-<p>启动python server成功后，打开浏览器，输入<code>http://localhost:8000/</code>,输入ksnowlv,kair可以看到相关变化.</p>
-
-<p><img src="/images/post/2014-08-10-python-wsgi-da-jian-web-server/web_server_result.png" alt="image" /></p>
-
-<pre><code>hello.py和python_http_server.py放到同一个目录
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[python调试之pdb]]></title>
-    <link href="http://ksnowlv.github.io/blog/2014/08/09/python-diao-shi-zhi-pdb/"/>
-    <updated>2014-08-09T14:40:00+08:00</updated>
-    <id>http://ksnowlv.github.io/blog/2014/08/09/python-diao-shi-zhi-pdb</id>
-    <content type="html"><![CDATA[<h4>学习python调试可参考官方文档的<a href="https://docs.python.org/2/library/pdb.html">pdb</a>.</h4>
-
-<!--more-->
-
-
-<h4>一.在python中,在调试模块添加pdb调试支持.</h4>
-
-<p>``` python</p>
-
-<pre><code>import pdb; 
-pdb.set_trace()
+<pre><code>main()
 </code></pre>
 
 <p>```</p>
-
-<h4>不然，会遇见类似如下的错误:</h4>
-
-<pre><code>(Pdb) n
-&gt; /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(38)&lt;module&gt;()
--&gt; nameList = ["One", "Two", "Three", "Four", "Five"]
-(Pdb) a
-(Pdb) p namelist
-*** NameError: NameError("name 'namelist' is not defined",)
-</code></pre>
-
-<h4>二.一些常用命令：</h4>
-
-<h4>查看帮助</h4>
-
-<pre><code>help
-(Pdb) 
-Documented commands (type help &lt;topic&gt;):
-========================================
-EOF    bt         cont      enable  jump  pp       run      unt   
-a      c          continue  exit    l     q        s        until 
-alias  cl         d         h       list  quit     step     up    
-args   clear      debug     help    n     r        tbreak   w     
-b      commands   disable   ignore  next  restart  u        whatis
-break  condition  down      j       p     return   unalias  where 
-</code></pre>
-
-<p>解释如下:</p>
-
-<pre><code>b/break  &lt;linenumber&gt;   #断点设置在本py的第linenumber行
-b/break  &lt;functionname&gt; #断点设置在本py的functionname
-b/break                 #列举当前所有的断点
-cl/clear                #清除所有断点
-cl/clear  &lt;number&gt;      #清除第number个断点 
-n/next        #单步运行到下一步
-s/step        #进入到函数内部
-c/continue    #继续运行
-p             #查看当前变量值
-l/list        #查看运行到某处代码
-a             #查看全部栈内变量
-w             #列出目前call stack 中的所在层
-d             #在call stack中往下移一层
-disable       #取消所有断点的功能,但仍然保留这些断点 
-enable        #恢复断点的功能  
-j/jump        #跳转到某行执行 
-</code></pre>
-
-<h4>代码示例如下:</h4>
-
-<p>``` python</p>
-
-<h1>!/usr/bin/python</h1>
-
-<p>import Queue
-import threading
-import time
-import pdb;
-pdb.set_trace()</p>
-
-<p>exitFlag = 0</p>
-
-<p>class QThread (threading.Thread):</p>
-
-<pre><code>"QThread class"
-def __init__(self, threadID, name, queue):
-    threading.Thread.__init__(self)
-    self.threadID = threadID
-    self.name = name
-    self.queue = queue
-
-#线程函数
-def run(self):
-    print "Starting " + self.name
-    process_data(self.name, self.queue)
-    print "Exiting " + self.name
-</code></pre>
-
-<h1>处理数据</h1>
-
-<p>def process_data(threadName, q):</p>
-
-<pre><code>while not exitFlag:
-    queueLock.acquire()
-    if not workQueue.empty():
-        data = q.get()
-        queueLock.release()
-        print "%s processing %s" % (threadName, data)
-    else:
-        queueLock.release()
-    time.sleep(1)
-</code></pre>
-
-<p>threadList = [&ldquo;ksnow&rdquo;, &ldquo;kair&rdquo;, &ldquo;baby&rdquo;]
-nameList = [&ldquo;One&rdquo;, &ldquo;Two&rdquo;, &ldquo;Three&rdquo;, &ldquo;Four&rdquo;, &ldquo;Five&rdquo;]
-queueLock = threading.Lock()
-workQueue = Queue.Queue(5)
-threads = []
-threadID = 1</p>
-
-<h1>创建新线程</h1>
-
-<p>for tName in threadList:</p>
-
-<pre><code>thread = QThread(threadID, tName, workQueue)
-thread.start()
-threads.append(thread)
-threadID += 1
-</code></pre>
-
-<h1>填充队列</h1>
-
-<p>queueLock.acquire()
-for word in nameList:</p>
-
-<pre><code>workQueue.put(word)
-</code></pre>
-
-<p>queueLock.release()</p>
-
-<h1>等待队列清空</h1>
-
-<p>while not workQueue.empty():</p>
-
-<pre><code>pass
-</code></pre>
-
-<h1>通知线程是时候退出</h1>
-
-<p>exitFlag = 1</p>
-
-<h1>等待所有线程完成</h1>
-
-<p>for t in threads:</p>
-
-<pre><code>t.join()
-</code></pre>
-
-<p>print &ldquo;Exiting Main Thread&rdquo;</p>
-
-<p>```</p>
-
-<h4>调试示例如下：</h4>
-
-<pre><code>ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python thread_queue.py 
-&gt; /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(9)&lt;module&gt;()
--&gt; exitFlag = 0
-(Pdb) b process_data
-Breakpoint 1 at /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py:27
-(Pdb) b 45
-Breakpoint 2 at /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py:45
-(Pdb) b 33
-Breakpoint 3 at /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py:33
-(Pdb) b
-Num Type         Disp Enb   Where
-1   breakpoint   keep yes   at /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py:27
-2   breakpoint   keep yes   at /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py:45
-3   breakpoint   keep yes   at /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py:33
-(Pdb) cl 3
-Deleted breakpoint 3
-(Pdb) b
-Num Type         Disp Enb   Where
-1   breakpoint   keep yes   at /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py:27
-2   breakpoint   keep yes   at /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py:45
-(Pdb) b 33
-Breakpoint 4 at /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py:33
-(Pdb) c
-&gt; /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(45)&lt;module&gt;()
--&gt; threadID = 1
-(Pdb) p threadList
-['ksnow', 'kair', 'baby']
-(Pdb) pp nameList
-['One', 'Two', 'Three', 'Four', 'Five']
-(Pdb) n
-&gt; /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(48)&lt;module&gt;()
--&gt; for tName in threadList:
-(Pdb) n
-&gt; /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(49)&lt;module&gt;()
--&gt; thread = QThread(threadID, tName, workQueue)
-(Pdb) s
---Call--
-&gt; /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(14)__init__()
--&gt; def __init__(self, threadID, name, queue):
-(Pdb) s
-&gt; /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(15)__init__()
--&gt; threading.Thread.__init__(self)
-(Pdb) s
---Call--
-&gt; /System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/threading.py(654)__init__()
--&gt; def __init__(self, group=None, target=None, name=None,
-(Pdb) c
-Starting ksnow
-Starting kair
-Starting baby
-ksnow processing One
-baby processing Two
- kair processing Three
-ksnow processing Four
-kair processing Five
-Exiting baby
-Exiting ksnow
-Exiting kair
-Exiting Main Thread
-Exception AttributeError: "'NoneType' object has no attribute 'path'" in &lt;function _remove at 0x10fb59b18&gt; ignored
-ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[python线程之队列Queue]]></title>
-    <link href="http://ksnowlv.github.io/blog/2014/08/08/python-xian-cheng-zhi-dui-lie-queue/"/>
-    <updated>2014-08-08T23:44:00+08:00</updated>
-    <id>http://ksnowlv.github.io/blog/2014/08/08/python-xian-cheng-zhi-dui-lie-queue</id>
-    <content type="html"><![CDATA[<p>Python的Queue模块中提供了同步的、线程安全的队列类.</p>
-
-<!--more-->
-
-
-<pre><code>1.FIFO（先入先出)队列Queue，
-2.LIFO（后入先出）队列LifoQueue，
-3.优先级队列PriorityQueue。
-</code></pre>
-
-<p>这些队列都实现了锁原语，能够在多线程中直接使用。可以使用队列来实现线程间的同步。</p>
-
-<p>代码示例如下:</p>
-
-<p>``` python</p>
-
-<h1>!/usr/bin/python</h1>
-
-<p>import Queue
-import threading
-import time</p>
-
-<p>exitFlag = 0</p>
-
-<p>class QThread (threading.Thread):</p>
-
-<pre><code>"QThread class"
-def __init__(self, threadID, name, queue):
-    threading.Thread.__init__(self)
-    self.threadID = threadID
-    self.name = name
-    self.queue = queue
-
-#线程函数
-def run(self):
-    print "Starting " + self.name
-    process_data(self.name, self.queue)
-    print "Exiting " + self.name
-</code></pre>
-
-<h1>处理数据</h1>
-
-<p>def process_data(threadName, q):</p>
-
-<pre><code>while not exitFlag:
-    queueLock.acquire()
-    if not workQueue.empty():
-        data = q.get()
-        queueLock.release()
-        print "%s processing %s" % (threadName, data)
-    else:
-        queueLock.release()
-    time.sleep(1)
-</code></pre>
-
-<p>threadList = [&ldquo;ksnow&rdquo;, &ldquo;kair&rdquo;, &ldquo;baby&rdquo;]
-nameList = [&ldquo;One&rdquo;, &ldquo;Two&rdquo;, &ldquo;Three&rdquo;, &ldquo;Four&rdquo;, &ldquo;Five&rdquo;]
-queueLock = threading.Lock()</p>
-
-<h1>创建FIFO（先入先出)队列Queue</h1>
-
-<p>workQueue = Queue.Queue(5)
-threads = []
-threadID = 1</p>
-
-<h1>创建新线程</h1>
-
-<p>for tName in threadList:</p>
-
-<pre><code>thread = QThread(threadID, tName, workQueue)
-thread.start()
-threads.append(thread)
-threadID += 1
-</code></pre>
-
-<h1>填充队列</h1>
-
-<p>queueLock.acquire()
-for word in nameList:</p>
-
-<pre><code>workQueue.put(word)
-</code></pre>
-
-<p>queueLock.release()</p>
-
-<h1>等待队列清空</h1>
-
-<p>while not workQueue.empty():</p>
-
-<pre><code>pass
-</code></pre>
-
-<h1>通知线程是时候退出</h1>
-
-<p>exitFlag = 1</p>
-
-<h1>等待所有线程完成</h1>
-
-<p>for t in threads:</p>
-
-<pre><code>t.join()
-</code></pre>
-
-<p>print &ldquo;Exiting Main Thread&rdquo;</p>
-
-<p>```</p>
-
-<p>运行结果如下:</p>
-
-<pre><code>ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python thread_queue.py
-Starting ksnow
-Starting kair
-Starting baby
-kair processing One
-ksnow processing Two
-baby processing Three
-ksnow processing Four
-kair processing Five
-Exiting baby
-Exiting ksnow
-Exiting kair
-Exiting Main Thread
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[python线程之同步]]></title>
-    <link href="http://ksnowlv.github.io/blog/2014/08/08/python-xian-cheng-zhi-tong-bu/"/>
-    <updated>2014-08-08T23:05:00+08:00</updated>
-    <id>http://ksnowlv.github.io/blog/2014/08/08/python-xian-cheng-zhi-tong-bu</id>
-    <content type="html"><![CDATA[<p>如果多个线程共同对某个数据修改访问，为了保证数据的正确性，需要对多个线程进行同步。</p>
-
-<!--more-->
-
-
-<p>使用Thread对象的Lock和Rlock可以实现简单的线程同步，</p>
-
-<pre><code>acquire:请求锁,成功则返回true.
-release:释放锁.
-</code></pre>
-
-<p>对于需要每次只允许一个线程操作的数据，可以使用上述锁来实现互斥访问。</p>
-
-<p>代码示例如下:</p>
-
-<p>``` python</p>
-
-<h1>!/usr/bin/python</h1>
-
-<p>import threading
-import time</p>
-
-<p>class QThread (threading.Thread):</p>
-
-<pre><code>""" QThread class"""
-def __init__(self, threadID, name, counter):
-    threading.Thread.__init__(self)
-    self.threadID = threadID
-    self.name = name
-    self.counter = counter
-
-def run(self):#线程的run函数
-
-    print "%s running" % self.name 
-   # 获得锁，成功获得锁定后返回True
-   # 可选的timeout参数不填时将一直阻塞直到获得锁定
-   # 否则超时后将返回False
-
-    threadLock.acquire()
-    showThreadMessage(self.name, self.counter, 3)
-    # 释放锁
-    threadLock.release()
-</code></pre>
-
-<p>def showThreadMessage(threadName, delay, counter):</p>
-
-<pre><code>while counter &gt; 0:
-    time.sleep(delay)
-    print "%s showThreadMessage" % (threadName)
-    counter -= 1
-</code></pre>
-
-<p>threadLock = threading.Lock()
-threads = []</p>
-
-<h1>创建新线程</h1>
-
-<p>thread1 = QThread(1, &ldquo;KSnow&rdquo;, 1)
-thread2 = QThread(2, &ldquo;KAir&rdquo;, 2)</p>
-
-<h1>线程开始执行</h1>
-
-<p>thread1.start()
-thread2.start()</p>
-
-<h1>添加线程到线程列表</h1>
-
-<p>threads.append(thread1)
-threads.append(thread2)</p>
-
-<h1>等待所有线程完成</h1>
-
-<p>for t in threads:</p>
-
-<pre><code>t.join()
-</code></pre>
-
-<p>print &ldquo;Exiting From Main Thread&rdquo;</p>
-
-<p>```</p>
-
-<p>运行情况如下:</p>
-
-<pre><code>ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python thread_synchronization.py
-KSnow running
-KAir running
-KSnow showThreadMessage
-KSnow showThreadMessage
-KSnow showThreadMessage
-KAir showThreadMessage
-KAir showThreadMessage
-KAir showThreadMessage
-Exiting From Main Thread
-</code></pre>
 ]]></content>
   </entry>
   
