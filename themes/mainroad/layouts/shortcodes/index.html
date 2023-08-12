@@ -1,0 +1,21 @@
+{{- $.Scratch.Add "pages" slice -}}
+{{- $.Scratch.Add "dates" slice -}}
+{{- range where .Site.RegularPages "Type" "in" (split "page|post" "|") -}}
+    {{- $.Scratch.Add "pages" (dict "url" .URL "title" .Title "date" .Date) -}}
+    {{- $.Scratch.Add "dates" .Date.Format "2006-01" -}}
+{{- end -}}
+
+{{- $.Scratch.Set "pages" ($.Scratch.Get "pages" | sort (printf "-%s.date" $)) -}}
+
+{{- range where (uniq (sort ($.Scratch.Get "dates"))) "not eq" "" -}}
+    <h2>{{ . }}</h2>
+    <ul>
+
+    {{- range $.Scratch.Get "pages" -}}
+        {{- if eq ($.Date.Format "2006-01") .date.Format "2006-01" -}}
+            <li><a href="{{ .url }}">{{ .title }}</a></li>
+        {{- end -}}
+    {{- end -}}
+
+    </ul>
+{{- end -}}

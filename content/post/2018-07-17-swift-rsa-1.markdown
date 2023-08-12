@@ -1,0 +1,186 @@
+---
+title: "swift-RSA(一)"
+date: 2018-07-17
+categories:
+  - "swift-基础框架"
+tags:
+  - "swift-基础框架"
+---
+<!--more-->
+
+如何使用swift进行RSA加解密呢？
+
+##### 一.这四个方面:加载公钥/加载私钥/RSA加密/RSA解密
+* 1.加载公钥
+
+```objective-c
+    @objc public func publicKey(fileFullPath: NSString, block :@escaping YKRSASignBlock ) {
+        
+        if !FileManager.default.fileExists(atPath: fileFullPath as String){
+            block(NSError.init(domain: "file not exist at the full path ", code: -1, userInfo: nil),nil)
+        }
+
+        let certificateData = NSData(contentsOfFile: fileFullPath as String);
+        
+        let myCertificate: SecCertificate = SecCertificateCreateWithData(kCFAllocatorDefault, certificateData!)!
+        let policy = SecPolicyCreateBasicX509()
+        var trust: SecTrust?
+        var status: OSStatus = SecTrustCreateWithCertificates(myCertificate, policy, &trust)
+        
+        if status == noErr {
+            var trustResult:SecTrustResultType = SecTrustResultType(rawValue: 0)!
+            status = SecTrustEvaluate(trust!, &trustResult)
+            let secKey =  SecTrustCopyPublicKey(trust!)
+            self.publicSecKey = secKey
+            block(nil, secKey)
+        }else{
+            
+            block(NSError(domain: "load error", code: Int(status), userInfo: nil), nil)
+        }
+    }
+```
+* 2.加载私钥
+
+```objective-c
+    @objc public func privateKey(fileFullPath: NSString, password: NSString, block :@escaping YKRSASignBlock ) {
+        
+        if !FileManager.default.fileExists(atPath: fileFullPath as String){
+            block(NSError.init(domain: "file not exist at the full path ", code: -1, userInfo: nil),nil)
+        }
+        
+        let p12Data = NSData(contentsOfFile: fileFullPath as String);
+        
+        guard p12Data != nil else {
+            return
+        }
+        
+        let options = [kSecImportExportPassphrase: password]  as [String : Any]
+        var items : CFArray?
+        var status: OSStatus = SecPKCS12Import(p12Data!, options as CFDictionary, &items)
+        var privateKey:SecKey?
+        
+        if status == noErr {
+            
+            let resArray:Array = (items as Array?)!
+            let identityDict: Dictionary = resArray.first as! Dictionary<String, AnyObject>
+            let identity = identityDict[ kSecImportItemIdentity as String]
+//            let identityDict = CFArrayGetValueAtIndex(items, 0)
+//            let secImportItemIdentity = unsafeBitCast(kSecImportItemIdentity, to: UnsafeRawPointer.self)
+//            let identityApp:SecIdentity = CFDictionaryGetValue(identityDict.unsafelyUnwrapped as! CFDictionary, secImportItemIdentity) as! SecIdentity
+            status = SecIdentityCopyPrivateKey(identity as! SecIdentity, &privateKey)
+            if status == noErr {
+                self.privateSecKey = privateKey
+                 block(nil, self.privateSecKey)
+                return
+            }
+        }
+        block(NSError(domain: "load error", code: Int(status), userInfo: nil), nil)
+    }
+```
+
+* 3.使用RSA加密
+
+```objective-c
+@objc public func encrypt(source: NSString) -> NSString? {
+        
+        guard source.length > 0 && self.publicSecKey != nil else {
+            return ""
+        }
+        
+        let data: NSData = (source.data(using: String.Encoding.utf8.rawValue)! as NSData)
+        var resData:NSData? = nil
+        
+//        if #available(iOS 10.0, *) {
+//            var error: Unmanaged<CFError>?
+//            resData =  SecKeyCreateEncryptedData(self.publicSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &error)
+//
+//            print("res = \(String(describing: error?.takeUnretainedValue().localizedDescription))")
+//        } else
+        //{
+            // Fallback on earlier versions
+            
+        let blockLen =  SecKeyGetBlockSize(self.publicSecKey!)
+        var outBuf = [UInt8](repeating: 0, count: blockLen)
+        var outBufLen:Int = blockLen
+        
+        let status: OSStatus = SecKeyEncrypt(self.publicSecKey!, SecPadding.PKCS1, data.bytes.assumingMemoryBound(to: UInt8.self), data.length, &outBuf, &outBufLen)
+            
+        if status == noErr {
+            resData = NSData(bytes: outBuf, length: outBufLen)
+        }
+
+        if resData != nil {
+            
+            let resString = resData!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: NSData.Base64EncodingOptions.lineLength64Characters.rawValue))
+
+            return resString as NSString
+        }
+        
+        return nil
+    }
+
+```
+
+* 4.使用RSA解密
+
+```objective-c
+    @objc public func decrypt(source: NSString) -> NSString? {
+        
+        guard source.length > 0 && self.privateSecKey != nil else {
+            return ""
+        }
+        
+        let data: Data = (NSData(base64Encoded: (source as String), options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)! as Data)
+        
+        
+        let blockLen =  SecKeyGetBlockSize(self.privateSecKey!)
+        
+        let outBuf = UnsafeMutablePointer<UInt8>.allocate(capacity: blockLen)
+        
+        defer {
+            outBuf.deallocate()
+        }
+        
+        var outLen: Int = blockLen
+        var status: OSStatus = noErr
+        
+        var resData:NSData? = nil
+        
+//        if #available(iOS 10.0, *) {
+//            var error: Unmanaged<CFError>?
+//            resData =  SecKeyCreateDecryptedData(self.privateSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &error)
+//
+//            print("res = \(String(describing: error?.takeUnretainedValue().localizedDescription))")
+//        } else {
+//            // Fallback on earlier versions
+//            //let status = SecKeyEncrypt(seckey, SecPadding.PKCS1, chunkData, chunkData.count, outBuf, &encryptedDataLength)
+//
+//        }
+        
+        data.withUnsafeBytes { (bytes:UnsafePointer<UInt8>) -> Void in
+            status = SecKeyDecrypt(self.privateSecKey!, SecPadding.PKCS1, bytes, data.count, outBuf, &outLen)
+            
+            print("status = \(status)")
+        }
+        
+        if status == noErr {
+            resData = NSData(bytes: outBuf, length: outLen)
+        }
+        
+        if resData != nil  {
+            return String(data: (resData! as Data), encoding: String.Encoding.utf8) as NSString?
+        }
+        
+        return nil
+    }
+    
+```
+
+#### 二.问题。
+* 1.返回的为什么是NSString? 返回String也行
+* 2.为什么不支持超过128 - 11字节数据加解密？别急，见下一篇
+* 3.为什么不使用新版的RSA加解密？新版的只支持iOS10以上
+
+
+
+

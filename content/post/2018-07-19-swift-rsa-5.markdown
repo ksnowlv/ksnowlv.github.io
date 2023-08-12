@@ -1,0 +1,151 @@
+---
+title: "swift-RSA(五)-签名/验签"
+date: 2018-07-19
+categories:
+  - "swift-基础框架"
+tags:
+  - "swift-基础框架"
+---
+<!--more-->
+
+RSA支持加解密，也支持签名/验签。
+使用rsa如何签名/验签呢？
+
+#### 1.rsa 签名
+```objective-c
+    @objc public func sign(source: Data, padding: SecPadding = SecPadding.PKCS1SHA1) -> Data? {
+    
+        guard source.count > 0 && self.privateSecKey != nil else {
+            return nil
+        }
+        
+        let hashData: NSData?
+        
+        switch padding {
+        case SecPadding.PKCS1SHA1:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha1)
+            break
+        case SecPadding.PKCS1SHA224:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha224)
+            break
+            
+        case SecPadding.PKCS1SHA256:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha256)
+            break
+            
+        case SecPadding.PKCS1SHA384:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha384)
+            break
+            
+        case SecPadding.PKCS1SHA512:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha512)
+            break
+            
+        default:do {
+            print("not support this type sign!")
+            return nil
+            }
+        }
+    
+        let blockLen =  SecKeyGetBlockSize(self.privateSecKey!)
+        var outBuf = [UInt8](repeating: 0, count: blockLen)
+        var outBufLen:Int = blockLen
+        
+        let status: OSStatus = SecKeyRawSign(self.privateSecKey!, padding, hashData!.bytes.assumingMemoryBound(to: UInt8.self), hashData!.length, &outBuf, &outBufLen)
+        
+        if status == noErr {
+            return Data(bytes: outBuf, count: outBufLen)
+        }else{
+            print("sign status = \(status)")
+            return nil
+        }
+    }
+```
+##### 2.rsa 验签```objective-c
+@objc public func verify(source: Data, signData:Data,padding: SecPadding = SecPadding.PKCS1SHA1) -> Bool {
+        
+        guard source.count > 0 && signData.count > 0 && self.publicSecKey != nil else {
+            return false
+        }
+        
+        let hashData: NSData?
+        
+        switch padding {
+        case SecPadding.PKCS1SHA1:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha1)
+            break
+        case SecPadding.PKCS1SHA224:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha224)
+            break
+            
+        case SecPadding.PKCS1SHA256:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha256)
+            break
+            
+        case SecPadding.PKCS1SHA384:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha384)
+            break
+            
+        case SecPadding.PKCS1SHA512:
+            hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha512)
+            break
+            
+        default:do {
+            print("not support this type sign!")
+            return false
+            }
+        }
+        
+        let signBuf: UnsafePointer<UInt8> = (signData as NSData).bytes.assumingMemoryBound(to: UInt8.self)
+        
+        let blockLen =  SecKeyGetBlockSize(self.publicSecKey!)
+        
+        let status: OSStatus = SecKeyRawVerify(self.publicSecKey!,
+                                               padding,
+                                               hashData!.bytes.assumingMemoryBound(to: UInt8.self),
+                                               hashData!.length,
+                                               signBuf,
+                                               blockLen)
+        
+        if status == noErr {
+            return true
+        }else{
+            print("sign status = \(status)")
+        }
+        
+        return false
+    }
+
+```
+
+##### 3.调用
+```objective-c
+//原始数据
+        let originalString = "你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv"
+        
+        //let originalString = "123456helloworld"
+        let publicKeyPath:String =   Bundle.main.path(forResource: "public_key", ofType: "der")!
+        let privateKeyPath = Bundle.main.path(forResource: "private_key", ofType: "p12")
+        
+        print("publicKeyPath = \(publicKeyPath)")
+        print("privateKeyPath = \(String(describing: privateKeyPath))")
+        
+        let rsaSign:YKRSASign = YKRSASign()
+        rsaSign.publicKey(fileFullPath: publicKeyPath as NSString, block: {(_ error: NSError?, _ secKey:SecKey?) in
+        })
+        
+        rsaSign.privateKey(fileFullPath: privateKeyPath! as NSString, password: "", block: {(_ error: NSError?, _ secKey:SecKey?) in
+        })
+        
+        let originalData = originalString.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+        let signData = rsaSign.sign(source: originalData!, padding: SecPadding.PKCS1SHA512)
+        
+        let isVerify = rsaSign.verify(source: originalData!, signData: signData!, padding: SecPadding.PKCS1SHA512)
+        
+        if isVerify {
+            print("验证签名通过")
+        }else{
+            print("验证签名失败")
+        }
+
+```

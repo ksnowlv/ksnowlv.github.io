@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Swift的类-结构-协议-枚举 - ksnowlv</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Swift的类-结构-协议-枚举" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ksnow.github.io/post/2014-09-08-swift-de-lei-jie-gou-xie-yi-mei-ju/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2014-09-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-09-08T00:00:00+00:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="ksnowlv" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">ksnowlv</div>
+					<div class="logo__tagline">Just another site</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/getting-started/">
+				
+				<span class="menu__text">首页</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/archives/">
+				
+				<span class="menu__text">文章列表</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/faq/">
+				
+				<span class="menu__text">FAQ</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">关于</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Swift的类-结构-协议-枚举</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-09-08T00:00:00Z">September 08, 2014</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/swift/" rel="category">swift</a>
+	</span>
+</div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<p>现在主要体验swift类(创建，销毁，继承/派生)，结构体，协议，枚举等方面的使用.</p>
+<!-- raw HTML omitted -->
+<h4 id="1结构体和常量定义结构体定义其实与cc大体类似示例如下">1.结构体和常量定义。结构体定义其实与c/c++大体类似。示例如下:</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>let QMapPointZero:QMapPoint <span style="color:#f92672">=</span> QMapPoint(x:<span style="color:#ae81ff">0</span>,y:<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>let QMapSizeZero:QMapSize <span style="color:#f92672">=</span> QMapSize(width:<span style="color:#ae81ff">0</span>,height:<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> QMapPoint{
+</span></span><span style="display:flex;"><span>    var x:Int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    var y:Int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> QMapSize{
+</span></span><span style="display:flex;"><span>    var width:Int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    var height:Int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="2枚举定义和cc中差别比较大">2.枚举定义(和c/c++中差别比较大)。</h4>
+<p><code>swift</code>中，像类和其它类型命名类似，枚举可以拥有和它关联的方法。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> QMapType:Int{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QMapTypeNone
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QMapTypeNoraml
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QMapTypeStreetView
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QMapTypeTraffic
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func getMapType() <span style="color:#f92672">-&gt;</span>Int{
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> self{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> .QMapTypeNone:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> .QMapTypeNoraml:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> .QMapTypeStreetView:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> .QMapTypeTraffic:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>如果访问这些枚举变量，需要通过枚举名来访问。以上为例就是通过<code>QMapType.QMapTypeNoraml</code>访问，如果要访问枚举变量的值，可通过<code>getMapType</code>访问。</p>
+<h4 id="3关于协议接口与objetive-c类似不支持多继承同样需要通过protocol声明定义同样分为必选协议和可选协议但是swift中的协议可以有成员变量">3.关于协议/接口。与objetive-c类似，不支持多继承，同样需要通过<code>protocol</code>声明定义，同样，分为必选协议和可选协议。但是，swift中的协议可以有成员变量。</h4>
+<p>必选协议的声明</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>protocol ShapeInterface{
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//成员变量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    var className: String { get }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//协议默认属性为required
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    func draw();
+</span></span><span style="display:flex;"><span>    func description() <span style="color:#f92672">-&gt;</span> String
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>可选协议声明</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@objc protocol QMapViewInterface{
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//成员变量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    var className: String { get }
+</span></span><span style="display:flex;"><span>    func mapView(mapType:Int);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//协议默认属性为required
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    optional func <span style="color:#a6e22e">draw</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="4类的声明定义继承派生等与cobjective-c类似支持面向对象有构造初始化有析构支持继承派生">4.类的声明，定义，继承，派生等。与<strong>c++</strong>/<strong>objective-c</strong>类似，支持面向对象，有构造初始化，有析构，支持继承/派生。</h4>
+<p>我们声明shape类，继承<code>ShapeInterface</code>协议。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> Shape:ShapeInterface{
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    var className: String <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Shape&#34;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    var name:NSString;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//可以看作初始化函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    init(name:String){
+</span></span><span style="display:flex;"><span>        self.name <span style="color:#f92672">=</span> name;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//可以看作析构函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    deinit{
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Shape deinit&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func draw(){
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;shape name = \(name)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func description() <span style="color:#f92672">-&gt;</span> String {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> name;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func area() <span style="color:#f92672">-&gt;</span>Double {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func circumference() <span style="color:#f92672">-&gt;</span>Double{
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="5示例地图类和图形类-地图类相关">5.示例:地图类和图形类#### 地图类相关</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 地图坐标相关数据结构和常量定义
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>let QMapPointZero:QMapPoint <span style="color:#f92672">=</span> QMapPoint(x:<span style="color:#ae81ff">0</span>,y:<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>let QMapSizeZero:QMapSize <span style="color:#f92672">=</span> QMapSize(width:<span style="color:#ae81ff">0</span>,height:<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> QMapPoint{
+</span></span><span style="display:flex;"><span>    var x:Int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    var y:Int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> QMapSize{
+</span></span><span style="display:flex;"><span>    var width:Int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    var height:Int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> QMapRect{
+</span></span><span style="display:flex;"><span>    var point:QMapPoint <span style="color:#f92672">=</span> QMapPointZero;
+</span></span><span style="display:flex;"><span>    var size:QMapSize <span style="color:#f92672">=</span> QMapSizeZero;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">地图支持底图类型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">- QMapTypeNone:       初始化类型，无意义
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">- QMapTypeNoraml:     普通地图
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">- QMapTypeStreetView: 街景地图
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">- QMapTypeTraffic:    实时路况地图
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> QMapType:Int{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QMapTypeNone
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QMapTypeNoraml
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QMapTypeStreetView
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QMapTypeTraffic
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func getMapType() <span style="color:#f92672">-&gt;</span>Int{
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> self{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> .QMapTypeNone:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> .QMapTypeNoraml:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> .QMapTypeStreetView:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> .QMapTypeTraffic:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*  地图View,支持地图显示，拖拽等
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> QMapView{
+</span></span><span style="display:flex;"><span>    var mapType:QMapType <span style="color:#f92672">=</span> QMapType.QMapTypeNone;
+</span></span><span style="display:flex;"><span>    var mapRect:QMapRect;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    init(mapType:QMapType){
+</span></span><span style="display:flex;"><span>        self.mapType <span style="color:#f92672">=</span> mapType;
+</span></span><span style="display:flex;"><span>        self.mapRect <span style="color:#f92672">=</span> QMapRect()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func setMapRect(mapRect:QMapRect){
+</span></span><span style="display:flex;"><span>        self.mapRect <span style="color:#f92672">=</span> mapRect;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func getMapRect() <span style="color:#f92672">-&gt;</span> QMapRect{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> mapRect
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    deinit{
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;QMapView deinit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func draw(){
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;mapType = \(mapType.getMapType()) drawing</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*  地图协议，支持可选协议
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>@objc protocol QMapViewInterface{
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//成员变量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    var className: String { get }
+</span></span><span style="display:flex;"><span>    func mapView(mapType:Int);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//协议默认属性为required
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    optional func <span style="color:#a6e22e">draw</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>调用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>var mapView:QMapView <span style="color:#f92672">=</span> QMapView(mapType:QMapType.QMapTypeNoraml);      
+</span></span><span style="display:flex;"><span>var mapSize <span style="color:#f92672">=</span>  QMapSize(width: Int(self.view.frame.width), height:Int(self.view.frame.height));
+</span></span><span style="display:flex;"><span>mapView.setMapRect(QMapRect(point: QMapPointZero, size: mapSize));
+</span></span><span style="display:flex;"><span>mapView.draw();
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;mapView rect = {point = {\(mapView.mapRect.point.x),\(mapView.mapRect.point.y)},size = {\(mapView.mapRect.size.width),\(mapView.mapRect.size.height)}}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span></code></pre></div><p>日志输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>mapType <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> drawing
+</span></span><span style="display:flex;"><span>mapView rect <span style="color:#f92672">=</span> {point <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>},size <span style="color:#f92672">=</span> {<span style="color:#ae81ff">320</span>,<span style="color:#ae81ff">480</span>}}
+</span></span><span style="display:flex;"><span>QMapView deinit
+</span></span></code></pre></div><h4 id="图形类shape类族相关">图形类(Shape类族)相关</h4>
+<p>Shape类族
+<img src="/images/post/2014-09-08-swift-de-lei-jie-gou-xie-yi-mei-ju/shape_class.jpg" alt="image"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*  图形接口
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>protocol ShapeInterface{
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//成员变量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    var className: String { get }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//协议默认属性为required
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    func draw();
+</span></span><span style="display:flex;"><span>    func <span style="color:#a6e22e">description</span>() <span style="color:#f92672">-&gt;</span> String
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*  图形基类
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> Shape:ShapeInterface{
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    var className: String <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Shape&#34;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    var name:NSString;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//可以看作初始化函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    init(name:String){
+</span></span><span style="display:flex;"><span>        self.name <span style="color:#f92672">=</span> name;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//可以看作析构函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    deinit{
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Shape deinit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func draw(){
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;shape name = \(name)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func description() <span style="color:#f92672">-&gt;</span> String {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> name;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func area() <span style="color:#f92672">-&gt;</span>Double {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    func circumference() <span style="color:#f92672">-&gt;</span>Double{
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>let KPI:Double <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.14159265</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*  圆类
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> Circle :Shape{
+</span></span><span style="display:flex;"><span>    var center:Point;
+</span></span><span style="display:flex;"><span>    var radius:Double;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    init(name:String, center:Point, radius:Double){
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        self.center <span style="color:#f92672">=</span> center;
+</span></span><span style="display:flex;"><span>        self.radius <span style="color:#f92672">=</span> radius;
+</span></span><span style="display:flex;"><span>        super.init(name:name);
+</span></span><span style="display:flex;"><span>        super.className <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Circle&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    deinit{
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Circle deinit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    override func description() <span style="color:#f92672">-&gt;</span> String {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> name;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    override func area() <span style="color:#f92672">-&gt;</span>Double{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">3.14159265</span> <span style="color:#f92672">*</span> pow(self.radius,<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    override func circumference() <span style="color:#f92672">-&gt;</span>Double{
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> KPI <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> radius;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*  正方形类
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> Square: Shape{
+</span></span><span style="display:flex;"><span>    var _size:Double<span style="color:#f92672">!</span>;<span style="color:#75715e">//加!后，可以不用添加self._size方法在init方法super.init之前
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    init(name:String, size:Double){
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        super.init(name: name);
+</span></span><span style="display:flex;"><span>        super.className <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Square&#34;</span>;
+</span></span><span style="display:flex;"><span>        _size <span style="color:#f92672">=</span> size;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    deinit{
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Square deinit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    override func area() <span style="color:#f92672">-&gt;</span> Double {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> pow(_size, <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    override func circumference() <span style="color:#f92672">-&gt;</span> Double {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> _size;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>调用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>var shape:Shape <span style="color:#f92672">=</span> Shape(name: <span style="color:#e6db74">&#34;Shape&#34;</span>);
+</span></span><span style="display:flex;"><span>shape.draw();
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;className = \(shape.className) shape:{description = \(shape.description()), area = \(shape.area()), circumference = \(shape.circumference())}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>var circle:Circle <span style="color:#f92672">=</span> Circle(name: <span style="color:#e6db74">&#34;Circle&#34;</span>, center: Point(v: <span style="color:#ae81ff">10</span>, h: <span style="color:#ae81ff">20</span>), radius: <span style="color:#ae81ff">10.5</span>);
+</span></span><span style="display:flex;"><span>circle.draw();
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;className = \(circle.className) circle:{description = \(circle.description()), area = \(circle.area()), circumference = \(circle.circumference())}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>var square:Square <span style="color:#f92672">=</span> Square(name: <span style="color:#e6db74">&#34;Square&#34;</span>, size:<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>square.draw();
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;className = \(square.className) square:{description = \(square.description()), area = \(square.area()), circumference = \(square.circumference())}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span></code></pre></div><p>日志输出</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shape name <span style="color:#f92672">=</span> Shape
+</span></span><span style="display:flex;"><span>className <span style="color:#f92672">=</span> Shape shape:{description <span style="color:#f92672">=</span> Shape, area <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>, circumference <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>}
+</span></span><span style="display:flex;"><span>shape name <span style="color:#f92672">=</span> Circle
+</span></span><span style="display:flex;"><span>className <span style="color:#f92672">=</span> Circle circle:{description <span style="color:#f92672">=</span> Circle, area <span style="color:#f92672">=</span> <span style="color:#ae81ff">346.3605896625</span>, circumference <span style="color:#f92672">=</span> <span style="color:#ae81ff">65.97344565</span>}
+</span></span><span style="display:flex;"><span>shape name <span style="color:#f92672">=</span> Square
+</span></span><span style="display:flex;"><span>className <span style="color:#f92672">=</span> Square square:{description <span style="color:#f92672">=</span> Square, area <span style="color:#f92672">=</span> <span style="color:#ae81ff">16.0</span>, circumference <span style="color:#f92672">=</span> <span style="color:#ae81ff">16.0</span>}
+</span></span><span style="display:flex;"><span>Square deinit
+</span></span><span style="display:flex;"><span>Shape deinit
+</span></span><span style="display:flex;"><span>Circle deinit
+</span></span><span style="display:flex;"><span>Shape deinit
+</span></span><span style="display:flex;"><span>Shape deinit
+</span></span></code></pre></div><p>小结:</p>
+<ul>
+<li>1.派生类的初始化顺序，先初始化基类，再初始化自身；析构顺序和初始化顺序相反，</li>
+<li>2.对象的创建顺序和析构顺序是相反的。</li>
+<li>3.如果派生类在类的外部调用基类的同名函数，如何调用呢？
+与<strong>objective-c</strong>/<strong>python</strong>中的调用都不太一样。可以使用声明基类指针的方式。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   var squareShap:Shape <span style="color:#f92672">=</span> square;
+</span></span><span style="display:flex;"><span>   squareShap.draw();
+</span></span></code></pre></div><p>参考链接：<a href="http://stackoverflow.com/questions/24021093/error-in-swift-class-property-not-initialized-at-super-init-call/24150540#24150540">http://stackoverflow.com/questions/24021093/error-in-swift-class-property-not-initialized-at-super-init-call/24150540#24150540</a></p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/swift/" rel="tag">swift</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="John Doe avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About John Doe</span>
+	</div>
+	<div class="authorbox__description">
+		John Doe&rsquo;s true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it.
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">iOS同步对象性能对比</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/2014-09-08-swift-ui-kong-jian-chu-ti-yan/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">swift-UI-控件初体验</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://ksnow.github.io/">
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/docs/getting-started/">首页</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/archives/">文章列表</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/faq/">Frequently asked questions (FAQ)</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-11-26-iosshi-pin-bo-fang-avplayer/">iOS视频播放-AVPlayer和AVPlayerLayer</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/">XCode使用PMD扫描重复代码（一）</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-05-22-flutter-cannot-create-a-project-within-the-flutter-sdk/">flutter创建工程报错:Cannot create a project within the Flutter SDK. Target directory &#39;x&#39; is within the Flutter SDK at&#39;/Users/x/Music/flutter/flutter&#39;</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-05-22-flutteran-zhuang-he-yun-xing/">flutter安装和运行</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-05-16-swiftfan-xing/">swift泛型</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android-jni/">Android-jni</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android-%E5%85%B6%E5%AE%83/">Android-其它</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Android-多线程</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android-%E7%BD%91%E7%BB%9C/">Android-网络</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/c&#43;&#43;/">C&#43;&#43;</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/flutter/">flutter</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/git/">git</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/github-%E5%8D%9A%E5%AE%A2/">github-博客</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/go/">go</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-opengl/">iOS-OpenGL</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-ui/">iOS-UI</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E4%BC%98%E5%8C%96/">iOS-优化</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E5%86%85%E5%AD%98/">iOS-内存</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E5%9F%BA%E7%A1%80/">iOS-基础</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">iOS-多线程</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E5%AD%98%E5%82%A8/">iOS-存储</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E7%BD%91%E7%BB%9C/">iOS-网络</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">iOS-设计模式</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios%E5%AE%A1%E6%A0%B8/">iOS审核</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/java%E5%90%8E%E5%8F%B0/">java后台</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/kotlin/">Kotlin</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/mac/">Mac</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/nginx/">nginx</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/php/">php</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python%E5%B0%8F%E5%B7%A5%E5%85%B7/">Python小工具</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift/">swift</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift-%E5%9F%BA%E7%A1%80/">swift-基础</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift-%E5%9F%BA%E7%A1%80%E6%A1%86%E6%9E%B6/">swift-基础框架</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">swift-基础知识</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift-%E8%A7%86%E9%A2%91/">swift-视频</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/symbian-%E8%A7%A3%E5%8E%8B%E7%BC%A9/">symbian-解压缩</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/uml/">UML</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/xcode/">xcode</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">产品设计</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E4%BC%98%E5%8C%96/">优化</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%AE%89%E5%85%A8/">安全</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/">生活片段</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/">职业生涯</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/android-jni/" title="Android-jni">Android-jni</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/android-%E5%85%B6%E5%AE%83/" title="Android-其它">Android-其它</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/android-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Android-多线程">Android-多线程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/android-%E7%BD%91%E7%BB%9C/" title="Android-网络">Android-网络</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/c&#43;&#43;/" title="C&#43;&#43;">C&#43;&#43;</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flutter/" title="flutter">flutter</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/git/" title="git">git</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/github-%E5%8D%9A%E5%AE%A2/" title="github-博客">github-博客</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/installation/" title="Installation">Installation</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-opengl/" title="iOS-OpenGL">iOS-OpenGL</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-ui/" title="iOS-UI">iOS-UI</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E4%BC%98%E5%8C%96/" title="iOS-优化">iOS-优化</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E5%86%85%E5%AD%98/" title="iOS-内存">iOS-内存</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E5%9F%BA%E7%A1%80/" title="iOS-基础">iOS-基础</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="iOS-多线程">iOS-多线程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E5%AD%98%E5%82%A8/" title="iOS-存储">iOS-存储</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E7%BD%91%E7%BB%9C/" title="iOS-网络">iOS-网络</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="iOS-设计模式">iOS-设计模式</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios%E5%AE%A1%E6%A0%B8/" title="iOS审核">iOS审核</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java%E5%90%8E%E5%8F%B0/" title="java后台">java后台</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kotlin/" title="Kotlin">Kotlin</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="Mac">Mac</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/php/" title="php">php</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python%E5%B0%8F%E5%B7%A5%E5%85%B7/" title="Python小工具">Python小工具</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift/" title="swift">swift</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift-%E5%9F%BA%E7%A1%80/" title="swift-基础">swift-基础</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift-%E5%9F%BA%E7%A1%80%E6%A1%86%E6%9E%B6/" title="swift-基础框架">swift-基础框架</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="swift-基础知识">swift-基础知识</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift-%E8%A7%86%E9%A2%91/" title="swift-视频">swift-视频</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/symbian-%E8%A7%A3%E5%8E%8B%E7%BC%A9/" title="symbian-解压缩">symbian-解压缩</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/uml/" title="UML">UML</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xcode/" title="xcode">xcode</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/" title="产品设计">产品设计</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BC%98%E5%8C%96/" title="优化">优化</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%AE%89%E5%85%A8/" title="安全">安全</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" title="投资理财">投资理财</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" title="数据库">数据库</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/" title="生活片段">生活片段</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="算法与数据结构">算法与数据结构</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C/" title="网络">网络</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/" title="职业生涯">职业生涯</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AF%BB%E4%B9%A6/" title="读书">读书</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2023 ksnowlv.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

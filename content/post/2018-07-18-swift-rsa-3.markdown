@@ -1,0 +1,159 @@
+---
+title: "swift-rsa(三)-大数据块加解密"
+date: 2018-07-18
+categories:
+  - "swift-基础框架"
+tags:
+  - "swift-基础框架"
+---
+<!--more-->
+
+如何使用swift进行RSA大数据块加解密呢？
+
+
+##### 1.使用RSA加密```objective-c
+ @objc public func encrypt(source: String) -> String {
+        
+        guard source.count > 0 && self.publicSecKey != nil else {
+            return ""
+        }
+        
+        let data: NSData = (source.data(using: String.Encoding.utf8)! as NSData)
+        
+ /*       if #available(iOS 10.0, *) {
+            var error: Unmanaged<CFError>?
+            resData =  SecKeyCreateEncryptedData(self.publicSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &error)
+
+            print("res = \(String(describing: error?.takeUnretainedValue().localizedDescription))")
+        }
+*/
+        // Fallback on earlier versions
+        let blockLen =  SecKeyGetBlockSize(self.publicSecKey!)
+        var outBuf = [UInt8](repeating: 0, count: blockLen)
+        var outBufLen:Int = blockLen
+        
+        var index = 0
+        let totalLen = data.length
+        
+        let resData = NSMutableData()
+        
+        while index < totalLen {
+            var curDataLen = totalLen - index;
+            if curDataLen  > blockLen - 11 {
+                curDataLen = blockLen - 11;
+            }
+            
+            let curData: NSData = (data.subdata(with: NSMakeRange(index, curDataLen)) as NSData)
+            
+            let status: OSStatus = SecKeyEncrypt(self.publicSecKey!, SecPadding.PKCS1, curData.bytes.assumingMemoryBound(to: UInt8.self), curData.length, &outBuf, &outBufLen)
+            
+            if status == noErr {
+                resData.append(outBuf, length: outBufLen)
+            }else{
+                print("encrypt status = \(status)")
+            }
+            
+            index += curDataLen
+        }
+        
+        //base64 encode
+        return resData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: NSData.Base64EncodingOptions.lineLength64Characters.rawValue))
+    }
+
+```
+
+##### 2.使用RSA解密```objective-c
+@objc public func decrypt(source: String) -> String {
+        
+        guard source.count > 0 && self.privateSecKey != nil else {
+            return ""
+        }
+        
+        //base64 decode
+        let data: Data = (NSData(base64Encoded: (source as String), options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)! as Data)
+        
+        let blockLen =  SecKeyGetBlockSize(self.privateSecKey!)
+        let outBuf = UnsafeMutablePointer<UInt8>.allocate(capacity: blockLen)
+        defer {
+            outBuf.deallocate()
+        }
+        
+        var outBufLen: Int = blockLen
+        
+//        if #available(iOS 10.0, *) {
+//            var error: Unmanaged<CFError>?
+//            resData =  SecKeyCreateDecryptedData(self.privateSecKey!, SecKeyAlgorithm.rsaEncryptionPKCS1, data as CFData, &error)
+//
+//            print("res = \(String(describing: error?.takeUnretainedValue().localizedDescription))")
+//        } else {
+//            // Fallback on earlier versions
+//            //let status = SecKeyEncrypt(seckey, SecPadding.PKCS1, chunkData, chunkData.count, outBuf, &encryptedDataLength)
+//
+//        }
+        
+
+        var index = 0
+        let totalLen = data.count
+        
+        let resData = NSMutableData()
+        
+        while index < totalLen {
+            var curDataLen = totalLen - index;
+            if curDataLen  > blockLen {
+                curDataLen = blockLen;
+            }
+            
+            let curData: Data = data.subdata(in: index ..< index + curDataLen)
+            
+            var status:OSStatus = noErr
+            curData.withUnsafeBytes { (bytes: UnsafePointer<UInt8>) in
+                 status = SecKeyDecrypt(self.privateSecKey!, SecPadding.PKCS1, bytes, curData.count, outBuf, &outBufLen)
+            }
+            
+            if status == noErr {
+                resData.append(outBuf, length: outBufLen)
+            }else{
+                print("decrypt status = \(status)")
+            }
+            
+            index += curDataLen
+        }
+
+        return String(data: (resData as Data), encoding: String.Encoding.utf8)!
+    }
+
+```
+
+##### 3.调用及输出
+* 调用
+
+```objective-c
+	let originalString = "你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv"
+ 
+      let rsaSign: YKRSASign = YKRSASign()
+        rsaSign.publicKey(fileFullPath: publicKeyPath as NSString, block: {(_ error: NSError?, _ secKey:SecKey?) in
+        })
+        
+        rsaSign.privateKey(fileFullPath: privateKeyPath! as NSString, password: "", block: {(_ error: NSError?, _ secKey:SecKey?) in
+        })
+        
+        let enString = rsaSign.encrypt(source: originalString)
+        print("enString = \(enString)")
+        
+        let deString = rsaSign.decrypt(source: enString)
+        print("deString = \(deString)")
+```
+
+* 日志
+
+```objective-c
+publicKeyPath = /Users/ksnowlv/Library/Developer/CoreSimulator/Devices/77E5D278-4788-499F-9B82-76BE66DA4676/data/Containers/Bundle/Application/2BD97FF3-B55D-4556-8232-888D0D858AD2/YKBaseSwiftFramework.app/public_key.der
+privateKeyPath = Optional("/Users/ksnowlv/Library/Developer/CoreSimulator/Devices/77E5D278-4788-499F-9B82-76BE66DA4676/data/Containers/Bundle/Application/2BD97FF3-B55D-4556-8232-888D0D858AD2/YKBaseSwiftFramework.app/private_key.p12")
+enString = HEP0mejSvIfOi4V0uziYNogUStMYG01DmIK25TDR340cc5snt4LGlkNVdGLRb0hP
+aCMbKkgDKp1g+NNpaOF6FO2hongUcsDbwoPZ2Vl6ZHSFi1FGvv5vdUJ7ZGbLivS2
+UTU+178ue//jW64fw4ujrH/OPvbSfBo4c65G9USbGkcWfSfGtWruWz3f7xFreq8Y
+N+54y0XNA2GLw0S3N1Z3uQUZWqCCgPEYVCAW/w3BiGAKzrv+nby0yWXyLXbAdJEl
+QvlLHGrdeS2i1J448s+/01UQ2MP9qDSlxJ+4GqE7/x3HEYlF/ZmukSsAzsk4xACG
+4A+6YqgamtflnNdS3Eob6Q==
+deString = 你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv
+```

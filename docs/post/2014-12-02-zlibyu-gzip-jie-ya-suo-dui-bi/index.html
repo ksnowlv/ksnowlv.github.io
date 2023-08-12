@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ZLib与GZip解压缩对比 - ksnowlv</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="ZLib与GZip解压缩对比" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ksnow.github.io/post/2014-12-02-zlibyu-gzip-jie-ya-suo-dui-bi/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2014-12-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-12-02T00:00:00+00:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="ksnowlv" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">ksnowlv</div>
+					<div class="logo__tagline">Just another site</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/getting-started/">
+				
+				<span class="menu__text">首页</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/archives/">
+				
+				<span class="menu__text">文章列表</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/faq/">
+				
+				<span class="menu__text">FAQ</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">关于</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">ZLib与GZip解压缩对比</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-12-02T00:00:00Z">December 02, 2014</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/ios-%E7%BD%91%E7%BB%9C/" rel="category">iOS-网络</a>
+	</span>
+</div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<h3 id="1zlib与gzip解压缩----zlib库默认解压缩方法并非gzip解压缩而是zlib的">1.ZLib与GZip解压缩    ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。</h3>
+<pre><code>zlib(RFC1950):一种格式，是对deflate进行了简单的封装； 
+gzip(RFC1952):一种格式，也是对deflate进行的封装.
+gzip与GZip是一种数据压缩格式，可以大体分为头部，数据部和尾部三个部分
+gzip数据头比zlib数据头要大，因为它保存了文件名和其他文件系统信息，事实上这是广泛使用的gzip文件的数据头格式。
+而zlib和gzip格式的区别仅仅是头部和尾部不一样，而实际的内容都是deflate编码的，即： gzip = gzip头(10字节) + deflate编码的实际内容 + gzip尾(8字节)
+</code></pre>
+<!-- raw HTML omitted -->
+<h3 id="zlib头部0x780x9c-是zlib数据头非固定参考rfc-1951或者0x00x00xff0xff也可以实现正常解压缩而00-00-ff-ff是zlib容错方式的数据块头">ZLib头部0x78,0x9c 是zlib数据头(非固定，参考RFC 1951)。或者0x0,0x0,0xFF,0xFF也可以实现正常解压缩，而00 00 FF FF是zlib容错方式的数据块头</h3>
+<h4 id="gzip头部第一个字节0x1f31第二个字节为0x8b139标识为gzip格式第三个字节为0x088指示deflate方法目前只有一种cm8">GZip头部：第一个字节0x1f(31),第二个字节为0x8b(139),标识为GZIP格式。第三个字节为0x08(8)，指示DEFLATE方法.目前只有一种，CM=8;</h4>
+<h4 id="gzip尾部crc324字节原始未压缩数据的32位校验和">GZip尾部：CRC32：4字节。原始(未压缩)数据的32位校验和。</h4>
+<p>ISIZE：4字节。原始(未压缩)数据的长度的低32位。
+GZIP中字节排列顺序是LSB方式，即Little-Endian，与ZLIB中的相反</p>
+<h3 id="2objective-c版本的zlib与gzip解压缩-zlib压缩objective-c">2.objective-c版本的ZLib与GZip解压缩#### ZLib压缩```objective-c</h3>
+<ul>
+<li>
+<p>(NSData *)zlibCompressData:(NSData *)sourceData {</p>
+<p>NSUInteger sourceDataLength = [sourceData length];</p>
+<p>if (sourceDataLength == 0) {
+return sourceData;
+}</p>
+<p>z_stream stream;
+memset(&amp;stream, 0, sizeof(z_stream));</p>
+<p>stream.next_in = (Bytef *)[sourceData bytes];
+stream.avail_in = (uInt)sourceDataLength;
+stream.total_out = 0;
+stream.zalloc = Z_NULL;
+stream.zfree = Z_NULL;</p>
+<p>if (deflateInit(&amp;stream, Z_DEFAULT_COMPRESSION) != Z_OK) {
+return nil;
+}</p>
+<p>const int KBufLen = 1024;
+Byte buf[KBufLen];
+memset(buf, 0, KBufLen * sizeof(Byte));</p>
+<p>BOOL isCompressOK = NO;</p>
+<p>NSMutableData *compressedData =
+[NSMutableData dataWithLength:sourceDataLength];
+[compressedData setData:nil]; //必须得加</p>
+<p>int res = 0;</p>
+<p>while (stream.avail_out == 0) {</p>
+<p>memset(buf, 0, KBufLen * sizeof(Byte));
+stream.avail_out = KBufLen;
+stream.next_out = buf;</p>
+<p>res = deflate(&amp;stream, Z_FINISH);
+;</p>
+<p>switch (res) {
+case Z_NEED_DICT:
+case Z_DATA_ERROR:
+case Z_MEM_ERROR:
+case Z_STREAM_ERROR:
+case Z_BUF_ERROR: {
+isCompressOK = NO;
+break;
+}</p>
+<p>default: {
+if (res == Z_OK || res == Z_STREAM_END) {
+const int dataLen = KBufLen - stream.avail_out;
+isCompressOK = YES;</p>
+<pre><code>  if (dataLen &gt; 0) {
+    [compressedData appendBytes:buf length:dataLen];
+  }
+}
+
+break;
+</code></pre>
+<p>}
+}</p>
+<p>if (!isCompressOK) {
+break;
+}
+}</p>
+<p>res = deflateEnd(&amp;stream);
+if (res != Z_OK) {
+return nil;
+}</p>
+<p>if (isCompressOK) {
+return compressedData;
+} else {
+return nil;
+}
+}</p>
+</li>
+</ul>
+<pre tabindex="0"><code>
+#### ZLib解压```objective-c
++ (NSData *)zlibUncompressData:(NSData *)sourceData {
+
+  NSUInteger sourceDataLength = [sourceData length];
+
+  if (sourceDataLength == 0) {
+    return sourceData;
+  }
+
+  z_stream stream;
+  memset(&amp;stream, 0, sizeof(z_stream));
+
+  stream.next_in = (Bytef *)[sourceData bytes];
+  stream.avail_in = (uInt)sourceDataLength;
+  stream.total_out = 0;
+  stream.zalloc = Z_NULL;
+  stream.zfree = Z_NULL;
+
+  int res = inflateInit(&amp;stream);
+  // inflateInit2(&amp;strm, (15+32))
+
+  if (res != Z_OK) {
+    return nil;
+  }
+
+  const int KBufLen = 1024;
+  Byte buf[KBufLen];
+  memset(buf, 0, KBufLen * sizeof(Byte));
+
+  BOOL isUncompressOK = NO;
+
+  NSMutableData *decompressed = [NSMutableData dataWithLength:sourceDataLength];
+  [decompressed setData:nil]; //必须得加
+
+  while (stream.avail_out == 0) {
+
+    memset(buf, 0, KBufLen * sizeof(Byte));
+    stream.avail_out = KBufLen;
+    stream.next_out = buf;
+
+    res = inflate(&amp;stream, Z_NO_FLUSH);
+
+    switch (res) {
+    case Z_NEED_DICT:
+    case Z_DATA_ERROR:
+    case Z_MEM_ERROR:
+    case Z_STREAM_ERROR:
+    case Z_BUF_ERROR: {
+      isUncompressOK = NO;
+      break;
+    }
+
+    default: {
+      if (res == Z_OK || res == Z_STREAM_END) {
+        const int dataLen = KBufLen - stream.avail_out;
+        isUncompressOK = YES;
+
+        if (dataLen &gt; 0) {
+          [decompressed appendBytes:buf length:dataLen];
+        }
+      }
+
+      break;
+    }
+    }
+
+    if (!isUncompressOK) {
+      break;
+    }
+  }
+
+  if (inflateEnd(&amp;stream) != Z_OK) {
+    return nil;
+  }
+
+  if (isUncompressOK) {
+    return decompressed;
+  } else {
+    return nil;
+  }
+}
+</code></pre><h4 id="gzip压缩objective-c">GZip压缩```objective-c</h4>
+<ul>
+<li>
+<p>(NSData *)gzipCompress:(NSData *)sourceData {</p>
+<p>NSUInteger sourceDataLength = [sourceData length];</p>
+<p>if (sourceDataLength == 0) {
+return sourceData;
+}</p>
+<p>z_stream stream;
+memset(&amp;stream, 0, sizeof(z_stream));</p>
+<p>stream.next_in = (Bytef *)[sourceData bytes];
+stream.avail_in = (uInt)sourceDataLength;
+stream.total_out = 0;
+stream.zalloc = Z_NULL;
+stream.zfree = Z_NULL;</p>
+<p>//只有设置为MAX_WBITS + 16才能在在压缩文本中带header和trailer
+if (deflateInit2(&amp;stream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, MAX_WBITS + 16,
+8, Z_DEFAULT_STRATEGY) != Z_OK) {
+return nil;
+}</p>
+<p>const int KBufLen = 1024;
+Byte buf[KBufLen];
+memset(buf, 0, KBufLen * sizeof(Byte));</p>
+<p>BOOL isCompressOK = NO;</p>
+<p>NSMutableData *compressedData =
+[NSMutableData dataWithLength:sourceDataLength];
+[compressedData setData:nil]; //必须得加</p>
+<p>int res = 0;</p>
+<p>while (stream.avail_out == 0) {</p>
+<p>memset(buf, 0, KBufLen * sizeof(Byte));
+stream.avail_out = KBufLen;
+stream.next_out = buf;</p>
+<p>res = deflate(&amp;stream, Z_FINISH);
+;</p>
+<p>switch (res) {
+case Z_NEED_DICT:
+case Z_DATA_ERROR:
+case Z_MEM_ERROR:
+case Z_STREAM_ERROR:
+case Z_BUF_ERROR: {
+isCompressOK = NO;
+break;
+}</p>
+<p>default: {
+if (res == Z_OK || res == Z_STREAM_END) {
+const int dataLen = KBufLen - stream.avail_out;
+isCompressOK = YES;</p>
+<pre><code>  if (dataLen &gt; 0) {
+    [compressedData appendBytes:buf length:dataLen];
+  }
+}
+
+break;
+</code></pre>
+<p>}
+}</p>
+<p>if (!isCompressOK) {
+break;
+}
+}</p>
+<p>res = deflateEnd(&amp;stream);
+if (res != Z_OK) {
+return nil;
+}</p>
+<p>if (isCompressOK) {
+return compressedData;
+} else {
+return nil;
+}
+}</p>
+</li>
+</ul>
+<pre tabindex="0"><code>
+
+#### GZip解压```objective-c
++ (NSData *)gzipUncompress:(NSData *)sourceData {
+
+  NSUInteger sourceDataLength = [sourceData length];
+
+  if (sourceDataLength == 0) {
+    return sourceData;
+  }
+
+  z_stream stream;
+  memset(&amp;stream, 0, sizeof(z_stream));
+
+  stream.next_in = (Bytef *)[sourceData bytes];
+  stream.avail_in = (uInt)sourceDataLength;
+  stream.total_out = 0;
+  stream.zalloc = Z_NULL;
+  stream.zfree = Z_NULL;
+
+  int res = inflateInit2(&amp;stream, MAX_WBITS + 16);
+  // inflateInit2(&amp;strm, (15+32))
+  //只有设置为MAX_WBITS + 16才能在解压带header和trailer的文本
+
+  if (res != Z_OK) {
+    return nil;
+  }
+
+  const int KBufLen = 1024;
+  Byte buf[KBufLen];
+  memset(buf, 0, KBufLen * sizeof(Byte));
+
+  BOOL isUncompressOK = NO;
+
+  NSMutableData *decompressed = [NSMutableData dataWithLength:sourceDataLength];
+  [decompressed setData:nil]; //必须得加
+
+  while (stream.avail_out == 0) {
+
+    memset(buf, 0, KBufLen * sizeof(Byte));
+    stream.avail_out = KBufLen;
+    stream.next_out = buf;
+
+    res = inflate(&amp;stream, Z_SYNC_FLUSH);
+
+    switch (res) {
+    case Z_NEED_DICT:
+    case Z_DATA_ERROR:
+    case Z_MEM_ERROR:
+    case Z_STREAM_ERROR:
+    case Z_BUF_ERROR: {
+      isUncompressOK = NO;
+      break;
+    }
+
+    default: {
+      if (res == Z_OK || res == Z_STREAM_END) {
+        const int dataLen = KBufLen - stream.avail_out;
+        isUncompressOK = YES;
+
+        if (dataLen &gt; 0) {
+          [decompressed appendBytes:buf length:dataLen];
+        }
+      }
+
+      break;
+    }
+    }
+
+    if (!isUncompressOK) {
+      break;
+    }
+  }
+
+  if (inflateEnd(&amp;stream) != Z_OK) {
+    return nil;
+  }
+
+  if (isUncompressOK) {
+    return decompressed;
+  } else {
+    return nil;
+  }
+}
+</code></pre><h3 id="3代码示例">3.代码示例</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>NSString<span style="color:#f92672">*</span> hello <span style="color:#f92672">=</span> <span style="color:#e6db74">@&#34;helloabc123&#34;</span>;
+</span></span><span style="display:flex;"><span>    NSData <span style="color:#f92672">*</span>helloData <span style="color:#f92672">=</span> [NSData dataWithBytes:hello.UTF8String length:[hello lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>NSData <span style="color:#f92672">*</span>compressData <span style="color:#f92672">=</span> [CommonFuctions zlibCompressData:helloData];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>NSData <span style="color:#f92672">*</span>unCompressData <span style="color:#f92672">=</span> [CommonFuctions zlibUncompressData:compressData];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>NSString<span style="color:#f92672">*</span> string <span style="color:#f92672">=</span> [[NSString alloc] initWithData:unCompressData encoding:NSUTF8StringEncoding];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>NSLog(<span style="color:#e6db74">@&#34;Zlib compressData Length = %lu compressData = %@&#34;</span>, (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span>)compressData.length,[compressData description]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>NSData <span style="color:#f92672">*</span>compressDataGZip <span style="color:#f92672">=</span> [CommonFuctions gzipCompress:helloData];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>NSData <span style="color:#f92672">*</span>uncompressDataGZip <span style="color:#f92672">=</span> [CommonFuctions gzipUncompress:compressDataGZip];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>NSString<span style="color:#f92672">*</span> stringRes <span style="color:#f92672">=</span> [[NSString alloc] initWithData:uncompressDataGZip encoding:NSUTF8StringEncoding];;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>NSLog(<span style="color:#e6db74">@&#34;GZip compressData Length = %lu compressData = %@&#34;</span>, (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span>)compressDataGZip.length,[compressDataGZip description]);
+</span></span><span style="display:flex;"><span>    
+</span></span></code></pre></div><h3 id="4日志输出">4.日志输出：</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#ae81ff">2014</span><span style="color:#f92672">-</span><span style="color:#ae81ff">12</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span> <span style="color:#ae81ff">21</span><span style="color:#f92672">:</span><span style="color:#ae81ff">14</span><span style="color:#f92672">:</span><span style="color:#ae81ff">20.946</span> ZlibGZipTest[<span style="color:#ae81ff">14417</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4245959</span>] Zlib compressData Length <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span> compressData <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span><span style="color:#ae81ff">789</span>ccb48 cdc9c94f <span style="color:#ae81ff">4</span>c4a3634 <span style="color:#ae81ff">32060019</span> <span style="color:#ae81ff">9003</span>d1<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2014</span><span style="color:#f92672">-</span><span style="color:#ae81ff">12</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span> <span style="color:#ae81ff">21</span><span style="color:#f92672">:</span><span style="color:#ae81ff">14</span><span style="color:#f92672">:</span><span style="color:#ae81ff">24.142</span> ZlibGZipTest[<span style="color:#ae81ff">14417</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4245959</span>] GZip compressData Length <span style="color:#f92672">=</span> <span style="color:#ae81ff">31</span> compressData <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1f</span><span style="color:#ae81ff">8</span>b0800 <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0003</span>cb48 cdc9c94f <span style="color:#ae81ff">4</span>c4a3634 <span style="color:#ae81ff">32060012</span> e873880b <span style="color:#ae81ff">000000</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>(lldb) 
+</span></span></code></pre></div><h3 id="5结论-1zlib默认压缩后比gzip小一点-2zlib与gzip头尾对比">5.结论#### 1.zlib默认压缩后比gzip小一点。#### 2.zlib与gzip头尾对比。</h3>
+<ul>
+<li><strong>zlib头</strong>：789ccb48  <strong>zlib尾</strong>：32060019 9003d1</li>
+<li><strong>gzip头</strong>：1f8b0800 00000000 0003cb48 <strong>gzip尾</strong>：32060012 e873880b 000000</li>
+</ul>
+<p>两者相比差12个字节。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ios-%E7%BD%91%E7%BB%9C/" rel="tag">iOS-网络</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="John Doe avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About John Doe</span>
+	</div>
+	<div class="authorbox__description">
+		John Doe&rsquo;s true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it.
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/2014-11-20-ios8-zhong-de-spdy-shi-yong/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">iOS8中的spdy使用</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/2014-12-03-zu-zhi-wen-jian-bei-ituneshe-icloudtong-bu/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">阻止文件被iTunes和iCloud同步</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://ksnow.github.io/">
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/docs/getting-started/">首页</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/archives/">文章列表</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/faq/">Frequently asked questions (FAQ)</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-11-26-iosshi-pin-bo-fang-avplayer/">iOS视频播放-AVPlayer和AVPlayerLayer</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/">XCode使用PMD扫描重复代码（一）</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-05-22-flutter-cannot-create-a-project-within-the-flutter-sdk/">flutter创建工程报错:Cannot create a project within the Flutter SDK. Target directory &#39;x&#39; is within the Flutter SDK at&#39;/Users/x/Music/flutter/flutter&#39;</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-05-22-flutteran-zhuang-he-yun-xing/">flutter安装和运行</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-05-16-swiftfan-xing/">swift泛型</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android-jni/">Android-jni</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android-%E5%85%B6%E5%AE%83/">Android-其它</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Android-多线程</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android-%E7%BD%91%E7%BB%9C/">Android-网络</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/c&#43;&#43;/">C&#43;&#43;</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/flutter/">flutter</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/git/">git</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/github-%E5%8D%9A%E5%AE%A2/">github-博客</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/go/">go</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-opengl/">iOS-OpenGL</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-ui/">iOS-UI</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E4%BC%98%E5%8C%96/">iOS-优化</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E5%86%85%E5%AD%98/">iOS-内存</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E5%9F%BA%E7%A1%80/">iOS-基础</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">iOS-多线程</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E5%AD%98%E5%82%A8/">iOS-存储</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E7%BD%91%E7%BB%9C/">iOS-网络</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">iOS-设计模式</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios%E5%AE%A1%E6%A0%B8/">iOS审核</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/java%E5%90%8E%E5%8F%B0/">java后台</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/kotlin/">Kotlin</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/mac/">Mac</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/nginx/">nginx</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/php/">php</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python%E5%B0%8F%E5%B7%A5%E5%85%B7/">Python小工具</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift/">swift</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift-%E5%9F%BA%E7%A1%80/">swift-基础</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift-%E5%9F%BA%E7%A1%80%E6%A1%86%E6%9E%B6/">swift-基础框架</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">swift-基础知识</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift-%E8%A7%86%E9%A2%91/">swift-视频</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/symbian-%E8%A7%A3%E5%8E%8B%E7%BC%A9/">symbian-解压缩</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/uml/">UML</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/xcode/">xcode</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/">产品设计</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E4%BC%98%E5%8C%96/">优化</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%AE%89%E5%85%A8/">安全</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/">生活片段</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/">职业生涯</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/android-jni/" title="Android-jni">Android-jni</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/android-%E5%85%B6%E5%AE%83/" title="Android-其它">Android-其它</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/android-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Android-多线程">Android-多线程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/android-%E7%BD%91%E7%BB%9C/" title="Android-网络">Android-网络</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/c&#43;&#43;/" title="C&#43;&#43;">C&#43;&#43;</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flutter/" title="flutter">flutter</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/git/" title="git">git</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/github-%E5%8D%9A%E5%AE%A2/" title="github-博客">github-博客</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/installation/" title="Installation">Installation</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-opengl/" title="iOS-OpenGL">iOS-OpenGL</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-ui/" title="iOS-UI">iOS-UI</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E4%BC%98%E5%8C%96/" title="iOS-优化">iOS-优化</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E5%86%85%E5%AD%98/" title="iOS-内存">iOS-内存</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E5%9F%BA%E7%A1%80/" title="iOS-基础">iOS-基础</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="iOS-多线程">iOS-多线程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E5%AD%98%E5%82%A8/" title="iOS-存储">iOS-存储</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E7%BD%91%E7%BB%9C/" title="iOS-网络">iOS-网络</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="iOS-设计模式">iOS-设计模式</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios%E5%AE%A1%E6%A0%B8/" title="iOS审核">iOS审核</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java%E5%90%8E%E5%8F%B0/" title="java后台">java后台</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kotlin/" title="Kotlin">Kotlin</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="Mac">Mac</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/php/" title="php">php</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python%E5%B0%8F%E5%B7%A5%E5%85%B7/" title="Python小工具">Python小工具</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift/" title="swift">swift</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift-%E5%9F%BA%E7%A1%80/" title="swift-基础">swift-基础</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift-%E5%9F%BA%E7%A1%80%E6%A1%86%E6%9E%B6/" title="swift-基础框架">swift-基础框架</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="swift-基础知识">swift-基础知识</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift-%E8%A7%86%E9%A2%91/" title="swift-视频">swift-视频</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/symbian-%E8%A7%A3%E5%8E%8B%E7%BC%A9/" title="symbian-解压缩">symbian-解压缩</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/uml/" title="UML">UML</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xcode/" title="xcode">xcode</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1/" title="产品设计">产品设计</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BC%98%E5%8C%96/" title="优化">优化</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%AE%89%E5%85%A8/" title="安全">安全</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%B7%A5%E5%85%B7/" title="工具">工具</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" title="投资理财">投资理财</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" title="数据库">数据库</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/" title="生活片段">生活片段</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="算法与数据结构">算法与数据结构</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C/" title="网络">网络</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/" title="职业生涯">职业生涯</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AF%BB%E4%B9%A6/" title="读书">读书</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2023 ksnowlv.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
