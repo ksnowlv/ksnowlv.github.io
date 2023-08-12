@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>swift自动引用计数 - </title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="swift自动引用计数" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ksnowlv.github.io/post/2014-09-12-swift-zi-dong-yin-yong-ji-shu/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2014-09-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-09-12T00:00:00+00:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="ksnowlv的技术笔记" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">ksnowlv的技术笔记</div>
+					<div class="logo__tagline">立足现在,铭记当下</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/getting-started/">
+				
+				<span class="menu__text">首页</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/archives/">
+				
+				<span class="menu__text">文章列表</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/faq/">
+				
+				<span class="menu__text">FAQ</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">关于</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">swift自动引用计数</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-09-12T00:00:00Z">September 12, 2014</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/swift/" rel="category">swift</a>
+	</span>
+</div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<h3 id="一swift中自动引用计数">一.swift中自动引用计数</h3>
+<!-- raw HTML omitted -->
+<h4 id="1概况">1.概况</h4>
+<p><code>Swift</code>使用自动引用计数(<code>ARC</code>)来跟踪并管理应用使用的内存。当实例不再被使用时，ARC会自动释放这些类的实例所占用的内存。</p>
+<blockquote>
+<p>引用计数只应用在类的实例对象中。</p>
+</blockquote>
+<blockquote>
+<p>结构体(<code>Structure</code>)和枚举类型是值传递类型的，并非引用类型，不是以引用的方式来存储和传递的</p>
+</blockquote>
+<h4 id="2swift中容易导致内存泄漏的两种场景">2.<code>swift</code>中容易导致内存泄漏的两种场景</h4>
+<p>1.类实例间的强引用环</p>
+<p>解决办法</p>
+<h4 id="a弱引用weak关键字修饰">a.弱引用，<code>weak</code>关键字修饰</h4>
+<p>弱引用不会增加实例变量的引用计数，因此不会阻止ARC销毁被引用的实例。</p>
+<p>这种特性使得引用不会变成强引用环。声明属性或者变量的时候，关键字weak表明引用为弱引用</p>
+<blockquote>
+<p>弱引用只能声明为变量类型，因为运行时它的值可能改变。弱引用绝对不能声明为常量</p>
+</blockquote>
+<h4 id="b无主引用unowned关键字修饰">b.无主引用，<code>unowned</code>关键字修饰</h4>
+<p>在属性、变量前添加unowned关键字，可以声明一个无主引用</p>
+<p>无主引用也不强持有实例。无主引用默认始终有值。</p>
+<p>无主引用只能定义为非可选类型（non-optional type），因为是非可选类型，因此当使用无主引用的时候，不需要展开，可以直接访问。不过非可选类型变量不能赋值为nil，因此当实例被销毁的时候，ARC无法将引用赋值为nil</p>
+<blockquote>
+<p>当实例被销毁后，试图访问该实例的无主引用会触发运行时错误。使用无主引用时请确保引用始终指向一个未销毁的实例。 上面的非法操作会百分百让应用崩溃，不会发生无法预期的行为。</p>
+</blockquote>
+<h4 id="c解除对象的强引用">c.解除对象的强引用</h4>
+<ul>
+<li>2.闭包产生的强引用环</li>
+</ul>
+<p><code>Swift</code>解除闭包和实例对象之间的强引用环的方法:闭包占用列表(closuer capture list)</p>
+<h3 id="二示例">二.示例</h3>
+<h4 id="1代码">1.代码</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> QClassA {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    var _classB:QClassB<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>    var _classBB:QClassB<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>    var _classC:QClassC<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    init(){
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;QClassA init&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    deinit{
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;QClassA deinit&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> QClassB {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    var _classA:QClassA<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//使用weak
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">weak</span> var _classAA:QClassA<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    init(){
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;QClassB init&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    init(classA: QClassA){
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;QClassB init&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    deinit{
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;QClassB deinit&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> QClassC {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//使用无主引用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    unowned let  _classA:QClassA
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    init(classA: QClassA){
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;QClassC init&#34;</span>)
+</span></span><span style="display:flex;"><span>        self._classA <span style="color:#f92672">=</span> classA
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    deinit{
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;QClassC deinit&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">///实例和闭包
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> QClassD {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    var _value:String<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    lazy var _funcBlockA:() <span style="color:#f92672">-&gt;</span> Void <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//去掉下面[unowned self]，当调用_funcBlockA时，
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//会导致block和QClassD实例对象相互强引用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        [unowned self]  () <span style="color:#f92672">-&gt;</span> Void <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self._value <span style="color:#f92672">!=</span> nil {
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            println(<span style="color:#e6db74">&#34; ***_funcBlockA value =  \(self._value) &#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>           println(<span style="color:#e6db74">&#34; ***_funcBlockA value =  \(self._value) &#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    init(){
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;QClassD init&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    deinit{
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;QClassD deinit&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="2调用objective-c">2.调用```objective-c</h4>
+<p>//解除对象的强引用
+var a:QClassA = QClassA()
+var b:QClassB = QClassB()
+a._classB = b
+b._classA = a</p>
+<p>a._classB = nil//或b._classA = nil</p>
+<p>//weak
+var aa:QClassA = QClassA()
+var bb:QClassB = QClassB()
+aa._classBB = bb
+bb._classAA = aa</p>
+<p>//无主引用
+var aaa:QClassA = QClassA()
+var ccc:QClassC = QClassC(classA: aaa)
+aa._classC = ccc</p>
+<p>//解除闭包和实例之间的强引用
+var d:QClassD = QClassD()
+d._funcBlockA()</p>
+<pre tabindex="0"><code>
+#### 3.日志
+```objective-c
+
+QClassA init
+QClassB init
+QClassA init
+QClassB init
+QClassA init
+QClassC init
+QClassD init
+ ***_funcBlockA value =  nil 
+QClassD deinit
+QClassA deinit
+QClassA deinit
+QClassB deinit
+QClassC deinit
+QClassB deinit
+QClassA deinit
+</code></pre><h3 id="三小结swift与objective-c">三.小结<code>swift</code>与<code>objective-c</code></h3>
+<ul>
+<li>1.都是通过引用计数来管理内存的。</li>
+<li>2.都存在循环引用导致的内存泄漏，需要注意发生这种内存泄漏的场景。</li>
+<li>3.闭包都存在强引用环，需要打破引用环。</li>
+</ul>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/swift/" rel="tag">swift</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="John Doe avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About John Doe</span>
+	</div>
+	<div class="authorbox__description">
+		John Doe&rsquo;s true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it.
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/2014-09-11-swift-wei-tuo/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">swift委托</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/2014-09-13-swift-kuo-zhan/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Swift扩展</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://ksnowlv.github.io">
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/docs/getting-started/">首页</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/archives/">文章列表</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/faq/">Frequently asked questions (FAQ)</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-11-26-iosshi-pin-bo-fang-avplayer/">iOS视频播放-AVPlayer和AVPlayerLayer</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/">XCode使用PMD扫描重复代码（一）</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android/">Android</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">14</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/c&#43;&#43;/">C&#43;&#43;</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">2</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/git/">git</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">6</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/github-%E5%8D%9A%E5%AE%A2/">github-博客</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">9</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/go%E5%90%8E%E5%8F%B0/">go后台</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios/">iOS</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">100</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/mac/">Mac</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">5</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">13</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift/">swift</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">45</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/uml/">UML</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">8</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">6</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91/">后台开发</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">12</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/">生活片段</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">7</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/">职业生涯</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">4</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">2</span>
+				</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/android/" title="Android">Android (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/axure/" title="axure">axure (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/c&#43;&#43;/" title="C&#43;&#43;">C&#43;&#43; (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flutter/" title="flutter">flutter (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/git/" title="git">git (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/github-%E5%8D%9A%E5%AE%A2/" title="github-博客">github-博客 (9)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/installation/" title="Installation">Installation (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios/" title="iOS">iOS (46)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jni/" title="jni">jni (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kotlin/" title="Kotlin">Kotlin (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="Mac">Mac (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/opengl/" title="OpenGL">OpenGL (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/php/" title="php">php (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (13)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift/" title="swift">swift (32)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ui/" title="UI">UI (10)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/uml/" title="UML">UML (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xcode/" title="xcode">xcode (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BC%98%E5%8C%96/" title="优化">优化 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%86%85%E5%AD%98/" title="内存">内存 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="多线程">多线程 (12)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%AE%89%E5%85%A8/" title="安全">安全 (16)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" title="数据库">数据库 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%B3%9B%E5%9E%8B/" title="泛型">泛型 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%90%86%E8%B4%A2/" title="理财">理财 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/" title="生活片段">生活片段 (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="算法与数据结构">算法与数据结构 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C/" title="网络">网络 (16)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/" title="职业生涯">职业生涯 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%A7%86%E9%A2%91/" title="视频">视频 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AF%BB%E4%B9%A6/" title="读书">读书 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" title="音视频">音视频 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2023 .
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

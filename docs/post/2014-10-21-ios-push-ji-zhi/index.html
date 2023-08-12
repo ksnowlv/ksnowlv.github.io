@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>iOS push机制 - </title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="iOS push机制" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ksnowlv.github.io/post/2014-10-21-ios-push-ji-zhi/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2014-10-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-10-21T00:00:00+00:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="ksnowlv的技术笔记" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">ksnowlv的技术笔记</div>
+					<div class="logo__tagline">立足现在,铭记当下</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/getting-started/">
+				
+				<span class="menu__text">首页</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/archives/">
+				
+				<span class="menu__text">文章列表</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/faq/">
+				
+				<span class="menu__text">FAQ</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">关于</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">iOS push机制</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-10-21T00:00:00Z">October 21, 2014</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/ios/" rel="category">iOS</a>
+	</span>
+</div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<h3 id="一-push原理">一. push原理</h3>
+<p>iOS push工作机制可以使用下图概括：
+<img src="/images/post/2014-10-21-ios-push-ji-zhi/apple_push_overview.png" alt="image"></p>
+<!-- raw HTML omitted -->
+<ul>
+<li>Provider:应用自己的服务器；</li>
+<li>APNS:Apple Push Notification Service的简称，苹果Push服务器.</li>
+</ul>
+<p>可以简化为：
+<img src="/images/post/2014-10-21-ios-push-ji-zhi/apple_push_flow_diagram.jpg" alt="image"></p>
+<h3 id="二-push执行时序可由下图示意">二. push执行时序可由下图示意：</h3>
+<p><img src="/images/post/2014-10-21-ios-push-ji-zhi/apple_push_timing_diagram.jpg" alt="image"></p>
+<h3 id="三-push-for-ios客户端-devicetoken">三. push for iOS客户端-deviceToken</h3>
+<p><img src="/images/post/2014-10-21-ios-push-ji-zhi/apple_push_flow_diagram_for_client.jpg" alt="image"></p>
+<h4 id="关于客户端获取devicetoken">.关于客户端获取deviceToken</h4>
+<p>服务端要发送push消息给某一设备还必须知道该设备的deviceToken。应用运行后获取到deviceToken，然后上传给服务器.
+下面介绍如何获取deviceToken?</p>
+<ul>
+<li>
+<ol>
+<li>应用必须先注册使用push功能。</li>
+</ol>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">application:</span>(UIApplication <span style="color:#f92672">*</span>)application <span style="color:#a6e22e">didFinishLaunchingWithOptions:</span>(NSDictionary <span style="color:#f92672">*</span>)launchOptions {
+</span></span><span style="display:flex;"><span>      [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert <span style="color:#f92672">|</span> UIRemoteNotificationTypeSound <span style="color:#f92672">|</span> UIRemoteNotificationTypeBadge)];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><ul>
+<li>2.在AppDelegate中添加下面方法来获取deviceToken：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">// Delegation methods
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">application:</span>(UIApplication <span style="color:#f92672">*</span>)app <span style="color:#a6e22e">didRegisterForRemoteNotificationsWithDeviceToken:</span>(NSData <span style="color:#f92672">*</span>)devToken {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>devTokenBytes <span style="color:#f92672">=</span> [devToken bytes];
+</span></span><span style="display:flex;"><span>    self.registered <span style="color:#f92672">=</span> YES;
+</span></span><span style="display:flex;"><span>    [self sendProviderDeviceToken:devTokenBytes]; <span style="color:#75715e">// custom method
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">application:</span>(UIApplication <span style="color:#f92672">*</span>)app <span style="color:#a6e22e">didFailToRegisterForRemoteNotificationsWithError:</span>(NSError <span style="color:#f92672">*</span>)err {
+</span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;Error in registration. Error: %@&#34;</span>, err);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>应用获取到deviceToken后，上传给Provider，Provider就可以用这个deviceToken给这个设备push消息了。</p>
+<pre><code>通常情况下，deviceToken是不会改变的；有时同一台设备可能有不同的deviceToken。关于该主题可以搜索相关内容
+所以，当deviceToken改变时一定要通知服务器更新。
+</code></pre>
+<h3 id="四push-for-provider">四.push for provider</h3>
+<p>服务器配置好证书并拿到deviceToken后就可以向APNS发送消息了. 发送消息的格式有两种：</p>
+<ul>
+<li>1.简单消息格式</li>
+</ul>
+<p><img src="/images/post/2014-10-21-ios-push-ji-zhi/apple_push_payload_simple.png" alt="image"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">sendPayload</span>(SSL <span style="color:#f92672">*</span>sslPtr, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>deviceTokenBinary, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>payloadBuff, size_t payloadLength)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> rtn <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (sslPtr <span style="color:#f92672">&amp;&amp;</span> deviceTokenBinary <span style="color:#f92672">&amp;&amp;</span> payloadBuff <span style="color:#f92672">&amp;&amp;</span> payloadLength)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        uint8_t command <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">/* command number */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> binaryMessageBuff[<span style="color:#66d9ef">sizeof</span>(uint8_t) <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(uint16_t) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>            DEVICE_BINARY_SIZE <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(uint16_t) <span style="color:#f92672">+</span> MAXPAYLOAD_SIZE];
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* message format is, |COMMAND|TOKENLEN|TOKEN|PAYLOADLEN|PAYLOAD| */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>binaryMessagePt <span style="color:#f92672">=</span> binaryMessageBuff;
+</span></span><span style="display:flex;"><span>        uint16_t networkOrderTokenLength <span style="color:#f92672">=</span> htons(DEVICE_BINARY_SIZE);
+</span></span><span style="display:flex;"><span>        uint16_t networkOrderPayloadLength <span style="color:#f92672">=</span> htons(payloadLength);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* command */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>binaryMessagePt<span style="color:#f92672">++</span> <span style="color:#f92672">=</span> command;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>       <span style="color:#75715e">/* token length network order */</span>
+</span></span><span style="display:flex;"><span>        memcpy(binaryMessagePt, <span style="color:#f92672">&amp;</span>networkOrderTokenLength, <span style="color:#66d9ef">sizeof</span>(uint16_t));
+</span></span><span style="display:flex;"><span>        binaryMessagePt <span style="color:#f92672">+=</span> <span style="color:#66d9ef">sizeof</span>(uint16_t);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* device token */</span>
+</span></span><span style="display:flex;"><span>        memcpy(binaryMessagePt, deviceTokenBinary, DEVICE_BINARY_SIZE);
+</span></span><span style="display:flex;"><span>        binaryMessagePt <span style="color:#f92672">+=</span> DEVICE_BINARY_SIZE;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* payload length network order */</span>
+</span></span><span style="display:flex;"><span>        memcpy(binaryMessagePt, <span style="color:#f92672">&amp;</span>networkOrderPayloadLength, <span style="color:#66d9ef">sizeof</span>(uint16_t));
+</span></span><span style="display:flex;"><span>        binaryMessagePt <span style="color:#f92672">+=</span> <span style="color:#66d9ef">sizeof</span>(uint16_t);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* payload */</span>
+</span></span><span style="display:flex;"><span>        memcpy(binaryMessagePt, payloadBuff, payloadLength);
+</span></span><span style="display:flex;"><span>        binaryMessagePt <span style="color:#f92672">+=</span> payloadLength;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (SSL_write(sslPtr, binaryMessageBuff, (binaryMessagePt <span style="color:#f92672">-</span> binaryMessageBuff)) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>            rtn <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> rtn;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>2.增强型消息格式
+<img src="/images/post/2014-10-21-ios-push-ji-zhi/apple_push_payload_Enhanced.png" alt="image"></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">sendPayload</span>(SSL <span style="color:#f92672">*</span>sslPtr, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>deviceTokenBinary, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>payloadBuff, size_t payloadLength)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bool</span> rtn <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (sslPtr <span style="color:#f92672">&amp;&amp;</span> deviceTokenBinary <span style="color:#f92672">&amp;&amp;</span> payloadBuff <span style="color:#f92672">&amp;&amp;</span> payloadLength)
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>      uint8_t command <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">/* command number */</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">char</span> binaryMessageBuff[<span style="color:#66d9ef">sizeof</span>(uint8_t) <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(uint32_t) <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(uint32_t) <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(uint16_t) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>          DEVICE_BINARY_SIZE <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(uint16_t) <span style="color:#f92672">+</span> MAXPAYLOAD_SIZE];
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/* message format is, |COMMAND|ID|EXPIRY|TOKENLEN|TOKEN|PAYLOADLEN|PAYLOAD| */</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>binaryMessagePt <span style="color:#f92672">=</span> binaryMessageBuff;
+</span></span><span style="display:flex;"><span>      uint32_t whicheverOrderIWantToGetBackInAErrorResponse_ID <span style="color:#f92672">=</span> <span style="color:#ae81ff">1234</span>;
+</span></span><span style="display:flex;"><span>      uint32_t networkOrderExpiryEpochUTC <span style="color:#f92672">=</span> htonl(time(NULL)<span style="color:#f92672">+</span><span style="color:#ae81ff">86400</span>); <span style="color:#75715e">// expire message if not delivered in 1 day
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      uint16_t networkOrderTokenLength <span style="color:#f92672">=</span> htons(DEVICE_BINARY_SIZE);
+</span></span><span style="display:flex;"><span>      uint16_t networkOrderPayloadLength <span style="color:#f92672">=</span> htons(payloadLength);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/* command */</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>binaryMessagePt<span style="color:#f92672">++</span> <span style="color:#f92672">=</span> command;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/* provider preference ordered ID */</span>
+</span></span><span style="display:flex;"><span>     memcpy(binaryMessagePt, <span style="color:#f92672">&amp;</span>whicheverOrderIWantToGetBackInAErrorResponse_ID, <span style="color:#66d9ef">sizeof</span>(uint32_t));
+</span></span><span style="display:flex;"><span>     binaryMessagePt <span style="color:#f92672">+=</span> <span style="color:#66d9ef">sizeof</span>(uint32_t);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/* expiry date network order */</span>
+</span></span><span style="display:flex;"><span>     memcpy(binaryMessagePt, <span style="color:#f92672">&amp;</span>networkOrderExpiryEpochUTC, <span style="color:#66d9ef">sizeof</span>(uint32_t));
+</span></span><span style="display:flex;"><span>     binaryMessagePt <span style="color:#f92672">+=</span> <span style="color:#66d9ef">sizeof</span>(uint32_t);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/* token length network order */</span>
+</span></span><span style="display:flex;"><span>      memcpy(binaryMessagePt, <span style="color:#f92672">&amp;</span>networkOrderTokenLength, <span style="color:#66d9ef">sizeof</span>(uint16_t));
+</span></span><span style="display:flex;"><span>      binaryMessagePt <span style="color:#f92672">+=</span> <span style="color:#66d9ef">sizeof</span>(uint16_t);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/* device token */</span>
+</span></span><span style="display:flex;"><span>      memcpy(binaryMessagePt, deviceTokenBinary, DEVICE_BINARY_SIZE);
+</span></span><span style="display:flex;"><span>      binaryMessagePt <span style="color:#f92672">+=</span> DEVICE_BINARY_SIZE;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/* payload length network order */</span>
+</span></span><span style="display:flex;"><span>      memcpy(binaryMessagePt, <span style="color:#f92672">&amp;</span>networkOrderPayloadLength, <span style="color:#66d9ef">sizeof</span>(uint16_t));
+</span></span><span style="display:flex;"><span>      binaryMessagePt <span style="color:#f92672">+=</span> <span style="color:#66d9ef">sizeof</span>(uint16_t);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/* payload */</span>
+</span></span><span style="display:flex;"><span>      memcpy(binaryMessagePt, payloadBuff, payloadLength);
+</span></span><span style="display:flex;"><span>      binaryMessagePt <span style="color:#f92672">+=</span> payloadLength;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (SSL_write(sslPtr, binaryMessageBuff, (binaryMessagePt <span style="color:#f92672">-</span> binaryMessageBuff)) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>          rtn <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> rtn;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="五-push-for-ios客户端-处理push消息">五. push for iOS客户端-处理push消息</h3>
+<p>iOS系统收到push消息后，如果用户点击查看,</p>
+<ul>
+<li>1.如果应用已经启动，将调用application:didReceiveRemoteNotification的方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span> <span style="color:#f92672">-</span> (<span style="color:#66d9ef">void</span>)application:(UIApplication <span style="color:#f92672">*</span>)application didReceiveRemoteNotification:(NSDictionary <span style="color:#f92672">*</span>)userInfo {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// userInfo 就是push消息Payload
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span></code></pre></div><ul>
+<li>2.如果应用还没有启动，通过push冷启动后，仍然能在启动后获取Payload：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">application:</span>(UIApplication<span style="color:#f92672">*</span>)application <span style="color:#a6e22e">didFinishLaunchingWithOptions:</span>(NSDictionary<span style="color:#f92672">*</span>)launchOptions {
+</span></span><span style="display:flex;"><span>      NSDictionary<span style="color:#f92672">*</span> userInfo <span style="color:#f92672">=</span> [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span></code></pre></div><h3 id="六关于消息控制方面">六.关于消息控制方面</h3>
+<p>可以在application:didReceiveRemoteNotification控制消息的显示，消失。</p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>[[UIApplication sharedApplication] setApplicationIconBadgeNumber:<span style="color:#ae81ff">0</span>]; 
+</span></span></code></pre></div><p>详情可参考苹果开发文档<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW5">Apple Push Notification Service</a></p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ios/" rel="tag">iOS</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="John Doe avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About John Doe</span>
+	</div>
+	<div class="authorbox__description">
+		John Doe&rsquo;s true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it.
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/2014-09-30-ios-ji-suan-shi-jian-chai-zhi/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">iOS计算时间差值</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/2014-10-22-ios-zhi-keychain/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">iOS之Keychain</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://ksnowlv.github.io">
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/docs/getting-started/">首页</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/archives/">文章列表</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/faq/">Frequently asked questions (FAQ)</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-11-26-iosshi-pin-bo-fang-avplayer/">iOS视频播放-AVPlayer和AVPlayerLayer</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/">XCode使用PMD扫描重复代码（一）</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android/">Android</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">14</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/c&#43;&#43;/">C&#43;&#43;</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">2</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/git/">git</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">6</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/github-%E5%8D%9A%E5%AE%A2/">github-博客</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">9</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/go%E5%90%8E%E5%8F%B0/">go后台</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios/">iOS</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">100</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/mac/">Mac</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">5</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">13</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift/">swift</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">45</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/uml/">UML</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">8</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">6</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91/">后台开发</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">12</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/">生活片段</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">7</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/">职业生涯</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">4</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">2</span>
+				</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/android/" title="Android">Android (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/axure/" title="axure">axure (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/c&#43;&#43;/" title="C&#43;&#43;">C&#43;&#43; (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flutter/" title="flutter">flutter (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/git/" title="git">git (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/github-%E5%8D%9A%E5%AE%A2/" title="github-博客">github-博客 (9)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/installation/" title="Installation">Installation (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios/" title="iOS">iOS (46)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jni/" title="jni">jni (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kotlin/" title="Kotlin">Kotlin (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="Mac">Mac (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/opengl/" title="OpenGL">OpenGL (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/php/" title="php">php (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (13)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift/" title="swift">swift (32)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ui/" title="UI">UI (10)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/uml/" title="UML">UML (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xcode/" title="xcode">xcode (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BC%98%E5%8C%96/" title="优化">优化 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%86%85%E5%AD%98/" title="内存">内存 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="多线程">多线程 (12)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%AE%89%E5%85%A8/" title="安全">安全 (16)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" title="数据库">数据库 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%B3%9B%E5%9E%8B/" title="泛型">泛型 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%90%86%E8%B4%A2/" title="理财">理财 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/" title="生活片段">生活片段 (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="算法与数据结构">算法与数据结构 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C/" title="网络">网络 (16)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/" title="职业生涯">职业生涯 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%A7%86%E9%A2%91/" title="视频">视频 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AF%BB%E4%B9%A6/" title="读书">读书 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" title="音视频">音视频 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2023 .
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

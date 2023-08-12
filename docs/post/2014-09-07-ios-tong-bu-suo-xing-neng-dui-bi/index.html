@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>iOS同步对象性能对比 - </title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="iOS同步对象性能对比" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ksnowlv.github.io/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2014-09-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-09-07T00:00:00+00:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="ksnowlv的技术笔记" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">ksnowlv的技术笔记</div>
+					<div class="logo__tagline">立足现在,铭记当下</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/getting-started/">
+				
+				<span class="menu__text">首页</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/archives/">
+				
+				<span class="menu__text">文章列表</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/docs/faq/">
+				
+				<span class="menu__text">FAQ</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">关于</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">iOS同步对象性能对比</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-09-07T00:00:00Z">September 07, 2014</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/ios/" rel="category">iOS</a>
+	</span>
+</div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<p>在iOS开发中，支持多种同步方法，我们从耗时角度出发，评估各种同步对象的性能。</p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">1.</span><span style="color:#66d9ef">@synchronized</span> 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">2.</span>NSLock
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">3.</span>NSCondition
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">4.</span>NSConditionLock
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">5.</span>NSRecursiveLock
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">6.</span>pthread_mutex_t
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">7.</span>OSSpinLock
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">8.</span>dispatch_barrier_async
+</span></span></code></pre></div><p>示例代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> NSInteger KRunTimes <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">double</span> curTime, lastTime;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 1.同步synchronized
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">id</span> obj <span style="color:#f92672">=</span> [NSObject new];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  lastTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (NSInteger i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> KRunTimes; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@synchronized</span>(obj) {
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;@synchronized: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 2.NSLock
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  NSLock <span style="color:#f92672">*</span>myLock <span style="color:#f92672">=</span> [NSLock new];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  lastTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (NSInteger i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> KRunTimes; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    [myLock lock];
+</span></span><span style="display:flex;"><span>    [myLock unlock];
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;NSLock: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// NSLock IMP
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">void</span> (<span style="color:#f92672">*</span>func)(<span style="color:#66d9ef">id</span>, <span style="color:#66d9ef">SEL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SEL</span> lockSEL <span style="color:#f92672">=</span> <span style="color:#66d9ef">@selector</span>(lock);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SEL</span> unlockSEL <span style="color:#f92672">=</span> <span style="color:#66d9ef">@selector</span>(unlock);
+</span></span><span style="display:flex;"><span>  func lockFunc <span style="color:#f92672">=</span> (<span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>)(<span style="color:#66d9ef">id</span>, <span style="color:#66d9ef">SEL</span>))[myLock methodForSelector : lockSEL];
+</span></span><span style="display:flex;"><span>  func unlockFunc <span style="color:#f92672">=</span> (<span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>)(<span style="color:#66d9ef">id</span>, <span style="color:#66d9ef">SEL</span>))[myLock methodForSelector : unlockSEL];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  lastTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (NSInteger i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> KRunTimes; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    lockFunc(myLock, lockSEL);
+</span></span><span style="display:flex;"><span>    unlockFunc(myLock, unlockSEL);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;NSLock + IMP: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 3.NSCondition
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  NSCondition <span style="color:#f92672">*</span>condition <span style="color:#f92672">=</span> [[NSCondition alloc] init];
+</span></span><span style="display:flex;"><span>  lastTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (NSInteger i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> KRunTimes; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    [condition lock];
+</span></span><span style="display:flex;"><span>    [condition unlock];
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;NSCondition: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 4.NSConditionLock
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  NSConditionLock <span style="color:#f92672">*</span>conditionLock <span style="color:#f92672">=</span> [[NSConditionLock alloc] init];
+</span></span><span style="display:flex;"><span>  lastTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (NSInteger i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> KRunTimes; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    [conditionLock lock];
+</span></span><span style="display:flex;"><span>    [conditionLock unlock];
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;NSConditionLock: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 5.NSRecursiveLock
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  NSRecursiveLock <span style="color:#f92672">*</span>recursiveLock <span style="color:#f92672">=</span> [[NSRecursiveLock alloc] init];
+</span></span><span style="display:flex;"><span>  lastTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (NSInteger i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> KRunTimes; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    [recursiveLock lock];
+</span></span><span style="display:flex;"><span>    [recursiveLock unlock];
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;NSRecursiveLock: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 6.pthread_mutex_t
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  pthread_mutex_t mutex <span style="color:#f92672">=</span> PTHREAD_MUTEX_INITIALIZER;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  lastTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (NSInteger i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> KRunTimes; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    pthread_mutex_lock(<span style="color:#f92672">&amp;</span>mutex);
+</span></span><span style="display:flex;"><span>    pthread_mutex_unlock(<span style="color:#f92672">&amp;</span>mutex);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;pthread_mutex: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>  pthread_mutex_destroy(<span style="color:#f92672">&amp;</span>mutex);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 7.OSSpinLock 自旋锁;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  OSSpinLock spinlock <span style="color:#f92672">=</span> OS_SPINLOCK_INIT;
+</span></span><span style="display:flex;"><span>  lastTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (NSInteger i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> KRunTimes; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    OSSpinLockLock(<span style="color:#f92672">&amp;</span>spinlock);
+</span></span><span style="display:flex;"><span>    OSSpinLockUnlock(<span style="color:#f92672">&amp;</span>spinlock);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;OSSpinlock: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 8 dispatch_barrier_async
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  dispatch_queue_t queue <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      dispatch_queue_create(<span style="color:#e6db74">&#34;com.qq.ksnow&#34;</span>, DISPATCH_QUEUE_CONCURRENT);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  lastTime   <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (NSInteger i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> KRunTimes; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    dispatch_barrier_async(queue, <span style="color:#f92672">^</span>{});
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
+</span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;@dispatch_barrier_async: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>  
+</span></span></code></pre></div><h3 id="一模拟器ios7xcode6下性能对比-日志情况">一.模拟器/iOS7/XCode6下性能对比#### 日志情况:</h3>
+<pre><code> 2014-09-07 11:26:48.071 LockTest[2713:98107] @synchronized: 232.551038 ms
+
+2014-09-07 11:26:48.173 LockTest[2713:98107] NSLock: 100.879967 ms
+2014-09-07 11:26:48.263 LockTest[2713:98107] NSLock + IMP: 89.570999 ms
+2014-09-07 11:26:48.353 LockTest[2713:98107] NSCondition: 89.850008 ms
+2014-09-07 11:26:48.587 LockTest[2713:98107] NSConditionLock: 233.431995 ms
+2014-09-07 11:26:48.677 LockTest[2713:98107] NSRecursiveLock: 89.230001 ms
+2014-09-07 11:26:48.740 LockTest[2713:98107] pthread_mutex: 62.326968 ms
+2014-09-07 11:26:48.750 LockTest[2713:98107] OSSpinlock: 10.430992 ms
+2014-09-07 11:26:49.985 LockTest[2713:98107] dispatch_barrier_async: 1234.429002 ms
+</code></pre>
+<h4 id="总结对比">总结对比</h4>
+<p><img src="/images/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/syn_compared_simulate.png" alt="image"></p>
+<h4 id="二ipad-mini2ios7xcode6下性能对比">二.iPad Mini2/iOS7/XCode6下性能对比</h4>
+<pre><code>2014-09-07 13:32:47.720 LockTest[3494:60b] @synchronized: 499.736011 ms
+2014-09-07 13:32:47.948 LockTest[3494:60b] NSLock: 227.194011 ms
+2014-09-07 13:32:48.170 LockTest[3494:60b] NSLock + IMP: 221.384048 ms
+2014-09-07 13:32:48.393 LockTest[3494:60b] NSCondition: 221.689999 ms
+2014-09-07 13:32:49.030 LockTest[3494:60b] NSConditionLock: 636.340976 ms
+2014-09-07 13:32:49.260 LockTest[3494:60b] NSRecursiveLock: 229.423046 ms
+2014-09-07 13:32:49.431 LockTest[3494:60b] pthread_mutex: 170.615971 ms
+2014-09-07 13:32:49.495 LockTest[3494:60b] OSSpinlock: 63.916981 ms
+2014-09-07 13:32:49.826 LockTest[3494:60b] dispatch_barrier_async: 329.769015 ms
+</code></pre>
+<p><img src="/images/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/syn_compared_ipad_mini2.png" alt="image"></p>
+<h3 id="总结">总结</h3>
+<ul>
+<li>
+<p>耗时方面：</p>
+<ul>
+<li>OSSpinlock耗时最少;</li>
+<li>pthread_mutex其次。</li>
+<li>NSLock/NSCondition/NSRecursiveLock 耗时接近，220ms上下居中。</li>
+<li>NSConditionLock最差，我们常用synchronized倒数第二。</li>
+<li>dispatch_barrier_async也许，性能并不像我们想象中的那么好.推测与线程同步调度开销有关。单独block耗时在1ms以下基本上可以忽略不计的。</li>
+</ul>
+</li>
+<li>
+<p>在访问次数比较多的情况下,IMP访问耗时要比消息发送略小。
+参看<code>NSLock</code>与<code>NSLock + IMP</code>对比。</p>
+</li>
+<li>
+<p>为什么不直接使用<strong>IMP</strong>而使用直接声明函数指针的方式?
+XCode6下IMP不能指定参数，报错如下：
+<img src="/images/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/error_overview.png" alt="image">
+如何解决呢？修改LLVM预处理设置即可。详情见<a href="http://ksnowlv.gitcafe.com/blog/2014/09/07/xcode6-too-many-arguments-to-function-call-expected-0-have-2/">XCode6下Too many arguments to function call, expected 0, have 2解决办法</a></p>
+</li>
+</ul>
+<h3 id="原因分析">原因分析</h3>
+<h4 id="1synchronized">1.synchronized</h4>
+<pre><code>会创建一个异常捕获handler和一些内部的锁。所以，使用@synchronized替换普通锁的代价是，你付出更多的时间消耗。
+</code></pre>
+<h4 id="2nsconditionlock">2.NSConditionLock</h4>
+<pre><code>条件锁，与特定的，用户定义的条件有关。可以确保一个线程可以获取满足一定条件的锁。
+内部会涉及到信号量机制，一旦一个线程获得锁后，它可以放弃锁并设置相关条件;其它线程竞争该锁。
+线程之间的竞争激烈，涉及到条件锁检测，线程间通信。系统调用，上下切换方切换比较频繁。
+</code></pre>
+<h4 id="3osspinlock">3.OSSpinLock</h4>
+<pre><code>自旋锁几乎不进入内核，仅仅是重新加载自旋锁。
+如果自旋锁被占用时间是几十，上百纳秒，性能还是挺高的。减少了代价较高的系统调用和一系列上下文言切换。
+但是，该锁不是万能的;如果该锁抢占比较多的时候，不要使用该锁。会占用较多cpu,导致耗电较多。
+这种情况下使用pthread_mutex虽然耗时多一点，但是，避免了电量过多的消耗。是不错的选择。
+</code></pre>
+<h4 id="4pthread_mutex">4.pthread_mutex</h4>
+<pre><code>底层的API还是性能比较高啊，在各种同步对象中，性能属于佼佼者。
+</code></pre>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="John Doe avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About John Doe</span>
+	</div>
+	<div class="authorbox__description">
+		John Doe&rsquo;s true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it.
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/2014-09-07-macxia-nsdistributedlocktong-bu-xing-neng/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Mac下NSDistributedLock同步性能</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/post/2014-09-08-swift-de-lei-jie-gou-xie-yi-mei-ju/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Swift的类-结构-协议-枚举</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://ksnowlv.github.io">
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/docs/getting-started/">首页</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/archives/">文章列表</a></li>
+			<li class="widget__item"><a class="widget__link" href="/docs/faq/">Frequently asked questions (FAQ)</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-11-26-iosshi-pin-bo-fang-avplayer/">iOS视频播放-AVPlayer和AVPlayerLayer</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/">XCode使用PMD扫描重复代码（一）</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/android/">Android</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">14</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/c&#43;&#43;/">C&#43;&#43;</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">2</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/git/">git</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">6</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/github-%E5%8D%9A%E5%AE%A2/">github-博客</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">9</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/go%E5%90%8E%E5%8F%B0/">go后台</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/ios/">iOS</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">100</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/mac/">Mac</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">5</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">python</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">13</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/swift/">swift</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">45</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/uml/">UML</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">8</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">6</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91/">后台开发</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">12</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/">生活片段</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">7</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/">职业生涯</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">4</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">2</span>
+				</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/android/" title="Android">Android (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/axure/" title="axure">axure (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/c&#43;&#43;/" title="C&#43;&#43;">C&#43;&#43; (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flutter/" title="flutter">flutter (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/git/" title="git">git (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/github-%E5%8D%9A%E5%AE%A2/" title="github-博客">github-博客 (9)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/installation/" title="Installation">Installation (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios/" title="iOS">iOS (46)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jni/" title="jni">jni (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kotlin/" title="Kotlin">Kotlin (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="Mac">Mac (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/opengl/" title="OpenGL">OpenGL (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/php/" title="php">php (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (13)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/swift/" title="swift">swift (32)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ui/" title="UI">UI (10)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/uml/" title="UML">UML (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xcode/" title="xcode">xcode (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BC%98%E5%8C%96/" title="优化">优化 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%85%B6%E5%AE%83/" title="其它">其它 (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%86%85%E5%AD%98/" title="内存">内存 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="多线程">多线程 (12)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%AE%89%E5%85%A8/" title="安全">安全 (16)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" title="数据库">数据库 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%B3%9B%E5%9E%8B/" title="泛型">泛型 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%90%86%E8%B4%A2/" title="理财">理财 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/" title="生活片段">生活片段 (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="算法与数据结构">算法与数据结构 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C/" title="网络">网络 (16)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/" title="职业生涯">职业生涯 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%A7%86%E9%A2%91/" title="视频">视频 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AF%BB%E4%B9%A6/" title="读书">读书 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" title="音视频">音视频 (1)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2023 .
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
