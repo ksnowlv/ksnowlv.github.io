@@ -2,9 +2,9 @@
 title: "iphone之block_block作为成员使用时的陷阱"
 date: 2013-04-27
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

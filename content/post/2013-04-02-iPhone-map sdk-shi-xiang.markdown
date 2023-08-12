@@ -2,9 +2,9 @@
 title: "iPhone map sdk需要注意的事项"
 date: 2013-04-02
 categories:
-  - "iOS-优化"
+  - "iOS"
 tags:
-  - "iOS-优化"
+  - "iOS"
 ---
 <!--more-->
 

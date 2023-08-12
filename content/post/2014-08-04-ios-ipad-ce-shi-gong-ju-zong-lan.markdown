@@ -2,7 +2,7 @@
 title: "iOS/iPad测试工具总览"
 date: 2014-08-04
 categories:
-  - "Xcode"
+  - "iOS"
 tags:
   - "Xcode"
 ---

@@ -2,9 +2,9 @@
 title: "readonly和retain结合使用"
 date: 2013-04-02
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

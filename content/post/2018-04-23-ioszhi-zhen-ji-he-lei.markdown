@@ -2,9 +2,9 @@
 title: "iOS指针集合类"
 date: 2018-04-23
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

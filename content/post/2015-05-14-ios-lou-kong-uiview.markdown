@@ -2,9 +2,9 @@
 title: "iOS镂空UIView"
 date: 2015-05-14
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

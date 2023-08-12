@@ -2,9 +2,9 @@
 title: "NSInvocationOperation的使用"
 date: 2013-04-03
 categories:
-  - "iOS-多线程"
+  - "iOS"
 tags:
-  - "iOS-多线程"
+  - "多线程"
 ---
 <!--more-->
 

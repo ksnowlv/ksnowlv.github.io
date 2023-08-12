@@ -2,9 +2,9 @@
 title: \"selector not recognized\"的crash原因及解决办法
 date: 2014-08-14
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

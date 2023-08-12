@@ -2,9 +2,9 @@
 title: "CocoaSPDY理解"
 date: 2014-10-24
 categories:
-  - "iOS-网络"
+  - "iOS"
 tags:
-  - "iOS-网络"
+  - "网络"
 ---
 <!--more-->
 

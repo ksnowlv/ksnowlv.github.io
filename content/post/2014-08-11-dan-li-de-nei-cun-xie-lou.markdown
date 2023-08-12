@@ -2,9 +2,9 @@
 title: "单例的内存泄漏"
 date: 2014-08-11
 categories:
-  - "iOS-内存"
+  - "iOS"
 tags:
-  - "iOS-内存"
+  - "内存"
 ---
 <!--more-->
 

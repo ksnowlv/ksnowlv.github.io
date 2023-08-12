@@ -2,9 +2,9 @@
 title: "Kotlin通过jni间接调用c++"
 date: 2019-04-25
 categories:
-  - "Android-jni"
+  - "Android"
 tags:
-  - "Android-jni"
+  - "jni"
 ---
 <!--more-->
 

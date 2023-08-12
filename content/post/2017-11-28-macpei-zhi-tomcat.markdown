@@ -2,9 +2,9 @@
 title: "Mac配置tomcat"
 date: 2017-11-28
 categories:
-  - "java后台"
+  - "后台开发"
 tags:
-  - "java后台"
+  - "java"
 ---
 <!--more-->
 

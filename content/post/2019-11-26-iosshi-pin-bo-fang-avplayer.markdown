@@ -2,9 +2,9 @@
 title: "iOS视频播放-AVPlayer和AVPlayerLayer"
 date: 2019-11-26
 categories:
-  - "swift-视频"
+  - "swift"
 tags:
-  - "swift-视频"
+  - "视频"
 ---
 <!--more-->
 

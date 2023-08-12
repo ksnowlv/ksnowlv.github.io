@@ -2,9 +2,9 @@
 title: "给iOS应用打补丁"
 date: 2014-11-13
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

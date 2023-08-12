@@ -2,9 +2,9 @@
 title: "IB_DESIGNABLE与IBInspectable的使用"
 date: 2017-11-27
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

@@ -2,9 +2,9 @@
 title: "NSMutableArray排序"
 date: 2013-04-27
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

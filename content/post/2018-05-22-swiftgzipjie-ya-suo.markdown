@@ -2,9 +2,9 @@
 title: "swift之gzip解压缩(一)-Data"
 date: 2018-05-22
 categories:
-  - "swift-基础框架"
+  - "swift"
 tags:
-  - "swift-基础框架"
+  - "swift"
 ---
 <!--more-->
 

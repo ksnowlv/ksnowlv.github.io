@@ -2,7 +2,7 @@
 title: "常见散列算法"
 date: 2018-04-17
 categories:
-  - "安全"
+  - "iOS"
 tags:
   - "安全"
 ---

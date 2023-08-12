@@ -2,9 +2,9 @@
 title: "synchronized到objc_sync_enter/objc_sync_exit"
 date: 2018-08-07
 categories:
-  - "swift-基础"
+  - "swift"
 tags:
-  - "swift-基础"
+  - "多线程"
 ---
 <!--more-->
 

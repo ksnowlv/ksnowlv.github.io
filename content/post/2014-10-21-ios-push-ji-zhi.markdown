@@ -2,9 +2,9 @@
 title: "iOS push机制"
 date: 2014-10-21
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

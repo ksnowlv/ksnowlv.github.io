@@ -2,9 +2,9 @@
 title: "swift-cocoaframework中module.map配置"
 date: 2018-07-04
 categories:
-  - "swift-基础框架"
+  - "swift"
 tags:
-  - "swift-基础框架"
+  - "swift"
 ---
 <!--more-->
 在swift framework中，如果要引用c库，可采用配置module.map.

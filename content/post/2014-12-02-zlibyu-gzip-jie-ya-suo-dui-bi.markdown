@@ -2,9 +2,9 @@
 title: "ZLib与GZip解压缩对比"
 date: 2014-12-02
 categories:
-  - "iOS-网络"
+  - "iOS"
 tags:
-  - "iOS-网络"
+  - "网络"
 ---
 <!--more-->
 

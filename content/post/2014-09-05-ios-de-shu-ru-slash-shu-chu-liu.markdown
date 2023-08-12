@@ -2,9 +2,9 @@
 title: "iOS的输入/输出流"
 date: 2014-09-05
 categories:
-  - "iOS-网络"
+  - "iOS"
 tags:
-  - "iOS-网络"
+  - "网络"
 ---
 <!--more-->
 

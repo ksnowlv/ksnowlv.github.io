@@ -2,7 +2,7 @@
 title: "为Xcode添加快捷代码模板"
 date: 2014-08-01
 categories:
-  - "Xcode"
+  - "iOS"
 tags:
   - "Xcode"
 ---

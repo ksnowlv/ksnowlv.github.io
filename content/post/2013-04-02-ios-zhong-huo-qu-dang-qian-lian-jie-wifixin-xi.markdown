@@ -2,9 +2,9 @@
 title: "iOS中获取当前连接WIFI信息"
 date: 2013-04-25
 categories:
-  - "iOS-网络"
+  - "iOS"
 tags:
-  - "iOS-网络"
+  - "网络"
 ---
 <!--more-->
 

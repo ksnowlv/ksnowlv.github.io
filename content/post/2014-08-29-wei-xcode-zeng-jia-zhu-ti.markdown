@@ -2,7 +2,7 @@
 title: "为Xcode增加主题"
 date: 2014-08-29
 categories:
-  - "Xcode"
+  - "iOS"
 tags:
   - "Xcode"
 ---

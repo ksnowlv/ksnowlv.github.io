@@ -2,9 +2,9 @@
 title: "iOS自动循环播放的banner"
 date: 2017-12-25
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

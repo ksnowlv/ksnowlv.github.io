@@ -2,9 +2,9 @@
 title: "XCode使用PMD扫描重复代码（一）"
 date: 2019-08-19
 categories:
-  - "XCode"
+  - "iOS"
 tags:
-  - "XCode"
+  - "iOS"
 ---
 <!--more-->
 

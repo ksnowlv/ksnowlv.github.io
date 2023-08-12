@@ -2,9 +2,9 @@
 title: "iOS状态栏风格设置"
 date: 2017-12-04
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

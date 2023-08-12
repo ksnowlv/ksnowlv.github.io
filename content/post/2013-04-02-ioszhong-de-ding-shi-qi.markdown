@@ -2,9 +2,9 @@
 title: "iOS中的定时器"
 date: 2013-04-02
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

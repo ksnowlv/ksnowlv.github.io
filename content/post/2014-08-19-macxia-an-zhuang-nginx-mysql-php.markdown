@@ -2,7 +2,7 @@
 title: "Mac下配置nginx-mysql-php"
 date: 2014-08-19
 categories:
-  - "nginx"
+  - "后台开发"
 tags:
   - "nginx"
 ---

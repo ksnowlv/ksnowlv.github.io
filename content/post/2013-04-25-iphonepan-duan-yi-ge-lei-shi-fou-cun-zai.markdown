@@ -1,10 +1,10 @@
 ---
-title: "iPhone判断一个类是否存在"
+title: "iOS判断一个类是否存在"
 date: 2013-04-25
 categories:
-  - ""
+  - "iOS"
 tags:
-  - ""
+  - "iOS"
 ---
 <!--more-->
 

@@ -2,9 +2,9 @@
 title: "iOS加载拉伸的图片"
 date: 2017-12-29
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

@@ -2,9 +2,9 @@
 title: "Charles截包工具"
 date: 2014-09-10
 categories:
-  - "工具"
+  - "其它"
 tags:
-  - "工具"
+  - "其它"
 ---
 <!--more-->
 [Charles](http://www.charlesproxy.com/) 是一款`Mac`上好用的截包工具,可以让开发者查看所有连接互联网的`HTTP`通信，包括请求，响应和`HTTP`头信息等等,非常不错!

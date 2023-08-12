@@ -2,7 +2,7 @@
 title: "Mac下安装nginx"
 date: 2014-08-18
 categories:
-  - "nginx"
+  - "后台开发"
 tags:
   - "nginx"
 ---

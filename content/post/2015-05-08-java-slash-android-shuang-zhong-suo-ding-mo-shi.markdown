@@ -2,9 +2,9 @@
 title: "Java/Android双重锁定模式"
 date: 2015-05-08
 categories:
-  - "Android-多线程"
+  - "Android"
 tags:
-  - "Android-多线程"
+  - "多线程"
 ---
 <!--more-->
 

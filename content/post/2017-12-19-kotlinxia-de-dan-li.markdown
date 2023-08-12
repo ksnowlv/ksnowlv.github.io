@@ -2,7 +2,7 @@
 title: "Kotlin下的单例"
 date: 2017-12-19
 categories:
-  - "Kotlin"
+  - "Android"
 tags:
   - "Kotlin"
 ---

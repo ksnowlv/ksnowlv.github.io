@@ -2,9 +2,9 @@
 title: "trying to use a recycled bitmap android.graphics.Bitmap@bffc9a0解决方案"
 date: 2018-01-02
 categories:
-  - "Android-其它"
+  - "Android"
 tags:
-  - "Android-其它"
+  - "Android"
 ---
 <!--more-->
 

@@ -2,9 +2,9 @@
 title: "Objective-C-Clang预编译宏"
 date: 2014-08-16
 categories:
-  - "Xcode"
+  - "iOS"
 tags:
-  - "Xcode"
+  - "iOS"
 ---
 <!--more-->
 

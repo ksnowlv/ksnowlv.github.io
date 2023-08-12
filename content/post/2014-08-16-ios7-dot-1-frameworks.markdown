@@ -2,9 +2,9 @@
 title: "iOS7.1-Frameworks"
 date: 2014-08-16
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 iOS7.1 Frameworks

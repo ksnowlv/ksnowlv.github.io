@@ -2,9 +2,9 @@
 title: "XCode6下Too many arguments to function call, expected 0, have 2解决办法"
 date: 2014-09-07
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

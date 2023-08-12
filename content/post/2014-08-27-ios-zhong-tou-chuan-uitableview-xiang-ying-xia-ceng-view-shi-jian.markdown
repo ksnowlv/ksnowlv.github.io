@@ -2,9 +2,9 @@
 title: "iOS中透穿UITableView响应下层view事件"
 date: 2014-08-27
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

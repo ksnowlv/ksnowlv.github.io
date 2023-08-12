@@ -2,7 +2,7 @@
 title: You must `brew link pcre' before nginx can be installed
 date: 2014-08-18
 categories:
-  - "nginx"
+  - "后台开发"
 tags:
   - "nginx"
 ---

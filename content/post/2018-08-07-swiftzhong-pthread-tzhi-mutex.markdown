@@ -2,9 +2,9 @@
 title: "swift中pthread_t之mutex"
 date: 2018-08-07
 categories:
-  - "swift-基础框架"
+  - "swift"
 tags:
-  - "swift-基础框架"
+  - "多线程"
 ---
 <!--more-->
 

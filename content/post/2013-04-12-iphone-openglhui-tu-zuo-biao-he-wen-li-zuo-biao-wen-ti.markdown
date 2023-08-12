@@ -2,9 +2,9 @@
 title: "iPhone-OpenGL绘图坐标和纹理坐标问题"
 date: 2013-04-12
 categories:
-  - "iOS-OpenGL"
+  - "iOS"
 tags:
-  - "iOS-OpenGL"
+  - "OpenGL"
 ---
 <!--more-->
 

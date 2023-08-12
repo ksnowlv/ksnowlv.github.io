@@ -2,9 +2,9 @@
 title: "阻止文件被iTunes和iCloud同步"
 date: 2014-12-03
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

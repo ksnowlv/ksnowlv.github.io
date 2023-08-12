@@ -2,9 +2,9 @@
 title: "symbian-gzip解压缩"
 date: 2013-04-11
 categories:
-  - "symbian-解压缩"
+  - "其它"
 tags:
-  - "symbian-解压缩"
+  - "其它"
 ---
 <!--more-->
 

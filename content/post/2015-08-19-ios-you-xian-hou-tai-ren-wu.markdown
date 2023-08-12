@@ -2,9 +2,9 @@
 title: "iOS有限后台任务"
 date: 2015-08-19
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 iOS下有限后台任务如何使用呢？

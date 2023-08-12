@@ -2,9 +2,9 @@
 title: "JSONKIT初体验"
 date: 2013-04-05
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 以下面数据作为样例

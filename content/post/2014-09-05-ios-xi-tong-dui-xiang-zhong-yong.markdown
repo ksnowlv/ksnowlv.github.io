@@ -2,9 +2,9 @@
 title: "iOS系统对象重用"
 date: 2014-09-05
 categories:
-  - "iOS-内存"
+  - "iOS"
 tags:
-  - "iOS-内存"
+  - "iOS"
 ---
 <!--more-->
 

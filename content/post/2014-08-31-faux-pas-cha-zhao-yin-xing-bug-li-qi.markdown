@@ -2,9 +2,9 @@
 title: "Faux Pas查找隐形bug利器"
 date: 2014-08-31
 categories:
-  - "Xcode"
+  - "iOS"
 tags:
-  - "Xcode"
+  - "iOS"
 ---
 <!--more-->
 [Faux Pas](http://fauxpasapp.com)是一个Xcode辅助工具，查找隐形bug利器,

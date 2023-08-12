@@ -2,9 +2,9 @@
 title: "Android通过jni调用c++"
 date: 2019-04-18
 categories:
-  - "Android-jni"
+  - "Android"
 tags:
-  - "Android-jni"
+  - "jni"
 ---
 <!--more-->
 

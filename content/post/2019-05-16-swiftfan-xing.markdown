@@ -2,9 +2,9 @@
 title: "swift泛型"
 date: 2019-05-16
 categories:
-  - "swift-基础知识"
+  - "swift"
 tags:
-  - "swift-基础知识"
+  - "泛型"
 ---
 <!--more-->
 

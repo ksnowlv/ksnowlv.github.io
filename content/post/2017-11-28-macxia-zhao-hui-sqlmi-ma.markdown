@@ -2,7 +2,7 @@
 title: "Mac下找回sql密码"
 date: 2017-11-28
 categories:
-  - "数据库"
+  - "后台开发"
 tags:
   - "数据库"
 ---

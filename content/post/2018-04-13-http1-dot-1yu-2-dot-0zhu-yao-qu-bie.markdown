@@ -2,7 +2,7 @@
 title: "http1.1与2.0主要区别"
 date: 2018-04-13
 categories:
-  - "网络"
+  - "iOS"
 tags:
   - "网络"
 ---

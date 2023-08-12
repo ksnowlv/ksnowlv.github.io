@@ -2,9 +2,9 @@
 title: "iOS8中的spdy使用"
 date: 2014-11-20
 categories:
-  - "iOS-网络"
+  - "iOS"
 tags:
-  - "iOS-网络"
+  - "网络"
 ---
 <!--more-->
 

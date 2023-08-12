@@ -2,9 +2,9 @@
 title: "Android线程池"
 date: 2015-04-28
 categories:
-  - "Android-多线程"
+  - "Android"
 tags:
-  - "Android-多线程"
+  - "多线程"
 ---
 <!--more-->
 

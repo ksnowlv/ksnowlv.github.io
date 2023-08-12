@@ -2,9 +2,9 @@
 title: "iOS下常用调试方法"
 date: 2014-08-21
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

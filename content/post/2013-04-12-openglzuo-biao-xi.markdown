@@ -2,9 +2,9 @@
 title: "opengl坐标系"
 date: 2013-04-12
 categories:
-  - "iOS-OpenGL"
+  - "iOS"
 tags:
-  - "iOS-OpenGL"
+  - "OpenGL"
 ---
 <!--more-->
 

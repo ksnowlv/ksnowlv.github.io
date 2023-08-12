@@ -2,9 +2,9 @@
 title: "七月份iPad客户端优化总结"
 date: 2014-08-09
 categories:
-  - "iOS-优化"
+  - "iOS"
 tags:
-  - "iOS-优化"
+  - "iOS"
 ---
 <!--more-->
 

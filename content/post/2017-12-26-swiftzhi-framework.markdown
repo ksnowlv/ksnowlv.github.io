@@ -2,9 +2,9 @@
 title: "swift之framework"
 date: 2017-12-26
 categories:
-  - "swift-基础框架"
+  - "swift"
 tags:
-  - "swift-基础框架"
+  - "swift"
 ---
 <!--more-->
 

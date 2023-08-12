@@ -2,9 +2,9 @@
 title: "axure之中继器"
 date: 2014-11-10
 categories:
-  - "产品设计"
+  - "其它"
 tags:
-  - "产品设计"
+  - "axure"
 ---
 <!--more-->
 

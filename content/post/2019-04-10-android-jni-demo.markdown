@@ -2,9 +2,9 @@
 title: "Android-jni-demo"
 date: 2019-04-10
 categories:
-  - "Android-jni"
+  - "Android"
 tags:
-  - "Android-jni"
+  - "jni"
 ---
 <!--more-->
 

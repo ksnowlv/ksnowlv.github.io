@@ -2,9 +2,9 @@
 title: "iOS同步对象性能对比"
 date: 2014-09-07
 categories:
-  - "iOS-多线程"
+  - "iOS"
 tags:
-  - "iOS-多线程"
+  - "多线程"
 ---
 <!--more-->
 

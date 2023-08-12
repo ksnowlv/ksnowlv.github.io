@@ -2,7 +2,7 @@
 title: "flutter安装和运行"
 date: 2019-05-22
 categories:
-  - "flutter"
+  - "iOS"
 tags:
   - "flutter"
 ---

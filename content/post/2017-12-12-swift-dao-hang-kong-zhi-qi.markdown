@@ -2,9 +2,9 @@
 title: "swift-导航控制器"
 date: 2017-12-12
 categories:
-  - "swift-基础框架"
+  - "swift"
 tags:
-  - "swift-基础框架"
+  - "swift"
 ---
 <!--more-->
 

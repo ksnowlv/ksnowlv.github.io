@@ -2,9 +2,9 @@
 title: "iOS计算时间差值"
 date: 2014-09-30
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

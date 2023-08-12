@@ -2,9 +2,9 @@
 title: "iOS/iPad App内存占用上限(二)"
 date: 2014-07-28
 categories:
-  - "iOS-内存"
+  - "iOS"
 tags:
-  - "iOS-内存"
+  - "内存"
 ---
 <!--more-->
 

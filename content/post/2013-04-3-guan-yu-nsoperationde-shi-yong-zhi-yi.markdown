@@ -2,9 +2,9 @@
 title: "关于NSOperation的使用之一"
 date: 2013-04-03
 categories:
-  - "iOS-多线程"
+  - "iOS"
 tags:
-  - "iOS-多线程"
+  - "多线程"
 ---
 <!--more-->
 

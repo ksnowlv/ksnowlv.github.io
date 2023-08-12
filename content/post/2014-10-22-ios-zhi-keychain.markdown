@@ -2,9 +2,9 @@
 title: "iOS之Keychain"
 date: 2014-10-22
 categories:
-  - "iOS-存储"
+  - "iOS"
 tags:
-  - "iOS-存储"
+  - "iOS"
 ---
 <!--more-->
 

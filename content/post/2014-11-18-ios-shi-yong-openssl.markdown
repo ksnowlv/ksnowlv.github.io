@@ -2,9 +2,9 @@
 title: "iOS使用OpenSSL"
 date: 2014-11-18
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 `iOS`中`OpenSSL`

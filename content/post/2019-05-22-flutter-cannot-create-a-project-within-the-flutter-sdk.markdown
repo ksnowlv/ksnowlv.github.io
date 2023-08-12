@@ -2,7 +2,7 @@
 title: "flutter创建工程报错:Cannot create a project within the Flutter SDK. Target directory 'x' is within the Flutter SDK at'/Users/x/Music/flutter/flutter'"
 date: 2019-05-22
 categories:
-  - "flutter"
+  - "iOS"
 tags:
   - "flutter"
 ---

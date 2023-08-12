@@ -1,10 +1,10 @@
 ---
 title: "iOS下使用ffmpeg"
-date: 2017-4-22 
+date: 2017-04-22 
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "音视频"
 ---
 <!--more-->
 

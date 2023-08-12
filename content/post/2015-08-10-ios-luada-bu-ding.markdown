@@ -2,9 +2,9 @@
 title: "iOS-lua打补丁"
 date: 2015-08-10
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

@@ -2,9 +2,9 @@
 title: "CGD之监视进程"
 date: 2014-09-06
 categories:
-  - "iOS-多线程"
+  - "iOS"
 tags:
-  - "iOS-多线程"
+  - "多线程"
 ---
 <!--more-->
 

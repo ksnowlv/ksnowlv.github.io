@@ -2,9 +2,9 @@
 title: "”mac下android配置jni开发环境(一)“"
 date: 2019-04-09
 categories:
-  - "Android-jni"
+  - "Android"
 tags:
-  - "Android-jni"
+  - "jni"
 ---
 <!--more-->
 

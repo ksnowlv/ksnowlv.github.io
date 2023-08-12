@@ -2,9 +2,9 @@
 title: "swift-设备信息类"
 date: 2017-12-13
 categories:
-  - "swift-基础框架"
+  - "swift"
 tags:
-  - "swift-基础框架"
+  - "swift"
 ---
 <!--more-->
 

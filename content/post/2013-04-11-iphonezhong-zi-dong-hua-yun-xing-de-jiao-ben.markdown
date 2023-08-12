@@ -2,9 +2,9 @@
 title: "iPhone中自动化运行的脚本"
 date: 2013-04-11
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

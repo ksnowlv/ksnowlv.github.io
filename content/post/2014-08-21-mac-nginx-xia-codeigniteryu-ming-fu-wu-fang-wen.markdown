@@ -2,7 +2,7 @@
 title: "Mac-nginx下codeigniter域名服务访问"
 date: 2014-08-21
 categories:
-  - "php"
+  - "后台开发"
 tags:
   - "php"
 ---

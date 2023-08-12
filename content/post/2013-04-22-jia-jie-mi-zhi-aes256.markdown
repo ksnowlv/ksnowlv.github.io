@@ -2,7 +2,7 @@
 title: "加解密之AES256"
 date: 2013-04-22
 categories:
-  - "安全"
+  - "iOS"
 tags:
   - "安全"
 ---

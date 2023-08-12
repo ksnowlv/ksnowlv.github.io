@@ -2,9 +2,9 @@
 title: "iOS中clean memory/dirty memory"
 date: 2014-08-17
 categories:
-  - "iOS-内存"
+  - "iOS"
 tags:
-  - "iOS-内存"
+  - "内存"
 ---
 <!--more-->
 

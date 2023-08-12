@@ -2,9 +2,9 @@
 title: "iOS-64位适配"
 date: 2015-01-06
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

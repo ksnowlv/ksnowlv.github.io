@@ -2,7 +2,7 @@
 title: "mac下安装配置mysql"
 date: 2014-08-31
 categories:
-  - "数据库"
+  - "后台开发"
 tags:
   - "数据库"
 ---

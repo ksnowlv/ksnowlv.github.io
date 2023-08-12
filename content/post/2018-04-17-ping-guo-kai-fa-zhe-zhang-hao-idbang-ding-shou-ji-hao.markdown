@@ -2,9 +2,9 @@
 title: "苹果开发者账号id绑定手机号"
 date: 2018-04-17
 categories:
-  - "iOS审核"
+  - "iOS"
 tags:
-  - "iOS审核"
+  - "iOS"
 ---
 <!--more-->
 

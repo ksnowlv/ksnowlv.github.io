@@ -2,7 +2,7 @@
 title: "Xcode下条件断点"
 date: 2013-05-14
 categories:
-  - "xcode"
+  - "iOS"
 tags:
   - "xcode"
 ---

@@ -2,9 +2,9 @@
 title: "iPhone之block_block是objective-c对象"
 date: 2013-04-07
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

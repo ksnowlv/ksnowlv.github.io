@@ -2,9 +2,9 @@
 title: "AFNetworking 2.x网络调用时序图"
 date: 2014-09-04
 categories:
-  - "iOS-网络"
+  - "iOS"
 tags:
-  - "iOS-网络"
+  - "网络"
 ---
 <!--more-->
 

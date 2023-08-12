@@ -2,7 +2,7 @@
 title: "解决mac-mysql-service-can‘t-start的问题"
 date: 2014-08-31
 categories:
-  - "数据库"
+  - "后台开发"
 tags:
   - "数据库"
 ---

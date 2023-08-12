@@ -2,9 +2,9 @@
 title: "iOS中不完全在父UIView frame中的UIView如何响应事件"
 date: 2014-08-27
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

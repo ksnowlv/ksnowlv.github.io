@@ -2,9 +2,9 @@
 title: "iOS6转屏处理"
 date: 2013-04-02
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

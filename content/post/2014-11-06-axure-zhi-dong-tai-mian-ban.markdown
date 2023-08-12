@@ -2,9 +2,9 @@
 title: "axure之动态面板"
 date: 2014-11-06
 categories:
-  - "产品设计"
+  - "其它"
 tags:
-  - "产品设计"
+  - "axure"
 ---
 <!--more-->
 

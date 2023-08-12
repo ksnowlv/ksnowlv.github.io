@@ -2,9 +2,9 @@
 title: "客户端白屏问题解决方案"
 date: 2017-12-04
 categories:
-  - "iOS-UI"
+  - "iOS"
 tags:
-  - "iOS-UI"
+  - "UI"
 ---
 <!--more-->
 

@@ -2,9 +2,9 @@
 title: "XML解析之TinyXML"
 date: 2013-04-17
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

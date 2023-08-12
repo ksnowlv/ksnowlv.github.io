@@ -2,9 +2,9 @@
 title: "XML解析之libxml2"
 date: 2013-04-18
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

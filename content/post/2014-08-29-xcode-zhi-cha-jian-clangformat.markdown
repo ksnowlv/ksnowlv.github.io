@@ -2,7 +2,7 @@
 title: "Xcode之插件-ClangFormat"
 date: 2014-08-29
 categories:
-  - "Xcode"
+  - "iOS"
 tags:
   - "Xcode"
 ---

@@ -2,9 +2,9 @@
 title: "AFNetworking-2.x框架可改进点总结"
 date: 2014-09-05
 categories:
-  - "iOS-网络"
+  - "iOS"
 tags:
-  - "iOS-网络"
+  - "网络"
 ---
 <!--more-->
 

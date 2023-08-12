@@ -2,9 +2,9 @@
 title: "FaceBook-infer的使用"
 date: 2015-08-19
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

@@ -2,7 +2,7 @@
 title: "Xcode之ObjC/all_load/force_load"
 date: 2014-08-12
 categories:
-  - "Xcode"
+  - "iOS"
 tags:
   - "Xcode"
 ---

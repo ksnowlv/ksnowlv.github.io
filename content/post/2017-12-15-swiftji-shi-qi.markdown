@@ -2,9 +2,9 @@
 title: "swift-计时器"
 date: 2017-12-15
 categories:
-  - "swift-基础框架"
+  - "swift"
 tags:
-  - "swift-基础框架"
+  - "swift"
 ---
 <!--more-->
 

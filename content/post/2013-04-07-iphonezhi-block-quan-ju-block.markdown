@@ -2,9 +2,9 @@
 title: "iPhone之block_全局block"
 date: 2013-04-07
 categories:
-  - ""
+  - "iOS"
 tags:
-  - ""
+  - "iOS"
 ---
 <!--more-->
 

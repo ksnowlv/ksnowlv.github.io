@@ -19,5 +19,7 @@ menu: main
 
 <!-- {{< postref >}} -->
 
+ {{ <ref "/post/2011-08-10-go_to_tencent.markdown">}}
+
 
 

@@ -2,9 +2,9 @@
 title: "AFNNetworking-2.0-类图"
 date: 2014-09-03
 categories:
-  - "iOS-网络"
+  - "iOS"
 tags:
-  - "iOS-网络"
+  - "网络"
 ---
 <!--more-->
 

@@ -2,9 +2,9 @@
 title: "Android下锁"
 date: 2015-04-28
 categories:
-  - "Android-多线程"
+  - "Android"
 tags:
-  - "Android-多线程"
+  - "多线程"
 ---
 <!--more-->
 ### Java下的锁

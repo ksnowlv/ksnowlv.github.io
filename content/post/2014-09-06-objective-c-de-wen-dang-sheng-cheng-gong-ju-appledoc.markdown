@@ -2,9 +2,9 @@
 title: "Objective-C的文档生成工具-Appledoc"
 date: 2014-09-06
 categories:
-  - "Xcode"
+  - "iOS"
 tags:
-  - "Xcode"
+  - "iOS"
 ---
 <!--more-->
 [Appledoc](https://github.com/tomaz/appledoc)默认生成的文档风格与苹果的官方文档是一致的,生成docset，可以集成到xcode中。在源码中按住option再单击就可以调出相应方法的帮助。

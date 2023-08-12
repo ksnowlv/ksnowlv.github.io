@@ -2,9 +2,9 @@
 title: "AFNetworking-2.0所有项目概览"
 date: 2014-09-04
 categories:
-  - "iOS-网络"
+  - "iOS"
 tags:
-  - "iOS-网络"
+  - "网络"
 ---
 <!--more-->
 

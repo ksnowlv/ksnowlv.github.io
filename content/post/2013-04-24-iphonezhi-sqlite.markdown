@@ -2,9 +2,9 @@
 title: "iPhone之SQLite"
 date: 2013-04-24
 categories:
-  - ""
+  - "iOS"
 tags:
-  - ""
+  - "数据库"
 ---
 <!--more-->
 

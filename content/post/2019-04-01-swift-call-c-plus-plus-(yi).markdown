@@ -2,9 +2,9 @@
 title: "swift call c++（一）"
 date: 2019-04-01
 categories:
-  - "swift-基础"
+  - "swift"
 tags:
-  - "swift-基础"
+  - "swift"
 ---
 <!--more-->
 

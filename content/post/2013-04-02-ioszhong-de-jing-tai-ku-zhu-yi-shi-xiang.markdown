@@ -2,9 +2,9 @@
 title: "iOS中的静态库注意事项"
 date: 2013-04-02
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 

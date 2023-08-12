@@ -2,9 +2,9 @@
 title: "Android下gzip数据流解压缩"
 date: 2015-08-19
 categories:
-  - "Android-网络"
+  - "Android"
 tags:
-  - "Android-网络"
+  - "网络"
 ---
 <!--more-->
 

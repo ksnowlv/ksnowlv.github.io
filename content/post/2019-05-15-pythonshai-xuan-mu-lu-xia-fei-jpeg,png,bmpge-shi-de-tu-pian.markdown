@@ -2,9 +2,9 @@
 title: "python筛选目录下非jpeg，png，bmp格式的图片"
 date: 2019-05-15
 categories:
-  - "Python小工具"
+  - "Python"
 tags:
-  - "Python小工具"
+  - "Python"
 ---
 <!--more-->
 

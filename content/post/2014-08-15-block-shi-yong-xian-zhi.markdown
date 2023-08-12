@@ -2,9 +2,9 @@
 title: block关键字使用限制
 date: 2014-08-15
 categories:
-  - "iOS-基础"
+  - "iOS"
 tags:
-  - "iOS-基础"
+  - "iOS"
 ---
 <!--more-->
 
