@@ -1,15 +1,20 @@
 ---
 title: "Mac下命令行打开App"
 date: 2014-07-26
+lastmod: 2014-07-26
 categories:
   - "Mac"
 tags:
   - "Mac"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### mac下如何使用命令行打开App呢？可以使用***open***命令。
-<!--more-->
 
 例如：
 

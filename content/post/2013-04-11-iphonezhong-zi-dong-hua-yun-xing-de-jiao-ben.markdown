@@ -1,12 +1,18 @@
 ---
 title: "iPhone中自动化运行的脚本"
 date: 2013-04-11
+lastmod: 2013-04-11
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 支持点击，拖拽。
 

@@ -1,12 +1,18 @@
 ---
 title: "swift call c"
 date: 2019-04-01
+lastmod: 2019-04-01
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 如何在swift调整c代码呢？

@@ -1,16 +1,21 @@
 ---
 title: "Octopress代码高亮"
 date: 2014-07-26
+lastmod: 2014-07-26
 categories:
   - "github-博客"
 tags:
   - "github-博客"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 如何使用markdown文本中的代码高亮呢？
 
-<!--more-->
 
 ### 1.反引号代码块   可以指定代码标题，语言，链接等等。语法格式如下：
 

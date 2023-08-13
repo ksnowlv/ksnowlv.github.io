@@ -1,18 +1,23 @@
 ---
 title: "iOS状态栏风格设置"
 date: 2017-12-04
+lastmod: 2017-12-04
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 
 iOS 的状态栏风格如何更改呢？iOS9及之前使用*UIApplication* 的*setStatusBarStyle*修改状态栏风格。遗憾的9之后，成为过时API。如何解决呢？
 
-<!--more-->
  
  * 通过重写*UIViewController*的*prefersStatusBarHidden*与*preferredStatusBarStyle*控制各种页面状态栏风格
  * plist配置文件中*UIViewControllerBasedStatusBarAppearance*属性设置为YES。

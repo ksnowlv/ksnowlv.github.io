@@ -1,12 +1,18 @@
 ---
 title: "go变量声明和使用"
 date: 2019-02-01
+lastmod: 2019-02-01
 categories:
   - "go后台"
 tags:
   - "go"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 go变量声明和使用

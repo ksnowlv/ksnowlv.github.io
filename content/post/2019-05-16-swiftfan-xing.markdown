@@ -1,12 +1,18 @@
 ---
 title: "swift泛型"
 date: 2019-05-16
+lastmod: 2019-05-16
 categories:
   - "swift"
 tags:
   - "泛型"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 

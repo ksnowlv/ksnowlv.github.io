@@ -1,18 +1,26 @@
 ---
 title: "关于NSOperation的使用之一"
 date: 2013-04-03
+lastmod: 2013-04-03
 categories:
   - "iOS"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
    Apple在OS X 10.5 Leopard上做了很多改进。`NSThread`本身就新增了很多新的方法，从而使得多线程变得更加容易。此外还新增了`NSOperation`和`NSOperationQueue`两个类，使多线程编程更加方便！
 
 以`NSOperation`和`NSOperationQueue`为例   
 
-#### 1.头文件```objective-c
+#### 1.头文件
+
+```objective-c
 
 //  QTileDownloadOperation.h
 #import <Foundation/Foundation.h>

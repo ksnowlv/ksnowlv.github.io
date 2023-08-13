@@ -1,16 +1,21 @@
 ---
 title: "iOS同步对象性能对比"
 date: 2014-09-07
+lastmod: 2014-09-07
 categories:
   - "iOS"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 在iOS开发中，支持多种同步方法，我们从耗时角度出发，评估各种同步对象的性能。
 
-<!--more-->
 
 ``` objective-c
 

@@ -1,12 +1,18 @@
 ---
 title: "opengl坐标系"
 date: 2013-04-12
+lastmod: 2013-04-12
 categories:
   - "iOS"
 tags:
   - "OpenGL"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 OpenGL坐标系可分为

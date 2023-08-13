@@ -1,16 +1,21 @@
 ---
 title: "天津猛犸的日子里"
 date: 2014-07-25
+lastmod: 2014-07-25
 categories:
   - "职业生涯"
 tags:
   - "职业生涯"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 因在当时的公司一些事，我在2008年9月开始寻找新的工作机会。
 
-<!--more-->
 
 当时收到天津猛犸的面试通知后，我欣然前往，这是天津比较有名的手机网游公司。当时面试完后即给了offer,于是，只有等待了。
 

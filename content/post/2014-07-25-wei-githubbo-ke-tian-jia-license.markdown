@@ -1,15 +1,20 @@
 ---
 title: "为github博客添加license"
 date: 2014-07-25
+lastmod: 2014-07-25
 categories:
   - "github-博客"
 tags:
   - "github-博客"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 如何为github博客添加license呢？
 
-<!--more-->
 
 #### 1.在source/_includes/post目录创建license.html,内容如下：
     <p> 

@@ -1,12 +1,19 @@
 ---
 title: "入职腾讯"
 date: 2011-08-10
+lastmod: 2011-08-10
 categories:
   - "职业生涯"
 tags:
   - "职业生涯"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
+
 早上9点入职，中午的时候，还没有办完入职手续，因为入职的人特别多，排队填写一堆东东，看样子要到下午了。
 
    下午吃完饭后，去那像是网吧一样的工位。但是，人与人却是近距离接触的。

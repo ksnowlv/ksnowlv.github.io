@@ -1,15 +1,20 @@
 ---
 title: "iOS8中的spdy使用"
 date: 2014-11-20
+lastmod: 2014-11-20
 categories:
   - "iOS"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### spdy需要客户端和服务端同时支持。
-<!--more-->
 
 #### 1.spdy available on both OS X Yosemite and iOS 8 
 SPDY/2, SPDY/3, and SPDY/3.1 are supported Supported transparently by NSURLSession No source changes needed—it just works

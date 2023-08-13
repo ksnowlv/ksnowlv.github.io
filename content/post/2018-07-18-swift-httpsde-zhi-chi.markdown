@@ -1,12 +1,18 @@
 ---
 title: "swift-https的支持"
 date: 2018-07-18
+lastmod: 2018-07-18
 categories:
   - "swift"
 tags:
   - "安全"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 swift中，如何支持https呢？
 

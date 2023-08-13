@@ -1,12 +1,18 @@
 ---
 title: "readonly和retain结合使用"
 date: 2013-04-02
+lastmod: 2013-04-02
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 经常看到一些属性声明为
 `@property(nonatomic,readonly,retain) UILabel      *textLabel __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_3_0);`

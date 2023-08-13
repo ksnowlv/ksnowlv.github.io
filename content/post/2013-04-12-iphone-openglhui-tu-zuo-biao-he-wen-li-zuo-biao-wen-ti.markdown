@@ -1,12 +1,18 @@
 ---
 title: "iPhone-OpenGL绘图坐标和纹理坐标问题"
 date: 2013-04-12
+lastmod: 2013-04-12
 categories:
   - "iOS"
 tags:
   - "OpenGL"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 当我们使用标准的OpenGL 绘制纹理图像时，我们得到了一个翻转的图像。为什么呢？
 

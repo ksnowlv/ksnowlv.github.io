@@ -1,15 +1,20 @@
 ---
 title: "swift自动引用计数"
 date: 2014-09-12
+lastmod: 2014-09-12
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 一.swift中自动引用计数
-<!--more-->
 #### 1.概况
 `Swift`使用自动引用计数(`ARC`)来跟踪并管理应用使用的内存。当实例不再被使用时，ARC会自动释放这些类的实例所占用的内存。
 

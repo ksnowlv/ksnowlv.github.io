@@ -1,20 +1,25 @@
 ---
 title: "mac下git基本命令"
 date: 2014-07-27
+lastmod: 2014-07-27
 categories:
   - "git"
 tags:
   - "git"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
-##持续整理中...
+## 持续整理中...
 
 #### git本地仓库由 git 维护的三棵“树”组成。
 ##### 第一棵是 `工作目录`：它持有实际文件；
 ##### 第二棵是 `暂存区(Index)`：它像个缓存区域，临时保存你的改动；
 #### 第三棵是 `HEAD`:它指向你最后一次提交的结果。
-<!--more-->
 
 ### git 基本命令
 #### 1.git help    git --help              #git相关帮助

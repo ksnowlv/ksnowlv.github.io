@@ -1,12 +1,18 @@
 ---
 title: "C++多态性"
 date: 2013-05-15
+lastmod: 2013-05-15
 categories:
   - "c++"
 tags:
   - "c++"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 #### 多态性含义* 同一个函数可以有不同的语义。相同的消息被不同对象接收时导致完全不同的行为。

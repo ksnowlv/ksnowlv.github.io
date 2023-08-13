@@ -1,16 +1,21 @@
 ---
 title: "Mac-nginx下CodeIgniter的安装配置"
 date: 2014-08-21
+lastmod: 2014-08-21
 categories:
   - "后台开发"
 tags:
   - "php"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
    经过筛选对比,php开发框架，我选择了[CodeIgniter](https://ellislab.com/codeigniter)`2.2`版本。
 
-<!--more-->
 
 #### 1.下载解压即可。其目录结构：
 ![image](/images/post/2014-08-21-mac-nginx-xia-codeigniterde-an-zhuang-pei-zhi/codeigniter_dir.png)  

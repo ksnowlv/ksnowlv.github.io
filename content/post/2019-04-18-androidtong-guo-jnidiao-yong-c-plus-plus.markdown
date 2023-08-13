@@ -1,12 +1,18 @@
 ---
 title: "Android通过jni调用c++"
 date: 2019-04-18
+lastmod: 2019-04-18
 categories:
   - "Android"
 tags:
   - "jni"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 本篇重点内容在于如何把C++的类通过JNI转换为JAVA的类

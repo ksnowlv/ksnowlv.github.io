@@ -1,12 +1,18 @@
 ---
 title: "swift-objective-c混编的framework"
 date: 2018-07-02
+lastmod: 2018-07-02
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 swift-objective-c混编的framework如何制作呢？
 

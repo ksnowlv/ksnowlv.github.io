@@ -1,12 +1,18 @@
 ---
 title: "非对称加解密算法之ECC"
 date: 2018-04-20
+lastmod: 2018-04-20
 categories:
   - "iOS"
 tags:
   - "安全"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
    ECC算法用途比RSA还厉害。

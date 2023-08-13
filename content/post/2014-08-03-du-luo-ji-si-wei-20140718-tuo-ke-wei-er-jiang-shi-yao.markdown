@@ -1,12 +1,18 @@
 ---
 title: "读逻辑思维-20140718-托克维尔讲什么"
 date: 2014-08-03
+lastmod: 2014-08-03
 categories:
   - "读书"
 tags:
   - "读书"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 法国托克维尔
 

@@ -1,15 +1,20 @@
 ---
 title: "Faux Pas查找隐形bug利器"
 date: 2014-08-31
+lastmod: 2014-08-31
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 [Faux Pas](http://fauxpasapp.com)是一个Xcode辅助工具，查找隐形bug利器,
 
-<!--more-->
 
 主要功能:
 >* 找出隐藏的**bug**。

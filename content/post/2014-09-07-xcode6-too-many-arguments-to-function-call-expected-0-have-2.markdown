@@ -1,12 +1,18 @@
 ---
 title: "XCode6下Too many arguments to function call, expected 0, have 2解决办法"
 date: 2014-09-07
+lastmod: 2014-09-07
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### 在XCode6下，写了如下一段代码：
 ``` objective-c
@@ -20,7 +26,6 @@ tags:
 
     “Too many arguments to function call, expected 0, have 2”
 
-<!--more-->
 #### 后来发现在使用objc_msgSend编译时，与IMP报错类似。
 #### 原来是LLVM升级后，增加一些默认设置    
     objc_msgSend without a typecast is usually an error  

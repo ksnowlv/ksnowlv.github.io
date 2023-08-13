@@ -1,16 +1,21 @@
 ---
 title: "如何把githubblog源代码同步到github上"
 date: 2014-07-25
+lastmod: 2014-07-25
 categories:
   - "github-博客"
 tags:
   - "github-博客"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 使用github和octopress搭建好github博客后，如何把本地源代码上传到服务器上呢？
 
-<!--more-->
 
 #### 1.在octopress下或博客目录(***有_config.yml文件的目录***)下，使用git初始化命令，如下所示：
 ```

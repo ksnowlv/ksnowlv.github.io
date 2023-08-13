@@ -1,16 +1,21 @@
 ---
 title: "Swift的类-结构-协议-枚举"
 date: 2014-09-08
+lastmod: 2014-09-08
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 现在主要体验swift类(创建，销毁，继承/派生)，结构体，协议，枚举等方面的使用.
 
-<!--more-->
 
 #### 1.结构体和常量定义。结构体定义其实与c/c++大体类似。示例如下:
 

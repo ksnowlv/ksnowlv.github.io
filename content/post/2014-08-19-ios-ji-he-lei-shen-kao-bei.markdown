@@ -1,16 +1,21 @@
 ---
 title: "iOS集合类深拷贝"
 date: 2014-08-19
+lastmod: 2014-08-19
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 iOS集合类默认是浅拷贝，那如何深拷贝呢？
 
-<!--more-->
 
 #### 1.集合类的浅拷贝:
 ``` objective-c

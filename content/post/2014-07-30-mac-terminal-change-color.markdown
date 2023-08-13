@@ -1,14 +1,19 @@
 ---
 title: "Mac terminal换主题"
 date: 2014-07-30
+lastmod: 2014-07-30
 categories:
   - "Mac"
 tags:
   - "Mac"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 为Mac Terminal更换主题
-<!--more-->
 
 #### 一.创建主题文件。#### 1.ir_black.terminal
 #### 内容如下： 

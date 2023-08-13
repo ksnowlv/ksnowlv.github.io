@@ -1,16 +1,21 @@
 ---
 title: "iOS-lua打补丁"
 date: 2015-08-10
+lastmod: 2015-08-10
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 一.目的
 ##### 1.更改线上App小的功能点。#### 2.修复线上App的Bug。#### 3.对于iOS来讲，避免了漫长的AppStore审核。
-<!--more-->
 
 ### 二.方案。
  ![image](/images/post/2015-08-10-ios-luada-bu-ding/diagram_overview.jpg)

@@ -1,12 +1,18 @@
 ---
 title: "swift中escaping与noescaping之区别"
 date: 2018-07-16
+lastmod: 2018-07-16
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 `Swift3之前`：
 	

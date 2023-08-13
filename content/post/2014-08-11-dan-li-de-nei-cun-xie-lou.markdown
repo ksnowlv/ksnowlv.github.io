@@ -1,12 +1,18 @@
 ---
 title: "单例的内存泄漏"
 date: 2014-08-11
+lastmod: 2014-08-11
 categories:
   - "iOS"
 tags:
   - "内存"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 今天发现iOS上的单例，在苹果自带memory leak工具中,
 
@@ -15,7 +21,6 @@ tags:
     
 推测应该是iOS系统对内存回收策略可能不太一样。
 
-<!--more-->
 
 单例创建对象一次，会在App被退出时被系统回收,不用担心内存泄漏的。
 

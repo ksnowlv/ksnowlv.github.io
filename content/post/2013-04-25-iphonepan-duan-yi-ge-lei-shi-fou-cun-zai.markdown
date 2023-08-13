@@ -1,12 +1,18 @@
 ---
 title: "iOS判断一个类是否存在"
 date: 2013-04-25
+lastmod: 2013-04-25
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 如何在判断一个类是否在当前SDK版本中是否存在？

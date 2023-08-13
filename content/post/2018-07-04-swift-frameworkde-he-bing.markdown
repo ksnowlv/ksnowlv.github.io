@@ -1,12 +1,18 @@
 ---
 title: "swift-framework的合并"
 date: 2018-07-04
+lastmod: 2018-07-04
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 swift framework如何支持合并呢？以YKBaseFramework.framework为例。
 

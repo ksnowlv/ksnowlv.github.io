@@ -1,12 +1,18 @@
 ---
 title: "iOS使用OpenSSL"
 date: 2014-11-18
+lastmod: 2014-11-18
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 `iOS`中`OpenSSL`
 
     If your app depends on OpenSSL,you should compile OpenSSL yourself 

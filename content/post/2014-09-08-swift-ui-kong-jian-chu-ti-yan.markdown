@@ -1,12 +1,18 @@
 ---
 title: "swift-UI-控件初体验"
 date: 2014-09-08
+lastmod: 2014-09-08
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 现在我们体验**swift**下UI控件的使用   
 >  * **UIButton** 
@@ -14,7 +20,6 @@ tags:
 >  * **UILabel** 
 >  * **UITableView**
 
-<!--more-->
 #### 1.**ViewController**继承`UITableViewDataSource`，`UITableViewDelegate`，重写相应方法。#### 2.声明`UIButton`/`UIImageView`/`UILabel`/UITableView四种控件和列表数据数组，定义按钮事件。#### 3.控件及事件在IB连好。![image](/images/post/2014-09-08-swift-ui-kong-jian-chu-ti-yan/swift_ui_overviw_ib.png)
 
 #### 完整代码

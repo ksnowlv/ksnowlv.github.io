@@ -1,12 +1,18 @@
 ---
 title: "takeUnretainedValue与takeRetainedValue区别"
 date: 2018-06-29
+lastmod: 2018-06-29
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 swift中，如果我们使用perform相关函数时，例如
@@ -24,7 +30,6 @@ swift中，如果我们使用perform相关函数时，例如
 
 虽然代码可以正常运行，报这种警告，也是让人心理很不爽。
 
-<!--more-->
 
 如何解决呢？使用Unmanaged<AnyObject>的takeUnretainedValue()即可解决。
 

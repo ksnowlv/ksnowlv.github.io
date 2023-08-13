@@ -1,17 +1,22 @@
 ---
 title: "swift之gzip解压缩(二)-NSData"
 date: 2018-06-22
+lastmod: 2018-06-22
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 工程目前以objective-c为主，采用的是swift与objective-c混编方式，因此对NSData作了扩展。
 
-<!--more-->
 
 gzip压缩
 

@@ -1,12 +1,18 @@
 ---
 title: "拥抱swift"
 date: 2014-08-30
+lastmod: 2014-08-30
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
    **swift**面世,相比较**objective-c**而言，更易学易用,大大降低了学习的门槛,**iOS/Mac App**开发的生产力会大大提高!
    

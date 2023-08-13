@@ -1,16 +1,21 @@
 ---
 title: "读罗辑思维20140613-大国不能不识数"
 date: 2014-08-03
+lastmod: 2014-08-03
 categories:
   - "读书"
 tags:
   - "读书"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 大数据有什么好处？
 
-<!--more-->
 
 #### 现在文明是建立在数据文明基础之上的一种生活方式。数据文明三点好处    
 #### 1.是让人与人之间可以对话，而且可以得出阶段性的结论。

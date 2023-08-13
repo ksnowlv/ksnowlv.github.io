@@ -1,16 +1,21 @@
 ---
 title: "swift之gzip解压缩(一)-Data"
 date: 2018-05-22
+lastmod: 2018-05-22
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 解压缩使用swift需要引用libz库
 
-<!--more-->
 * 声明Data类的扩展
 
 ```objective-c

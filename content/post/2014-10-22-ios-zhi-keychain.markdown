@@ -1,17 +1,22 @@
 ---
 title: "iOS之Keychain"
 date: 2014-10-22
+lastmod: 2014-10-22
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 iOS之Keychain用途:提供了一种安全的保存私密信息的方式，每个ios程序都有一个独立的keychain存储,它保存的信息不会因App被删除而丢失，也可用于跨App共享keychain信息。见苹果开发文档[Keychain Services Programming Guide](https://developer.apple.com/library/ios/documentation/Security/Conceptual/keychainServConcepts/02concepts/concepts.html#//apple_ref/doc/uid/TP30000897-CH204-TP9)
 
-<!--more-->
 Keychain Services Reference关键的方法如下
 
 * SecItemCopyMatching

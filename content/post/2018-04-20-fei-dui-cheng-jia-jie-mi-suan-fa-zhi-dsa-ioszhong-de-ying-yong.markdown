@@ -1,16 +1,21 @@
 ---
 title: "非对称加解密算法之DSA-iOS中的应用"
 date: 2018-04-20
+lastmod: 2018-04-20
 categories:
   - "iOS"
 tags:
   - "安全"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 #### 1.引用openssl库。[https://github.com/x2on/OpenSSL-for-iPhone](https://github.com/x2on/OpenSSL-for-iPhone)
-<!--more-->
 
 #### 2.对数据进行签名。
 ```objective-c

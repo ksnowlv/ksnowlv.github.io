@@ -1,16 +1,21 @@
 ---
 title: "octopress搭建github博客相关概念"
 date: 2014-07-26
+lastmod: 2014-07-26
 categories:
   - "github-博客"
 tags:
   - "github-博客"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 目前项目开发版本管理工具使用sourcetree，之前对git不太了解，所以，使用octopress搭建个github博客体验一把。
 
-<!--more-->
 
 那都会涉及到哪些内容呢？先了解下以下概念：
 

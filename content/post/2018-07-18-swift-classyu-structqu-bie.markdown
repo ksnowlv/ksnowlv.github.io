@@ -1,12 +1,18 @@
 ---
 title: "swift-class与struct区别"
 date: 2018-07-18
+lastmod: 2018-07-18
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 |比较项|struct|class|

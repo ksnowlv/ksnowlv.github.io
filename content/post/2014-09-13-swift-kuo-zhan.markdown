@@ -1,17 +1,22 @@
 ---
 title: "Swift扩展"
 date: 2014-09-13
+lastmod: 2014-09-13
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 一.Swift中扩展
 语法格式，使用`extension`关键字修饰
 
-<!--more-->
 #### 1.普通扩展  `extension` 扩展名{
   }
   

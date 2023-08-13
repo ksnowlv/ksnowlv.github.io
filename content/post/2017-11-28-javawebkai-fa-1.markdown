@@ -1,16 +1,21 @@
 ---
 title: "java-web开发(一)--环境搭建"
 date: 2017-11-28
+lastmod: 2017-11-28
 categories:
   - "后台开发"
 tags:
   - "java"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 在进行开发前，需要配置好相关开发环境。
 
-<!--more-->
 
 #### 1. [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html)
 #### 2. [eclipse](https://www.eclipse.org/downloads/download.php?file=/oomph/epp/oxygen/R/eclipse-inst-mac64.tar.gz)

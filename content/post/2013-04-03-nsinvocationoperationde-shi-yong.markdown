@@ -1,12 +1,18 @@
 ---
 title: "NSInvocationOperation的使用"
 date: 2013-04-03
+lastmod: 2013-04-03
 categories:
   - "iOS"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 `NSInvocationOperation`的一个子类，在对`NSOperation`控制要求不高的情况下，可以使用。

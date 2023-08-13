@@ -1,12 +1,18 @@
 ---
 title: "python面向对象-内置类属性"
 date: 2014-08-06
+lastmod: 2014-08-06
 categories:
   - "python"
 tags:
   - "python"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 python内置类属性
 
@@ -20,7 +26,6 @@ python内置类属性
 
     __base__:类的所有父类构成元素（包含了以个由所有父类组成的元组).
 
-<!--more-->
 
 代码示例如下:
 

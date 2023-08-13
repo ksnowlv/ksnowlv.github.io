@@ -1,12 +1,18 @@
 ---
 title: "Mac下找回sql密码"
 date: 2017-11-28
+lastmod: 2017-11-28
 categories:
   - "后台开发"
 tags:
   - "数据库"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 安装好MySQL，系统给了个默认的的密码。然而，很不幸，忘记了默认的密码。如何找回呢？

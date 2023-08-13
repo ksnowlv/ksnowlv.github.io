@@ -1,12 +1,18 @@
 ---
 title: "iOS6转屏处理"
 date: 2013-04-02
+lastmod: 2013-04-02
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法：
 

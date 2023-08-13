@@ -1,16 +1,24 @@
 ---
 title: "NSMutableArray排序"
 date: 2013-04-27
+lastmod: 2013-04-27
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 主要使用sortUsingComparator，sortUsingFunction，sortUsingSelector进行排序。
 
-#### 1.头文件。```objective-c
+#### 1.头文件。
+
+```objective-c
 //
 //  ArraryTest_OrderViewController.m
 //  ArraryTest_Order

@@ -1,18 +1,23 @@
 ---
 title: "Android线程池"
 date: 2015-04-28
+lastmod: 2015-04-28
 categories:
   - "Android"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 **ExecutorService**继承**Executor**，是线程池的一个服务，可以随时关闭线程池。
 
 **Executors**是个工厂类，专门创建各种线程池。
 
-<!--more-->
 
 #### 一.Android常用的线程池有以下四种
 ##### 1.newFixedThreadPool

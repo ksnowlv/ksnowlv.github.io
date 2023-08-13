@@ -1,16 +1,21 @@
 ---
 title: "python线程之同步"
 date: 2014-08-08
+lastmod: 2014-08-08
 categories:
   - "python"
 tags:
   - "python"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 如果多个线程共同对某个数据修改访问，为了保证数据的正确性，需要对多个线程进行同步。
 
-<!--more-->
 
 使用Thread对象的Lock和Rlock可以实现简单的线程同步，
     

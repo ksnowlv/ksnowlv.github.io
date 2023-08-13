@@ -1,15 +1,20 @@
 ---
 title: "阻止文件被iTunes和iCloud同步"
 date: 2014-12-03
+lastmod: 2014-12-03
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 1.参考官方文档[How do I prevent files from being backed up to iCloud and iTunes?](https://developer.apple.com/library/ios/#qa/qa1719/_index.html)
-<!--more-->
 
 ### 2.示例代码```objective-c
 + (BOOL)addSkipBackupAttributeToItemAtPath:(NSString *)path {

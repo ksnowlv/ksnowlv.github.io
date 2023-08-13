@@ -1,19 +1,24 @@
 ---
 title: "iOS push机制"
 date: 2014-10-21
+lastmod: 2014-10-21
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 ### 一. push原理
 iOS push工作机制可以使用下图概括：
 ![image](/images/post/2014-10-21-ios-push-ji-zhi/apple_push_overview.png)
 
-<!--more-->
 * Provider:应用自己的服务器；
 * APNS:Apple Push Notification Service的简称，苹果Push服务器.
 

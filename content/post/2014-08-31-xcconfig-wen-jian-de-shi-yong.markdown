@@ -1,15 +1,20 @@
 ---
 title: "XCConfig文件的使用"
 date: 2014-08-31
+lastmod: 2014-08-31
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 **XCConfig:XCode**的**Config**文件，可以方便的对项目工程进行配置。只需要引入该工程配置文件即可。
 
-<!--more-->
 
 1.分别创建**ConfigDebug.xcconfig**/**ConfigRelease.xcconfig**文件
 

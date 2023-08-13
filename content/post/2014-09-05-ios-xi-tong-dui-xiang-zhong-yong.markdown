@@ -1,15 +1,20 @@
 ---
 title: "iOS系统对象重用"
 date: 2014-09-05
+lastmod: 2014-09-05
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### 当我们重复创建/销毁对象的操作时，iOS系统对象是否会被重用呢？
-<!--more-->
 
 #### 结论:iOS系统较低概率会输出可重用的对象,so,注意内存使用效率[可用Allocation工具检测]。
 >不要寄希望于系统对你低效的代码进行你想象中的优化!

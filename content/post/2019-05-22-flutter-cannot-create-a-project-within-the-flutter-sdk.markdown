@@ -1,12 +1,18 @@
 ---
 title: "flutter创建工程报错"
 date: 2019-05-22
+lastmod: 2019-05-22
 categories:
   - "iOS"
 tags:
   - "flutter"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ## 1.问题
 

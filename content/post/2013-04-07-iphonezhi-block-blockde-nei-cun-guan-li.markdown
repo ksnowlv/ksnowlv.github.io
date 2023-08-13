@@ -1,12 +1,18 @@
 ---
 title: "iPhone之block_block的内存管理"
 date: 2013-04-07
+lastmod: 2013-04-07
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
    除了上文提到的C语言中块的`Block_copy`，`Block_release`和`Objective-c`的块`copy`，`release`，`autorelease`等简单内存管理，还有一些更为复杂的规则。

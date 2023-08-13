@@ -1,16 +1,21 @@
 ---
 title: "uml时序图"
 date: 2014-11-03
+lastmod: 2014-11-03
 categories:
   - "UML"
 tags:
   - "UML"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 时序图（Sequence Diagram）
     显示对象之间交互的图，这些对象是按时间顺序排列的。
-<!--more-->
 
 ### 时序图中包括的建模元素主要有：
 * 1.对象（Actor）

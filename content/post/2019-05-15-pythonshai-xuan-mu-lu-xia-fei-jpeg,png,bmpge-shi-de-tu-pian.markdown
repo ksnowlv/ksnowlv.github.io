@@ -1,12 +1,18 @@
 ---
 title: "python筛选目录下非jpeg，png，bmp格式的图片"
 date: 2019-05-15
+lastmod: 2019-05-15
 categories:
   - "Python"
 tags:
   - "Python"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 

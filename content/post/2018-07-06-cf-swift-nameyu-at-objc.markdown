@@ -1,12 +1,18 @@
 ---
 title: "NS_SWIFT_NAME与@objc区别与用途"
 date: 2018-07-06
+lastmod: 2018-07-06
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 NS_SWIFT_NAME与@objc有什么区别和用途呢？
 

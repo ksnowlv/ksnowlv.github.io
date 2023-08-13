@@ -1,12 +1,18 @@
 ---
 title: "iPhone之block_全局block"
 date: 2013-04-07
+lastmod: 2013-04-07
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 可以将一个块变量作为全局块指针变量使用。
 如下声明：

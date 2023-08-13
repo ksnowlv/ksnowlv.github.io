@@ -1,17 +1,22 @@
 ---
 title: "由滴滴打车看地图"
 date: 2014-07-22
+lastmod: 2014-07-22
 categories:
   - "生活片段"
 tags:
   - "生活片段"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 ******
 
 2014年07月17日晚9:15乘坐MU9181从杭州飞到北京已是凌晨，于是乎，机场大巴到了中关村后，使用滴滴打车叫车。
 
-<!--more-->
 
   司机就在我旁边，居然绕了一公里。上车后，司机大哥抱怨说，百度地图导航真差，害我绕这么远，balabala...,后来，我说，给我看看你用的地图，右下角赫然“腾讯地图”，汗！
 

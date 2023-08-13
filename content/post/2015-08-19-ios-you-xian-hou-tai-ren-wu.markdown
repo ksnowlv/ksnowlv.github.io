@@ -1,15 +1,20 @@
 ---
 title: "iOS有限后台任务"
 date: 2015-08-19
+lastmod: 2015-08-19
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 iOS下有限后台任务如何使用呢？
 
-<!--more-->
 iOS应用，在切换到后台时，可以开启有限后台任务。
 见[苹果开发文档](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/)，
 

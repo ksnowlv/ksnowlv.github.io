@@ -1,12 +1,18 @@
 ---
 title: "java-web开发( 二)-Hello Java World"
 date: 2017-11-28
+lastmod: 2017-11-28
 categories:
   - "后台开发"
 tags:
   - "java"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 在着手java-web开发前，需要配置Tomcat和新创建的工程XServer.
  <!--more-->

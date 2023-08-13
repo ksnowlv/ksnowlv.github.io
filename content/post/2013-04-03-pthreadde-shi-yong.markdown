@@ -1,12 +1,18 @@
 ---
 title: "pthread的使用"
 date: 2013-04-03
+lastmod: 2013-04-03
 categories:
   - "iOS"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 `pthread`与`pthread_mutex_t`在一些场景下，会经常结合使用。
 

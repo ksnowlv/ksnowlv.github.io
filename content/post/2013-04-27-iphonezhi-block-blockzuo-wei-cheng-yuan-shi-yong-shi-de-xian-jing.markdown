@@ -1,12 +1,18 @@
 ---
 title: "iphone之block_block作为成员使用时的陷阱"
 date: 2013-04-27
+lastmod: 2013-04-27
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 `block`作为成员使用时，避免直接引用成员变量，造成block和所在的类相互retain引发内存泄露。

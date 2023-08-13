@@ -1,16 +1,21 @@
 ---
 title: "iOS中透穿UITableView响应下层view事件"
 date: 2014-08-27
+lastmod: 2014-08-27
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ![image](/images/post/2014-08-27-ios-zhong-tou-chuan-uitableview-xiang-ying-xia-ceng-view-shi-jian/homepage_1.png)
 
-<!--more-->
 
 <!--**图2**
 

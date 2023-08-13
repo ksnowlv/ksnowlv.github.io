@@ -29,7 +29,17 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="梵梵爸" />
-  <meta name="description" content="" />
+  <meta name="description" content="针对Objective-C-,Clang编译器内置哪些宏呢？
+像平时看到的
+__BLOCK__:是否支持block?
+__unsafe_unretained:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__weak:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__strong:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__block:块变量。
+等.
+那Clang编译器支持的所有宏定义可通过
+clang -dM -E - &amp;lt; /dev/null 命令查看
+" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -68,18 +78,51 @@
 
 
 <meta property="og:title" content="Objective-C-Clang预编译宏" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="针对Objective-C-,Clang编译器内置哪些宏呢？
+像平时看到的
+__BLOCK__:是否支持block?
+__unsafe_unretained:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__weak:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__strong:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__block:块变量。
+等.
+那Clang编译器支持的所有宏定义可通过
+clang -dM -E - &lt; /dev/null
+
+命令查看" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ksnowlv.github.io/post/2014-08-16-objective-c-clang-yu-bian-yi-hong/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2014-08-16T00:00:00+00:00" />
 <meta property="article:modified_time" content="2014-08-16T00:00:00+00:00" />
 <meta itemprop="name" content="Objective-C-Clang预编译宏">
-<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-08-16T00:00:00+00:00" />
+<meta itemprop="description" content="针对Objective-C-,Clang编译器内置哪些宏呢？
+像平时看到的
+__BLOCK__:是否支持block?
+__unsafe_unretained:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__weak:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__strong:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__block:块变量。
+等.
+那Clang编译器支持的所有宏定义可通过
+clang -dM -E - &lt; /dev/null
+
+命令查看"><meta itemprop="datePublished" content="2014-08-16T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-08-16T00:00:00+00:00" />
 <meta itemprop="wordCount" content="705">
 <meta itemprop="keywords" content="iOS," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Objective-C-Clang预编译宏"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="针对Objective-C-,Clang编译器内置哪些宏呢？
+像平时看到的
+__BLOCK__:是否支持block?
+__unsafe_unretained:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__weak:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__strong:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.
+__block:块变量。
+等.
+那Clang编译器支持的所有宏定义可通过
+clang -dM -E - &lt; /dev/null
+
+命令查看"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -344,7 +387,10 @@
 
 
   <div class="post-meta__right">
-    
+    <span class="post-meta-more">
+        约 705 字 -
+        预计阅读 2 分钟
+      </span>
 
     <div class="post-meta-category">
         <a href="https://ksnowlv.github.io/categories/ios/"> iOS </a>
@@ -366,7 +412,6 @@
         
         <div class="post-content">
           <p>针对Objective-C-,<a href="http://zh.wikipedia.org/wiki/Clang">Clang</a>编译器内置哪些宏呢？</p>
-<!-- raw HTML omitted -->
 <p>像平时看到的</p>
 <p><code>__BLOCK__</code>:是否支持block?</p>
 <p><code>__unsafe_unretained</code>:LLVM 编译器 3.0版本之后,可以在不使用ARC下,可用.</p>
@@ -378,56 +423,55 @@
 <pre><code>clang -dM -E - &lt; /dev/null
 </code></pre>
 <p>命令查看</p>
-<!-- raw HTML omitted -->
-<pre><code>ksnowlv@ksnowlvdeMacBook-Pro~$clang -dM -E - &lt; /dev/null
+<p>ksnowlv@ksnowlvdeMacBook-Pro~$clang -dM -E - &lt; /dev/null
 #define OBJC_NEW_PROPERTIES 1
 #define _LP64 1
-#define __APPLE_CC__ 6000
-#define __APPLE__ 1
+#define <strong>APPLE_CC</strong> 6000
+#define <strong>APPLE</strong> 1
 #define __ATOMIC_ACQUIRE 2
 #define __ATOMIC_ACQ_REL 4
-#define __ATOMIC_CONSUME 1    
+#define __ATOMIC_CONSUME 1 <br>
 #define __ATOMIC_RELAXED 0
 #define __ATOMIC_RELEASE 3
 #define __ATOMIC_SEQ_CST 5
-#define __BLOCKS__ 1
-#define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
-#define __CHAR16_TYPE__ unsigned short
-#define __CHAR32_TYPE__ unsigned int
-#define __CHAR_BIT__ 8
-#define __CONSTANT_CFSTRINGS__ 1
-#define __DBL_DENORM_MIN__ 4.9406564584124654e-324
-#define __DBL_DIG__ 15
-#define __DBL_EPSILON__ 2.2204460492503131e-16
-#define __DBL_HAS_DENORM__ 1
-#define __DBL_HAS_INFINITY__ 1
-#define __DBL_HAS_QUIET_NAN__ 1
-#define __DBL_MANT_DIG__ 53
-#define __DBL_MAX_10_EXP__ 308
-#define __DBL_MAX_EXP__ 1024
-#define __DBL_MAX__ 1.7976931348623157e+308
-#define __DBL_MIN_10_EXP__ (-307)
-#define __DBL_MIN_EXP__ (-1021)
-#define __DBL_MIN__ 2.2250738585072014e-308
-#define __DECIMAL_DIG__ 21
-#define __DYNAMIC__ 1
-#define __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ 1090
-#define __FINITE_MATH_ONLY__ 0
-#define __FLT_DENORM_MIN__ 1.40129846e-45F
-#define __FLT_DIG__ 6
-#define __FLT_EPSILON__ 1.19209290e-7F
-#define __FLT_EVAL_METHOD__ 0
-#define __FLT_HAS_DENORM__ 1
-#define __FLT_HAS_INFINITY__ 1
-#define __FLT_HAS_QUIET_NAN__ 1
-#define __FLT_MANT_DIG__ 24
-#define __FLT_MAX_10_EXP__ 38
-#define __FLT_MAX_EXP__ 128
-#define __FLT_MAX__ 3.40282347e+38F
-#define __FLT_MIN_10_EXP__ (-37)
-#define __FLT_MIN_EXP__ (-125)
-#define __FLT_MIN__ 1.17549435e-38F
-#define __FLT_RADIX__ 2
+#define <strong>BLOCKS</strong> 1
+#define <strong>BYTE_ORDER</strong> <strong>ORDER_LITTLE_ENDIAN</strong>
+#define <strong>CHAR16_TYPE</strong> unsigned short
+#define <strong>CHAR32_TYPE</strong> unsigned int
+#define <strong>CHAR_BIT</strong> 8
+#define <strong>CONSTANT_CFSTRINGS</strong> 1
+#define <strong>DBL_DENORM_MIN</strong> 4.9406564584124654e-324
+#define <strong>DBL_DIG</strong> 15
+#define <strong>DBL_EPSILON</strong> 2.2204460492503131e-16
+#define <strong>DBL_HAS_DENORM</strong> 1
+#define <strong>DBL_HAS_INFINITY</strong> 1
+#define <strong>DBL_HAS_QUIET_NAN</strong> 1
+#define <strong>DBL_MANT_DIG</strong> 53
+#define <strong>DBL_MAX_10_EXP</strong> 308
+#define <strong>DBL_MAX_EXP</strong> 1024
+#define <strong>DBL_MAX</strong> 1.7976931348623157e+308
+#define <strong>DBL_MIN_10_EXP</strong> (-307)
+#define <strong>DBL_MIN_EXP</strong> (-1021)
+#define <strong>DBL_MIN</strong> 2.2250738585072014e-308
+#define <strong>DECIMAL_DIG</strong> 21
+#define <strong>DYNAMIC</strong> 1
+#define <strong>ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED</strong> 1090
+#define <strong>FINITE_MATH_ONLY</strong> 0
+#define <strong>FLT_DENORM_MIN</strong> 1.40129846e-45F
+#define <strong>FLT_DIG</strong> 6
+#define <strong>FLT_EPSILON</strong> 1.19209290e-7F
+#define <strong>FLT_EVAL_METHOD</strong> 0
+#define <strong>FLT_HAS_DENORM</strong> 1
+#define <strong>FLT_HAS_INFINITY</strong> 1
+#define <strong>FLT_HAS_QUIET_NAN</strong> 1
+#define <strong>FLT_MANT_DIG</strong> 24
+#define <strong>FLT_MAX_10_EXP</strong> 38
+#define <strong>FLT_MAX_EXP</strong> 128
+#define <strong>FLT_MAX</strong> 3.40282347e+38F
+#define <strong>FLT_MIN_10_EXP</strong> (-37)
+#define <strong>FLT_MIN_EXP</strong> (-125)
+#define <strong>FLT_MIN</strong> 1.17549435e-38F
+#define <strong>FLT_RADIX</strong> 2
 #define __GCC_ATOMIC_BOOL_LOCK_FREE 2
 #define __GCC_ATOMIC_CHAR16_T_LOCK_FREE 2
 #define __GCC_ATOMIC_CHAR32_T_LOCK_FREE 2
@@ -444,139 +488,129 @@
 #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2 1
 #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4 1
 #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8 1
-#define __GNUC_MINOR__ 2
-#define __GNUC_PATCHLEVEL__ 1
-#define __GNUC_STDC_INLINE__ 1
-#define __GNUC__ 4
+#define <strong>GNUC_MINOR</strong> 2
+#define <strong>GNUC_PATCHLEVEL</strong> 1
+#define <strong>GNUC_STDC_INLINE</strong> 1
+#define <strong>GNUC</strong> 4
 #define __GXX_ABI_VERSION 1002
 #define __GXX_RTTI 1
-#define __INT16_TYPE__ short
-#define __INT32_TYPE__ int
-#define __INT64_C_SUFFIX__ LL
-#define __INT64_TYPE__ long long int
-#define __INT8_TYPE__ char
-#define __INTMAX_MAX__ 9223372036854775807L
-#define __INTMAX_TYPE__ long int
-#define __INTMAX_WIDTH__ 64
-#define __INTPTR_TYPE__ long int
-#define __INTPTR_WIDTH__ 64
-#define __INT_MAX__ 2147483647
-#define __LDBL_DENORM_MIN__ 3.64519953188247460253e-4951L
-#define __LDBL_DIG__ 18
-#define __LDBL_EPSILON__ 1.08420217248550443401e-19L
-#define __LDBL_HAS_DENORM__ 1
-#define __LDBL_HAS_INFINITY__ 1
-#define __LDBL_HAS_QUIET_NAN__ 1
-#define __LDBL_MANT_DIG__ 64
-#define __LDBL_MAX_10_EXP__ 4932
-#define __LDBL_MAX_EXP__ 16384
-#define __LDBL_MAX__ 1.18973149535723176502e+4932L
-#define __LDBL_MIN_10_EXP__ (-4931)
-#define __LDBL_MIN_EXP__ (-16381)
-#define __LDBL_MIN__ 3.36210314311209350626e-4932L
-#define __LITTLE_ENDIAN__ 1
-#define __LONG_LONG_MAX__ 9223372036854775807LL
-#define __LONG_MAX__ 9223372036854775807L
-#define __LP64__ 1
-#define __MACH__ 1
-#define __MMX__ 1
-#define __NO_INLINE__ 1
+#define <strong>INT16_TYPE</strong> short
+#define <strong>INT32_TYPE</strong> int
+#define <strong>INT64_C_SUFFIX</strong> LL
+#define <strong>INT64_TYPE</strong> long long int
+#define <strong>INT8_TYPE</strong> char
+#define <strong>INTMAX_MAX</strong> 9223372036854775807L
+#define <strong>INTMAX_TYPE</strong> long int
+#define <strong>INTMAX_WIDTH</strong> 64
+#define <strong>INTPTR_TYPE</strong> long int
+#define <strong>INTPTR_WIDTH</strong> 64
+#define <strong>INT_MAX</strong> 2147483647
+#define <strong>LDBL_DENORM_MIN</strong> 3.64519953188247460253e-4951L
+#define <strong>LDBL_DIG</strong> 18
+#define <strong>LDBL_EPSILON</strong> 1.08420217248550443401e-19L
+#define <strong>LDBL_HAS_DENORM</strong> 1
+#define <strong>LDBL_HAS_INFINITY</strong> 1
+#define <strong>LDBL_HAS_QUIET_NAN</strong> 1
+#define <strong>LDBL_MANT_DIG</strong> 64
+#define <strong>LDBL_MAX_10_EXP</strong> 4932
+#define <strong>LDBL_MAX_EXP</strong> 16384
+#define <strong>LDBL_MAX</strong> 1.18973149535723176502e+4932L
+#define <strong>LDBL_MIN_10_EXP</strong> (-4931)
+#define <strong>LDBL_MIN_EXP</strong> (-16381)
+#define <strong>LDBL_MIN</strong> 3.36210314311209350626e-4932L
+#define <strong>LITTLE_ENDIAN</strong> 1
+#define <strong>LONG_LONG_MAX</strong> 9223372036854775807LL
+#define <strong>LONG_MAX</strong> 9223372036854775807L
+#define <strong>LP64</strong> 1
+#define <strong>MACH</strong> 1
+#define <strong>MMX</strong> 1
+#define <strong>NO_INLINE</strong> 1
 #define __NO_MATH_INLINES 1
-#define __ORDER_BIG_ENDIAN__ 4321
-#define __ORDER_LITTLE_ENDIAN__ 1234
-#define __ORDER_PDP_ENDIAN__ 3412
-#define __PIC__ 2
-#define __POINTER_WIDTH__ 64
+#define <strong>ORDER_BIG_ENDIAN</strong> 4321
+#define <strong>ORDER_LITTLE_ENDIAN</strong> 1234
+#define <strong>ORDER_PDP_ENDIAN</strong> 3412
+#define <strong>PIC</strong> 2
+#define <strong>POINTER_WIDTH</strong> 64
 #define __PRAGMA_REDEFINE_EXTNAME 1
-#define __PTRDIFF_TYPE__ long int
-#define __PTRDIFF_WIDTH__ 64
-#define __REGISTER_PREFIX__ 
-#define __SCHAR_MAX__ 127
-#define __SHRT_MAX__ 32767
-#define __SIG_ATOMIC_WIDTH__ 32
-#define __SIZEOF_DOUBLE__ 8
-#define __SIZEOF_FLOAT__ 4
-#define __SIZEOF_INT128__ 16
-#define __SIZEOF_INT__ 4
-#define __SIZEOF_LONG_DOUBLE__ 16
-#define __SIZEOF_LONG_LONG__ 8
-#define __SIZEOF_LONG__ 8
-#define __SIZEOF_POINTER__ 8
-#define __SIZEOF_PTRDIFF_T__ 8
-#define __SIZEOF_SHORT__ 2
-#define __SIZEOF_SIZE_T__ 8
-#define __SIZEOF_WCHAR_T__ 4
-#define __SIZEOF_WINT_T__ 4
-#define __SIZE_MAX__ 18446744073709551615UL
-#define __SIZE_TYPE__ long unsigned int
-#define __SIZE_WIDTH__ 64
-#define __SSE2_MATH__ 1
-#define __SSE2__ 1
-#define __SSE3__ 1
-#define __SSE_MATH__ 1
-#define __SSE__ 1
-#define __SSP__ 1
-#define __SSSE3__ 1
-#define __STDC_HOSTED__ 1
-#define __STDC_UTF_16__ 1
-#define __STDC_UTF_32__ 1
-#define __STDC_VERSION__ 199901L
-#define __STDC__ 1
-#define __UINTMAX_TYPE__ long unsigned int
-#define __USER_LABEL_PREFIX__ _
-#define __VERSION__ &quot;4.2.1 Compatible Apple LLVM 5.1 (clang-503.0.40)&quot;
-#define __WCHAR_MAX__ 2147483647
-#define __WCHAR_TYPE__ int
-#define __WCHAR_WIDTH__ 32
-#define __WINT_TYPE__ int
-#define __WINT_WIDTH__ 32
+#define <strong>PTRDIFF_TYPE</strong> long int
+#define <strong>PTRDIFF_WIDTH</strong> 64
+#define <strong>REGISTER_PREFIX</strong>
+#define <strong>SCHAR_MAX</strong> 127
+#define <strong>SHRT_MAX</strong> 32767
+#define <strong>SIG_ATOMIC_WIDTH</strong> 32
+#define <strong>SIZEOF_DOUBLE</strong> 8
+#define <strong>SIZEOF_FLOAT</strong> 4
+#define <strong>SIZEOF_INT128</strong> 16
+#define <strong>SIZEOF_INT</strong> 4
+#define <strong>SIZEOF_LONG_DOUBLE</strong> 16
+#define <strong>SIZEOF_LONG_LONG</strong> 8
+#define <strong>SIZEOF_LONG</strong> 8
+#define <strong>SIZEOF_POINTER</strong> 8
+#define <strong>SIZEOF_PTRDIFF_T</strong> 8
+#define <strong>SIZEOF_SHORT</strong> 2
+#define <strong>SIZEOF_SIZE_T</strong> 8
+#define <strong>SIZEOF_WCHAR_T</strong> 4
+#define <strong>SIZEOF_WINT_T</strong> 4
+#define <strong>SIZE_MAX</strong> 18446744073709551615UL
+#define <strong>SIZE_TYPE</strong> long unsigned int
+#define <strong>SIZE_WIDTH</strong> 64
+#define <strong>SSE2_MATH</strong> 1
+#define <strong>SSE2</strong> 1
+#define <strong>SSE3</strong> 1
+#define <strong>SSE_MATH</strong> 1
+#define <strong>SSE</strong> 1
+#define <strong>SSP</strong> 1
+#define <strong>SSSE3</strong> 1
+#define <strong>STDC_HOSTED</strong> 1
+#define <strong>STDC_UTF_16</strong> 1
+#define <strong>STDC_UTF_32</strong> 1
+#define <strong>STDC_VERSION</strong> 199901L
+#define <strong>STDC</strong> 1
+#define <strong>UINTMAX_TYPE</strong> long unsigned int
+#define <strong>USER_LABEL_PREFIX</strong> _
+#define <strong>VERSION</strong> &ldquo;4.2.1 Compatible Apple LLVM 5.1 (clang-503.0.40)&rdquo;
+#define <strong>WCHAR_MAX</strong> 2147483647
+#define <strong>WCHAR_TYPE</strong> int
+#define <strong>WCHAR_WIDTH</strong> 32
+#define <strong>WINT_TYPE</strong> int
+#define <strong>WINT_WIDTH</strong> 32
 #define __amd64 1
-#define __amd64__ 1
-#define __apple_build_version__ 5030040
-#define __block __attribute__((__blocks__(byref)))
-#define __clang__ 1
-#define __clang_major__ 5
-#define __clang_minor__ 1
-#define __clang_patchlevel__ 0
-#define __clang_version__ &quot;5.1 (clang-503.0.40)&quot;
+#define <strong>amd64</strong> 1
+#define <strong>apple_build_version</strong> 5030040
+#define __block <strong>attribute</strong>((<strong>blocks</strong>(byref)))
+#define <strong>clang</strong> 1
+#define <strong>clang_major</strong> 5
+#define <strong>clang_minor</strong> 1
+#define <strong>clang_patchlevel</strong> 0
+#define <strong>clang_version</strong> &ldquo;5.1 (clang-503.0.40)&rdquo;
 #define __core2 1
-#define __core2__ 1
-#define __llvm__ 1
-#define __pic__ 2
-#define __strong 
-#define __tune_core2__ 1
-#define __unsafe_unretained 
-#define __weak __attribute__((objc_gc(weak)))
+#define <strong>core2</strong> 1
+#define <strong>llvm</strong> 1
+#define <strong>pic</strong> 2
+#define __strong
+#define <strong>tune_core2</strong> 1
+#define __unsafe_unretained
+#define __weak <strong>attribute</strong>((objc_gc(weak)))
 #define __x86_64 1
-#define __x86_64__ 1
-</code></pre>
+#define <strong>x86_64</strong> 1</p>
         </div>
 
         
         
-<div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">文章作者</span>
-    <span class="item-content">梵梵爸</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">上次更新</span>
-    <span class="item-content">
-      2014-08-16
-      
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">许可协议</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
-  </p>
+
+
+
+        
+        
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    
+    
+  </div>
 </div>
-
-
-
-        
-        
 
 
         <footer class="post-footer">
@@ -621,6 +655,8 @@
       </article>
 
       
+      
+        
       
 
 
@@ -704,17 +740,6 @@
     </a>
   
     <a href="http://localhost:1313" rel="me noopener" class="iconfont"
-      title="linkedin"  target="_blank"
-      >
-      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="33" height="33">
-  <path d="M872.405333 872.618667h-151.637333v-237.610667c0-56.661333-1.152-129.578667-79.018667-129.578667-79.061333 0-91.136 61.653333-91.136 125.397334v241.792H398.976V384h145.664v66.602667h1.962667c20.352-38.4 69.845333-78.933333 143.786666-78.933334 153.642667 0 182.058667 101.12 182.058667 232.746667v268.202667zM227.712 317.141333a87.978667 87.978667 0 0 1-88.021333-88.106666 88.064 88.064 0 1 1 88.021333 88.106666z m76.032 555.477334H151.68V384h152.064v488.618667zM948.266667 0H75.562667C33.792 0 0 33.024 0 73.770667v876.458666C0 991.018667 33.792 1024 75.562667 1024h872.576C989.866667 1024 1024 991.018667 1024 950.229333V73.770667C1024 33.024 989.866667 0 948.138667 0h0.128z"></path>
-</svg>
-
-    </a>
-  
-    <a href="http://localhost:1313" rel="me noopener" class="iconfont"
       title="google"  target="_blank"
       >
       <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -725,7 +750,7 @@
 
     </a>
   
-    <a href="http://localhost:1313" rel="me noopener" class="iconfont"
+    <a href="https://github.com/ksnowlv" rel="me noopener" class="iconfont"
       title="github"  target="_blank"
       >
       <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"

@@ -1,19 +1,28 @@
 ---
 title: "iPhone之block_成员block"
 date: 2013-04-05
+lastmod: 2013-04-05
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 块是基于栈的：当在一个函数或方法中定义一个块变量时，编译器会在栈上创建一个结构来保存块所引用的任何本地变量的值，它引用的读写变量的地址及指向块的可执行代码的指针。
   
   但block也可以作为成员使用，需要把块由栈拷贝到堆上。
 
-#### 示例##### 1.头文件```objective-c
+#### 示例
+##### 1.头文件
+
+```objective-c
 //  QBlock.h
 #import <Foundation/Foundation.h>
 typedef void(^printBlock)(NSString* toDo);

@@ -1,15 +1,20 @@
 ---
 title: "swift-计时器"
 date: 2017-12-15
+lastmod: 2017-12-15
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 iOS中计时器工具类如何设计呢？
-<!--more-->
 
 1.需求
 

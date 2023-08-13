@@ -1,12 +1,18 @@
 ---
 title: "iOS下常用调试方法"
 date: 2014-08-21
+lastmod: 2014-08-21
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 **1.预编译器内置的宏可用于c/c++/Objective-C**
@@ -20,7 +26,6 @@ tags:
 * \__PRETTY_FUNCTION__ :当前函数名
 
 
-<!--more-->
 
 **2.在Objective-C中常用的表达式**
 

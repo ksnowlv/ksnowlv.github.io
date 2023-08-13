@@ -1,12 +1,18 @@
 ---
 title: "快速学习的捷径"
 date: 2014-08-22
+lastmod: 2014-08-22
 categories:
   - "生活片段"
 tags:
   - "生活片段"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
    做为一个IT技术人员，如何快速学习呢？
    
   **理论基础+实践应用，快速构建融会贯通，构建自生长延伸的知识体系!**

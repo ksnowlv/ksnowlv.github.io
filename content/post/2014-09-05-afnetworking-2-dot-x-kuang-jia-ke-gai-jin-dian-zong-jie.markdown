@@ -1,16 +1,21 @@
 ---
 title: "AFNetworking-2.x框架可改进点总结"
 date: 2014-09-05
+lastmod: 2014-09-05
 categories:
   - "iOS"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 **AFNetworking**网络框架**2.x**是很优秀的，许多关键的技术细节处理的是很到位的。
 
-<!--more-->
 
 ### AFNetworking 2.x可能改进点小结
 #### 1.可以根据需求，选用其中部分模块，并裁剪其中一些类。#### 2.目前网络模块不支持长连接。#### 3.**NSCache**的不当使用，可以调整优化。

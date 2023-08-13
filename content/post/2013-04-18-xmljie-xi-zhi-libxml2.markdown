@@ -1,12 +1,18 @@
 ---
 title: "XML解析之libxml2"
 date: 2013-04-18
+lastmod: 2013-04-18
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 首先，添加系统库`libxml2`.dylib.

@@ -1,15 +1,20 @@
 ---
 title: "非对称加解密算法之DSA---dsa公钥与私钥 "
 date: 2018-04-17
+lastmod: 2018-04-17
 categories:
   - "iOS"
 tags:
   - "安全"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 DSA(Digital Signature Algorithm)：非对称加密算法，安全性与RSA相比差不多。
-<!--more-->
   *  DSA只是一种算法，和RSA不同之处在于它不能用作加密和解密，也不能进行密钥交换，只用于签名,比RSA要快很多.
   *  和RSA加密解密过程相反，在DSA数字签名和认证中，发送者使用自己的私钥对文件或消息进行签名，接受者收到消息后使用发送者的公钥来验证签名的真实性。
 

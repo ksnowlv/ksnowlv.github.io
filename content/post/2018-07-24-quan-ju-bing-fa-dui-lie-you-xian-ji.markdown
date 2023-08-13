@@ -1,12 +1,18 @@
 ---
 title: "全局并发队列优先级"
 date: 2018-07-24
+lastmod: 2018-07-24
 categories:
   - "swift"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 全局并发队（Global Queue）
 

@@ -1,12 +1,18 @@
 ---
 title: "Mac配置tomcat"
 date: 2017-11-28
+lastmod: 2017-11-28
 categories:
   - "后台开发"
 tags:
   - "java"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 

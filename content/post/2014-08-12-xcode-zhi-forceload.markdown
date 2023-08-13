@@ -1,12 +1,18 @@
 ---
 title: "Xcode之ObjC/all_load/force_load"
 date: 2014-08-12
+lastmod: 2014-08-12
 categories:
   - "iOS"
 tags:
   - "Xcode"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### 1.应用场景:
    在项目中，可能会使用多个第三方的库。

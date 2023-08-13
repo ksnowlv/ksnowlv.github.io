@@ -1,17 +1,22 @@
 ---
 title: "swift属性访问"
 date: 2014-09-10
+lastmod: 2014-09-10
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 `objective-c`中`property`方法支持`assign/readonly/retain/readwrite`等。
 `swift`也支持类似这些属性。
 
-<!--more-->
 ### 一.swift属性方法
 #### 1.readonly```objective-c
 

@@ -1,12 +1,18 @@
 ---
 title: "swift-cocoaframework中module.map配置"
 date: 2018-07-04
+lastmod: 2018-07-04
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 在swift framework中，如果要引用c库，可采用配置module.map.
 
 那如何配置呢？我们以CommonCrypto为例。

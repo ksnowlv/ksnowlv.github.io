@@ -1,12 +1,18 @@
 ---
 title: "魔女阿嘉璐-幽灵"
 date: 2014-08-09
+lastmod: 2014-08-09
 categories:
   - "生活片段"
 tags:
   - "生活片段"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
     DNF第二季70版本诺斯玛尔地区“疑惑之村”的美女领主魔女阿嘉璐,

@@ -1,17 +1,22 @@
 ---
 title: "python线程之start_new_thread"
 date: 2014-08-07
+lastmod: 2014-08-07
 categories:
   - "python"
 tags:
   - "python"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### Python中使用线程有两种方式：    1.函数式方式
     2.类包装线程对象方式。
 
-<!--more-->
 
 下面使用`函数式方式`，调用thread模块中的start_new_thread()函数来产生新线程。
 

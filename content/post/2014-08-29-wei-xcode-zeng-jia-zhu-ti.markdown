@@ -1,16 +1,21 @@
 ---
 title: "为Xcode增加主题"
 date: 2014-08-29
+lastmod: 2014-08-29
 categories:
   - "iOS"
 tags:
   - "Xcode"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 把`Xcode`主题文件拷贝到`/Users/ksnowlv/Library/Developer/Xcode/UserData/FontAndColorThemes`目录下。
 
-<!--more-->
 
 ![image](/images/post/2014-08-29-wei-xcode-zeng-jia-zhu-ti/xcode_theme_dir.png)
 

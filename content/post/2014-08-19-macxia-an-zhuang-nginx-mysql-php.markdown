@@ -1,16 +1,21 @@
 ---
 title: "Mac下配置nginx-mysql-php"
 date: 2014-08-19
+lastmod: 2014-08-19
 categories:
   - "后台开发"
 tags:
   - "nginx"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 Mac上配置nginx,mysql,php开发环境
 
-<!--more-->
 
 #### 一.安装nginx.
  1.安装pcre.

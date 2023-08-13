@@ -1,19 +1,24 @@
 ---
 title: "七月份iPad客户端优化总结"
 date: 2014-08-09
+lastmod: 2014-08-09
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 主要内容包含三方面
     一.性能优化总览. 
     二.性能优化阶段详情. 
     三.归档.
 
-<!--more-->
 ### 一.性能优化总览
 #### 1.第一阶段：性能标准/监控/栅栏。		-----已完成，细节可能会有微调。
 #### 2.第二阶段：目前处于性能优化之内存优化方面	a.关于图片方面优化						-----正在进行中。

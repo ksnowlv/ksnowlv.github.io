@@ -1,16 +1,21 @@
 ---
 title: "Objective-C-Clang预编译宏"
 date: 2014-08-16
+lastmod: 2014-08-16
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 针对Objective-C-,[Clang](http://zh.wikipedia.org/wiki/Clang)编译器内置哪些宏呢？
-<!--more-->
 
 像平时看到的
 

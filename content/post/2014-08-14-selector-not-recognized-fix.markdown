@@ -1,15 +1,20 @@
 ---
 title: \"selector not recognized\"的crash原因及解决办法
 date: 2014-08-14
+lastmod: 2014-08-14
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### 在iOS开发中,经常会遇见"selector not recognized"这种类型的crash,其原因:
-<!--more-->
 
 #### 1.该方法实际上不存在.    1.检查是否拼写错误。
     2.检查该方法在iOS SDK版本中的适用版本范围。

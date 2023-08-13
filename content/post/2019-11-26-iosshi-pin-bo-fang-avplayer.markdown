@@ -1,12 +1,18 @@
 ---
 title: "iOS视频播放-AVPlayer和AVPlayerLayer"
 date: 2019-11-26
+lastmod: 2019-11-26
 categories:
   - "swift"
 tags:
   - "视频"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 

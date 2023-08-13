@@ -1,16 +1,21 @@
 ---
 title: "iOS中获取当前连接WIFI信息"
 date: 2013-04-25
+lastmod: 2013-04-25
 categories:
   - "iOS"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 iOS系统中，通过公有API不能获取周围所有Wifi的信息，但是，可以获取设备当前连接WiFi的信息。
 
-<!--more-->
 
 ### 1.引入头文件和库
     #import <SystemConfiguration/SystemConfiguration.h>

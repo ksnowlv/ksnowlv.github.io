@@ -1,12 +1,18 @@
 ---
 title: "swift call c++（二）"
 date: 2019-04-01
+lastmod: 2019-04-01
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 

@@ -1,12 +1,18 @@
 ---
 title: "”mac下配置jni开发环境(二)“"
 date: 2019-04-09
+lastmod: 2019-04-09
 categories:
   - "Android"
 tags:
   - "jni"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 创建android基础工程
 

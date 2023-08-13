@@ -1,12 +1,18 @@
 ---
 title: "JSONKIT初体验"
 date: 2013-04-05
+lastmod: 2013-04-05
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 以下面数据作为样例
 
 ```objective-c

@@ -1,16 +1,21 @@
 ---
 title: "git revert"
 date: 2014-07-29
+lastmod: 2014-07-29
 categories:
   - "git"
 tags:
   - "git"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 如何使用git的撤消操作呢？
 
-<!--more-->
 
 #### `git revert`撤销某次操作，此次操作之前的commit都会被保留。    
 因此revert 只會使commit继续往前,优点是可以针对某個 commit 進行还原 并且留下还原记录

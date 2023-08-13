@@ -1,12 +1,18 @@
 ---
 title: You must `brew link pcre' before nginx can be installed
 date: 2014-08-18
+lastmod: 2014-08-18
 categories:
   - "后台开发"
 tags:
   - "nginx"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 在使用Homebrew安装nginx时,会遇见如下错误:
 

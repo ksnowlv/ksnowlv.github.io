@@ -1,16 +1,21 @@
 ---
 title: "Mac-nginx下codeigniter域名服务访问"
 date: 2014-08-21
+lastmod: 2014-08-21
 categories:
   - "后台开发"
 tags:
   - "php"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 我们通过localhost访问php页面，如何使用自定义域名服务在本地生效呢？
 
-<!--more-->
 
 #### 1.修改nginx配置文件。文件位置:`/usr/local/etc/nginx/nginx.conf`,内容如下:
 

@@ -1,16 +1,21 @@
 ---
 title: "swift调用objective-c"
 date: 2017-11-27
+lastmod: 2017-11-27
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 swift调用objective-c在混编开发时经常会使用。
 
-<!--more-->
 
 ### 一.项目设置##### TARGETS ->Swift Compiler - General ->Objective-c Bridging Header 选项指定桥接文件，通常该文件命名为：工程名+Bridging-Header.h
 如图所示

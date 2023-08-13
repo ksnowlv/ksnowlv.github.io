@@ -1,16 +1,21 @@
 ---
 title: "http1.1与2.0主要区别"
 date: 2018-04-13
+lastmod: 2018-04-13
 categories:
   - "iOS"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 http2.0与1.1相比较，有哪些区别呢？
-<!--more-->
 #### 1.数据格式http2.0采用的是二进制格式，http1.1采用的是文本格式。
 二进制协议解析起来更高效，更紧凑，错误更少。
 #### 2.多路复用：非有序并阻塞，需要一个连接即可实现并发。

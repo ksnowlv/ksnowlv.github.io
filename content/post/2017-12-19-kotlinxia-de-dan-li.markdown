@@ -1,15 +1,20 @@
 ---
 title: "Kotlin下的单例"
 date: 2017-12-19
+lastmod: 2017-12-19
 categories:
   - "Android"
 tags:
   - "Kotlin"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 单例不同的语言下的要求大体一致。
-<!--more-->
 
 Kotlin下的单例是通过companion实现的。
 

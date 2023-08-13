@@ -1,17 +1,25 @@
 ---
 title: "XML解析之NSXMLParser"
 date: 2013-04-16
+lastmod: 2013-04-16
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 NSXMLParser为IPHONE SDK 自带的，还是很方便的。
 
-#### 1.头文件```objective-c
+#### 1.头文件
+
+```objective-c
 //  ViewController.h
 #import <UIKit/UIKit.h>
 

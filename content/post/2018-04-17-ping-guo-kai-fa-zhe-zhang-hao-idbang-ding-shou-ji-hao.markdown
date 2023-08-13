@@ -1,12 +1,18 @@
 ---
 title: "苹果开发者账号id绑定手机号"
 date: 2018-04-17
+lastmod: 2018-04-17
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 

@@ -1,12 +1,18 @@
 ---
 title: "八月相遇"
 date: 2014-08-25
+lastmod: 2014-08-25
 categories:
   - "生活片段"
 tags:
   - "生活片段"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
    八月二十二晚上，从杭州又一次乘坐东航M9181到回到北京，飞机晚点一个小时，到达首都机场时，因摆渡车未到，又在飞机上多呆了半个小时。
    

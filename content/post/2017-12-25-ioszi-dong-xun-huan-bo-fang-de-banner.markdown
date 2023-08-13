@@ -1,15 +1,20 @@
 ---
 title: "iOS自动循环播放的banner"
 date: 2017-12-25
+lastmod: 2017-12-25
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 自动循环播放的banner是很常见的UI组件。如何实现呢？
-<!--more-->
 
 #### 1.实现思路
 * 1.横向滚动的banner。

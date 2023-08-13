@@ -1,12 +1,18 @@
 ---
 title: "uml组件图"
 date: 2014-11-04
+lastmod: 2014-11-04
 categories:
   - "UML"
 tags:
   - "UML"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 ### 组件图(Component diagram)    显示系统组件间的结构关系组件图,有助于直观显示系统的高级结构以及这些结构通过接口提供和使用的服务行为.
     
  <!--more-->

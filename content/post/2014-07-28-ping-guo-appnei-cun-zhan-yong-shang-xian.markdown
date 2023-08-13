@@ -1,16 +1,21 @@
 ---
 title: "iOS/iPad App内存占用上限(二)"
 date: 2014-07-28
+lastmod: 2014-07-28
 categories:
   - "iOS"
 tags:
   - "内存"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 iOS/iPad App内存占用上限是多少呢？
 
-<!--more-->
 
 #### iOS/iPad App内存占用在打开许多App后，打开demo App,该demo App占用内存的上限能达到多少呢？
 #### 使用下面的代码,点击按钮后，观察内存警告时，App被kill时的日志输出。

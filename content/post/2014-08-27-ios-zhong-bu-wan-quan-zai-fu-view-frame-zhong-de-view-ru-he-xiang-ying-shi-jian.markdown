@@ -1,16 +1,21 @@
 ---
 title: "iOS中不完全在父UIView frame中的UIView如何响应事件"
 date: 2014-08-27
+lastmod: 2014-08-27
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 iOS开发中，如何使一个不完全在父**UIView的frame**中的**UIView**响应事件呢？
 
-<!--more-->
 
 可以通过在父**UIView**中重写**pointInside:withEvent**即可.
 

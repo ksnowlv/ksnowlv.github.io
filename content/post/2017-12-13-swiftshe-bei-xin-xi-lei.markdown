@@ -1,15 +1,20 @@
 ---
 title: "swift-设备信息类"
 date: 2017-12-13
+lastmod: 2017-12-13
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 设备信息类是iOS开发框架中必备工具类，通常包含哪些属性呢？
-<!--more-->
 
 * UUID
 * 广告标识idfa

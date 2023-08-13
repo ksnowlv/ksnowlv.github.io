@@ -1,17 +1,22 @@
 ---
 title: "客户端白屏问题解决方案"
 date: 2017-12-04
+lastmod: 2017-12-04
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ##关于客户端白屏解决方案。
 
 ### 一.现象：客户端中原生或h5的页面,有时会出现白屏现象.如何解决呢？
-<!--more-->
 
 
 ### 二.解决方案。  针对这种现象，着眼于提升页面加载速度和用户体验，更好地服务用户，给用户带来愉悦的体验。因此，从交互层面，技术层面两种手段来解决这种问题。

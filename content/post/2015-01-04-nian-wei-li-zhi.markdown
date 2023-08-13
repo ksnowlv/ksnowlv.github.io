@@ -1,18 +1,23 @@
 ---
 title: "年尾离职"
 date: 2015-01-04
+lastmod: 2015-01-04
 categories:
   - "职业生涯"
 tags:
   - "职业生涯"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 2014年过去了，我已经站在了2015的起点。
 
 站在2014年的尾巴上，我做了一个选择，离开淘宝。
 
-<!--more-->
 
 在淘宝的9个月的光阴里，出差七个半月的光景。与老婆聚少离多的日子，深感对不起我的她。
 

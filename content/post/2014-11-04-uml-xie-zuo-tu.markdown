@@ -1,12 +1,18 @@
 ---
 title: "uml协作图"
 date: 2014-11-04
+lastmod: 2014-11-04
 categories:
   - "UML"
 tags:
   - "UML"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 协作图(也叫通讯图collaboration diagram) 
      显示对象之间的交互，强调交互的空间结构

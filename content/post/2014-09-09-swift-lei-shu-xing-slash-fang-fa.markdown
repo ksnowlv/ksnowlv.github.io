@@ -1,16 +1,21 @@
 ---
 title: "swift类属性/方法"
 date: 2014-09-09
+lastmod: 2014-09-09
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 swift类的属性**setter/getter**，普通方法，类方法/变量，访问权限等。
 
-<!--more-->
 #### 1.setter/getter方法
 ``` objective-c
  

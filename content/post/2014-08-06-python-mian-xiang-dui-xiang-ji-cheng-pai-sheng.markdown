@@ -1,15 +1,20 @@
 ---
 title: "Python面向对象-继承派生"
 date: 2014-08-06
+lastmod: 2014-08-06
 categories:
   - "python"
 tags:
   - "python"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### python是支持类的继承派生，通过这种继承派生机制，我们可以实现代码重用。其实，与C++/Objective-c/Java类似。
-<!--more-->
 
 #### 语法格式如下:    
     class 派生类名（基类名):

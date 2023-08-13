@@ -1,12 +1,18 @@
 ---
 title: "synchronized到objc_sync_enter/objc_sync_exit"
 date: 2018-08-07
+lastmod: 2018-08-07
 categories:
   - "swift"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 `synchronized`->`objc_sync_enter/objc_sync_exit`

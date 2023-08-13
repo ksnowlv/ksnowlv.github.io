@@ -1,16 +1,21 @@
 ---
 title: "Mac下支持多个ssh-key"
 date: 2017-11-29
+lastmod: 2017-11-29
 categories:
   - "git"
 tags:
   - "git"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 Mac下如何支持多个ssh-key呢？
 
-<!--more-->
 
    通过ssh-config文件配置各个ssh-key,避免在mac重启后，每次手动添加ssh-key。
 

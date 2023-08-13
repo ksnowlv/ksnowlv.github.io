@@ -1,14 +1,22 @@
 ---
 title: "symbian-gzip解压缩"
 date: 2013-04-11
+lastmod: 2013-04-11
 categories:
   - "其它"
 tags:
   - "其它"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
-#### gbk数据解压缩转成Unicode编码数据```objective-c
+#### gbk数据解压缩转成Unicode编码数据
+
+```objective-c
 const TBool GBKCompressToUnicodeL(const TDesC8& aGBKData,RBuf& aUnicodeData)
 {
 	z_stream stream;   

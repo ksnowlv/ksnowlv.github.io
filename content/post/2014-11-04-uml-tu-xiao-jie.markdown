@@ -1,12 +1,18 @@
 ---
 title: "UML图小结"
 date: 2014-11-04
+lastmod: 2014-11-04
 categories:
   - "UML"
 tags:
   - "UML"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 1.活动图VS时序图    
     活动图从用户的角度描述用例

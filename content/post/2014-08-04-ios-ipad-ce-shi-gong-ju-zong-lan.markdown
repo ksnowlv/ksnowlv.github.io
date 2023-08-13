@@ -1,12 +1,18 @@
 ---
 title: "iOS/iPad测试工具总览"
 date: 2014-08-04
+lastmod: 2014-08-04
 categories:
   - "iOS"
 tags:
   - "Xcode"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### iOS/iPad测试工具都有哪些呢？<!--more-->
 

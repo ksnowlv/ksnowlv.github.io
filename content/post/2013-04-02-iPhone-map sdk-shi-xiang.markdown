@@ -1,12 +1,18 @@
 ---
 title: "iPhone map sdk需要注意的事项"
 date: 2013-04-02
+lastmod: 2013-04-02
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### 1.慎用消息通知,避免给某一类对象发送消息通知。
 #### 2.慎用全局或静态对象,避免多个对象共享一份数据导致 UI 或数据 操作混乱。#### 3.在开发上,非必要情况,尽量使用 OC 语法,不使用 Objective-C++。

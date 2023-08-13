@@ -1,12 +1,18 @@
 ---
 title: "常见散列算法"
 date: 2018-04-17
+lastmod: 2018-04-17
 categories:
   - "iOS"
 tags:
   - "安全"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
  常见的单向散列算法，可用于数字签名，单向的，不可逆向，**并非加密算法**。

@@ -1,12 +1,18 @@
 ---
 title: "300指数量化基金"
 date: 2019-04-05
+lastmod: 2019-04-05
 categories:
   - "其它"
 tags:
   - "理财"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 

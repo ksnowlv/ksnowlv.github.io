@@ -1,17 +1,22 @@
 ---
 title: "iOS之url编解码"
 date: 2017-12-15
+lastmod: 2017-12-15
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 iOS 开发中，经常需要对url编码与解码。
 
-<!--more-->
 
 ### iOS9之前#### 1.url编码```objective-c
 

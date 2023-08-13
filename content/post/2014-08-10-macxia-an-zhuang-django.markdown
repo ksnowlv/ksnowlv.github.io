@@ -1,15 +1,20 @@
 ---
 title: "Mac下安装Django"
 date: 2014-08-10
+lastmod: 2014-08-10
 categories:
   - "python"
 tags:
   - "python"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 Mac下如何安装Django呢？
-<!--more-->
 
 安装步骤如下
 

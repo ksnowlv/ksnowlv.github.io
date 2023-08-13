@@ -1,12 +1,18 @@
 ---
 title: "网络长连接与短连接"
 date: 2014-11-12
+lastmod: 2014-11-12
 categories:
   - "iOS"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
  网络长连接与短连接有什么区别呢？
  <!--more-->
  

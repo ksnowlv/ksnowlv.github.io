@@ -1,12 +1,18 @@
 ---
 title: "直播协议对比"
 date: 2018-07-23
+lastmod: 2018-07-23
 categories:
   - "其它"
 tags:
   - "其它"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 |直播协议|优势|劣势|

@@ -1,12 +1,18 @@
 ---
 title: "swiftframework方法如何导出"
 date: 2018-07-02
+lastmod: 2018-07-02
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 swift framework中的方法如何在objective-c中调用呢？
 

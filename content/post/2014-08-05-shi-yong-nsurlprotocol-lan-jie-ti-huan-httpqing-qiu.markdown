@@ -1,14 +1,19 @@
 ---
 title: "使用NSURLProtocol拦截替换http请求"
 date: 2014-08-05
+lastmod: 2014-08-05
 categories:
   - "iOS"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 #### 使用背景:整个工程中中图片url需要添加额外的参数支持图片优化，包括webview部分。
-<!--more-->
 
 #### 所以使用NSURLProtocol拦截相关URL,替换http请求，实现图片优化参数的统一支持。
 #### 具体做法如下：#### 1.声明继承NSURLProtocol的子类QImageURLProtocol.

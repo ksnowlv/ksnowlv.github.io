@@ -1,12 +1,18 @@
 ---
 title: "Android通过jni间接调用c++"
 date: 2019-04-22
+lastmod: 2019-04-22
 categories:
   - "Android"
 tags:
   - "jni"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 本篇重点内容，C如何调用C++类，思路是JAVA通过JNI直接调用C，C调用C++相关的类。
 

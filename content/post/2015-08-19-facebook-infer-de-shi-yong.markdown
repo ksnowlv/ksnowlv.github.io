@@ -1,16 +1,21 @@
 ---
 title: "FaceBook-infer的使用"
 date: 2015-08-19
+lastmod: 2015-08-19
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 **Facebook**推出潜在一款**bug**扫描工具([http://fbinfer.com](http://fbinfer.com))，可以检查 **iOS/Android** App.
 
-<!--more-->
 
 MAC上的安装
 

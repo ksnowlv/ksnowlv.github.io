@@ -1,12 +1,18 @@
 ---
 title: "axure之动态面板"
 date: 2014-11-06
+lastmod: 2014-11-06
 categories:
   - "其它"
 tags:
   - "axure"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### axure动态面板    一个可以在层或状态中装有其他部件的容器.可以包含一个或多个状态，并且每个状态中可以包含多个部件.
     一个动态面板状态只能在同一时间看到一次.使用交互你可以隐藏/显示动态面板及设置当前动态面板状态的可见性.

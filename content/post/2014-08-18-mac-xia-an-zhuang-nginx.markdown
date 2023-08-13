@@ -1,16 +1,21 @@
 ---
 title: "Mac下安装nginx"
 date: 2014-08-18
+lastmod: 2014-08-18
 categories:
   - "后台开发"
 tags:
   - "nginx"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 Mac下安装nginx,我使用的是Homebrew,Homebrew安装好的情况下。
-<!--more-->
 
 #### 1.先安装pcre.
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$brew install pcre

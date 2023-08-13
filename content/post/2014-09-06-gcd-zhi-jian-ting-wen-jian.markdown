@@ -1,16 +1,21 @@
 ---
 title: "GCD之监听文件"
 date: 2014-09-06
+lastmod: 2014-09-06
 categories:
   - "iOS"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 GCD可以用来监听文件变化，例如目录变化，重命名等之类的。
 例如我们监听`Document`目录下，`ksnow`目录的变化。
-<!--more-->
 
 ``` objective-c
 

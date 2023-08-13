@@ -1,12 +1,18 @@
 ---
 title: "iOS指针集合类"
 date: 2018-04-23
+lastmod: 2018-04-23
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 Collections之[Pointer Collections](https://developer.apple.com/documentation/foundation/collections?language=objc)

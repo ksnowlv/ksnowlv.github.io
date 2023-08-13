@@ -1,15 +1,20 @@
 ---
 title: "mac下ssh-key常用操作命令"
 date: 2015-04-16
+lastmod: 2015-04-16
 categories:
   - "Mac"
 tags:
   - "Mac"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 **Mac**上关于**ssh key**常用的操作命令
 
-<!--more-->
 
 ### 1.生成公钥/私钥
 ```objective-c

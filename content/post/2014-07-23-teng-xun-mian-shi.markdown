@@ -1,16 +1,21 @@
 ---
 title: "腾讯面试"
 date: 2014-07-23
+lastmod: 2014-07-23
 categories:
   - "职业生涯"
 tags:
   - "职业生涯"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 2011年8月初，怀着对LBS的向往，开始在北京腾讯地图平台部全天六轮面试(***当时还在银科，搜搜地图和腾讯地图刚合并***)。
 
-<!--more-->
 
 第一面：是l.
  

@@ -1,12 +1,18 @@
 ---
 title: "iPhone之block_block是objective-c对象"
 date: 2013-04-07
+lastmod: 2013-04-07
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 `block`是`objective-c`对象,一个新创建的块，就是在堆栈上创建的一个Objective-c对象的一个示例。苹果没有提供块类头文件，因此，无法子类化它或者以一种`objective-c`的意义对它做任何事情，除了向它们发送`copy`,`retain`,`release`,`autorelease`消息。

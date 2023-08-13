@@ -1,16 +1,21 @@
 ---
 title: "iOS-64位适配"
 date: 2015-01-06
+lastmod: 2015-01-06
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 请参考苹果文档链接：[https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html](https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html)
 
-<!--more-->
 摘取几条如下：
 ### 指针不要转换为整数   将指针类型转换成整型的情况一般很少,但是非要用指针类型的话,请确保你的变量地址足够大。
    

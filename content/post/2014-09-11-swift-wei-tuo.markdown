@@ -1,16 +1,21 @@
 ---
 title: "swift委托"
 date: 2014-09-11
+lastmod: 2014-09-11
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 swift中的委托和objective-c中的类似。
 
-<!--more-->
 ### 一.协议支持required/optional
 如果协议是optional协议
 

@@ -1,12 +1,18 @@
 ---
 title: "iPhone之SQLite"
 date: 2013-04-24
+lastmod: 2013-04-24
 categories:
   - "iOS"
 tags:
   - "数据库"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 iPhone系统自带`SQLite`,首先工程中，引入头文件`#import <sqlite3.h>`和`libsqlite3.dylib LIB`库。
 

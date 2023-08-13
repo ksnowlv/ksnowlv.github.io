@@ -1,12 +1,18 @@
 ---
 title: "Kotlin通过jni间接调用c++"
 date: 2019-04-25
+lastmod: 2019-04-25
 categories:
   - "Android"
 tags:
   - "jni"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 本篇重点内容，Kotlin通过JNI直接调用C，C调用C++相关的类。实际上只是JAVA换成Kotlin的写法而已。

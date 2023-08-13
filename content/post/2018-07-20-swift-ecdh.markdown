@@ -1,12 +1,18 @@
 ---
 title: "swift-ecdh"
 date: 2018-07-20
+lastmod: 2018-07-20
 categories:
   - "swift"
 tags:
   - "安全"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 swift 在iOS10之后，支持ecdh加解密。

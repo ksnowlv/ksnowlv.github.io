@@ -1,12 +1,18 @@
 ---
 title: "Android-jni-demo"
 date: 2019-04-10
+lastmod: 2019-04-10
 categories:
   - "Android"
 tags:
   - "jni"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 #### 1.创建`app/src/main/jniLibs`目录#### 2.把so库拷贝到`jniLibs`目录。

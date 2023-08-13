@@ -1,16 +1,21 @@
 ---
 title: "Swift基础初探"
 date: 2014-09-07
+lastmod: 2014-09-07
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 现在主要体验Swift基础语法，基本数据类型，集合类，控制逻辑(if-else,switch,for循环)等。
 
-<!--more-->
 示例及注释
 
 ``` objective-c

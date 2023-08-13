@@ -1,12 +1,18 @@
 ---
 title: "swift-散列算法md5"
 date: 2018-06-22
+lastmod: 2018-06-22
 categories:
   - "swift"
 tags:
   - "安全"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 swift中散列算法md5很常用。
 

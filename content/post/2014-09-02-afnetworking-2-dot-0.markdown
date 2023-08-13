@@ -1,12 +1,18 @@
 ---
 title: "AFNetworking-2.0主项目"
 date: 2014-09-02
+lastmod: 2014-09-02
 categories:
   - "iOS"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 #### AFNetworking-2.0主项目源代码文件组成：<!--more-->

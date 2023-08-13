@@ -1,12 +1,18 @@
 ---
 title: "swift协议"
 date: 2014-09-10
+lastmod: 2014-09-10
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 ### 一.swift协议格式
 ```objective-c
 
@@ -16,7 +22,6 @@ protocol 协议名 {
 
 ```
 
-<!--more-->
 #### 1.协议支持属性> * 要求声明为变量属性，用var关键字做前缀。
 > * 支持setter/getter
 > 

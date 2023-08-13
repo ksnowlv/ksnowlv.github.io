@@ -1,16 +1,21 @@
 ---
 title: "为Xcode添加快捷代码模板"
 date: 2014-08-01
+lastmod: 2014-08-01
 categories:
   - "iOS"
 tags:
   - "Xcode"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 为了更快捷的写代码，可以添加代码模板。
 
-<!--more-->
 
 #### 1.使用快捷键Command Option Control 2来打开代码片段库#### 2.把你的代码片段向代码片段库中拖。 ![image](/images/post/2014-08-01-wei-xcodetian-jia-kuai-jie-dai-ma-mo-ban/shortcodetemplate1.png)
  

@@ -1,15 +1,20 @@
 ---
 title: "objectivec调用swift"
 date: 2017-11-24
+lastmod: 2017-11-24
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 objective-c调用swift在混编开发时经常会使用。
-<!--more-->
 
 ### 一.项目设置##### TARGETS ->Build Settings -> Packaging 选项中，* Defines Module设置为YES
 * Product Name一般默认工程名。那后面oc调用swift时，引入的头文件为**"工程名+swift.h"**。

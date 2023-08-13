@@ -1,12 +1,18 @@
 ---
 title: "加解密之RC4"
 date: 2013-04-22
+lastmod: 2013-04-22
 categories:
   - "iOS"
 tags:
   - "安全"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 IPHONE开发过程中，可能会用到加解密之类的，这里使用IPHONE SDK自带的加密接口。主要是针对RC4方式下的加解密。
 

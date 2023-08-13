@@ -1,16 +1,21 @@
 ---
 title: "mac下安装配置mysql"
 date: 2014-08-31
+lastmod: 2014-08-31
 categories:
   - "后台开发"
 tags:
   - "数据库"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### 1。下载安装MySQL.在[mysql官网](http://dev.mysql.com/downloads/mysql/)找到**Mac**版本**MySQL Community Server**下载安装即可。
 
-<!--more-->
 
 安装**MySQL**完成后，在在**MySQL的控制面板**(系统偏好设置->MySQL)中，启动**mysql服务**即可。
 

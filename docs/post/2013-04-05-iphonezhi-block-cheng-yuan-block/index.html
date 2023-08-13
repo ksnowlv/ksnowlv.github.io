@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="梵梵爸" />
-  <meta name="description" content="" />
+  <meta name="description" content="块是基于栈的：当在一个函数或方法中定义一个块变量时，编译器会在栈上创建一个结构来保存块所引用的任何本地变量的值，它引用的读写变量的地址及指向" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -68,18 +68,18 @@
 
 
 <meta property="og:title" content="iPhone之block_成员block" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="块是基于栈的：当在一个函数或方法中定义一个块变量时，编译器会在栈上创建一个结构来保存块所引用的任何本地变量的值，它引用的读写变量的地址及指向" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ksnowlv.github.io/post/2013-04-05-iphonezhi-block-cheng-yuan-block/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2013-04-05T00:00:00+00:00" />
 <meta property="article:modified_time" content="2013-04-05T00:00:00+00:00" />
 <meta itemprop="name" content="iPhone之block_成员block">
-<meta itemprop="description" content=""><meta itemprop="datePublished" content="2013-04-05T00:00:00+00:00" />
+<meta itemprop="description" content="块是基于栈的：当在一个函数或方法中定义一个块变量时，编译器会在栈上创建一个结构来保存块所引用的任何本地变量的值，它引用的读写变量的地址及指向"><meta itemprop="datePublished" content="2013-04-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-04-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="491">
+<meta itemprop="wordCount" content="471">
 <meta itemprop="keywords" content="iOS," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iPhone之block_成员block"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="块是基于栈的：当在一个函数或方法中定义一个块变量时，编译器会在栈上创建一个结构来保存块所引用的任何本地变量的值，它引用的读写变量的地址及指向"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -344,7 +344,10 @@
 
 
   <div class="post-meta__right">
-    
+    <span class="post-meta-more">
+        约 471 字 -
+        预计阅读 1 分钟
+      </span>
 
     <div class="post-meta-category">
         <a href="https://ksnowlv.github.io/categories/ios/"> iOS </a>
@@ -367,59 +370,59 @@
         <div class="post-content">
           <p>块是基于栈的：当在一个函数或方法中定义一个块变量时，编译器会在栈上创建一个结构来保存块所引用的任何本地变量的值，它引用的读写变量的地址及指向块的可执行代码的指针。</p>
 <p>但block也可以作为成员使用，需要把块由栈拷贝到堆上。</p>
-<h4 id="示例-1头文件objective-c">示例##### 1.头文件```objective-c</h4>
-<p>//  QBlock.h
-#import &lt;Foundation/Foundation.h&gt;
-typedef void(^printBlock)(NSString* toDo);</p>
-<p>@interface QBlock : NSObject
-{
-printBlock _printBlock;
-}</p>
-<ul>
-<li>(void)print:(NSString*)infomation;</li>
-</ul>
-<p>@end</p>
-<pre tabindex="0"><code>
-##### 2.实现文件
-```objective-c
-
-//  QBlock.m
-#import &#34;QBlock.h&#34;
-
-@implementation QBlock
-
-- (id)init  {
-    self = [super init];
-    
-    if (self) {
-        
-        
-      printBlock pb = ^(NSString* toDo){
-            NSLog(@&#34;infomation:%@&#34;, toDo);
-        };
-        
-        _printBlock = [pb copy];
-        
-        NSLog(@&#34;after block copy retainCount =%d&#34;, [_printBlock retainCount]); 
-    }
-    
-    return self;
-}
-
-- (void)dealloc {
-    [_printBlock release];
-    
-    NSLog(@&#34;after block release retainCount =%d&#34;, [_printBlock retainCount]);
-    
-    [super dealloc];
-}
-
-- (void)print:(NSString*)infomation {
-    _printBlock(infomation);
-}
-
-@end
-</code></pre><h5 id="3调用">3.调用</h5>
+<h4 id="示例">示例</h4>
+<h5 id="1头文件">1.头文件</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">//  QBlock.h
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">void</span>(<span style="color:#f92672">^</span>printBlock)(NSString<span style="color:#f92672">*</span> toDo);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">QBlock</span> : <span style="color:#a6e22e">NSObject</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    printBlock _printBlock;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">print:</span>(NSString<span style="color:#f92672">*</span>)infomation;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span></code></pre></div><h5 id="2实现文件">2.实现文件</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//  QBlock.m
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#import &#34;QBlock.h&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">QBlock</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">id</span>)<span style="color:#a6e22e">init</span>  {
+</span></span><span style="display:flex;"><span>    self <span style="color:#f92672">=</span> [super init];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (self) {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>      printBlock pb <span style="color:#f92672">=</span> <span style="color:#f92672">^</span>(NSString<span style="color:#f92672">*</span> toDo){
+</span></span><span style="display:flex;"><span>            NSLog(<span style="color:#e6db74">@&#34;infomation:%@&#34;</span>, toDo);
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        _printBlock <span style="color:#f92672">=</span> [pb <span style="color:#66d9ef">copy</span>];
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;after block copy retainCount =%d&#34;</span>, [_printBlock retainCount]); 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> self;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">dealloc</span> {
+</span></span><span style="display:flex;"><span>    [_printBlock <span style="color:#66d9ef">release</span>];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;after block release retainCount =%d&#34;</span>, [_printBlock retainCount]);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    [super dealloc];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">print:</span>(NSString<span style="color:#f92672">*</span>)infomation {
+</span></span><span style="display:flex;"><span>    _printBlock(infomation);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span></code></pre></div><h5 id="3调用">3.调用</h5>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span> QBlock<span style="color:#f92672">*</span> block <span style="color:#f92672">=</span> [[QBlock alloc] init];
 </span></span><span style="display:flex;"><span> [block print:<span style="color:#e6db74">@&#34;BLOCK以成员的形式使用&#34;</span>];
 </span></span><span style="display:flex;"><span> [block <span style="color:#66d9ef">release</span>];
@@ -430,33 +433,25 @@ printBlock _printBlock;
 </code></pre>
 <h5 id="5为什么模拟器上不用pb-copy也是可以的呢再看下后来看其他资料上这么说的">5.为什么模拟器上不用[pb copy]也是可以的呢？再看下;后来看其他资料上这么说的：</h5>
 <p>如果你尝试上面[pb copy]，有可能看上去可以正常工作。这可能是编译器在这个示例中已经安排了代码的一种偶然的方式。当代码超过作用域之后，编译器自由使用块在栈帧中所占用的空间。如果编译器重新使用该空间，尝试执行超过作用域的块，更有可能导致程序崩溃。</p>
+
         </div>
 
         
         
-<div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">文章作者</span>
-    <span class="item-content">梵梵爸</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">上次更新</span>
-    <span class="item-content">
-      2013-04-05
-      
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">许可协议</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
-  </p>
+
+
+
+        
+        
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    
+    
+  </div>
 </div>
-
-
-
-        
-        
 
 
         <footer class="post-footer">
@@ -502,6 +497,8 @@ printBlock _printBlock;
 
       
       
+        
+      
 
 
       
@@ -529,20 +526,7 @@ printBlock _printBlock;
     </div>
 
     
-    <nav class="toc" id="toc">
-    <div class="toc-title">文章目录</div>
-    <div class="toc-content custom-scrollbar">
-      <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-    </div>
-  </nav>
+    
 
 
   </div>
@@ -597,17 +581,6 @@ printBlock _printBlock;
     </a>
   
     <a href="http://localhost:1313" rel="me noopener" class="iconfont"
-      title="linkedin"  target="_blank"
-      >
-      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="33" height="33">
-  <path d="M872.405333 872.618667h-151.637333v-237.610667c0-56.661333-1.152-129.578667-79.018667-129.578667-79.061333 0-91.136 61.653333-91.136 125.397334v241.792H398.976V384h145.664v66.602667h1.962667c20.352-38.4 69.845333-78.933333 143.786666-78.933334 153.642667 0 182.058667 101.12 182.058667 232.746667v268.202667zM227.712 317.141333a87.978667 87.978667 0 0 1-88.021333-88.106666 88.064 88.064 0 1 1 88.021333 88.106666z m76.032 555.477334H151.68V384h152.064v488.618667zM948.266667 0H75.562667C33.792 0 0 33.024 0 73.770667v876.458666C0 991.018667 33.792 1024 75.562667 1024h872.576C989.866667 1024 1024 991.018667 1024 950.229333V73.770667C1024 33.024 989.866667 0 948.138667 0h0.128z"></path>
-</svg>
-
-    </a>
-  
-    <a href="http://localhost:1313" rel="me noopener" class="iconfont"
       title="google"  target="_blank"
       >
       <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -618,7 +591,7 @@ printBlock _printBlock;
 
     </a>
   
-    <a href="http://localhost:1313" rel="me noopener" class="iconfont"
+    <a href="https://github.com/ksnowlv" rel="me noopener" class="iconfont"
       title="github"  target="_blank"
       >
       <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"

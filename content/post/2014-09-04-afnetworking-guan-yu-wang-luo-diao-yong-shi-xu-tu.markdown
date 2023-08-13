@@ -1,16 +1,21 @@
 ---
 title: "AFNetworking 2.x网络调用时序图"
 date: 2014-09-04
+lastmod: 2014-09-04
 categories:
   - "iOS"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 AFNetworking 2.x中，关于网络请求的并发是通过`NSOperation`&`NSOperationQueue`实现的。
 
-<!--more-->
 
 > * 网络调用相关封装在[NSOperation](https://developer.apple.com/library/ios/documentation/cocoa/reference/NSOperation_class/Reference/Reference.html#//apple_ref/doc/uid/TP40004591)的子类`AFURLConnectionOperation`中。
  * 类`AFHTTPRequestOperationManager`通过[NSOperationQueue](https://developer.apple.com/library/ios/documentation/cocoa/reference/NSOperationQueue_class/Reference/Reference.html)完成对`AFURLConnectionOperation`的调度，当`AFURLConnectionOperation`一旦被加入到`NSOperationQueue`中，就开始了对网络并发执行.

@@ -1,17 +1,22 @@
 ---
 title: "IB_DESIGNABLE与IBInspectable的使用"
 date: 2017-11-27
+lastmod: 2017-11-27
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 iOS开发中经常会用到一些自定义UI控件，控件的效果和属性可以通过**IB_DESIGNABLE**和**IBInspectable**预览和修改。
 
-<!--more-->
 
 #### IB_DESIGNABLE自定义 UIView 可以在 XIB 中预览,，查看自定义控件的效果。
 

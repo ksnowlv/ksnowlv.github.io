@@ -1,17 +1,22 @@
 ---
 title: "uml-用例图"
 date: 2014-10-27
+lastmod: 2014-10-27
 categories:
   - "UML"
 tags:
   - "UML"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 用例图(Use Case)
     主要用来描述“用户、需求、系统功能单元”之间的关系.
 
-<!--more-->
 用例图所包含的元素
 
 #### 1.参与者(Actor)#### 2.用例(Use Case)    外部可见的系统功能,用椭圆表示

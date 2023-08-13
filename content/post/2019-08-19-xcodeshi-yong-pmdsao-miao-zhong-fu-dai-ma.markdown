@@ -1,16 +1,23 @@
 ---
 title: "XCode使用PMD扫描重复代码（一）"
 date: 2019-08-19
+lastmod: 2019-08-19
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 如何使用PMD在XCode下扫描重复代码（Copy&Past）呢？
 
-### 1.下载PMD：[https://pmd.github.io](https://pmd.github.io)，放置到工程主目录下面。![image](/images/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/1.png) 
+### 1.下载PMD：[https://pmd.github.io](https://pmd.github.io)，放置到工程主目录下面。![image](![image](/images/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/1.jpg) 	
+	) 
 
 ### 2.XCode中检测脚本配置#### 1.在`Xcode`的 `Build Phases` 中，我们增加一个新的 `Run Script`，脚本内容如下：
 

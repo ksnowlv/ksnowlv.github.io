@@ -1,12 +1,18 @@
 ---
 title: "Mac下搭建基于Apache的PHP开发环境"
 date: 2014-08-17
+lastmod: 2014-08-17
 categories:
   - "后台开发"
 tags:
   - "php"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### 一.开启Apache服务。<!--more-->
     #输入sudo apachectl start命令,再输入密码

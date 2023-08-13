@@ -1,15 +1,20 @@
 ---
 title: "iOS镂空UIView"
 date: 2015-05-14
+lastmod: 2015-05-14
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 如果想把UIView挖空一块，使用遮罩图。
-<!--more-->
 效果图如下：
 
 ![image](/images/post/2015-05-14-ios-lou-kong-uiview/overview.png)

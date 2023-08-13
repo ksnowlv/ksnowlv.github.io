@@ -1,16 +1,21 @@
 ---
 title: "swift-framework中objective-c与swift互调"
 date: 2017-12-29
+lastmod: 2017-12-29
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 swift-framework中objective-c与swift互调实际上与普通工程中的互调类似。
 
-<!--more-->
 
 背景：YKDeviceInfo为objective-c的类，KAppInfo为swift类。
 

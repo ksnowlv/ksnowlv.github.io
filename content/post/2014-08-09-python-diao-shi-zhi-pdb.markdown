@@ -1,15 +1,20 @@
 ---
 title: "python调试之pdb"
 date: 2014-08-09
+lastmod: 2014-08-09
 categories:
   - "python"
 tags:
   - "python"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### 学习python调试可参考官方文档的[pdb](https://docs.python.org/2/library/pdb.html).
-<!--more-->
 
 #### 一.在python中,在调试模块添加pdb调试支持. 
 ``` python   

@@ -1,16 +1,21 @@
 ---
 title: "杭州西溪园区九-九的夜晚"
 date: 2014-09-22
+lastmod: 2014-09-22
 categories:
   - "生活片段"
 tags:
   - "生活片段"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 2014年9月19日晚上，在阿里巴巴西溪园区里，一大帮土豪在舞台下，等待着公司上市的钟声在晚上9:30敲响.
 
-<!--more-->
 
 现场气氛很热烈，不停地播放着排练的节目，虽然是微雨天，依然是人山人海;错过了成为土豪们的机会，却有幸和土豪们一起见证这个即将到来的时刻。
 

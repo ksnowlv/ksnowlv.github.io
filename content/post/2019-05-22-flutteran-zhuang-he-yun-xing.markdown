@@ -1,12 +1,18 @@
 ---
 title: "flutter安装和运行"
 date: 2019-05-22
+lastmod: 2019-05-22
 categories:
   - "iOS"
 tags:
   - "flutter"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 
 ### 1.创建flutter工程目录（各项目+flutter目录），在flutter 目录下载flutter SDK

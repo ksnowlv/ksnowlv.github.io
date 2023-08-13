@@ -1,14 +1,19 @@
 ---
 title: "Android下锁"
 date: 2015-04-28
+lastmod: 2015-04-28
 categories:
   - "Android"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 ### Java下的锁
-<!--more-->
 
  * 1.Lock
  * 2.ReentrantLock

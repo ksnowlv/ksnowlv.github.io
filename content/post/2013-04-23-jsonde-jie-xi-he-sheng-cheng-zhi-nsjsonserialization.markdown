@@ -1,12 +1,18 @@
 ---
 title: "json的解析和生成之_NSJSONSerialization"
 date: 2013-04-23
+lastmod: 2013-04-23
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 `NSJSONSerialization`在(10_7, 5_0)版本中开始出现的，因此，如果使用系统自带的JSON API,需要对系统版本做一下校验或其他方式校验来确定是否使用该类。
 

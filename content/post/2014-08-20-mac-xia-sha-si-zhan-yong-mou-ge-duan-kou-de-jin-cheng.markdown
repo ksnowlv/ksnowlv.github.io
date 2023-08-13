@@ -1,18 +1,23 @@
 ---
 title: "Mac下杀死占用某个端口的进程"
 date: 2014-08-20
+lastmod: 2014-08-20
 categories:
   - "Mac"
 tags:
   - "Mac"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 `Mac`下启动`nginx`服务时，经常会遇见到端口被占用的情况。
 
 如何杀死占用相应端口的进程呢？
 
-<!--more-->
 
 #### 1.查看占用该端口的进程。格式:**lsof -i:port**   port:端口号
 

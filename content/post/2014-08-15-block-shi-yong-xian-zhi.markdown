@@ -1,12 +1,18 @@
 ---
 title: block关键字使用限制
 date: 2014-08-15
+lastmod: 2014-08-15
 categories:
   - "iOS"
 tags:
   - "iOS"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
  
 **__block**变量有两个限制
@@ -14,7 +20,6 @@ tags:
     1.不能是可变长度的数组。
     2.不能是包含C99可变长度数组的结构体。
     
-<!--more-->
 
 #### 1.可变数组#### C99中的可变长数组（variable length array，简称VLA）    
     可变长指的是编译期可变，数组定义时,其长度可为整数类型的表达式.

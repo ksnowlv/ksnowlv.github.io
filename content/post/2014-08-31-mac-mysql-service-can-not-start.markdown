@@ -1,15 +1,20 @@
 ---
 title: "解决mac-mysql-service-can‘t-start的问题"
 date: 2014-08-31
+lastmod: 2014-08-31
 categories:
   - "后台开发"
 tags:
   - "数据库"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 `Mac`上安装[mysql-5.6.20-osx10.8-x86_64-3](http://dev.mysql.com/downloads/mysql/)完成。
 
-<!--more-->
 
 在**MySQL的控制面板**(系统偏好设置->MySQL)上，显示**mac mysql service can't start**。
 

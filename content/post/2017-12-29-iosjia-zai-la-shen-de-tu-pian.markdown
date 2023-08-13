@@ -1,15 +1,20 @@
 ---
 title: "iOS加载拉伸的图片"
 date: 2017-12-29
+lastmod: 2017-12-29
 categories:
   - "iOS"
 tags:
   - "UI"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 iOS如何加载拉伸的图片呢？
-<!--more-->
 
 1.通过代码指定拉伸区域加载图片。如下所示。
 

@@ -1,15 +1,20 @@
 ---
 title: "trying to use a recycled bitmap android.graphics.Bitmap@bffc9a0解决方案"
 date: 2018-01-02
+lastmod: 2018-01-02
 categories:
   - "Android"
 tags:
   - "Android"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 最近项目中出现了一批“trying to use a recycled bitmap android.graphics.Bitmap@bffc9a0”异常，是什么原因导致的呢？
-<!--more-->
 
 原因：图片在回收后，依然有一些地方引用该Bitmap.
 

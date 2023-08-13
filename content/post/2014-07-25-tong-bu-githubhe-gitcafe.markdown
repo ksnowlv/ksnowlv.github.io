@@ -1,15 +1,20 @@
 ---
 title: "同步github和gitcafe"
 date: 2014-07-25
+lastmod: 2014-07-25
 categories:
   - "github-博客"
 tags:
   - "github-博客"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 如何同步github博客内容到gitcafe呢？
 
-<!--more-->
 
 #### 1.在博客目录(例如：_config.yml所在目录)，找到Rakefile文件并打开，在
     .....

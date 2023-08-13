@@ -1,16 +1,21 @@
 ---
 title: "Android下gzip数据流解压缩"
 date: 2015-08-19
+lastmod: 2015-08-19
 categories:
   - "Android"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 在Android开发中，网络传输的数据如果采用压缩的方式，能大大减少网络流量，对文本的数据效果更明显。
 
-<!--more-->
 
 #### 一. gzip压缩.
 ```objective-c

@@ -1,12 +1,18 @@
 ---
 title: "二维数组的创建释放"
 date: 2013-05-10
+lastmod: 2013-05-10
 categories:
   - "C++"
 tags:
   - "C++"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ```objective-c
 template<class T>

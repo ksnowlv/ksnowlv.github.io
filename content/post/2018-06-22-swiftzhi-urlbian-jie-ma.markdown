@@ -1,13 +1,19 @@
 ---
 title: "swift之url编解码"
 date: 2018-06-22
+lastmod: 2018-06-22
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 
 ---
-<!--more-->
 
 
 url的编码与解码，在工程中很常用，编解码针对特殊字符及中文，确保url可以正常访问

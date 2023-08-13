@@ -1,12 +1,18 @@
 ---
 title: "python面向对象函数重载"
 date: 2014-08-07
+lastmod: 2014-08-07
 categories:
   - "python"
 tags:
   - "python"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 #### python支持函数重载，和C++/Objective-c/Java类似。    适用场景:父类的方法不能满足你的需求.
   

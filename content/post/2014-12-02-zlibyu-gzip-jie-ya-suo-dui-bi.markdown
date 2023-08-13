@@ -1,12 +1,18 @@
 ---
 title: "ZLib与GZip解压缩对比"
 date: 2014-12-02
+lastmod: 2014-12-02
 categories:
   - "iOS"
 tags:
   - "网络"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 1.ZLib与GZip解压缩    ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。
     zlib(RFC1950):一种格式，是对deflate进行了简单的封装； 
@@ -15,7 +21,6 @@ tags:
     gzip数据头比zlib数据头要大，因为它保存了文件名和其他文件系统信息，事实上这是广泛使用的gzip文件的数据头格式。
     而zlib和gzip格式的区别仅仅是头部和尾部不一样，而实际的内容都是deflate编码的，即： gzip = gzip头(10字节) + deflate编码的实际内容 + gzip尾(8字节)
 
-<!--more-->
 
 ### ZLib头部0x78,0x9c 是zlib数据头(非固定，参考RFC 1951)。或者0x0,0x0,0xFF,0xFF也可以实现正常解压缩，而00 00 FF FF是zlib容错方式的数据块头
 

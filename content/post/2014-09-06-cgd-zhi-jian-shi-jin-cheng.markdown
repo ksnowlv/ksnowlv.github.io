@@ -1,15 +1,20 @@
 ---
 title: "CGD之监视进程"
 date: 2014-09-06
+lastmod: 2014-09-06
 categories:
   - "iOS"
 tags:
   - "多线程"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 **GCD**可以检测进程的运行，退出状态，可以检测到进程间的信号。
-<!--more-->
 
     #define DISPATCH_PROC_EXIT		0x80000000
     #define DISPATCH_PROC_FORK		0x40000000

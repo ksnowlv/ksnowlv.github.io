@@ -1,15 +1,20 @@
 ---
 title: "swift闭包"
 date: 2014-09-11
+lastmod: 2014-09-11
 categories:
   - "swift"
 tags:
   - "swift"
+comment: true
+toc: false
+autoCollapseToc: false
+contentCopyright: false
+reward: true
+mathjax: false
 ---
-<!--more-->
 
 ### 一.swift中闭包
-<!--more-->
 swift中的闭包格式
 
 ```objective-c
