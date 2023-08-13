@@ -1,4 +1,0 @@
-+++
-title = "Collections"
-layout = "collections"
-+++
