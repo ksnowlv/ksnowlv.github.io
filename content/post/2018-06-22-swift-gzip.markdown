@@ -7,7 +7,7 @@ categories:
 tags:
   - "swift"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -18,9 +18,9 @@ mathjax: false
 工程目前以objective-c为主，采用的是swift与objective-c混编方式，因此对NSData作了扩展。
 
 
-gzip压缩
+### 1.gzip压缩
 
-```objective-c
+```swift
  /// gzip数据压缩
     ///
     /// - Returns: Data
@@ -74,9 +74,9 @@ gzip压缩
 
 ```
 
-gzip压缩
+### 2.gzip解压
 
-```objective-c
+```swift
 
     /// gzip数据解压
     ///

@@ -7,24 +7,28 @@ categories:
 tags:
   - "多线程"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-全局并发队（Global Queue）
+## 全局并发队（Global Queue）
 
-* 老版gcd有四种：`high`，`default`，`low`，`background`，
+### 老版gcd有四种
+
+`high`，`default`，`low`，`background`，
 	
 	优先级为：high>default>low>background
 	
-* 新版gcd有六种：`background`，`utility`，`default`，`userInitiated`，`userInteractive`，`unspecified`
+### 新版gcd有六种
+
+`background`，`utility`，`default`，`userInitiated`，`userInteractive`，`unspecified`
 
     优先级为：userInteractive>default>unspecified>userInitiated>utility>background
     
-    测试代码如下：
+### 测试代码
     
 
 ```objective-c

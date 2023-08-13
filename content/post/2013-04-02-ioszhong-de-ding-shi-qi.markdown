@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -18,9 +18,7 @@ mathjax: false
 #### 一.背景  在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIView一般释放时不需要手动调用清理函数，而Timer如果直接添加到街景View中会造成相互retain，导致即使在街景View中添加Timer的释放,也不能完成正常的释放.
   
 #### 二. QOpenGLRenderTimer
-#### 1.头文件
-
-```objective-c
+#### 1.头文件```objective-c
 //
 //  QOpenGLTimer.h
 //  SOSOStreetViewMapAPI
@@ -57,9 +55,7 @@ mathjax: false
 ``` 
 
 
-#### 2.实现文件  
-
-```objective-c
+#### 2.实现文件  ```objective-c
   //
 //  QOpenGLRenderTimer.m
 //  SOSOStreetViewMapAPI
@@ -113,7 +109,6 @@ mathjax: false
  
 #### 三. QOpenGLRenderTimer的使用
 ##### 1.街景View中开启OpenGL渲染循环如下：
-
 ```objective-c
         QOpenGLRenderTimer* timer = [[QOpenGLRenderTimer alloc] init];
         timer.delegate = self;

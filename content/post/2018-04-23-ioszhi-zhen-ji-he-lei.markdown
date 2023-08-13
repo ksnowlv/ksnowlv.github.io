@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -15,7 +15,7 @@ mathjax: false
 ---
 
 
-Collections之[Pointer Collections](https://developer.apple.com/documentation/foundation/collections?language=objc)
+## Collections之[Pointer Collections](https://developer.apple.com/documentation/foundation/collections?language=objc)
 ：指针集合类
 
 * 1. NSPointerArray
@@ -23,7 +23,7 @@ Collections之[Pointer Collections](https://developer.apple.com/documentation/fo
 * 3. NSMapTable
 
 
-#### 1.NSPointerFunctionsOptionsDefines the memory and personality options for an NSPointerFunctions object.
+### 1.NSPointerFunctionsOptionsDefines the memory and personality options for an NSPointerFunctions object.
 
 * NSPointerFunctionsMachVirtualMemory
 * NSPointerFunctionsMallocMemory
@@ -38,15 +38,15 @@ Collections之[Pointer Collections](https://developer.apple.com/documentation/fo
 	
 * NSMapTableStrongMemory
 
-	 Equivalent to  NSPointerFunctionsStrongMemory
-.
+		Equivalent to  NSPointerFunctionsStrongMemory
+
 * NSMapTableWeakMemory
 
 		Equivalent to NSPointerFunctionsWeakMemory.
 		
 
-#### 2. NSPointerArray/NSHashTable/NSMapTable
-* 可以存储所有指针类型的数据包括nil
+### 2. NSPointerArray/NSHashTable/NSMapTable
+*  可以存储所有指针类型的数据包括nil
 * 可以添加或删除nil values
 * 可以弱引用或强引用对象。
 * 添加元素时，性能很差。慎用！！！

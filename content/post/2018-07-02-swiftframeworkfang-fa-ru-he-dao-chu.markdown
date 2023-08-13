@@ -7,7 +7,7 @@ categories:
 tags:
   - "swift"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -16,7 +16,7 @@ mathjax: false
 
 swift framework中的方法如何在objective-c中调用呢？
 
-#### 类或属性加@objc public
+## 1.类或属性加@objc public
 [stackoverflow的解答](https://stackoverflow.com/questions/31099596/importing-swift-framework-into-a-objective-c-project)
 
 To access a swift class in objc, that is not inherited from NSObject you need to:
@@ -26,9 +26,9 @@ A Swift class or protocol must be marked with the @objc attribute to be accessib
 
 [https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html)
 
-示例如下：
+## 2.示例代码
 
-```objective-c
+```swift
 
 @objc public class YKFile: NSObject {
     

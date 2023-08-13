@@ -7,7 +7,7 @@ categories:
 tags:
   - "swift"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -19,7 +19,7 @@ swift-framework中objective-c与swift互调实际上与普通工程中的互调�
 
 背景：YKDeviceInfo为objective-c的类，KAppInfo为swift类。
 
-##### 1.objective-c调用swift.
+### 1.objective-c调用swift.
 * 引入桥接头文件。
 
 ```objective-c
@@ -29,17 +29,17 @@ swift-framework中objective-c与swift互调实际上与普通工程中的互调�
 
 * 调用对应swift类的相关方法。
  
- 	{% codeblock lang:objective-c %} 
- 
+```objective-c
 	+(NSString *)packageNameX {
    	 return [KAppInfo packageName];
 	 }
+```
 
-	{% endcodeblock %}
-`
 
-##### 2.swift.调用objective-c
-``` objective-c
+
+### 2.swift.调用objective-c
+
+``` swift
 
 @objc public class func deviceId() ->String {
         return YKDeviceInfo.deviceId()
@@ -47,7 +47,7 @@ swift-framework中objective-c与swift互调实际上与普通工程中的互调�
     
 ```
 
-#### 3.导出头文件。
+### 3.导出头文件。
 ``` objective-c
 
 //添加需要导出的头文件，需要在targets->Build Phases->Headers中同时设置。

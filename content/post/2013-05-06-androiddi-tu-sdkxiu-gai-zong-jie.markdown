@@ -7,7 +7,7 @@ categories:
 tags:
   - "优化"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -20,15 +20,9 @@ mathjax: false
 来比较费劲，故单独列了出来）。
 
 在修改过程中，非常感谢大家给予的全力支持和帮助！！！
-#### 一.OOM类型
+一.OOM类型
 回顾一下修改的过程，总结一下，有以下几个方面：
-
-#### 以下常见的几种：
-
-##### 1.Bitmap 的回收:调用recycle(),并解除对自身的所有引用。
-##### 2.Drawable 的回收:通过setCallback(null),解除对Bitmap 的引用.并解除自身的所有引用.
-##### 3.输入输出流及其子类的回收:注意通过close 释放其拥有的资源.
-##### 4.ArrayList 等容器类的回收：可以通过手动持有的对象一个一个删除，并清空后置为空的方式释放容器持有的资源。举例来说：
+#### 以下常见的几种：##### 1.Bitmap 的回收:调用recycle(),并解除对自身的所有引用。##### 2.Drawable 的回收:通过setCallback(null),解除对Bitmap 的引用.并解除自身的所有引用.##### 3.输入输出流及其子类的回收:注意通过close 释放其拥有的资源.##### 4.ArrayList 等容器类的回收：可以通过手动持有的对象一个一个删除，并清空后置为空的方式释放容器持有的资源。举例来说：
 其释放方式如下：
 从JAVA 的垃圾回收机制上讲，只要不再引用该对象
 即可。

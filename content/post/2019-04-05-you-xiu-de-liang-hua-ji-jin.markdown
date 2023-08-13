@@ -7,7 +7,7 @@ categories:
 tags:
   - "理财"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -15,6 +15,7 @@ mathjax: false
 ---
 
 
+### 1.2019年定投基金 
 
 基金代码 | 简称 | 2016超越沪深300指数% | 2017超越300指数% | 2018超越300指数%|3年平均收益率%|基金规模|管理托管费%
 :-: | :-:| :-: | :-: | :-: | :-:| :-:| :-:

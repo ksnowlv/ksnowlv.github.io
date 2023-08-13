@@ -7,7 +7,7 @@ categories:
 tags:
   - "Kotlin"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -18,9 +18,8 @@ mathjax: false
 
 Kotlin下的单例是通过companion实现的。
 
-```objective-c
+```kotlin
 class KCacheMgr private constructor (){
-
 
     companion object {
         @Volatile

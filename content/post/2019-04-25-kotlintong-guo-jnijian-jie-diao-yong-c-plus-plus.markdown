@@ -1,5 +1,5 @@
 ---
-title: "Kotlin通过jni间接调用c++"
+title: "Kotlin调用c++"
 date: 2019-04-25
 lastmod: 2019-04-25
 categories:
@@ -7,7 +7,7 @@ categories:
 tags:
   - "jni"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -17,7 +17,11 @@ mathjax: false
 
 本篇重点内容，Kotlin通过JNI直接调用C，C调用C++相关的类。实际上只是JAVA换成Kotlin的写法而已。
 
-### 一.添加Kotlin类`KotlinPerson````kotlin
+### 一.添加Kotlin类
+
+声明KotlinPerson类
+
+```kotlin
 
 class KotlinPerson {
 
@@ -60,9 +64,11 @@ class KotlinPerson {
 
 ```
 
-### 二.添加JNI接口及实现`JNIPerson.c`内容如下：
+###  二.添加JNI接口及实现
 
-```objective-c
+`JNIPerson.c`内容如下：
+
+```kotlin
 
 	#include "JNIPerson.h"
 	#include "PersonExtension.hpp"

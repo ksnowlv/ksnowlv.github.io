@@ -76,7 +76,7 @@
 <meta itemprop="name" content="iOS中的定时器">
 <meta itemprop="description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIVie"><meta itemprop="datePublished" content="2013-04-02T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-04-02T00:00:00+00:00" />
-<meta itemprop="wordCount" content="619">
+<meta itemprop="wordCount" content="633">
 <meta itemprop="keywords" content="iOS," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS中的定时器"/>
 <meta name="twitter:description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIVie"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 619 字 -
+        约 633 字 -
         预计阅读 2 分钟
       </span>
 
@@ -370,88 +370,84 @@
         <div class="post-content">
           <h4 id="一背景--在做街景iphone-sdk时opengl的渲染需要启用一个类timer来驱动而sdk中提供的是一个街景view鉴于uiview一般释放时不需要手动调用清理函数而timer如果直接添加到街景view中会造成相互retain导致即使在街景view中添加timer的释放也不能完成正常的释放">一.背景  在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIView一般释放时不需要手动调用清理函数，而Timer如果直接添加到街景View中会造成相互retain，导致即使在街景View中添加Timer的释放,也不能完成正常的释放.</h4>
 <h4 id="二-qopenglrendertimer">二. QOpenGLRenderTimer</h4>
-<h4 id="1头文件">1.头文件</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  QOpenGLTimer.h
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  SOSOStreetViewMapAPI
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Created by lv wei on 13-3-27.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Copyright (c) 2013年 lv wei. All rights reserved.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *QOpenGLRenderTimer的Delegate,通知绘制OPENGL
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *Author:ksnowlv
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> **/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@protocol</span> <span style="color:#a6e22e">QOpenGLRenderTimerDelegate</span> <span style="color:#f92672">&lt;</span>NSObject<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@optional</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *地图区域即将改变时会调用此接
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">-</span> (<span style="color:#66d9ef">void</span>)renderOpenGLEvent;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">QOpenGLRenderTimer</span> : <span style="color:#a6e22e">NSObject</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span> (<span style="color:#66d9ef">nonatomic</span>, <span style="color:#66d9ef">assign</span>) <span style="color:#66d9ef">id</span><span style="color:#f92672">&lt;</span>QOpenGLRenderTimerDelegate<span style="color:#f92672">&gt;</span> delegate;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span> (<span style="color:#66d9ef">nonatomic</span>, <span style="color:#66d9ef">assign</span>) CADisplayLink <span style="color:#f92672">*</span>displayLink;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>-(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">startOpenGLRenderTimer</span>;
-</span></span><span style="display:flex;"><span>-(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">stopOpenGLRenderTimer</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
-</span></span></code></pre></div><h4 id="2实现文件">2.实现文件</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>  <span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  QOpenGLRenderTimer.m
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  SOSOStreetViewMapAPI
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Created by lv wei on 13-3-27.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Copyright (c) 2013年 lv wei. All rights reserved.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#import &#34;QOpenGLRenderTimer.h&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#import &lt;QuartzCore/QuartzCore.h&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">QOpenGLRenderTimer</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@synthesize</span> delegate <span style="color:#f92672">=</span> _delegate;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@synthesize</span> displayLink <span style="color:#f92672">=</span> _displayLink;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">dealloc</span> {
-</span></span><span style="display:flex;"><span>    [self stopOpenGLRenderTimer];
-</span></span><span style="display:flex;"><span>    [super dealloc];
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">startOpenGLRenderTimer</span>{
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (self.displayLink <span style="color:#f92672">!=</span> nil)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        [self.displayLink invalidate];
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    CADisplayLink <span style="color:#f92672">*</span>aDisplayLink <span style="color:#f92672">=</span> [[UIScreen mainScreen] displayLinkWithTarget:self selector:<span style="color:#66d9ef">@selector</span>(renderOpenGL)];
-</span></span><span style="display:flex;"><span>    [aDisplayLink setFrameInterval:<span style="color:#ae81ff">1.0f</span>];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    [aDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-</span></span><span style="display:flex;"><span>    self.displayLink <span style="color:#f92672">=</span> aDisplayLink;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">stopOpenGLRenderTimer</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (_displayLink) {
-</span></span><span style="display:flex;"><span>        [_displayLink invalidate];
-</span></span><span style="display:flex;"><span>        _displayLink <span style="color:#f92672">=</span> nil;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">renderOpenGL</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    [_delegate renderOpenGLEvent];
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="三-qopenglrendertimer的使用">三. QOpenGLRenderTimer的使用</h4>
+<h4 id="1头文件objective-c">1.头文件```objective-c</h4>
+<p>//
+//  QOpenGLTimer.h
+//  SOSOStreetViewMapAPI
+//
+//  Created by lv wei on 13-3-27.
+//  Copyright (c) 2013年 lv wei. All rights reserved.
+//</p>
+<p>/**
+*QOpenGLRenderTimer的Delegate,通知绘制OPENGL
+*Author:ksnowlv
+**/
+@protocol QOpenGLRenderTimerDelegate <!-- raw HTML omitted -->
+@optional</p>
+<p>/**
+*地图区域即将改变时会调用此接
+*/</p>
+<ul>
+<li>(void)renderOpenGLEvent;</li>
+</ul>
+<p>@end</p>
+<p>@interface QOpenGLRenderTimer : NSObject</p>
+<p>@property (nonatomic, assign) id<!-- raw HTML omitted --> delegate;
+@property (nonatomic, assign) CADisplayLink *displayLink;</p>
+<p>-(void)startOpenGLRenderTimer;
+-(void)stopOpenGLRenderTimer;</p>
+<p>@end</p>
+<pre tabindex="0"><code>
+
+#### 2.实现文件  ```objective-c
+  //
+//  QOpenGLRenderTimer.m
+//  SOSOStreetViewMapAPI
+//
+//  Created by lv wei on 13-3-27.
+//  Copyright (c) 2013年 lv wei. All rights reserved.
+//
+
+#import &#34;QOpenGLRenderTimer.h&#34;
+#import &lt;QuartzCore/QuartzCore.h&gt;
+
+
+@implementation QOpenGLRenderTimer
+@synthesize delegate = _delegate;
+@synthesize displayLink = _displayLink;
+
+- (void)dealloc {
+    [self stopOpenGLRenderTimer];
+    [super dealloc];
+}
+
+- (void)startOpenGLRenderTimer{
+    
+    if (self.displayLink != nil)
+    {
+        [self.displayLink invalidate];
+    }
+    
+    CADisplayLink *aDisplayLink = [[UIScreen mainScreen] displayLinkWithTarget:self selector:@selector(renderOpenGL)];
+    [aDisplayLink setFrameInterval:1.0f];
+
+    [aDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    self.displayLink = aDisplayLink;
+}
+
+- (void)stopOpenGLRenderTimer
+{
+    if (_displayLink) {
+        [_displayLink invalidate];
+        _displayLink = nil;
+    }
+}
+
+- (void)renderOpenGL
+{
+    [_delegate renderOpenGLEvent];
+}
+</code></pre><h4 id="三-qopenglrendertimer的使用">三. QOpenGLRenderTimer的使用</h4>
 <h5 id="1街景view中开启opengl渲染循环如下">1.街景View中开启OpenGL渲染循环如下：</h5>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>        QOpenGLRenderTimer<span style="color:#f92672">*</span> timer <span style="color:#f92672">=</span> [[QOpenGLRenderTimer alloc] init];
 </span></span><span style="display:flex;"><span>        timer.delegate <span style="color:#f92672">=</span> self;
@@ -565,7 +561,20 @@
     </div>
 
     
-    
+    <nav class="toc" id="toc">
+    <div class="toc-title">文章目录</div>
+    <div class="toc-content custom-scrollbar">
+      <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </nav>
 
 
   </div>

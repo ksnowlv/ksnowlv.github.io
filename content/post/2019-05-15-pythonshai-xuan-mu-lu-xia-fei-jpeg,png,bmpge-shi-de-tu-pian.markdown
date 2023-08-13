@@ -1,5 +1,5 @@
 ---
-title: "python筛选目录下非jpeg，png，bmp格式的图片"
+title: "python筛选非jpeg，png，bmp格式图片"
 date: 2019-05-15
 lastmod: 2019-05-15
 categories:
@@ -7,7 +7,7 @@ categories:
 tags:
   - "Python"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -16,12 +16,19 @@ mathjax: false
 
 
 
- 功能：筛选指定目录下非jpeg/png/bmp格式的文件，并把路径以日志形式输出。
 
-关键有两点：
+## 1.功能
+ 
+    筛选指定目录下非jpeg/png/bmp格式的文件，并把路径以日志形式输出。
 
-* 目录遍历，记录所有文件路径。
-* 遍历路径，使用imghdr.what判断文件格式，非jpeg/png/bmp格式的文件路径输出。
+## 2.思路：
+
+### 1. 遍历文件
+	文件目录遍历：记录所有文件路径。
+### 2. mghdr.what判断图片格式
+    	使用imghdr.what判断文件格式，非jpeg/png/bmp格式的文件路径输出。
+
+## 3.主要代码
 
 `python3.0`实现如下：
 

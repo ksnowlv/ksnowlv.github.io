@@ -7,7 +7,7 @@ categories:
 tags:
   - "安全"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -22,9 +22,9 @@ https分为单向（客户端校验服务端）的和双向（客户端/服务�
 
 `urlSession(_ session: didReceive challenge: completionHandler: )`
 
-具体实现如下：
+具体实现
 
-```objective-c
+```swift
 
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         

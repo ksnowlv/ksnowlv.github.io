@@ -7,7 +7,7 @@ categories:
 tags:
   - "多线程"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -17,7 +17,9 @@ mathjax: false
 
 `synchronized`->`objc_sync_enter/objc_sync_exit`
 
-`objc_sync_enter`：递归锁，与objc_sync_exit配合使用，注意死锁
+### `objc_sync_enter`：
+
+递归锁，与`objc_sync_exit`配合使用，注意死锁
 
 * Begin synchronizing on 'obj'. Allocates recursive pthread_mutex associated with 'obj' if needed.
 * Parameters	
@@ -26,7 +28,7 @@ mathjax: false
 * Returns	
 OBJC_SYNC_SUCCESS once lock is acquired.
 
-`objc_sync_exit`
+### `objc_sync_exit`
 
 * End synchronizing on 'obj'.
 * Parameters	
@@ -35,9 +37,9 @@ OBJC_SYNC_SUCCESS once lock is acquired.
 * Returns	
 OBJC_SYNC_SUCCESS or OBJC_SYNC_NOT_OWNING_THREAD_ERROR
 
-示例如下：
+### 三.示例
 
- ```objective-c
+ ```swift
    let lockValue = 0
    objc_sync_enter(lockValue)
         //执行代码块

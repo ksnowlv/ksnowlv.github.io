@@ -76,7 +76,7 @@
 <meta itemprop="name" content="swift-RSA(五)-签名/验签">
 <meta itemprop="description" content="RSA支持加解密，也支持签名/验签。 使用rsa如何签名/验签呢？ 1.rsa 签名 @objc public func sign(source: Data, padding: SecPadding = SecPadding.PKCS1SHA1) -&gt; Data? { guard source.count &gt; 0 &amp;&amp; self.privateSecKey != nil else { return nil } let hashData: NSData? switch padding { case SecPadding.PKCS1SHA1: hashData ="><meta itemprop="datePublished" content="2018-07-19T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-07-19T00:00:00+00:00" />
-<meta itemprop="wordCount" content="550">
+<meta itemprop="wordCount" content="534">
 <meta itemprop="keywords" content="安全," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="swift-RSA(五)-签名/验签"/>
 <meta name="twitter:description" content="RSA支持加解密，也支持签名/验签。 使用rsa如何签名/验签呢？ 1.rsa 签名 @objc public func sign(source: Data, padding: SecPadding = SecPadding.PKCS1SHA1) -&gt; Data? { guard source.count &gt; 0 &amp;&amp; self.privateSecKey != nil else { return nil } let hashData: NSData? switch padding { case SecPadding.PKCS1SHA1: hashData ="/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 550 字 -
+        约 534 字 -
         预计阅读 2 分钟
       </span>
 
@@ -370,139 +370,138 @@
         <div class="post-content">
           <p>RSA支持加解密，也支持签名/验签。
 使用rsa如何签名/验签呢？</p>
-<h4 id="1rsa-签名">1.rsa 签名</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>    @objc public func sign(source: Data, padding: SecPadding <span style="color:#f92672">=</span> SecPadding.PKCS1SHA1) <span style="color:#f92672">-&gt;</span> Data<span style="color:#f92672">?</span> {
+<h2 id="1rsa-签名">1.rsa 签名</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@objc</span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sign</span>(source: Data, padding: SecPadding = SecPadding.PKCS1SHA1) -&gt; Data? {
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>        guard source.count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> self.privateSecKey <span style="color:#f92672">!=</span> nil <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> nil
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> source.count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">self</span>.privateSecKey <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        let hashData: NSData<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> hashData: NSData?
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> padding {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA1:
-</span></span><span style="display:flex;"><span>            hashData <span style="color:#f92672">=</span> (source  as NSData).shaWithType(shaType: YKShaType.sha1)
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha1)
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA224:
-</span></span><span style="display:flex;"><span>            hashData <span style="color:#f92672">=</span> (source  as NSData).shaWithType(shaType: YKShaType.sha224)
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha224)
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
 </span></span><span style="display:flex;"><span>            
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA256:
-</span></span><span style="display:flex;"><span>            hashData <span style="color:#f92672">=</span> (source  as NSData).shaWithType(shaType: YKShaType.sha256)
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha256)
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
 </span></span><span style="display:flex;"><span>            
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA384:
-</span></span><span style="display:flex;"><span>            hashData <span style="color:#f92672">=</span> (source  as NSData).shaWithType(shaType: YKShaType.sha384)
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha384)
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
 </span></span><span style="display:flex;"><span>            
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA512:
-</span></span><span style="display:flex;"><span>            hashData <span style="color:#f92672">=</span> (source  as NSData).shaWithType(shaType: YKShaType.sha512)
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha512)
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
 </span></span><span style="display:flex;"><span>            
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span><span style="color:#66d9ef">do</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span>:<span style="color:#66d9ef">do</span> {
 </span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;not support this type sign!&#34;</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> nil
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>        let blockLen <span style="color:#f92672">=</span>  SecKeyGetBlockSize(self.privateSecKey<span style="color:#f92672">!</span>)
-</span></span><span style="display:flex;"><span>        var outBuf <span style="color:#f92672">=</span> [<span style="color:#66d9ef">UInt8</span>](repeating: <span style="color:#ae81ff">0</span>, count: blockLen)
-</span></span><span style="display:flex;"><span>        var outBufLen:Int <span style="color:#f92672">=</span> blockLen
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> blockLen =  SecKeyGetBlockSize(<span style="color:#66d9ef">self</span>.privateSecKey!)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> outBuf = [UInt8](repeating: <span style="color:#ae81ff">0</span>, count: blockLen)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> outBufLen:Int = blockLen
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        let status: OSStatus <span style="color:#f92672">=</span> SecKeyRawSign(self.privateSecKey<span style="color:#f92672">!</span>, padding, hashData<span style="color:#f92672">!</span>.bytes.assumingMemoryBound(to: <span style="color:#66d9ef">UInt8</span>.self), hashData<span style="color:#f92672">!</span>.length, <span style="color:#f92672">&amp;</span>outBuf, <span style="color:#f92672">&amp;</span>outBufLen)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> status: OSStatus = SecKeyRawSign(<span style="color:#66d9ef">self</span>.privateSecKey!, padding, hashData!.bytes.assumingMemoryBound(to: UInt8.<span style="color:#66d9ef">self</span>), hashData!.length, &amp;outBuf, &amp;outBufLen)
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> status <span style="color:#f92672">==</span> noErr {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> status == noErr {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Data(bytes: outBuf, count: outBufLen)
 </span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">else</span>{
-</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;sign status = \(status)&#34;</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> nil
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;sign status = </span><span style="color:#e6db74">\(</span>status<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
-</span></span></code></pre></div><h5 id="2rsa-验签objective-c">2.rsa 验签```objective-c</h5>
-<p>@objc public func verify(source: Data, signData:Data,padding: SecPadding = SecPadding.PKCS1SHA1) -&gt; Bool {</p>
-<pre><code>    guard source.count &gt; 0 &amp;&amp; signData.count &gt; 0 &amp;&amp; self.publicSecKey != nil else {
-        return false
-    }
-    
-    let hashData: NSData?
-    
-    switch padding {
-    case SecPadding.PKCS1SHA1:
-        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha1)
-        break
-    case SecPadding.PKCS1SHA224:
-        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha224)
-        break
-        
-    case SecPadding.PKCS1SHA256:
-        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha256)
-        break
-        
-    case SecPadding.PKCS1SHA384:
-        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha384)
-        break
-        
-    case SecPadding.PKCS1SHA512:
-        hashData = (source  as NSData).shaWithType(shaType: YKShaType.sha512)
-        break
-        
-    default:do {
-        print(&quot;not support this type sign!&quot;)
-        return false
-        }
-    }
-    
-    let signBuf: UnsafePointer&lt;UInt8&gt; = (signData as NSData).bytes.assumingMemoryBound(to: UInt8.self)
-    
-    let blockLen =  SecKeyGetBlockSize(self.publicSecKey!)
-    
-    let status: OSStatus = SecKeyRawVerify(self.publicSecKey!,
-                                           padding,
-                                           hashData!.bytes.assumingMemoryBound(to: UInt8.self),
-                                           hashData!.length,
-                                           signBuf,
-                                           blockLen)
-    
-    if status == noErr {
-        return true
-    }else{
-        print(&quot;sign status = \(status)&quot;)
-    }
-    
-    return false
-}
-</code></pre>
-<pre tabindex="0"><code>
-##### 3.调用
-```objective-c
-//原始数据
-        let originalString = &#34;你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv&#34;
-        
-        //let originalString = &#34;123456helloworld&#34;
-        let publicKeyPath:String =   Bundle.main.path(forResource: &#34;public_key&#34;, ofType: &#34;der&#34;)!
-        let privateKeyPath = Bundle.main.path(forResource: &#34;private_key&#34;, ofType: &#34;p12&#34;)
-        
-        print(&#34;publicKeyPath = \(publicKeyPath)&#34;)
-        print(&#34;privateKeyPath = \(String(describing: privateKeyPath))&#34;)
-        
-        let rsaSign:YKRSASign = YKRSASign()
-        rsaSign.publicKey(fileFullPath: publicKeyPath as NSString, block: {(_ error: NSError?, _ secKey:SecKey?) in
-        })
-        
-        rsaSign.privateKey(fileFullPath: privateKeyPath! as NSString, password: &#34;&#34;, block: {(_ error: NSError?, _ secKey:SecKey?) in
-        })
-        
-        let originalData = originalString.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
-        let signData = rsaSign.sign(source: originalData!, padding: SecPadding.PKCS1SHA512)
-        
-        let isVerify = rsaSign.verify(source: originalData!, signData: signData!, padding: SecPadding.PKCS1SHA512)
-        
-        if isVerify {
-            print(&#34;验证签名通过&#34;)
-        }else{
-            print(&#34;验证签名失败&#34;)
-        }
-</code></pre>
+</span></span></code></pre></div><h2 id="2rsa-验签">2.rsa 验签</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">@objc</span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">verify</span>(source: Data, signData:Data,padding: SecPadding = SecPadding.PKCS1SHA1) -&gt; Bool {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> source.count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> signData.count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">self</span>.publicSecKey <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> hashData: NSData?
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> padding {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA1:
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha1)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA224:
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha224)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA256:
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha256)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA384:
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha384)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SecPadding.PKCS1SHA512:
+</span></span><span style="display:flex;"><span>            hashData = (source  <span style="color:#66d9ef">as</span> NSData).shaWithType(shaType: YKShaType.sha512)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span>:<span style="color:#66d9ef">do</span> {
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;not support this type sign!&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> signBuf: UnsafePointer&lt;UInt8&gt; = (signData <span style="color:#66d9ef">as</span> NSData).bytes.assumingMemoryBound(to: UInt8.<span style="color:#66d9ef">self</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> blockLen =  SecKeyGetBlockSize(<span style="color:#66d9ef">self</span>.publicSecKey!)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> status: OSStatus = SecKeyRawVerify(<span style="color:#66d9ef">self</span>.publicSecKey!,
+</span></span><span style="display:flex;"><span>                                               padding,
+</span></span><span style="display:flex;"><span>                                               hashData!.bytes.assumingMemoryBound(to: UInt8.<span style="color:#66d9ef">self</span>),
+</span></span><span style="display:flex;"><span>                                               hashData!.length,
+</span></span><span style="display:flex;"><span>                                               signBuf,
+</span></span><span style="display:flex;"><span>                                               blockLen)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> status == noErr {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;sign status = </span><span style="color:#e6db74">\(</span>status<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h2 id="3调用">3.调用</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">//原始数据</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> originalString = <span style="color:#e6db74">&#34;你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv&#34;</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//let originalString = &#34;123456helloworld&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> publicKeyPath:String =   Bundle.main.path(forResource: <span style="color:#e6db74">&#34;public_key&#34;</span>, ofType: <span style="color:#e6db74">&#34;der&#34;</span>)<span style="color:#f92672">!</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> privateKeyPath = Bundle.main.path(forResource: <span style="color:#e6db74">&#34;private_key&#34;</span>, ofType: <span style="color:#e6db74">&#34;p12&#34;</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;publicKeyPath = </span><span style="color:#e6db74">\(</span>publicKeyPath<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;privateKeyPath = </span><span style="color:#e6db74">\(</span>String<span style="color:#e6db74">(</span>describing: privateKeyPath<span style="color:#e6db74">))</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> rsaSign:YKRSASign = YKRSASign()
+</span></span><span style="display:flex;"><span>        rsaSign.publicKey(fileFullPath: publicKeyPath <span style="color:#66d9ef">as</span> NSString, block: {(<span style="color:#66d9ef">_</span> error: NSError?, <span style="color:#66d9ef">_</span> secKey:SecKey?) <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        rsaSign.privateKey(fileFullPath: privateKeyPath! <span style="color:#66d9ef">as</span> NSString, password: <span style="color:#e6db74">&#34;&#34;</span>, block: {(<span style="color:#66d9ef">_</span> error: NSError?, <span style="color:#66d9ef">_</span> secKey:SecKey?) <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> originalData = originalString.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> signData = rsaSign.sign(source: originalData!, padding: SecPadding.PKCS1SHA512)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> isVerify = rsaSign.verify(source: originalData!, signData: signData!, padding: SecPadding.PKCS1SHA512)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isVerify {
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;验证签名通过&#34;</span>)
+</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;验证签名失败&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div>
         </div>
 
         
@@ -595,7 +594,18 @@
     </div>
 
     
-    
+    <nav class="toc" id="toc">
+    <div class="toc-title">文章目录</div>
+    <div class="toc-content custom-scrollbar">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1rsa-签名">1.rsa 签名</a></li>
+    <li><a href="#2rsa-验签">2.rsa 验签</a></li>
+    <li><a href="#3调用">3.调用</a></li>
+  </ul>
+</nav>
+    </div>
+  </nav>
 
 
   </div>

@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -19,10 +19,7 @@ mathjax: false
   
   但block也可以作为成员使用，需要把块由栈拷贝到堆上。
 
-#### 示例
-##### 1.头文件
-
-```objective-c
+#### 示例##### 1.头文件```objective-c
 //  QBlock.h
 #import <Foundation/Foundation.h>
 typedef void(^printBlock)(NSString* toDo);

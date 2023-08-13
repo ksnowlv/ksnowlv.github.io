@@ -76,7 +76,7 @@
 <meta itemprop="name" content="关于NSOperation的使用之一">
 <meta itemprop="description" content="Apple在OS X 10.5 Leopard上做了很多改进。NSThread本身就新增了很多新的方法，从而使得多线程变得更加容易。此外还新增了NSOp"><meta itemprop="datePublished" content="2013-04-03T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-04-03T00:00:00+00:00" />
-<meta itemprop="wordCount" content="714">
+<meta itemprop="wordCount" content="729">
 <meta itemprop="keywords" content="多线程," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="关于NSOperation的使用之一"/>
 <meta name="twitter:description" content="Apple在OS X 10.5 Leopard上做了很多改进。NSThread本身就新增了很多新的方法，从而使得多线程变得更加容易。此外还新增了NSOp"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 714 字 -
+        约 729 字 -
         预计阅读 2 分钟
       </span>
 
@@ -370,80 +370,80 @@
         <div class="post-content">
           <p>Apple在OS X 10.5 Leopard上做了很多改进。<code>NSThread</code>本身就新增了很多新的方法，从而使得多线程变得更加容易。此外还新增了<code>NSOperation</code>和<code>NSOperationQueue</code>两个类，使多线程编程更加方便！</p>
 <p>以<code>NSOperation</code>和<code>NSOperationQueue</code>为例</p>
-<h4 id="1头文件">1.头文件</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//  QTileDownloadOperation.h
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">QTileDownloadOperation</span> : <span style="color:#a6e22e">NSOperation</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">nonatomic</span>, <span style="color:#66d9ef">retain</span>)NSString<span style="color:#f92672">*</span> name;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">clear</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
-</span></span></code></pre></div><h4 id="2实现文件">2.实现文件</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">//  QTileDownloadOperation.m
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#import &#34;QTileDownloadOperation.h&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">QTileDownloadOperation</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@synthesize</span> name;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">dealloc</span> {
-</span></span><span style="display:flex;"><span>    [name <span style="color:#66d9ef">release</span>];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//......
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    [super dealloc];
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">main</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ([self isCancelled] <span style="color:#f92672">||</span> [self isFinished]) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;%@start!&#34;</span>,name);
-</span></span><span style="display:flex;"><span>    NSString<span style="color:#f92672">*</span> urlString <span style="color:#f92672">=</span> [<span style="color:#e6db74">@&#34;你得URL&#34;</span> stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    NSURL<span style="color:#f92672">*</span> url <span style="color:#f92672">=</span> [NSURL URLWithString:urlString];
-</span></span><span style="display:flex;"><span>    NSMutableURLRequest<span style="color:#f92672">*</span> requestWithAgent <span style="color:#f92672">=</span> [NSMutableURLRequest requestWithURL:url];
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    [requestWithAgent setValue:<span style="color:#e6db74">@&#34;mapapi&#34;</span> forHTTPHeaderField:<span style="color:#e6db74">@&#34;User-Agent&#34;</span>];
-</span></span><span style="display:flex;"><span>    [requestWithAgent setTimeoutInterval:<span style="color:#ae81ff">120</span>];
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    NSError<span style="color:#f92672">*</span> error <span style="color:#f92672">=</span> nil;
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    NSData <span style="color:#f92672">*</span>data <span style="color:#f92672">=</span> [NSURLConnection sendSynchronousRequest:requestWithAgent returningResponse:nil error:<span style="color:#f92672">&amp;</span>error];
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (error <span style="color:#f92672">==</span> nil) {
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>[self isCancelled])
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            [self didFinishWithData:data];
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>       <span style="color:#75715e">//error handle
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>       <span style="color:#75715e">//对外通知，注意线程同步
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">didFinishWithData:</span>(NSData<span style="color:#f92672">*</span>)data
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;%@complete!&#34;</span>,name);
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//数据处理.........................
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//对外通知，注意线程同步
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">clear</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//可以进行取消网络，delegate置为nil,清理其他资源等。主要是防止线程对象释放时Crash
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
-</span></span></code></pre></div><p>可以使用使用自己创建的<code>OperationQueue</code>管理线程对象</p>
+<h4 id="1头文件objective-c">1.头文件```objective-c</h4>
+<p>//  QTileDownloadOperation.h
+#import &lt;Foundation/Foundation.h&gt;</p>
+<p>@interface QTileDownloadOperation : NSOperation</p>
+<p>@property(nonatomic, retain)NSString* name;</p>
+<ul>
+<li>(void)clear;</li>
+</ul>
+<p>@end</p>
+<pre tabindex="0"><code>
+
+#### 2.实现文件
+```objective-c
+//  QTileDownloadOperation.m
+#import &#34;QTileDownloadOperation.h&#34;
+
+@implementation QTileDownloadOperation
+@synthesize name;
+
+- (void)dealloc {
+    [name release];
+
+    //......
+    [super dealloc];
+}
+
+
+- (void)main
+{
+    if ([self isCancelled] || [self isFinished]) {
+        return;
+    }
+
+    NSLog(@&#34;%@start!&#34;,name);
+    NSString* urlString = [@&#34;你得URL&#34; stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    NSURL* url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest* requestWithAgent = [NSMutableURLRequest requestWithURL:url];
+    
+    [requestWithAgent setValue:@&#34;mapapi&#34; forHTTPHeaderField:@&#34;User-Agent&#34;];
+    [requestWithAgent setTimeoutInterval:120];
+    
+    NSError* error = nil;
+    
+    NSData *data = [NSURLConnection sendSynchronousRequest:requestWithAgent returningResponse:nil error:&amp;error];
+    
+    if (error == nil) {
+        
+        if (![self isCancelled])
+        {
+            [self didFinishWithData:data];
+        }
+    }
+    else
+    {
+       //error handle
+       //对外通知，注意线程同步
+    }
+}
+
+- (void)didFinishWithData:(NSData*)data
+{
+    NSLog(@&#34;%@complete!&#34;,name);
+    //数据处理.........................
+    //对外通知，注意线程同步
+}
+
+- (void)clear
+{
+    //可以进行取消网络，delegate置为nil,清理其他资源等。主要是防止线程对象释放时Crash
+}
+
+@end
+</code></pre><p>可以使用使用自己创建的<code>OperationQueue</code>管理线程对象</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>    NSOperationQueue<span style="color:#f92672">*</span> q <span style="color:#f92672">=</span> [[NSOperationQueue alloc] init];
 </span></span><span style="display:flex;"><span>    self.myQueue <span style="color:#f92672">=</span> q;
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置允许最大并发数
@@ -577,7 +577,20 @@
     </div>
 
     
-    
+    <nav class="toc" id="toc">
+    <div class="toc-title">文章目录</div>
+    <div class="toc-content custom-scrollbar">
+      <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </nav>
 
 
   </div>

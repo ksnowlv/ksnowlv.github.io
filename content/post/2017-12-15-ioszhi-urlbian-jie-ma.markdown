@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -18,7 +18,11 @@ mathjax: false
 iOS 开发中，经常需要对url编码与解码。
 
 
-### iOS9之前#### 1.url编码```objective-c
+## iOS9之前
+
+### 1.url编码
+
+```objective-c
 
 + (NSString*)encodeUrl:(NSString *)urlString {
     if (0 == urlString.length) {
@@ -33,7 +37,7 @@ iOS 开发中，经常需要对url编码与解码。
 }
 ```
 
-#### 2.url解码
+### 2.url解码
 ```objective-c
 + (NSString *)decodeUrl:(NSString *)urlString {
     
@@ -49,8 +53,10 @@ iOS 开发中，经常需要对url编码与解码。
 
 ```
 
-### iOS7之后。
-#### 1.url编码```objective-c
+## iOS7之后
+### 1.url编码
+
+```objective-c
 + (NSString *)URLEncode:(NSString *)urlString {
     if (0 == urlString.length) {
         return KBlankString;
@@ -71,7 +77,8 @@ static NSCharacterSet *_sharedCharacterSet = nil;
 
 ```
 
-#### 2.url解码
+### 2.url解码
+
 ```objective-c
 + (NSString *)URLDecode:(NSString *)urlString {
     if (0 == urlString.length) {

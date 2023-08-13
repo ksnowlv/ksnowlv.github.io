@@ -7,16 +7,14 @@ categories:
 tags:
   - "其它"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-#### gbk数据解压缩转成Unicode编码数据
-
-```objective-c
+#### gbk数据解压缩转成Unicode编码数据```objective-c
 const TBool GBKCompressToUnicodeL(const TDesC8& aGBKData,RBuf& aUnicodeData)
 {
 	z_stream stream;   

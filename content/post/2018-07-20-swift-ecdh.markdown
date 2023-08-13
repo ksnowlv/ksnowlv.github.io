@@ -7,7 +7,7 @@ categories:
 tags:
   - "安全"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -17,7 +17,9 @@ mathjax: false
 
 swift 在iOS10之后，支持ecdh加解密。
 
-#### 1.生成公钥和私钥。```objective-c
+### 1.生成公钥和私钥
+
+```swift
    func generateKey() {
         
         let attributes: [String: Any] = [kSecAttrKeySizeInBits as String: 256,
@@ -33,7 +35,9 @@ swift 在iOS10之后，支持ecdh加解密。
     }
 ```
 
-#### 2.加密```objective-c
+### 2.加密
+
+```swift
 func encryptedData(sourceData: Data, algorithm:SecKeyAlgorithm) -> Data? {
         
         guard self.publicKey != nil else {
@@ -55,7 +59,9 @@ func encryptedData(sourceData: Data, algorithm:SecKeyAlgorithm) -> Data? {
 
 ```
 
-#### 3.解密```objective-c
+### 3.解密
+
+```swift
    func decryptedData(sourceData: Data, algorithm:SecKeyAlgorithm ) -> String? {
         
         var error: Unmanaged<CFError>?
@@ -71,11 +77,12 @@ func encryptedData(sourceData: Data, algorithm:SecKeyAlgorithm) -> Data? {
     }
 ```
 
-#### 4.示例
-```objective-c
+### 4.示例
+
+```swift
         let sign = YKEcdhSign()
-            sign.generateKey()
-            let enData =  sign.encryptedData(sourceData: originalData!, algorithm: SecKeyAlgorithm.eciesEncryptionStandardX963SHA512AESGCM)
-            let string = sign.decryptedData(sourceData: enData!, algorithm: SecKeyAlgorithm.eciesEncryptionStandardX963SHA512AESGCM)
-            print(string!)
+        sign.generateKey()
+        let enData =  sign.encryptedData(sourceData: originalData!, algorithm: SecKeyAlgorithm.eciesEncryptionStandardX963SHA512AESGCM)
+        let string = sign.decryptedData(sourceData: enData!, algorithm: SecKeyAlgorithm.eciesEncryptionStandardX963SHA512AESGCM)
+        print(string!)
 ```

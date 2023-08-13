@@ -7,7 +7,7 @@ categories:
 tags:
   - "swift"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -22,25 +22,27 @@ mathjax: false
 
 	默认是noescaping，非逃逸的,默认是安全的：如果一个函数参数可能导致引用循环，那么它需要被escaping显示地标记出来.
 
-#### 一.区别具体什么区别呢？先举例说明。
+## 一.具体区别
 
-* 1 声明testBlock
+先举例说明。
 
-```objective-c
+### 1 声明testBlock
+
+```swift
 typealias testBlock = (_ type: Int, _ contextObject: Any) -> Void
 ```
 
-* 2 `noescaping`
+### 2 `noescaping`
 
-```objective-c
+```swift
     func testBlock1(block:testBlock) {
         block(0,"hello");
     }
 ```
 
-* 3 `escaping`
+### 3 `escaping`
 
-```objective-c
+```swift
    func testBlock2(block:@escaping testBlock) {
         DispatchQueue.global().async {
             block(1,"world")
@@ -48,9 +50,9 @@ typealias testBlock = (_ type: Int, _ contextObject: Any) -> Void
     }
 ```
 
-* 4 调用
+### 4 调用
 
-```objective-c
+```swift
       testBlock1(block:{ (type: Int, contextObject: Any) in
             print("type=\(type),contextObject=\(contextObject)")
         } )
@@ -59,14 +61,17 @@ typealias testBlock = (_ type: Int, _ contextObject: Any) -> Void
         })
 ```
 
-* 5 输出日志
+### 5 输出日志
 
-```objective-c
+```swift
 type=0,contextObject=hello
 type=1,contextObject=world
 ```
 
-### 二.区别总结* 1.`@escaping`标明这个闭包是会“逃逸”，通俗点来讲，这个闭包的作用域可能超过该函数的作用域，也就是说，该闭包在函数执行完成之后才被调用。
+## 二.总结
+### 1.`@escaping`会“逃逸”
+通俗点来讲，这个闭包的作用域可能超过该函数的作用域，也就是说，该闭包在函数执行完成之后才被调用。
 
-* 2.`@noescaping`标明非逃逸的闭包的作用域是不会超过函数作用域的，我们不需要担心在闭包内持有self。
+### 2.`@noescaping`非逃逸
+标明非逃逸的闭包的作用域是不会超过函数作用域的，我们不需要担心在闭包内持有self。
 

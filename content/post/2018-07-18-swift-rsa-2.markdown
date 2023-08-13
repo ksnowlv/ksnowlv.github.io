@@ -7,7 +7,7 @@ categories:
 tags:
   - "安全"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -22,7 +22,7 @@ swift中，使用`SecKeyEncrypt`进行RSA加密时，会出现`errSecParam(-50)`
 
 	One or more parameters passed to the function are not valid
 
-##### 1.`SecKeyEncrypt`参数	
+## 1.`SecKeyEncrypt`参数	
 * key	
 	
 	Public key with which to encrypt the data.
@@ -43,7 +43,7 @@ On return, the encrypted text.
 
 	On entry, the size of the buffer provided in the cipherText parameter. On return, the amount of data actually placed in the buffer.
 
-##### 2.SecKeyEncrypt参数解读及注意事项
+## 2.SecKeyEncrypt参数解读及注意事项
 * key 
    
     RSA的公钥，使用公钥加密，私钥解密。公钥加载不对或错误，直接报错`errSecParam`
@@ -60,10 +60,11 @@ On return, the encrypted text.
    cipherText加密后数据缓存区大于与cipherTextLen要一致。
    只要不一致，直接报错`errSecParam`
    
-##### 3.问题：* 1.为什么加密数据长度要求小于等于SecKeyGetBlockSize(:)-11？
-
-		RSA加解密为块加密算法（ block cipher algorithm），在固定长度的数据块上进行操作。
-		block length是跟key length 以及所使用的填充模式相关
-		PKCS1模式时：数据块长度最大为SecKeyGetBlockSize(:)-11
-		OAEP模式时，数据块长度最大为SecKeyGetBlockSize(:)-42
+## 3.问题
+### Q: 1.为什么加密数据长度要求小于等于SecKeyGetBlockSize(:)-11？
+### A:RSA加解密为块加密算法（ block cipher algorithm），在固定长度的数据块上进行操作。
+		
+	block length是跟key length 以及所使用的填充模式相关
+	PKCS1模式时：数据块长度最大为SecKeyGetBlockSize(:)-11
+	OAEP模式时，数据块长度最大为SecKeyGetBlockSize(:)-42
    

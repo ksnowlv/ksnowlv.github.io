@@ -76,7 +76,7 @@
 <meta itemprop="name" content="swift-framework的合并">
 <meta itemprop="description" content="swift framework如何支持合并呢？以YKBaseFramework.framework为例。 1.lipo合并静态库。 lipo -create Release-iphoneos/YKBaseFramework.framework/YKBaseFramework Debug-iphonesimulator/YKBaseFramework.framework/YKBaseFramework -output YKBaseFramework 生成YKB"><meta itemprop="datePublished" content="2018-07-04T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-07-04T00:00:00+00:00" />
-<meta itemprop="wordCount" content="226">
+<meta itemprop="wordCount" content="239">
 <meta itemprop="keywords" content="swift," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="swift-framework的合并"/>
 <meta name="twitter:description" content="swift framework如何支持合并呢？以YKBaseFramework.framework为例。 1.lipo合并静态库。 lipo -create Release-iphoneos/YKBaseFramework.framework/YKBaseFramework Debug-iphonesimulator/YKBaseFramework.framework/YKBaseFramework -output YKBaseFramework 生成YKB"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 226 字 -
+        约 239 字 -
         预计阅读 1 分钟
       </span>
 
@@ -369,16 +369,17 @@
         
         <div class="post-content">
           <p>swift framework如何支持合并呢？以YKBaseFramework.framework为例。</p>
-<h4 id="1lipo合并静态库">1.lipo合并静态库。</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span> lipo <span style="color:#f92672">-</span>create Release<span style="color:#f92672">-</span>iphoneos<span style="color:#f92672">/</span>YKBaseFramework.framework<span style="color:#f92672">/</span>YKBaseFramework Debug<span style="color:#f92672">-</span>iphonesimulator<span style="color:#f92672">/</span>YKBaseFramework.framework<span style="color:#f92672">/</span>YKBaseFramework <span style="color:#f92672">-</span>output YKBaseFramework
-</span></span></code></pre></div><p>生成YKBaseFramework，查看支持架构</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>bogon:YKBaseSwiftFrameworkLib ksnowlv<span style="color:#960050;background-color:#1e0010">$</span> lipo <span style="color:#f92672">-</span>info YKBaseFramework 
-</span></span><span style="display:flex;"><span>Architectures <span style="color:#66d9ef">in</span> the fat file: YKBaseFramework are: armv7 i386 x86_64 arm64 
-</span></span></code></pre></div><h4 id="2把debug库中的swiftdoc与swiftmodule文件拷贝到release库对应目录下">2.把debug库中的swiftdoc与swiftmodule文件拷贝到release库对应目录下。</h4>
-<p><img src="/images/post/2018-07-04-swift-frameworkde-he-bing/swiftframework-export.png" alt="image"></p>
-<h4 id="3把合并后的ykbaseframework文件拷贝到release库对应目录下">3.把合并后的YKBaseFramework文件拷贝到release库对应目录下.</h4>
+<h2 id="1lipo合并静态库">1.lipo合并静态库。</h2>
+<pre tabindex="0"><code class="language-terminal" data-lang="terminal"> lipo -create Release-iphoneos/YKBaseFramework.framework/YKBaseFramework Debug-iphonesimulator/YKBaseFramework.framework/YKBaseFramework -output YKBaseFramework
+</code></pre><p>生成YKBaseFramework，查看支持架构</p>
+<pre tabindex="0"><code class="language-terminal" data-lang="terminal">bogon:YKBaseSwiftFrameworkLib ksnowlv$ lipo -info YKBaseFramework 
+Architectures in the fat file: YKBaseFramework are: armv7 i386 x86_64 arm64 
+</code></pre><h2 id="2-debugrelease库合并">2. debug/release库合并</h2>
+<p>把<strong>debug</strong>库中的<strong>swiftdoc</strong>与<strong>swiftmodule</strong>文件拷贝到<strong>release</strong>库对应目录下。
+<img src="/images/post/2018-07-04-swift-frameworkde-he-bing/swiftframework-export.png" alt="image"></p>
+<h2 id="3把合并后的ykbaseframework文件拷贝到release库对应目录下">3.把合并后的YKBaseFramework文件拷贝到release库对应目录下.</h2>
 <p><img src="/images/post/2018-07-04-swift-frameworkde-he-bing/swift-framework.png" alt="image"></p>
-<h4 id="4大功告成可以支持swiftobjective-c调用">4.大功告成，可以支持swift/objective-c调用</h4>
+<p>大功告成，可以支持swift/objective-c调用</p>
 
         </div>
 
@@ -472,7 +473,18 @@
     </div>
 
     
-    
+    <nav class="toc" id="toc">
+    <div class="toc-title">文章目录</div>
+    <div class="toc-content custom-scrollbar">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1lipo合并静态库">1.lipo合并静态库。</a></li>
+    <li><a href="#2-debugrelease库合并">2. debug/release库合并</a></li>
+    <li><a href="#3把合并后的ykbaseframework文件拷贝到release库对应目录下">3.把合并后的YKBaseFramework文件拷贝到release库对应目录下.</a></li>
+  </ul>
+</nav>
+    </div>
+  </nav>
 
 
   </div>

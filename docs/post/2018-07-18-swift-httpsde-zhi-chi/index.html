@@ -76,7 +76,7 @@
 <meta itemprop="name" content="swift-https的支持">
 <meta itemprop="description" content="swift中，如何支持https呢？ https分为单向（客户端校验服务端）的和双向（客户端/服务端相互校验）具体可查阅相关资料。 实现URLS"><meta itemprop="datePublished" content="2018-07-18T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-07-18T00:00:00+00:00" />
-<meta itemprop="wordCount" content="295">
+<meta itemprop="wordCount" content="292">
 <meta itemprop="keywords" content="安全," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="swift-https的支持"/>
 <meta name="twitter:description" content="swift中，如何支持https呢？ https分为单向（客户端校验服务端）的和双向（客户端/服务端相互校验）具体可查阅相关资料。 实现URLS"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 295 字 -
+        约 292 字 -
         预计阅读 1 分钟
       </span>
 
@@ -372,31 +372,31 @@
 <p>https分为单向（客户端校验服务端）的和双向（客户端/服务端相互校验）具体可查阅相关资料。</p>
 <p>实现<code>URLSessionDelegate</code>协议中</p>
 <p><code>urlSession(_ session: didReceive challenge: completionHandler: )</code></p>
-<p>具体实现如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    func <span style="color:#a6e22e">urlSession</span>(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential<span style="color:#f92672">?</span>) <span style="color:#f92672">-&gt;</span> Void) {
+<p>具体实现</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">urlSession</span>(<span style="color:#66d9ef">_</span> session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -&gt; Void) {
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        var disposition <span style="color:#f92672">=</span> URLSession.AuthChallengeDisposition.performDefaultHandling
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> disposition = URLSession.AuthChallengeDisposition.performDefaultHandling
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        var credential:URLCredential<span style="color:#f92672">?</span> <span style="color:#f92672">=</span> nil
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> credential:URLCredential? = <span style="color:#66d9ef">nil</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">/*disposition：如何处理证书
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         performDefaultHandling:默认方式处理
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         useCredential：使用指定的证书
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         cancelAuthenticationChallenge：取消请求
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         */</span>
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> challenge.protectionSpace.authenticationMethod <span style="color:#f92672">==</span> NSURLAuthenticationMethodServerTrust {
-</span></span><span style="display:flex;"><span>            credential <span style="color:#f92672">=</span> URLCredential(trust: challenge.protectionSpace.serverTrust<span style="color:#f92672">!</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+</span></span><span style="display:flex;"><span>            credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> credential <span style="color:#f92672">!=</span> nil {
-</span></span><span style="display:flex;"><span>                disposition <span style="color:#f92672">=</span> URLSession.AuthChallengeDisposition.useCredential
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> credential <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                disposition = URLSession.AuthChallengeDisposition.useCredential
 </span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> challenge.protectionSpace.authenticationMethod <span style="color:#f92672">==</span> NSURLAuthenticationMethodClientCertificate {
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//单向验证，客户端不需要服务端验证，此处与默认处理一致即可
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            disposition <span style="color:#f92672">=</span> URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge
+</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodClientCertificate {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//单向验证，客户端不需要服务端验证，此处与默认处理一致即可</span>
+</span></span><span style="display:flex;"><span>            disposition = URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            disposition <span style="color:#f92672">=</span> URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge
+</span></span><span style="display:flex;"><span>            disposition = URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>        completionHandler(disposition, credential)

@@ -1,5 +1,5 @@
 ---
-title: "”mac下配置jni开发环境(二)“"
+title: Mac配置jni开发环境(二)
 date: 2019-04-09
 lastmod: 2019-04-09
 categories:
@@ -7,17 +7,18 @@ categories:
 tags:
   - "jni"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-创建android基础工程
+首页创建Android应用工程
 
-#### 1.JNI java文件创建
-```objective-c
+### 1.Java层调用SO库
+
+```java
 
 public class JavaCallJNI {
 
@@ -33,13 +34,17 @@ public class JavaCallJNI {
 ![image](/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/jni-files.png) 
 
 
-#### 2.在`app/scr/main/`目录下，创建目录`jni`#### 3.在jni目录下，创建`Android.mk`文件文件内容如下：
+### 2.创建目录`jni`
+
+在`app/scr/main/`下，创建`jni`文件目录
+
+### 3.SO库配置文件
+
+在jni目录下，创建`Android.mk`文件文件内容如下：
 
 
 	LOCAL_PATH := $(call my-dir)
 	include $(CLEAR_VARS)
-
-
 	LOCAL_MODULE := jniTest
 	LOCAL_SRC_FILES := com_ksnowlv_hellojniforjava_JavaCallJNI.c
 
@@ -49,9 +54,9 @@ public class JavaCallJNI {
 
 * LOCAL_MODULE := JniTest 
 	
-		这里JniTest，是将要生成的`.so`库的名字，会自动加上 lib前缀，
-		最终生成库文件：libJniTest.so
-		如果要引用该库：System.loadLibrary("JniTest")
+	这里JniTest，是将要生成的`.so`库的名字，会自动加上 lib前缀，
+	最终生成库文件：libJniTest.so
+	如果要引用该库：System.loadLibrary("JniTest")
 
 * LOCAL_SRC_FILES := com_ksnowlv_hellojniforjava_JavaCallJNI 
 
@@ -78,34 +83,42 @@ public class JavaCallJNI {
   	}
 		
 
-#### 4.在jni目录下，创建`Application.mk`文件内容如下：
+### 4.在SO库配置文件中，添加生成SO
+`Application.mk`添加：
 
 	APP_ABI := all	
 	
 会生成所有主流 ABI 类型的 .so 库
 
 
-#### 5.更新在当前模块下build.gradle文件* `defaultConfig`下增加ndk配置
+### 5.更新build.gradle文件配置
+
+`defaultConfig`下增加ndk配置
 
 		ndk {
     		moduleName "JniTest" //System.loadLibrary("JniTest");
 		}
 	
  
-* 在buildTypes上面添加`jni.srcDirs`的配置
+ 在buildTypes上面添加`jni.srcDirs`的配置
 
     	sourceSets {
            main {//建议这里直接使用'libs'目录，
            //因为当使用其他包有.so文件时，一般习惯也是直接拷贝进入libs目录
             jni.srcDirs = ['libs']
           }
-    	}
+    	
 
 
 
 ![image](/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/build-gradle.png) 
 
-#### 5.在终端进入jni路径:app/src/main/jni,输入`ndk-build`即生成各种版本的so
+### 6.生成so库
+
+在终端进入jni路径:app/src/main/jni,输入`ndk-build`即生成各种版本的so
+
+```terminal
+
 	ksnowlvdeMacBook-Pro:java ksnowlv$ javac com/ksnowlv/	hellojniforjava/JavaCallJNI.java 
 	Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
 	ksnowlvdeMacBook-Pro:java ksnowlv$ javah -d ../jni 	com.ksnowlv.hellojniforjava.JavaCallJNI
@@ -113,7 +126,7 @@ public class JavaCallJNI {
 	ksnowlvdeMacBook-Pro:java ksnowlv$ cd ..
 	ksnowlvdeMacBook-Pro:main ksnowlv$ cd jni
 	ksnowlvdeMacBook-Pro:jni ksnowlv$ ndk-build
-
+```
 
 ![image](/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/so.png) 
 

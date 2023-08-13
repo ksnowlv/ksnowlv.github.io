@@ -7,7 +7,7 @@ categories:
 tags:
   - "xcode"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true

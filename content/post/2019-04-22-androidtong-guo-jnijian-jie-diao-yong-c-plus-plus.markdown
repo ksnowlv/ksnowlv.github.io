@@ -1,13 +1,15 @@
 ---
-title: "Android通过jni间接调用c++"
+title: "Java调用C++"
 date: 2019-04-22
 lastmod: 2019-04-22
 categories:
   - "Android"
+  - "C++"
 tags:
   - "jni"
+  - "C++"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -16,8 +18,8 @@ mathjax: false
 
 本篇重点内容，C如何调用C++类，思路是JAVA通过JNI直接调用C，C调用C++相关的类。
 
-#### 1.JAVA层接口Person类相关接口
-```objective-c
+### 1.JAVA层接口Person类相关接口
+```java
 public class JavaCallJNI {
 
 	static  {
@@ -42,7 +44,7 @@ public class JavaCallJNI {
 ### 2.C接口及实现
 `com_ksnowlv_hellojniforjava_JavaCallJNI.h`内容如下
 
-```objective-c
+```c
 
 	#include <jni.h>
 	/* Header for class com_ksnowlv_hellojniforjava_JavaCallJNI */
@@ -235,8 +237,8 @@ public class JavaCallJNI {
 	  }
 ```
 
-### 3.JAVA调用
-```objective-c
+### 3.Java调用
+```java
     int value =  JavaCallJNI.showValue(1);
     Log.i("------Android ","" + value);
 

@@ -7,7 +7,7 @@ categories:
 tags:
   - "flutter"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true

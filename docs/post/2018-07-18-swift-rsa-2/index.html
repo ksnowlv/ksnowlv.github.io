@@ -76,7 +76,7 @@
 <meta itemprop="name" content="swift-rsa(二)-SecKeyEncrypt errSecParam(-50)  ">
 <meta itemprop="description" content="swift中，使用SecKeyEncrypt进行RSA加密时，会出现errSecParam(-50)? 如何解决呢？ 按照苹果官方文档中的err"><meta itemprop="datePublished" content="2018-07-18T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-07-18T00:00:00+00:00" />
-<meta itemprop="wordCount" content="751">
+<meta itemprop="wordCount" content="752">
 <meta itemprop="keywords" content="安全," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="swift-rsa(二)-SecKeyEncrypt errSecParam(-50)  "/>
 <meta name="twitter:description" content="swift中，使用SecKeyEncrypt进行RSA加密时，会出现errSecParam(-50)? 如何解决呢？ 按照苹果官方文档中的err"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 751 字 -
+        约 752 字 -
         预计阅读 2 分钟
       </span>
 
@@ -373,7 +373,7 @@
 <p>按照苹果官方文档中的<code>errSecParam</code>解释如下：</p>
 <pre><code>One or more parameters passed to the function are not valid
 </code></pre>
-<h5 id="1seckeyencrypt参数">1.<code>SecKeyEncrypt</code>参数</h5>
+<h2 id="1seckeyencrypt参数">1.<code>SecKeyEncrypt</code>参数</h2>
 <ul>
 <li>
 <p>key</p>
@@ -400,7 +400,7 @@ On return, the encrypted text.</p>
 <p>On entry, the size of the buffer provided in the cipherText parameter. On return, the amount of data actually placed in the buffer.</p>
 </li>
 </ul>
-<h5 id="2seckeyencrypt参数解读及注意事项">2.SecKeyEncrypt参数解读及注意事项</h5>
+<h2 id="2seckeyencrypt参数解读及注意事项">2.SecKeyEncrypt参数解读及注意事项</h2>
 <ul>
 <li>
 <p>key</p>
@@ -420,11 +420,12 @@ cipherText加密后数据缓存区大于与cipherTextLen要一致。
 只要不一致，直接报错<code>errSecParam</code></p>
 </li>
 </ul>
-<h5 id="3问题-1为什么加密数据长度要求小于等于seckeygetblocksize-11">3.问题：* 1.为什么加密数据长度要求小于等于SecKeyGetBlockSize(:)-11？</h5>
-<pre><code>	RSA加解密为块加密算法（ block cipher algorithm），在固定长度的数据块上进行操作。
-	block length是跟key length 以及所使用的填充模式相关
-	PKCS1模式时：数据块长度最大为SecKeyGetBlockSize(:)-11
-	OAEP模式时，数据块长度最大为SecKeyGetBlockSize(:)-42
+<h2 id="3问题">3.问题</h2>
+<h3 id="q-1为什么加密数据长度要求小于等于seckeygetblocksize-11">Q: 1.为什么加密数据长度要求小于等于SecKeyGetBlockSize(:)-11？</h3>
+<h3 id="arsa加解密为块加密算法-block-cipher-algorithm在固定长度的数据块上进行操作">A:RSA加解密为块加密算法（ block cipher algorithm），在固定长度的数据块上进行操作。</h3>
+<pre><code>block length是跟key length 以及所使用的填充模式相关
+PKCS1模式时：数据块长度最大为SecKeyGetBlockSize(:)-11
+OAEP模式时，数据块长度最大为SecKeyGetBlockSize(:)-42
 </code></pre>
 
         </div>
@@ -519,7 +520,23 @@ cipherText加密后数据缓存区大于与cipherTextLen要一致。
     </div>
 
     
-    
+    <nav class="toc" id="toc">
+    <div class="toc-title">文章目录</div>
+    <div class="toc-content custom-scrollbar">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1seckeyencrypt参数">1.<code>SecKeyEncrypt</code>参数</a></li>
+    <li><a href="#2seckeyencrypt参数解读及注意事项">2.SecKeyEncrypt参数解读及注意事项</a></li>
+    <li><a href="#3问题">3.问题</a>
+      <ul>
+        <li><a href="#q-1为什么加密数据长度要求小于等于seckeygetblocksize-11">Q: 1.为什么加密数据长度要求小于等于SecKeyGetBlockSize(:)-11？</a></li>
+        <li><a href="#arsa加解密为块加密算法-block-cipher-algorithm在固定长度的数据块上进行操作">A:RSA加解密为块加密算法（ block cipher algorithm），在固定长度的数据块上进行操作。</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </nav>
 
 
   </div>

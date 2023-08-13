@@ -7,16 +7,16 @@ categories:
 tags:
   - "安全"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+## 散列算法
 
  常见的单向散列算法，可用于数字签名，单向的，不可逆向，**并非加密算法**。
- <!--more-->
  
  主要用途是为了校验数据在传输过程中是否被修改。
 
@@ -28,7 +28,7 @@ mathjax: false
 
 这些散列算法，通常用来校验数据在传输过程中是否被修改。其中HMAC算法有一个密钥，增强了数据传输过程中的安全性，强化了算法外的不可控因素。 
  
- iOS散列算法实现如下：
+### 1.iOS散列算法声明文件
 
 ```objective-c
 
@@ -67,7 +67,8 @@ HMAC(Hash Message Authentication Code，散列消息鉴别码)
 @end
 ```
 
-实现文件
+
+### 2.iOS散列算法实现文件
 
 ```objective-c
 import "YKEncryption.h"
@@ -189,31 +190,31 @@ import "YKEncryption.h"
 
 可以使用[http://www.atool.org/hash.php](http://www.atool.org/hash.php)对照散列后的值是否一致？
 
-调用如下：
+### 3.示例：
 
 ```objective-c
-   NSString *source = @"hello world! 你是全世界!";
-    NSString *resString = [YKEncryption md5:source];
-    NSLog(@"md5 res = %@",resString);
+	NSString *source = @"hello world! 你是全世界!";
+	NSString *resString = [YKEncryption md5:source];
+	NSLog(@"md5 res = %@",resString);
+	    
+	    
+	resString = [YKEncryption SHA:source shaType:YKSHATypeSha1];
+	NSLog(@"sha1 res = %@",resString);
+	    
+	resString = [YKEncryption SHA:source shaType:YKSHATypeSha224];
+	NSLog(@"sha224 res = %@",resString);
+	resString = [YKEncryption SHA:source shaType:YKSHATypeSha256];
+	NSLog(@"sha256 res = %@",resString);
+	    
+	resString = [YKEncryption SHA:source shaType:YKSHATypeSha384];
+	NSLog(@"sha384 res = %@",resString);
+	    
+	resString = [YKEncryption SHA:source shaType:YKSHATypeSha512];
+	NSLog(@"sha512 res = %@",resString);
+	    
+	resString = [YKEncryption hmac:source withKey:@"abc"];
     
-    
-    resString = [YKEncryption SHA:source shaType:YKSHATypeSha1];
-    NSLog(@"sha1 res = %@",resString);
-    
-    resString = [YKEncryption SHA:source shaType:YKSHATypeSha224];
-    NSLog(@"sha224 res = %@",resString);
-    resString = [YKEncryption SHA:source shaType:YKSHATypeSha256];
-    NSLog(@"sha256 res = %@",resString);
-    
-    resString = [YKEncryption SHA:source shaType:YKSHATypeSha384];
-    NSLog(@"sha384 res = %@",resString);
-    
-    resString = [YKEncryption SHA:source shaType:YKSHATypeSha512];
-    NSLog(@"sha512 res = %@",resString);
-    
-    resString = [YKEncryption hmac:source withKey:@"abc"];
-    
-    NSLog(@"hmac res = %@",resString);
+NSLog(@"hmac res = %@",resString);
 ```
 
 完整demo见[HashTest](git@github.com:ksnowlv/HashTest.git)

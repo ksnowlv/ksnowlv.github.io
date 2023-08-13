@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -26,9 +26,7 @@ Block是符合如下要求的匿名内联的代码集：
 * 可以在词义范围（堆栈帧）被销毁后继续共享和修改该词义范围（堆栈帧）的状态。
 Block是一个自包含的小代码段，封装了用于遍历（线性遍历）或者回调，可以并发执行的任务单元。
 
-#### 1.示例1
-
-```objective-c
+#### 1.示例1```objective-c
 typedef void(^printBlock)(NSString* toDo);
     printBlock pb;
     

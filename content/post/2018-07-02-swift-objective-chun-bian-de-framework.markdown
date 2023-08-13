@@ -7,7 +7,7 @@ categories:
 tags:
   - "swift"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -16,11 +16,12 @@ mathjax: false
 
 swift-objective-c混编的framework如何制作呢？
 
-* 1.创建cocoaTouchframework,
-* 2.把需要导出的头文件添加到Headers中，如下图
+## 1.创建cocoaTouchframework,
+## 2.需要导出的头文件添加到Headers中
+
 ![image](/images/post/2018-07-02-swift-objective-chun-bian-de-framework/overview.png) 
 
-* 3.把头文件添加到导出头文件
+## 3.头文件添加到导出头文件
 
 ```objective-c
 

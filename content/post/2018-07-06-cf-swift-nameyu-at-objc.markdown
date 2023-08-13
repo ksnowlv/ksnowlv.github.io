@@ -7,19 +7,21 @@ categories:
 tags:
   - "swift"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-NS_SWIFT_NAME与@objc有什么区别和用途呢？
+## NS_SWIFT_NAME与@objc有什么区别和用途呢？
 
 * `NS_SWIFT_NAME `:在objective-c中，重新命名在swift中的名称
 * `@objc` 在swift中，重新命名在objective-c中的名称。
 
-示例1如下：
+
+
+### 示例1
 
 ```objective-c
 typedef NS_ENUM(NSUInteger, NetErrorType) {
@@ -36,23 +38,23 @@ typedef NS_ENUM(NSUInteger, NetErrorType) {
 
 在swift中调用如下：
 
-```objective-c
+```swift
 NetErrorType.None
 let baseUIViewController : YKBaseUIViewController = YKBaseUIViewController()
 baseUIViewController.handleNetResponse(connectionItem: nil, parser: nil)
 ```
 
 
-示例2如下：
+### 示例2
 
-```objective-c
+```swift
 @objc(showMyAge: address:)
 public static func showMyInfo(age: Int, address: String) -> String{
         return "ksnowlv"
     }
 ```
 
-在objective-c中调用如下：
+在objective-c中调用：
 
 ```objective-c
 NSString *string =  [YKDevice showMyAge:0 address:@"abc"];

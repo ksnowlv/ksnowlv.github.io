@@ -7,23 +7,25 @@ categories:
 tags:
   - "多线程"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-mutex类型有四种
+## mutex类型有四种
 
-*  PTHREAD_MUTEX_NORMAL
+* PTHREAD_MUTEX_NORMAL
 * PTHREAD_MUTEX_ERRORCHECK
 * PTHREAD_MUTEX_RECURSIVE
 * PTHREAD_MUTEX_DEFAULT
 
 
-##### 1.mutex初始化。
-```objective-c
+### 1.mutex初始化
+
+```swift
+
      var mutex = pthread_mutex_t()
      var attr: pthread_mutexattr_t = pthread_mutexattr_t()
      pthread_mutexattr_init(&attr)
@@ -31,12 +33,16 @@ mutex类型有四种
      pthread_mutex_init(&mutex, &attr)
 ```
 
-##### 2.mutex使用。```objective-c
+### 2.mutex使用
+
+```swift
      pthread_mutex_trylock(&mutex)
         //执行代码块
      pthread_mutex_unlock(&mutex)
 ```
 
-##### 3.mutex释放。```objective-c
+### 3.mutex释放
+
+```swift
     pthread_mutex_destroy(&mutex)
 ```

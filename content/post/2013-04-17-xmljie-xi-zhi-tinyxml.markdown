@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -18,7 +18,7 @@ TinyXML是一个开源的解析XML的解析库(下载地址:[http://sourceforge.
         
    DOM模型即文档对象模型，是将整个文档分成多个元素（如书、章、节、段等），并利用树型结构表示这些元素之间的顺序关系以及嵌套包含关系。
    
-### 它的一些类的简介：* TiXmlBase：整个TinyXML模型的基类。
+###### 它的一些类的简介：* TiXmlBase：整个TinyXML模型的基类。
 * TiXmlAttribute：对应于XML中的元素的属性。
 * TiXmlNode：对应于DOM结构中的节点。
 * TiXmlComment：对应于XML中的注释
@@ -32,9 +32,7 @@ TinyXML是一个开源的解析XML的解析库(下载地址:[http://sourceforge.
 下面显示XML的解析和生成：
 首先，引入这几个文件，如果编译有错，修改下编译器的设置。如果该库引入静态库，给第三方使用。建议类，全局的常量，函数，重命名下，以避免可能的冲突。
 
-### 1.头文件
-
-```objective-c
+#### 1.头文件```objective-c
 //  ViewController.h
 #import <UIKit/UIKit.h>
 
@@ -49,7 +47,7 @@ TinyXML是一个开源的解析XML的解析库(下载地址:[http://sourceforge.
 
 @end
 ```
-### 2.实现文件。
+#### 2.实现文件。
 ```objective-c
 //
 //  ViewController.mm
@@ -374,8 +372,7 @@ TinyXML是一个开源的解析XML的解析库(下载地址:[http://sourceforge.
 @end
 ```
 
-### 3.输出日志：	
-    2013-04-17 14:16:59.966 XMLTest_TinyXML[1987:11303] ------------------XML 开始解析------------------
+#### 3.输出日志：	2013-04-17 14:16:59.966 XMLTest_TinyXML[1987:11303] ------------------XML 开始解析------------------
 	2013-04-17 14:16:59.967 XMLTest_TinyXML[1987:11303] ------开始解析	pois-----
 	poiIno:catolog=生活服务,name=火车票飞机票售票处,x=12960121.140000,y=4864264.440000
 	poiIno:catolog=购物,name=皂就人生,x=12960087.850000,y=4864269.380000
@@ -405,7 +402,7 @@ TinyXML是一个开源的解析XML的解析库(下载地址:[http://sourceforge.
             </points>
         </road>
     </roads>
-    </city>
+</city>
 
 	2013-04-17 14:16:59.970 XMLTest_TinyXML[1987:11303] ------------------XML 完成生成------------------
 

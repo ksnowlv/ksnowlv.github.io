@@ -7,7 +7,7 @@ categories:
 tags:
   - "安全"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -15,9 +15,12 @@ mathjax: false
 ---
 
 
-#### 1.引用openssl库。[https://github.com/x2on/OpenSSL-for-iPhone](https://github.com/x2on/OpenSSL-for-iPhone)
+## 1.引用openssl库
 
-#### 2.对数据进行签名。
+[https://github.com/x2on/OpenSSL-for-iPhone](https://github.com/x2on/OpenSSL-for-iPhone)
+
+## 2.对数据进行签名
+
 ```objective-c
 
 /*对数据进行签名
@@ -44,7 +47,8 @@ mathjax: false
 
 ```
 
-#### 3.对数据进行验签。
+## 3.对数据进行验签
+
 ```objective-c
 
 /*进行数据的DSA验签
@@ -59,7 +63,7 @@ mathjax: false
 
 ```
 
-#### 4.在加签和验签前加载公钥与私钥。
+## 4.在加签和验签前加载公钥与私钥
 ```objective-c
 
 /*使用dsa公钥与私钥
@@ -79,7 +83,9 @@ mathjax: false
 }
 ```
 
-#### 5.测试。```objective-c
+## 5.测试
+
+```objective-c
  KDSASign *sign = [KDSASign new];
     [sign setUpPrivateKey:priKey withPublicKey:pubKey];
     
@@ -94,6 +100,7 @@ mathjax: false
 
 ```
 
-#### 6.其它* 1.接口为什么设计成这样？加载公钥与私钥和加签，验签接口合并？
+## 6.其它
+* 1.接口为什么设计成这样？加载公钥与私钥和加签，验签接口合并？
 * 2.为什么没有采用单例？
 * 3.为什么接口没有使用类方法？

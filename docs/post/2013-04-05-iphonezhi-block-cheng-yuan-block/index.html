@@ -76,7 +76,7 @@
 <meta itemprop="name" content="iPhone之block_成员block">
 <meta itemprop="description" content="块是基于栈的：当在一个函数或方法中定义一个块变量时，编译器会在栈上创建一个结构来保存块所引用的任何本地变量的值，它引用的读写变量的地址及指向"><meta itemprop="datePublished" content="2013-04-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-04-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="471">
+<meta itemprop="wordCount" content="491">
 <meta itemprop="keywords" content="iOS," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iPhone之block_成员block"/>
 <meta name="twitter:description" content="块是基于栈的：当在一个函数或方法中定义一个块变量时，编译器会在栈上创建一个结构来保存块所引用的任何本地变量的值，它引用的读写变量的地址及指向"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 471 字 -
+        约 491 字 -
         预计阅读 1 分钟
       </span>
 
@@ -370,59 +370,59 @@
         <div class="post-content">
           <p>块是基于栈的：当在一个函数或方法中定义一个块变量时，编译器会在栈上创建一个结构来保存块所引用的任何本地变量的值，它引用的读写变量的地址及指向块的可执行代码的指针。</p>
 <p>但block也可以作为成员使用，需要把块由栈拷贝到堆上。</p>
-<h4 id="示例">示例</h4>
-<h5 id="1头文件">1.头文件</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">//  QBlock.h
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">void</span>(<span style="color:#f92672">^</span>printBlock)(NSString<span style="color:#f92672">*</span> toDo);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">QBlock</span> : <span style="color:#a6e22e">NSObject</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    printBlock _printBlock;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">print:</span>(NSString<span style="color:#f92672">*</span>)infomation;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
-</span></span></code></pre></div><h5 id="2实现文件">2.实现文件</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//  QBlock.m
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#import &#34;QBlock.h&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">QBlock</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">id</span>)<span style="color:#a6e22e">init</span>  {
-</span></span><span style="display:flex;"><span>    self <span style="color:#f92672">=</span> [super init];
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (self) {
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>      printBlock pb <span style="color:#f92672">=</span> <span style="color:#f92672">^</span>(NSString<span style="color:#f92672">*</span> toDo){
-</span></span><span style="display:flex;"><span>            NSLog(<span style="color:#e6db74">@&#34;infomation:%@&#34;</span>, toDo);
-</span></span><span style="display:flex;"><span>        };
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        _printBlock <span style="color:#f92672">=</span> [pb <span style="color:#66d9ef">copy</span>];
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;after block copy retainCount =%d&#34;</span>, [_printBlock retainCount]); 
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> self;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">dealloc</span> {
-</span></span><span style="display:flex;"><span>    [_printBlock <span style="color:#66d9ef">release</span>];
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;after block release retainCount =%d&#34;</span>, [_printBlock retainCount]);
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    [super dealloc];
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">print:</span>(NSString<span style="color:#f92672">*</span>)infomation {
-</span></span><span style="display:flex;"><span>    _printBlock(infomation);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
-</span></span></code></pre></div><h5 id="3调用">3.调用</h5>
+<h4 id="示例-1头文件objective-c">示例##### 1.头文件```objective-c</h4>
+<p>//  QBlock.h
+#import &lt;Foundation/Foundation.h&gt;
+typedef void(^printBlock)(NSString* toDo);</p>
+<p>@interface QBlock : NSObject
+{
+printBlock _printBlock;
+}</p>
+<ul>
+<li>(void)print:(NSString*)infomation;</li>
+</ul>
+<p>@end</p>
+<pre tabindex="0"><code>
+##### 2.实现文件
+```objective-c
+
+//  QBlock.m
+#import &#34;QBlock.h&#34;
+
+@implementation QBlock
+
+- (id)init  {
+    self = [super init];
+    
+    if (self) {
+        
+        
+      printBlock pb = ^(NSString* toDo){
+            NSLog(@&#34;infomation:%@&#34;, toDo);
+        };
+        
+        _printBlock = [pb copy];
+        
+        NSLog(@&#34;after block copy retainCount =%d&#34;, [_printBlock retainCount]); 
+    }
+    
+    return self;
+}
+
+- (void)dealloc {
+    [_printBlock release];
+    
+    NSLog(@&#34;after block release retainCount =%d&#34;, [_printBlock retainCount]);
+    
+    [super dealloc];
+}
+
+- (void)print:(NSString*)infomation {
+    _printBlock(infomation);
+}
+
+@end
+</code></pre><h5 id="3调用">3.调用</h5>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span> QBlock<span style="color:#f92672">*</span> block <span style="color:#f92672">=</span> [[QBlock alloc] init];
 </span></span><span style="display:flex;"><span> [block print:<span style="color:#e6db74">@&#34;BLOCK以成员的形式使用&#34;</span>];
 </span></span><span style="display:flex;"><span> [block <span style="color:#66d9ef">release</span>];
@@ -526,7 +526,20 @@
     </div>
 
     
-    
+    <nav class="toc" id="toc">
+    <div class="toc-title">文章目录</div>
+    <div class="toc-content custom-scrollbar">
+      <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </nav>
 
 
   </div>

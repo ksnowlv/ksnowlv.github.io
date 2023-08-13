@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -16,9 +16,7 @@ mathjax: false
 
 主要使用sortUsingComparator，sortUsingFunction，sortUsingSelector进行排序。
 
-#### 1.头文件。
-
-```objective-c
+#### 1.头文件。```objective-c
 //
 //  ArraryTest_OrderViewController.m
 //  ArraryTest_Order

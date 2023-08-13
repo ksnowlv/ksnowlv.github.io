@@ -7,7 +7,7 @@ categories:
 tags:
   - "安全"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -17,7 +17,9 @@ mathjax: false
 如何使用swift进行RSA大数据块加解密呢？
 
 
-##### 1.使用RSA加密```objective-c
+## 1.使用RSA加密
+
+```swift
  @objc public func encrypt(source: String) -> String {
         
         guard source.count > 0 && self.publicSecKey != nil else {
@@ -68,7 +70,9 @@ mathjax: false
 
 ```
 
-##### 2.使用RSA解密```objective-c
+## 2.使用RSA解密
+
+```swift
 @objc public func decrypt(source: String) -> String {
         
         guard source.count > 0 && self.privateSecKey != nil else {
@@ -130,29 +134,31 @@ mathjax: false
 
 ```
 
-##### 3.调用及输出
-* 调用
+## 3.示例及输出
 
-```objective-c
+### 1.示例
+
+```swift
 	let originalString = "你从哪里来，要去哪里去，在你眼里，春天里，我们去了哪里啊，123456789，说不说都不知道，黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝，ksnowlv"
  
-      let rsaSign: YKRSASign = YKRSASign()
-        rsaSign.publicKey(fileFullPath: publicKeyPath as NSString, block: {(_ error: NSError?, _ secKey:SecKey?) in
-        })
-        
-        rsaSign.privateKey(fileFullPath: privateKeyPath! as NSString, password: "", block: {(_ error: NSError?, _ secKey:SecKey?) in
-        })
-        
-        let enString = rsaSign.encrypt(source: originalString)
-        print("enString = \(enString)")
-        
-        let deString = rsaSign.decrypt(source: enString)
-        print("deString = \(deString)")
+    let rsaSign: YKRSASign = YKRSASign()
+    rsaSign.publicKey(fileFullPath: publicKeyPath as NSString, block: {(_ error: NSError?, _ secKey:SecKey?) in
+    })
+    
+    rsaSign.privateKey(fileFullPath: privateKeyPath! as NSString, password: "", block: {(_ error: NSError?, _ secKey:SecKey?) in
+    })
+    
+    let enString = rsaSign.encrypt(source: originalString)
+    print("enString = \(enString)")
+    
+    let deString = rsaSign.decrypt(source: enString)
+    print("deString = \(deString)")
 ```
 
-* 日志
+### 2.日志
 
-```objective-c
+
+```terminal
 publicKeyPath = /Users/ksnowlv/Library/Developer/CoreSimulator/Devices/77E5D278-4788-499F-9B82-76BE66DA4676/data/Containers/Bundle/Application/2BD97FF3-B55D-4556-8232-888D0D858AD2/YKBaseSwiftFramework.app/public_key.der
 privateKeyPath = Optional("/Users/ksnowlv/Library/Developer/CoreSimulator/Devices/77E5D278-4788-499F-9B82-76BE66DA4676/data/Containers/Bundle/Application/2BD97FF3-B55D-4556-8232-888D0D858AD2/YKBaseSwiftFramework.app/private_key.p12")
 enString = HEP0mejSvIfOi4V0uziYNogUStMYG01DmIK25TDR340cc5snt4LGlkNVdGLRb0hP

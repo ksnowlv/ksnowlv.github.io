@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-          Android通过jni调用c&#43;&#43; - ksnowlv技术笔记
+          Java调用C&#43;&#43; - ksnowlv技术笔记
         </title>
     
 
@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="梵梵爸" />
-  <meta name="description" content="本篇重点内容在于如何把C&#43;&#43;的类通过JNI转换为JAVA的类 1.创建JAVA类：JavaPerson public class JavaPerson { private long mNativePerson; public JavaPerson() { mNativePerson = init(); } public int getAge() { return this.native_getAge(mNativePerson);" />
+  <meta name="description" content="本篇重点内容在于如何把C&#43;&#43;的类通过JNI转换为JAVA的类 1.创建Java类： JavaPerson如下 public class JavaPerson { private long mNativePerson; public JavaPerson() { mNativePerson = init(); } public int getAge() {" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -67,19 +67,19 @@
 
 
 
-<meta property="og:title" content="Android通过jni调用c&#43;&#43;" />
-<meta property="og:description" content="本篇重点内容在于如何把C&#43;&#43;的类通过JNI转换为JAVA的类 1.创建JAVA类：JavaPerson public class JavaPerson { private long mNativePerson; public JavaPerson() { mNativePerson = init(); } public int getAge() { return this.native_getAge(mNativePerson);" />
+<meta property="og:title" content="Java调用C&#43;&#43;" />
+<meta property="og:description" content="本篇重点内容在于如何把C&#43;&#43;的类通过JNI转换为JAVA的类 1.创建Java类： JavaPerson如下 public class JavaPerson { private long mNativePerson; public JavaPerson() { mNativePerson = init(); } public int getAge() {" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ksnowlv.github.io/post/2019-04-18-androidtong-guo-jnidiao-yong-c-plus-plus/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2019-04-18T00:00:00+00:00" />
 <meta property="article:modified_time" content="2019-04-18T00:00:00+00:00" />
-<meta itemprop="name" content="Android通过jni调用c&#43;&#43;">
-<meta itemprop="description" content="本篇重点内容在于如何把C&#43;&#43;的类通过JNI转换为JAVA的类 1.创建JAVA类：JavaPerson public class JavaPerson { private long mNativePerson; public JavaPerson() { mNativePerson = init(); } public int getAge() { return this.native_getAge(mNativePerson);"><meta itemprop="datePublished" content="2019-04-18T00:00:00+00:00" />
+<meta itemprop="name" content="Java调用C&#43;&#43;">
+<meta itemprop="description" content="本篇重点内容在于如何把C&#43;&#43;的类通过JNI转换为JAVA的类 1.创建Java类： JavaPerson如下 public class JavaPerson { private long mNativePerson; public JavaPerson() { mNativePerson = init(); } public int getAge() {"><meta itemprop="datePublished" content="2019-04-18T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2019-04-18T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1248">
-<meta itemprop="keywords" content="jni," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Android通过jni调用c&#43;&#43;"/>
-<meta name="twitter:description" content="本篇重点内容在于如何把C&#43;&#43;的类通过JNI转换为JAVA的类 1.创建JAVA类：JavaPerson public class JavaPerson { private long mNativePerson; public JavaPerson() { mNativePerson = init(); } public int getAge() { return this.native_getAge(mNativePerson);"/>
+<meta itemprop="wordCount" content="1282">
+<meta itemprop="keywords" content="jni,C&#43;&#43;," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java调用C&#43;&#43;"/>
+<meta name="twitter:description" content="本篇重点内容在于如何把C&#43;&#43;的类通过JNI转换为JAVA的类 1.创建Java类： JavaPerson如下 public class JavaPerson { private long mNativePerson; public JavaPerson() { mNativePerson = init(); } public int getAge() {"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -320,7 +320,7 @@
       <article class="post">
         
         <header class="post-header">
-          <h1 class="post-title">Android通过jni调用c&#43;&#43;</h1>
+          <h1 class="post-title">Java调用C&#43;&#43;</h1>
           
 
           <div class="post-meta">
@@ -345,12 +345,13 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 1248 字 -
+        约 1282 字 -
         预计阅读 3 分钟
       </span>
 
     <div class="post-meta-category">
         <a href="https://ksnowlv.github.io/categories/android/"> Android </a>
+          <a href="https://ksnowlv.github.io/categories/java/"> Java </a>
           
       </div>
 
@@ -369,377 +370,376 @@
         
         <div class="post-content">
           <p>本篇重点内容在于如何把C++的类通过JNI转换为JAVA的类</p>
-<h3 id="1创建java类javaperson">1.创建JAVA类：<code>JavaPerson</code></h3>
-<pre><code>public class JavaPerson {
-
-
-private long mNativePerson;
-
-public JavaPerson()
-{
-    mNativePerson = init();
-}
-
-public int getAge()
-{
-    return this.native_getAge(mNativePerson);
-}
-
-public void setAge(int age)
-{
-    native_setAge(mNativePerson, age);
-}
-
-public String getName() {
-    return native_getName(mNativePerson);
-}
-
-public void setName(String name) {
-    native_setName(mNativePerson, name);
-}
-
-
-@Override
-protected void finalize() throws Throwable {
-
-    if (mNativePerson != 0) {
-        finalizer(mNativePerson);
-    }
-
-    super.finalize();
-}
-
-	static {
-    	System.loadLibrary(&quot;jniPerson&quot;);
-	}
-
-	private native long  init();
-	private native void finalizer(long aPerson);
- 	private native int native_getAge(long aPerson);
-	private native void native_setAge(long aPerson, int age);
-	private native String native_getName(long aPerson);
-	private native void native_setName(long aPerson, String name);
-}
-</code></pre>
-<h3 id="2通过terminal生成c头文件com_ksnowlv_jnicallc_javapersonh">2.通过Terminal生成c++头文件：<code>com_ksnowlv_jnicallc_JavaPerson.h</code></h3>
-<pre><code>#ifndef _Included_com_ksnowlv_jnicallc_JavaPerson
-#define _Included_com_ksnowlv_jnicallc_JavaPerson
-#ifdef __cplusplus
-extern &quot;C&quot; {
-#endif
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    init
- * Signature: ()J
- */
-JNIEXPORT jlong JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_init
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    finalizer
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_finalizer
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    native_getAge
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    native_setAge
- * Signature: (JI)V
- */
-JNIEXPORT void JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge
-  (JNIEnv *, jobject, jlong, jint);
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    native_getName
- * Signature: (J)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    native_setName
- * Signature: (JLjava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName
-  (JNIEnv *, jobject, jlong, jstring);
-
-#ifdef __cplusplus
-}
-#endif
-#endif
-</code></pre>
-<h3 id="3添加c实现文件com_ksnowlv_jnicallc_javapersoncpp">3.添加c++实现文件：<code>com_ksnowlv_jnicallc_JavaPerson.cpp</code></h3>
-<pre><code>//
-// Created by ksnowlv on 2019-04-18.
-//
-
-#include&quot;com_ksnowlv_jnicallc_JavaPerson.h&quot;
-#include &quot;Person.hpp&quot;
-#include &quot;JNILog.h&quot;
-#include &lt;string.h&gt;
-
-extern &quot;C&quot;
-{
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    init
- * Signature: ()I
- */
-JNIEXPORT jlong JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_init
-  (JNIEnv *, jobject) {
-
-      LOGE(&quot;JNI Java_com_ksnowlv_jnicallc_JavaPerson_init&quot;);
-      Person *person = new Person();
-      return (jlong)person;
-
-  }
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    finalizer
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_finalizer
-  (JNIEnv *, jobject cls, jlong thisObject) {
-
-    LOGE(&quot;JNI Java_com_ksnowlv_jnicallc_JavaPerson_finalizer&quot;);
-
-    Person *person = (Person *)thisObject;
-
-    if (NULL != person) {
-        delete person;
-        person = NULL;
-    }
-
-  }
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    native_getAge
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge
-  (JNIEnv *evn, jobject cls, jlong thisObject ) {
-
-    Person *person = (Person *)thisObject;
-
-    LOGE(&quot;JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge= %d&quot;, person-&gt;age());
-
-    if (NULL != person) {
-
-        return person-&gt;age();
-    }
-
-    return -1;
-  }
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    native_setAge
- * Signature: (JI)V
- */
-JNIEXPORT void JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge
-  (JNIEnv *env, jobject cls, jlong thisObject, jint age ) {
-
-      LOGE(&quot;JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge = %d&quot;, age);
-
-      Person *person = (Person *)thisObject;
-
-      if ( NULL != person ) {
-        person-&gt;setAge(age);
-      }
-  }
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    native_getName
- * Signature: (J)I
- */
-JNIEXPORT jstring JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName
-  (JNIEnv *env, jobject cls, jlong thisObject) {
-      LOGE(&quot;JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName&quot;);
-
-      Person *person = (Person *)thisObject;
-
-      if ( NULL != person ) {
-          const char *name = person-&gt;name();
-          if ( name != NULL ) {
-               // LOGI(&quot;JNI name = %s&quot;,name);
-                return  env-&gt;NewStringUTF(name);
-           }
-       }
-
-    return env-&gt;NewStringUTF(&quot;&quot;);
-  }
-
-/*
- * Class:     com_ksnowlv_jnicallc_JavaPerson
- * Method:    native_setName
- * Signature: (JLjava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName
-  (JNIEnv *env, jobject cls, jlong thisObject, jstring string) {
-
-    LOGE(&quot;JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName&quot;);
-
-     jclass   clsstring   =   env-&gt;FindClass(&quot;java/lang/String&quot;);  //String
-     jstring   code   =   env-&gt;NewStringUTF(&quot;UTF8&quot;); //&quot;UTF8&quot;
-     jmethodID   methodID   =   env-&gt;GetMethodID(clsstring, &quot;getBytes&quot;, &quot;(Ljava/lang/String;)[B&quot;); //getBytes(String);
-     jbyteArray   byteArray =   (jbyteArray)env-&gt;CallObjectMethod(string,methodID,code); // String .getByte(&quot;UTF8&quot;);
-     jsize   length   =   env-&gt;GetArrayLength(byteArray);
-     jbyte*   bytes   =   env-&gt;GetByteArrayElements(byteArray,JNI_FALSE);
-
-    Person *person = (Person *)thisObject;
-
-    if ( NULL != person ) {
-       if( length &gt; 0){
-            char* buf =   new char[length+1];
-            memset(buf,0,length+1);
-            memcpy(buf,bytes,length);
-            person-&gt;setName(buf);
-            LOGE(&quot;JNI set name = %s&quot;,buf);
-            delete []buf;
-         }else{
-            person-&gt;setName(NULL);
-         }
-    }
-
-
-
-     env-&gt;ReleaseByteArrayElements(byteArray,bytes,0);  //释放内存空间
-  }
-
-}
-
-static  JNINativeMethod methods[] = {
-
-        {&quot;init&quot;, &quot;()J&quot;, (void *)Java_com_ksnowlv_jnicallc_JavaPerson_init},
-        {&quot;finalizer&quot;, &quot;(J)V&quot;, (void *)Java_com_ksnowlv_jnicallc_JavaPerson_finalizer},
-        {&quot;native_getAge&quot;, &quot;(J)I&quot;, (void *)Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge},
-        {&quot;native_setAge&quot;, &quot;(JI)V&quot;, (void *)Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge},
-        {&quot;native_getName&quot;, &quot;(J)Ljava/lang/String;&quot;, (void *)Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName},
-        {&quot;native_setName&quot;, &quot;(JLjava/lang/String;)V&quot;, (void *)Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName},
-};
-
-
-
-
-
-static const char * classPathName = &quot;com/ksnowlv/jnicallc/JavaPerson&quot;;
-/*
- * Register several native methods for one class.
- */
-static int registerNativeMethods(JNIEnv* env, const char* className,
-                                 JNINativeMethod* gMethods, int numMethods)
-{
-    jclass clazz;
-    clazz = env-&gt;FindClass(className);
-    if (clazz == NULL) {
-        LOGE(&quot;JavaPerson Native registration unable to find class '%s'&quot;, className);
-        return JNI_FALSE;
-    }
-    if (env-&gt;RegisterNatives(clazz, gMethods, numMethods) &lt; 0) {
-        LOGE(&quot;JavaPerson RegisterNatives failed for '%s'&quot;, className);
-        return JNI_FALSE;
-    }
-
-    LOGE(&quot;JavaPerson registerNativeMethods OK&quot;);
-    return JNI_TRUE;
-}
-/*
- * Register native methods for all classes we know about.
- *
- * returns JNI_TRUE on success.
- */
-static int registerNatives(JNIEnv* env)
-{
-    if (!registerNativeMethods(env, classPathName,
-                               methods, sizeof(methods) / sizeof(methods[0]))) {
-        LOGE(&quot;JavaPerson class registerNatives FAIL&quot;);
-        return JNI_FALSE;
-    }
-
-    LOGE(&quot;JavaPerson registerNatives OK&quot;);
-    return JNI_TRUE;
-}
-// ----------------------------------------------------------------------------
-/*
- * This is called by the VM when the shared library is first loaded.
- */
-
-typedef union {
-    JNIEnv* env;
-    void* venv;
-} UnionJNIEnvToVoid;
-
-jint JNI_OnLoad(JavaVM* vm, void* reserved)
-{
-    UnionJNIEnvToVoid uenv;
-    uenv.venv = NULL;
-    jint result = -1;
-    JNIEnv* env = NULL;
-
-    LOGE(&quot;JNI_OnLoad&quot;);
-    if (vm-&gt;GetEnv(&amp;uenv.venv, JNI_VERSION_1_4) != JNI_OK) {
-        LOGE(&quot;ERROR: GetEnv failed&quot;);
-        goto bail;
-    }
-    env = uenv.env;
-    if (registerNatives(env) != JNI_TRUE) {
-        LOGE(&quot;ERROR: registerNatives failed&quot;);
-        goto bail;
-    }
-
-    result = JNI_VERSION_1_4;
-
-    LOGE(&quot;JNI_OnLoad OK&quot;);
-    bail:
-    return result;
-}
-</code></pre>
-<h4 id="4在android中的调用">4.在Android中的调用</h4>
-<pre><code>   JavaPerson person = new JavaPerson();
-    person.setAge(10);
-    Log.i(&quot;------JNICallC++: Android person age =  &quot;,&quot;&quot; + person.getAge());
-    person.setName(&quot;ksnowlv(律威)&quot;);
-    Log.i(&quot;------JNICallC++: Android person name =  &quot;,&quot;&quot; + person.getName());	
-</code></pre>
-<h4 id="5输出">5.输出</h4>
-<pre><code>2019-04-19 17:02:27.114 30422-30422/? E/------JNICallC++: JNI_OnLoad
-2019-04-19 17:02:27.115 30422-30422/? E/------JNICallC++: JavaPerson registerNativeMethods OK
-2019-04-19 17:02:27.115 30422-30422/? E/------JNICallC++: JavaPerson registerNatives OK
-2019-04-19 17:02:27.115 30422-30422/? E/------JNICallC++: JNI_OnLoad OK
-2019-04-19 17:02:27.115 30422-30422/? E/------JNICallC++: JNI Java_com_ksnowlv_jnicallc_JavaPerson_init
-2019-04-19 17:02:27.115 30422-30422/? E/------JNICallC++: JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge = 10
-2019-04-19 17:02:27.115 30422-30422/? E/------JNICallC++: JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge= 10
-2019-04-19 17:02:27.115 30422-30422/? I/------JNICallC++: Android person age =: 10
-2019-04-19 17:02:27.115 30422-30422/? E/------JNICallC++: JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName
-2019-04-19 17:02:27.116 30422-30422/? E/------JNICallC++: JNI set name = ksnowlv(律威)
-2019-04-19 17:02:27.116 30422-30422/? E/------JNICallC++: JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName
-2019-04-19 17:02:27.116 30422-30422/? I/------JNICallC++: Android person name =: ksnowlv(律威)
-</code></pre>
-<h4 id="6说明-cperson类同上一工程">6.说明* C++<code>Person</code>类同上一工程	。</h4>
+<h3 id="1创建java类">1.创建Java类：</h3>
+<p><code>JavaPerson</code>如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JavaPerson</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">long</span> mNativePerson<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">JavaPerson</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        mNativePerson <span style="color:#f92672">=</span> init<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getAge</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">native_getAge</span><span style="color:#f92672">(</span>mNativePerson<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setAge</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> age<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        native_setAge<span style="color:#f92672">(</span>mNativePerson<span style="color:#f92672">,</span> age<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> native_getName<span style="color:#f92672">(</span>mNativePerson<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        native_setName<span style="color:#f92672">(</span>mNativePerson<span style="color:#f92672">,</span> name<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">finalize</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mNativePerson <span style="color:#f92672">!=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            finalizer<span style="color:#f92672">(</span>mNativePerson<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">finalize</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    	<span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        	System<span style="color:#f92672">.</span><span style="color:#a6e22e">loadLibrary</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jniPerson&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">long</span>  <span style="color:#a6e22e">init</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">finalizer</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> aPerson<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>   	 	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">native_getAge</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> aPerson<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>   		<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">native_setAge</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> aPerson<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> age<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">native</span> String <span style="color:#a6e22e">native_getName</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> aPerson<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">native_setName</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> aPerson<span style="color:#f92672">,</span> String name<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="2生成c头文件">2.生成C++头文件</h3>
+<p>通过Android Terminal生成C++头文件：<code>com_ksnowlv_jnicallc_JavaPerson.h</code>如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>ifndef _Included_com_ksnowlv_jnicallc_JavaPerson
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>define _Included_com_ksnowlv_jnicallc_JavaPerson
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>ifdef __cplusplus
+</span></span><span style="display:flex;"><span>	extern <span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>endif
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    init
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: ()J
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT jlong JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_init</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*,</span> jobject<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    finalizer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (J)V
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT <span style="color:#66d9ef">void</span> JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_finalizer</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*,</span> jobject<span style="color:#f92672">,</span> jlong<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    native_getAge
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (J)I
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT jint JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*,</span> jobject<span style="color:#f92672">,</span> jlong<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    native_setAge
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (JI)V
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT <span style="color:#66d9ef">void</span> JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*,</span> jobject<span style="color:#f92672">,</span> jlong<span style="color:#f92672">,</span> jint<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    native_getName
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (J)Ljava/lang/String;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT jstring JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*,</span> jobject<span style="color:#f92672">,</span> jlong<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    native_setName
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (JLjava/lang/String;)V
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT <span style="color:#66d9ef">void</span> JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*,</span> jobject<span style="color:#f92672">,</span> jlong<span style="color:#f92672">,</span> jstring<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>ifdef __cplusplus
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>endif
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>endif
+</span></span></code></pre></div><h3 id="3添加ccpp实现文件">3.添加C++cpp实现文件</h3>
+<p><code>com_ksnowlv_jnicallc_JavaPerson.cpp</code>如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// Created by ksnowlv on 2019-04-18.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>include<span style="color:#e6db74">&#34;com_ksnowlv_jnicallc_JavaPerson.h&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>include <span style="color:#e6db74">&#34;Person.hpp&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>include <span style="color:#e6db74">&#34;JNILog.h&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">#</span>include <span style="color:#f92672">&lt;</span>string<span style="color:#f92672">.</span><span style="color:#a6e22e">h</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	extern <span style="color:#e6db74">&#34;C&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    init
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: ()I
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT jlong JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_init</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*,</span> jobject<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	      LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JNI Java_com_ksnowlv_jnicallc_JavaPerson_init&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	      Person <span style="color:#f92672">*</span>person <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>	      <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>jlong<span style="color:#f92672">)</span>person<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    finalizer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (J)V
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT <span style="color:#66d9ef">void</span> JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_finalizer</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*,</span> jobject cls<span style="color:#f92672">,</span> jlong thisObject<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JNI Java_com_ksnowlv_jnicallc_JavaPerson_finalizer&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    Person <span style="color:#f92672">*</span>person <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Person <span style="color:#f92672">*)</span>thisObject<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>NULL <span style="color:#f92672">!=</span> person<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	        delete person<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	        person <span style="color:#f92672">=</span> NULL<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    native_getAge
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (J)I
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT jint JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*</span>evn<span style="color:#f92672">,</span> jobject cls<span style="color:#f92672">,</span> jlong thisObject <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    Person <span style="color:#f92672">*</span>person <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Person <span style="color:#f92672">*)</span>thisObject<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge= %d&#34;</span><span style="color:#f92672">,</span> person<span style="color:#f92672">-&gt;</span>age<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>NULL <span style="color:#f92672">!=</span> person<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	        <span style="color:#66d9ef">return</span> person<span style="color:#f92672">-&gt;</span>age<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    native_setAge
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (JI)V
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT <span style="color:#66d9ef">void</span> JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*</span>env<span style="color:#f92672">,</span> jobject cls<span style="color:#f92672">,</span> jlong thisObject<span style="color:#f92672">,</span> jint age <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	      LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge = %d&#34;</span><span style="color:#f92672">,</span> age<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	      Person <span style="color:#f92672">*</span>person <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Person <span style="color:#f92672">*)</span>thisObject<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> NULL <span style="color:#f92672">!=</span> person <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	        person<span style="color:#f92672">-&gt;</span>setAge<span style="color:#f92672">(</span>age<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	      <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    native_getName
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (J)I
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT jstring JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*</span>env<span style="color:#f92672">,</span> jobject cls<span style="color:#f92672">,</span> jlong thisObject<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	      LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	      Person <span style="color:#f92672">*</span>person <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Person <span style="color:#f92672">*)</span>thisObject<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> NULL <span style="color:#f92672">!=</span> person <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	          <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name <span style="color:#f92672">=</span> person<span style="color:#f92672">-&gt;</span>name<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>	          <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> name <span style="color:#f92672">!=</span> NULL <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	               <span style="color:#75715e">// LOGI(&#34;JNI name = %s&#34;,name);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	                <span style="color:#66d9ef">return</span>  env<span style="color:#f92672">-&gt;</span>NewStringUTF<span style="color:#f92672">(</span>name<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	           <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	       <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">return</span> env<span style="color:#f92672">-&gt;</span>NewStringUTF<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Class:     com_ksnowlv_jnicallc_JavaPerson
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Method:    native_setName
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Signature: (JLjava/lang/String;)V
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	JNIEXPORT <span style="color:#66d9ef">void</span> JNICALL <span style="color:#a6e22e">Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName</span>
+</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">(</span>JNIEnv <span style="color:#f92672">*</span>env<span style="color:#f92672">,</span> jobject cls<span style="color:#f92672">,</span> jlong thisObject<span style="color:#f92672">,</span> jstring string<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	     jclass   clsstring   <span style="color:#f92672">=</span>   env<span style="color:#f92672">-&gt;</span>FindClass<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java/lang/String&#34;</span><span style="color:#f92672">);</span>  <span style="color:#75715e">//String
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	     jstring   code   <span style="color:#f92672">=</span>   env<span style="color:#f92672">-&gt;</span>NewStringUTF<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;UTF8&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//&#34;UTF8&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	     jmethodID   methodID   <span style="color:#f92672">=</span>   env<span style="color:#f92672">-&gt;</span>GetMethodID<span style="color:#f92672">(</span>clsstring<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;getBytes&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;(Ljava/lang/String;)[B&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//getBytes(String);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	     jbyteArray   byteArray <span style="color:#f92672">=</span>   <span style="color:#f92672">(</span>jbyteArray<span style="color:#f92672">)</span>env<span style="color:#f92672">-&gt;</span>CallObjectMethod<span style="color:#f92672">(</span>string<span style="color:#f92672">,</span>methodID<span style="color:#f92672">,</span>code<span style="color:#f92672">);</span> <span style="color:#75715e">// String .getByte(&#34;UTF8&#34;);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	     jsize   length   <span style="color:#f92672">=</span>   env<span style="color:#f92672">-&gt;</span>GetArrayLength<span style="color:#f92672">(</span>byteArray<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	     jbyte<span style="color:#f92672">*</span>   bytes   <span style="color:#f92672">=</span>   env<span style="color:#f92672">-&gt;</span>GetByteArrayElements<span style="color:#f92672">(</span>byteArray<span style="color:#f92672">,</span>JNI_FALSE<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    Person <span style="color:#f92672">*</span>person <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Person <span style="color:#f92672">*)</span>thisObject<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> NULL <span style="color:#f92672">!=</span> person <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	       <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span> length <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>	            <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> buf <span style="color:#f92672">=</span>   <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">[</span>length<span style="color:#f92672">+</span>1<span style="color:#f92672">];</span>
+</span></span><span style="display:flex;"><span>	            memset<span style="color:#f92672">(</span>buf<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>length<span style="color:#f92672">+</span>1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	            memcpy<span style="color:#f92672">(</span>buf<span style="color:#f92672">,</span>bytes<span style="color:#f92672">,</span>length<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	            person<span style="color:#f92672">-&gt;</span>setName<span style="color:#f92672">(</span>buf<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	            LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JNI set name = %s&#34;</span><span style="color:#f92672">,</span>buf<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	            delete <span style="color:#f92672">[]</span>buf<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	         <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	            person<span style="color:#f92672">-&gt;</span>setName<span style="color:#f92672">(</span>NULL<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	         <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	     env<span style="color:#f92672">-&gt;</span>ReleaseByteArrayElements<span style="color:#f92672">(</span>byteArray<span style="color:#f92672">,</span>bytes<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  <span style="color:#75715e">//释放内存空间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span>  JNINativeMethod methods<span style="color:#f92672">[]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	        <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;init&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;()J&#34;</span><span style="color:#f92672">,</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*)</span>Java_com_ksnowlv_jnicallc_JavaPerson_init<span style="color:#f92672">},</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;finalizer&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;(J)V&#34;</span><span style="color:#f92672">,</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*)</span>Java_com_ksnowlv_jnicallc_JavaPerson_finalizer<span style="color:#f92672">},</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;native_getAge&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;(J)I&#34;</span><span style="color:#f92672">,</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*)</span>Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge<span style="color:#f92672">},</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;native_setAge&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;(JI)V&#34;</span><span style="color:#f92672">,</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*)</span>Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge<span style="color:#f92672">},</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;native_getName&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;(J)Ljava/lang/String;&#34;</span><span style="color:#f92672">,</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*)</span>Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName<span style="color:#f92672">},</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;native_setName&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;(JLjava/lang/String;)V&#34;</span><span style="color:#f92672">,</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*)</span>Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName<span style="color:#f92672">},</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">};</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> classPathName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com/ksnowlv/jnicallc/JavaPerson&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Register several native methods for one class.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">registerNativeMethods</span><span style="color:#f92672">(</span>JNIEnv<span style="color:#f92672">*</span> env<span style="color:#f92672">,</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> className<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>	                                 JNINativeMethod<span style="color:#f92672">*</span> gMethods<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> numMethods<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	    jclass clazz<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    clazz <span style="color:#f92672">=</span> env<span style="color:#f92672">-&gt;</span>FindClass<span style="color:#f92672">(</span>className<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>clazz <span style="color:#f92672">==</span> NULL<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	        LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JavaPerson Native registration unable to find class &#39;%s&#39;&#34;</span><span style="color:#f92672">,</span> className<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#66d9ef">return</span> JNI_FALSE<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>env<span style="color:#f92672">-&gt;</span>RegisterNatives<span style="color:#f92672">(</span>clazz<span style="color:#f92672">,</span> gMethods<span style="color:#f92672">,</span> numMethods<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	        LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JavaPerson RegisterNatives failed for &#39;%s&#39;&#34;</span><span style="color:#f92672">,</span> className<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#66d9ef">return</span> JNI_FALSE<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JavaPerson registerNativeMethods OK&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">return</span> JNI_TRUE<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Register native methods for all classes we know about.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * returns JNI_TRUE on success.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">registerNatives</span><span style="color:#f92672">(</span>JNIEnv<span style="color:#f92672">*</span> env<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>registerNativeMethods<span style="color:#f92672">(</span>env<span style="color:#f92672">,</span> classPathName<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>	                               methods<span style="color:#f92672">,</span> sizeof<span style="color:#f92672">(</span>methods<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> sizeof<span style="color:#f92672">(</span>methods<span style="color:#f92672">[</span>0<span style="color:#f92672">])))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	        LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JavaPerson class registerNatives FAIL&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#66d9ef">return</span> JNI_FALSE<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JavaPerson registerNatives OK&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">return</span> JNI_TRUE<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ----------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * This is called by the VM when the shared library is first loaded.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	typedef union <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	    JNIEnv<span style="color:#f92672">*</span> env<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> venv<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span> UnionJNIEnvToVoid<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	jint <span style="color:#a6e22e">JNI_OnLoad</span><span style="color:#f92672">(</span>JavaVM<span style="color:#f92672">*</span> vm<span style="color:#f92672">,</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> reserved<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	    UnionJNIEnvToVoid uenv<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    uenv<span style="color:#f92672">.</span><span style="color:#a6e22e">venv</span> <span style="color:#f92672">=</span> NULL<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    jint result <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    JNIEnv<span style="color:#f92672">*</span> env <span style="color:#f92672">=</span> NULL<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JNI_OnLoad&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>vm<span style="color:#f92672">-&gt;</span>GetEnv<span style="color:#f92672">(&amp;</span>uenv<span style="color:#f92672">.</span><span style="color:#a6e22e">venv</span><span style="color:#f92672">,</span> JNI_VERSION_1_4<span style="color:#f92672">)</span> <span style="color:#f92672">!=</span> JNI_OK<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	        LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ERROR: GetEnv failed&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#66d9ef">goto</span> bail<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	    env <span style="color:#f92672">=</span> uenv<span style="color:#f92672">.</span><span style="color:#a6e22e">env</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>registerNatives<span style="color:#f92672">(</span>env<span style="color:#f92672">)</span> <span style="color:#f92672">!=</span> JNI_TRUE<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	        LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ERROR: registerNatives failed&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#66d9ef">goto</span> bail<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    result <span style="color:#f92672">=</span> JNI_VERSION_1_4<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	    LOGE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JNI_OnLoad OK&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>	    bail<span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">return</span> result<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	
+</span></span></code></pre></div><h3 id="4android应用层调用">4.Android应用层调用</h3>
+<p>调用代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>   JavaPerson person <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> JavaPerson<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    person<span style="color:#f92672">.</span><span style="color:#a6e22e">setAge</span><span style="color:#f92672">(</span>10<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    Log<span style="color:#f92672">.</span><span style="color:#a6e22e">i</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;------JNICallC++: Android person age =  &#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">+</span> person<span style="color:#f92672">.</span><span style="color:#a6e22e">getAge</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    person<span style="color:#f92672">.</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ksnowlv(律威)&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    Log<span style="color:#f92672">.</span><span style="color:#a6e22e">i</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;------JNICallC++: Android person name =  &#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">+</span> person<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>	
+</span></span></code></pre></div><h3 id="5输出">5.输出</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">114</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JNI_OnLoad
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">115</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JavaPerson registerNativeMethods OK
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">115</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JavaPerson registerNatives OK
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">115</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JNI_OnLoad OK
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">115</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JNI Java_com_ksnowlv_jnicallc_JavaPerson_init
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">115</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1setAge <span style="color:#f92672">=</span> 10
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">115</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1getAge<span style="color:#f92672">=</span> 10
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">115</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> I<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> Android person age <span style="color:#f92672">=:</span> 10
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">115</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1setName
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">116</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JNI set name <span style="color:#f92672">=</span> ksnowlv<span style="color:#f92672">(</span>律威<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">116</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> E<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName
+</span></span><span style="display:flex;"><span>	2019<span style="color:#f92672">-</span>04<span style="color:#f92672">-</span>19 17<span style="color:#f92672">:</span>02<span style="color:#f92672">:</span>27<span style="color:#f92672">.</span><span style="color:#a6e22e">116</span> 30422<span style="color:#f92672">-</span>30422<span style="color:#f92672">/?</span> I<span style="color:#f92672">/------</span>JNICallC<span style="color:#f92672">++:</span> Android person name <span style="color:#f92672">=:</span> ksnowlv<span style="color:#f92672">(</span>律威<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h3 id="6说明">6.说明</h3>
+<h4 id="cperson类同上一工程">C++<code>Person</code>类同上一工程	。</h4>
+<h4 id="注意jni调用c和c的区别">注意JNI调用C++和C的区别。</h4>
 <ul>
-<li>注意JNI调用C++和C的区别。
-<ul>
-<li>JNI_OnLoad相关：像JNINativeMethod methods注意函数映射参数，classPathName类路径等</li>
-<li>env调用方式</li>
-<li>C++对象回收内存</li>
-</ul>
-</li>
+<li>1.JNI_OnLoad相关：像JNINativeMethod methods注意函数映射参数，classPathName类路径等</li>
+<li>2.env调用方式</li>
+<li>2.C++对象回收内存</li>
 </ul>
 
         </div>
@@ -765,6 +765,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
         <footer class="post-footer">
           <div class="post-tags">
               <a href="https://ksnowlv.github.io/tags/jni/">jni</a>
+                <a href="https://ksnowlv.github.io/tags/c&#43;&#43;/">C&#43;&#43;</a>
                 
             </div>
 
@@ -782,12 +783,12 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
 </svg>
 
                 </i>
-                <span class="prev-text nav-default">Android通过jni间接调用c&#43;&#43;</span>
+                <span class="prev-text nav-default">Java调用C&#43;&#43;</span>
                 <span class="prev-text nav-mobile">上一篇</span>
               </a>
             
               <a class="next" href="/post/2019-04-10-android-jni-demo/">
-                <span class="next-text nav-default">Android-jni-demo</span>
+                <span class="next-text nav-default">Android jni示例</span>
                 <span class="prev-text nav-mobile">下一篇</span>
                 
                 <i class="iconfont">
@@ -834,7 +835,25 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
     </div>
 
     
-    
+    <nav class="toc" id="toc">
+    <div class="toc-title">文章目录</div>
+    <div class="toc-content custom-scrollbar">
+      <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1创建java类">1.创建Java类：</a></li>
+        <li><a href="#2生成c头文件">2.生成C++头文件</a></li>
+        <li><a href="#3添加ccpp实现文件">3.添加C++cpp实现文件</a></li>
+        <li><a href="#4android应用层调用">4.Android应用层调用</a></li>
+        <li><a href="#5输出">5.输出</a></li>
+        <li><a href="#6说明">6.说明</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </nav>
 
 
   </div>

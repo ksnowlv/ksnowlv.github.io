@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -16,7 +16,7 @@ mathjax: false
 
 
 
-
+## 问题
 最近苹果开发者账号提醒 "The Apple Developer Program License Agreement has been updated"
 
 内容如下：
@@ -26,7 +26,10 @@ In order to access certain membership resources, you must accept the latest lice
 
 ![image](/images/post/2018-04-17-ping-guo-kai-fa-zhe-zhang-hao-idbang-ding-shou-ji-hao/1.png) 
 
-#### 解决办法。* 1.登陆[苹果官网](https://appleid.apple.com/#!&page=signin)，进入账号后，根据下图操作绑定手机号
+## 解决办法
+* 1.登陆[苹果官网](https://appleid.apple.com/#!&page=signin)
+
+进入账号后，根据下图操作绑定手机号
 ![image](/images/post/2018-04-17-ping-guo-kai-fa-zhe-zhang-hao-idbang-ding-shou-ji-hao/2.png) 
 
 此处有坑，找了老半天，才找到入口！！！吐血!
@@ -36,6 +39,6 @@ In order to access certain membership resources, you must accept the latest lice
 
 输入手机号后，获取短信验证码验证通过即可。
 
-* 再登陆苹果开发者网站，进入账号，同意协议即可。如下图，
+* 2.再登陆苹果开发者网站，进入账号，同意协议即可。如下图，
 
 ![image](/images/post/2018-04-17-ping-guo-kai-fa-zhe-zhang-hao-idbang-ding-shou-ji-hao/3.png) 

@@ -7,7 +7,7 @@ categories:
 tags:
   - "go"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -17,7 +17,7 @@ mathjax: false
 
 go变量声明和使用
 
-···go
+```go
 
     package main
 
@@ -57,5 +57,5 @@ go变量声明和使用
 
     }
 
-···
+```
 

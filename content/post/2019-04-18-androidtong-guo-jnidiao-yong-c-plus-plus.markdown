@@ -1,13 +1,15 @@
 ---
-title: "Android通过jni调用c++"
+title: "Java调用C++"
 date: 2019-04-18
 lastmod: 2019-04-18
 categories:
   - "Android"
+  - "Java"
 tags:
   - "jni"
+  - "C++"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -18,7 +20,11 @@ mathjax: false
 本篇重点内容在于如何把C++的类通过JNI转换为JAVA的类
 
 
-### 1.创建JAVA类：`JavaPerson`
+### 1.创建Java类：
+
+`JavaPerson`如下
+
+```java
 
 	public class JavaPerson {
 
@@ -70,9 +76,13 @@ mathjax: false
     	private native String native_getName(long aPerson);
     	private native void native_setName(long aPerson, String name);
 	}
+```
 
+### 2.生成C++头文件
 
-### 2.通过Terminal生成c++头文件：`com_ksnowlv_jnicallc_JavaPerson.h`
+通过Android Terminal生成C++头文件：`com_ksnowlv_jnicallc_JavaPerson.h`如下：
+```java
+
 	#ifndef _Included_com_ksnowlv_jnicallc_JavaPerson
 	#define _Included_com_ksnowlv_jnicallc_JavaPerson
 	#ifdef __cplusplus
@@ -130,10 +140,13 @@ mathjax: false
 	}
 	#endif
 	#endif
+```	
 	
-	
-### 3.添加c++实现文件：`com_ksnowlv_jnicallc_JavaPerson.cpp`
+### 3.添加C++cpp实现文件
 
+`com_ksnowlv_jnicallc_JavaPerson.cpp`如下
+
+```java
 	//
 	// Created by ksnowlv on 2019-04-18.
 	//
@@ -289,8 +302,6 @@ mathjax: false
 	
 	
 	
-	
-	
 	static const char * classPathName = "com/ksnowlv/jnicallc/JavaPerson";
 	/*
 	 * Register several native methods for one class.
@@ -363,14 +374,25 @@ mathjax: false
 	    return result;
 	}
 	
-#### 4.在Android中的调用
-	   JavaPerson person = new JavaPerson();
-	    person.setAge(10);
-	    Log.i("------JNICallC++: Android person age =  ","" + person.getAge());
-	    person.setName("ksnowlv(律威)");
-	    Log.i("------JNICallC++: Android person name =  ","" + person.getName());	
+```
+	
 
-#### 5.输出	
+### 4.Android应用层调用
+
+调用代码如下：
+
+```java
+   JavaPerson person = new JavaPerson();
+    person.setAge(10);
+    Log.i("------JNICallC++: Android person age =  ","" + person.getAge());
+    person.setName("ksnowlv(律威)");
+    Log.i("------JNICallC++: Android person name =  ","" + person.getName());	
+
+```
+
+### 5.输出	
+```java
+
 	2019-04-19 17:02:27.114 30422-30422/? E/------JNICallC++: JNI_OnLoad
 	2019-04-19 17:02:27.115 30422-30422/? E/------JNICallC++: JavaPerson registerNativeMethods OK
 	2019-04-19 17:02:27.115 30422-30422/? E/------JNICallC++: JavaPerson registerNatives OK
@@ -383,12 +405,14 @@ mathjax: false
 	2019-04-19 17:02:27.116 30422-30422/? E/------JNICallC++: JNI set name = ksnowlv(律威)
 	2019-04-19 17:02:27.116 30422-30422/? E/------JNICallC++: JNI Java_com_ksnowlv_jnicallc_JavaPerson_native_1getName
 	2019-04-19 17:02:27.116 30422-30422/? I/------JNICallC++: Android person name =: ksnowlv(律威)
+
+```
 	
-	
-#### 6.说明* C++`Person`类同上一工程	。
-* 注意JNI调用C++和C的区别。
-	* JNI_OnLoad相关：像JNINativeMethod methods注意函数映射参数，classPathName类路径等
-	* env调用方式
-	* C++对象回收内存
+### 6.说明
+#### C++`Person`类同上一工程	。
+#### 注意JNI调用C++和C的区别。
+* 1.JNI_OnLoad相关：像JNINativeMethod methods注意函数映射参数，classPathName类路径等
+* 2.env调用方式
+* 2.C++对象回收内存
 
 	

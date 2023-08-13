@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -17,9 +17,7 @@ mathjax: false
 
 NSXMLParser为IPHONE SDK 自带的，还是很方便的。
 
-#### 1.头文件
-
-```objective-c
+#### 1.头文件```objective-c
 //  ViewController.h
 #import <UIKit/UIKit.h>
 

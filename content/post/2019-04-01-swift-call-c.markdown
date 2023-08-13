@@ -1,5 +1,5 @@
 ---
-title: "swift call c"
+title: "swift调用C"
 date: 2019-04-01
 lastmod: 2019-04-01
 categories:
@@ -7,7 +7,7 @@ categories:
 tags:
   - "swift"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -15,15 +15,17 @@ mathjax: false
 ---
 
 
-如何在swift调整c代码呢？
+swift中如何调用C代码呢？
 
-*swift通过工程的桥接文件，调用oc或c的相关代码!!!*
+*swift通过工程的桥接文件，调用OC或C相关代码!!!*
 
 
-#### 1.创建c文件：`test.h`和`test.c`
-`test.h`内容如下：
+### 1.C文件
+`test.h`和`test.c`
 
-```objective-c
+`test.h`
+
+```c
 #ifndef test_h
 #define test_h
 
@@ -35,10 +37,10 @@ void showValue(int *value);
 
 ```
 
-`test.c`内容如下
+`test.c`
 
 
-```objective-c
+```c
 
 #include "test.h"
 
@@ -51,9 +53,13 @@ void showValue(int *value) {
 ```
 
 
-#### 2.在桥接文件中,加入`test.h`引用：`#include "test.h"`
-#### 3.swift中调用
-```objective-c
+### 2.swift桥接文件
+
+加入`test.h`引用：`#include "test.h"`
+
+### 3.swift中调用
+
+```swift
    var value: Int32 = 0
    showValue(&value)
    
@@ -61,7 +67,7 @@ void showValue(int *value) {
 
 结果显而易见：
 
-```objective-c
+```terminal
 old value = 0
 new value = 1
 

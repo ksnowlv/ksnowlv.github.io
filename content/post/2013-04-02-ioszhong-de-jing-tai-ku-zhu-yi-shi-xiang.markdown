@@ -7,7 +7,7 @@ categories:
 tags:
   - "iOS"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -19,7 +19,7 @@ mathjax: false
 #### 3.如果加载静态库，分类的方法CRASH，请检查是否在“Linking”的编译选项中是否添加“－all_load”标记，不然，分类方法不会正常加载。![image](/images/post/2013-04-02-ioszhong-de-jing-tai-ku-zhu-yi-shi-xiang/2.jpg) 
 #### 4.确保当前工程编译的版本和静态库版本是匹配的，模拟器和真机版本各自对应。除非你加载的库同时包含这两个版本。合并库可以参考如下CODE
 
-```objective-c
+```objc
 lipo–create Release-iphoneos/libSOSOMapAPILib.a Release-iphonesimulator//libmapApi.a –output /libSOSOMapAPILib.a
 
 ```

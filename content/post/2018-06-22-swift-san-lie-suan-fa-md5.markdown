@@ -7,16 +7,19 @@ categories:
 tags:
   - "安全"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+## md5算法
+
+
 swift中散列算法md5很常用。
 
-```objective-c
+```swift
 
     func md5() -> NSString {
         
@@ -43,4 +46,5 @@ swift中散列算法md5很常用。
     }
 ```
 
-### 记得在bridging-header中导入头文件 * CommonCrypto/CommonDigest.h
+## 注意事项
+ 记得在**bridging-header**中导入头文件 **CommonCrypto/CommonDigest.h**

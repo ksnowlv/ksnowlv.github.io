@@ -7,7 +7,7 @@ categories:
 tags:
   - "多线程"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -18,9 +18,7 @@ mathjax: false
 
 以`NSOperation`和`NSOperationQueue`为例   
 
-#### 1.头文件
-
-```objective-c
+#### 1.头文件```objective-c
 
 //  QTileDownloadOperation.h
 #import <Foundation/Foundation.h>

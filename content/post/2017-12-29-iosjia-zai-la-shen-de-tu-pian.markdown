@@ -7,7 +7,7 @@ categories:
 tags:
   - "UI"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
@@ -16,7 +16,7 @@ mathjax: false
 
 iOS如何加载拉伸的图片呢？
 
-1.通过代码指定拉伸区域加载图片。如下所示。
+### 1.通过代码指定拉伸区域加载图片
 
 ```objective-c
 
@@ -39,7 +39,7 @@ iOS如何加载拉伸的图片呢？
 
 ```
 
-2.通过Asset Catalog指定拉伸区域加载图片。
+### 2.通过Asset Catalog指定拉伸区域加载图片。
 
 通过Xcode中Asset Catalog的slice指定拉伸区域及属性。如图所示。
 

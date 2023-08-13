@@ -7,7 +7,7 @@ categories:
 tags:
   - "算法与数据结构"
 comment: true
-toc: false
+toc: true
 autoCollapseToc: false
 contentCopyright: false
 reward: true
