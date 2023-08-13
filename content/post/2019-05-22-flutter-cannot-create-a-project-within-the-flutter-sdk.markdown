@@ -1,5 +1,5 @@
 ---
-title: "flutter创建工程报错:Cannot create a project within the Flutter SDK. Target directory 'x' is within the Flutter SDK at'/Users/x/Music/flutter/flutter'"
+title: "flutter创建工程报错"
 date: 2019-05-22
 categories:
   - "iOS"
@@ -8,9 +8,16 @@ tags:
 ---
 <!--more-->
 
+## 1.问题
 
 在使用 `flutter create`命令创建`flutter`工程时，如果报`Cannot create a project within the Flutter SDK. Target directory '/Users/ksnowlv/Music/flutter/flutter/my_app' is within the Flutter SDK at
-'/Users/ksnowlv/Music/flutter/flutter'的错误，`注意不要在`flutter SDK`目录及子目录下创建工程，可考虑在其它目录下创建工程。例如平级目录
+'/Users/ksnowlv/Music/flutter/flutter'的错误。
+
+## 2.解决方案
+
+注意不要在`flutter SDK`目录及子目录下创建工程，可考虑在其它目录下创建工程。例如平级目录
+
+实际操作如下：
 
 	ksnowlvdeMacBook-Pro:flutter ksnowlv$ ./flutter/bin/flutter create my_app
 	Creating project my_app...

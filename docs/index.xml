@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ksnowlv技术笔记</title>
-    <link>https://github.io/</link>
+    <link>https://ksnowlv.github.io/</link>
     <description>Recent content on ksnowlv技术笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 26 Nov 2019 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="https://github.io/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://ksnowlv.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>关于</title>
-      <link>https://github.io/about/</link>
+      <link>https://ksnowlv.github.io/about/</link>
       <pubDate>Sun, 13 Aug 2023 15:33:52 +0800</pubDate>
       
-      <guid>https://github.io/about/</guid>
+      <guid>https://ksnowlv.github.io/about/</guid>
       
         <description>&lt;p&gt;微信号:ksnowlv&lt;/p&gt;
 &lt;p&gt;聚集于移动互联网开发，在腾讯，阿里，搜狗等互联网公司从事多年移动端开发。&lt;/p&gt;
@@ -26,165 +26,167 @@
     
     <item>
       <title>iOS视频播放-AVPlayer和AVPlayerLayer</title>
-      <link>https://github.io/post/2019-11-26-iosshi-pin-bo-fang-avplayer/</link>
+      <link>https://ksnowlv.github.io/post/2019-11-26-iosshi-pin-bo-fang-avplayer/</link>
       <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-11-26-iosshi-pin-bo-fang-avplayer/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-11-26-iosshi-pin-bo-fang-avplayer/</guid>
       
-        <description>&lt;p&gt;本文计划使用&lt;code&gt;AVPlayer&lt;/code&gt;和&lt;code&gt;AVPlayerLayer&lt;/code&gt;播放视频格式&lt;/p&gt;
+        <description>&lt;p&gt;本文计划使用&lt;code&gt;AVPlayer&lt;/code&gt;和&lt;code&gt;AVPlayerLayer&lt;/code&gt;播放视频，视频格式如下：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;m4v:MP4的特殊类型，MP4格式的高清；可包含字幕&lt;/li&gt;
 &lt;li&gt;mp4：音频、视频信息的压缩编码标准。&lt;/li&gt;
 &lt;li&gt;srt：字幕文件格式&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;一播放m4v格式可通过mp4格式的文件字幕文件合成m4v格式可用sublerhttpswwwmacupdatecomappmac31647subler工具合成&#34;&gt;一.播放m4v格式可通过MP4格式的文件+字幕文件合成m4v格式，可用&lt;a href=&#34;https://www.macupdate.com/app/mac/31647/subler&#34;&gt;Subler&lt;/a&gt;工具合成&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-11-26-iosshi-pin-bo-fang-avplayer/Subler.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   func &lt;span style=&#34;color:#a6e22e&#34;&gt;playMovieFromLocalFile&lt;/span&gt;(fileFullName: String) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; Bool {
+&lt;h3 id=&#34;一m4v格式视频播放&#34;&gt;一.m4v格式视频播放&lt;/h3&gt;
+&lt;p&gt;播放m4v格式可通过MP4格式的文件+字幕文件合成m4v格式，可用&lt;a href=&#34;https://www.macupdate.com/app/mac/31647/subler&#34;&gt;Subler&lt;/a&gt;工具合成&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-11-26-iosshi-pin-bo-fang-avplayer/Subler.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;从本地获取视频文件并播放视频&#34;&gt;从本地获取视频文件并播放视频。&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;playMovieFromLocalFile&lt;/span&gt;(fileFullName: String) -&amp;gt; Bool {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        guard FileManager.&lt;span style=&#34;color:#66d9ef&#34;&gt;default&lt;/span&gt;.fileExists(atPath: fileFullName) &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            debugPrint(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\(fileFullName) not Found&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;guard&lt;/span&gt; FileManager.&lt;span style=&#34;color:#66d9ef&#34;&gt;default&lt;/span&gt;.fileExists(atPath: fileFullName) &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            debugPrint(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\(&lt;/span&gt;fileFullName&lt;span style=&#34;color:#e6db74&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; not Found&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        let asset &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AVAsset(url: URL(fileURLWithPath: fileFullName))
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        let playerItem &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AVPlayerItem(asset: asset)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; asset = AVAsset(url: URL(fileURLWithPath: fileFullName))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; playerItem = AVPlayerItem(asset: asset)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; characteristic &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; asset.availableMediaCharacteristicsWithMediaSelectionOptions {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            debugPrint(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\(characteristic)&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            debugPrint(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\(&lt;/span&gt;characteristic&lt;span style=&#34;color:#e6db74&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; let group &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; asset.mediaSelectionGroup(forMediaCharacteristic: characteristic) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; group = asset.mediaSelectionGroup(forMediaCharacteristic: characteristic) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; option &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; group.options {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    debugPrint(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;  Option: \(option.displayName)&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    debugPrint(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;  Option: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\(&lt;/span&gt;option.displayName&lt;span style=&#34;color:#e6db74&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// Create a group of the legible AVMediaCharacteristics (Subtitles)
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; let group &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// Create a group of the legible AVMediaCharacteristics (Subtitles)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; group = asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            let locale &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Locale(identifier: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;zh&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// Create an option group to hold the options in the group that match the locale
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            let options &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; locale = Locale(identifier: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;zh&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// Create an option group to hold the options in the group that match the locale&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; options =
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: locale)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// Assign the first option from options to the variable option
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; let option &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; options.first {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#75715e&#34;&gt;// Select the option for the selected locale
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                playerItem.select(option, &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; group)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// Assign the first option from options to the variable option&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; option = options.first {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#75715e&#34;&gt;// Select the option for the selected locale&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                playerItem.select(option, &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt;: group)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        player &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AVPlayer(playerItem: playerItem)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        player&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.appliesMediaSelectionCriteriaAutomatically &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        player = AVPlayer(playerItem: playerItem)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        player?.appliesMediaSelectionCriteriaAutomatically = &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; playerLayer &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nil &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; player &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; nil  {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            playerLayer &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AVPlayerLayer(player: player)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            playerLayer&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.videoGravity &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AVLayerVideoGravity.resizeAspectFill
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            playerContainerView&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.layer.addSublayer(playerLayer&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; playerLayer == &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; player &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;  {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            playerLayer = AVPlayerLayer(player: player)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            playerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            playerContainerView?.layer.addSublayer(playerLayer!)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    override func &lt;span style=&#34;color:#a6e22e&#34;&gt;viewDidAppear&lt;/span&gt;(_ animated: Bool) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        playerLayer&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.frame &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; playerContainerView&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;.bounds
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;viewDidAppear&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt; animated: Bool) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        playerLayer?.frame = playerContainerView!.bounds
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;效果图如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-11-26-iosshi-pin-bo-fang-avplayer/overview_1.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;二播放mp4格式带srt字幕&#34;&gt;二.播放mp4格式带srt字幕&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-11-26-iosshi-pin-bo-fang-avplayer/overview_1.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;二播放mp4格式带srt字幕&#34;&gt;二.播放mp4格式带srt字幕&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;mp4&lt;/code&gt;文件和字幕&lt;code&gt;srt&lt;/code&gt;文件通过时间軕实现当前播放进度展示相应文本。
 srt格式解析可参考&lt;a href=&#34;https://github.com/mhergon/AVPlayerViewController-Subtitles&#34;&gt;AVPlayerViewController-Subtitles&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;func &lt;span style=&#34;color:#a6e22e&#34;&gt;playMovie&lt;/span&gt;(movieFile: String, captionFile: String) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; Bool {
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;playMovie&lt;/span&gt;(movieFile: String, captionFile: String) -&amp;gt; Bool {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      let fileManage &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; FileManager.&lt;span style=&#34;color:#66d9ef&#34;&gt;default&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      guard fileManage.fileExists(atPath: movieFile) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; fileManage.fileExists(atPath: captionFile) &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          debugPrint(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;movie:\(movieFile)/ or captionFile:\(captionFile)not found&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; fileManage = FileManager.&lt;span style=&#34;color:#66d9ef&#34;&gt;default&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;guard&lt;/span&gt; fileManage.fileExists(atPath: movieFile) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; fileManage.fileExists(atPath: captionFile) &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          debugPrint(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;movie:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\(&lt;/span&gt;movieFile&lt;span style=&#34;color:#e6db74&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;/ or captionFile:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\(&lt;/span&gt;captionFile&lt;span style=&#34;color:#e6db74&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;not found&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;  AVPlayer(url: URL(fileURLWithPath: movieFile))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player =  AVPlayer(url: URL(fileURLWithPath: movieFile))
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      let asset &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AVAsset(url: URL(fileURLWithPath: captionFile))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; asset = AVAsset(url: URL(fileURLWithPath: captionFile))
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; characteristic &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; asset.availableMediaCharacteristicsWithMediaSelectionOptions {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\(characteristic)&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\(&lt;/span&gt;characteristic&lt;span style=&#34;color:#e6db74&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#75715e&#34;&gt;// Retrieve the AVMediaSelectionGroup for the specified characteristic.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; let group &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; asset.mediaSelectionGroup(forMediaCharacteristic: characteristic) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#75715e&#34;&gt;// Print its options.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;              &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; option &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; group.options {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;  Option: \(option.displayName)&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#75715e&#34;&gt;// Retrieve the AVMediaSelectionGroup for the specified characteristic.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; group = asset.mediaSelectionGroup(forMediaCharacteristic: characteristic) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#75715e&#34;&gt;// Print its options.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; option &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; group.options {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;  Option: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\(&lt;/span&gt;option.displayName&lt;span style=&#34;color:#e6db74&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; let group &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          let locale &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Locale(identifier: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;en&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          let options &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; group = asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; locale = Locale(identifier: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;en&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; options =
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              AVMediaSelectionGroup.mediaSelectionOptions(from: group.options, with: locale)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; let option &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; options.first {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#75715e&#34;&gt;// Select Spanish-language subtitle option
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;              player&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.currentItem&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;.select(option, &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; group)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\(player?.currentItem!.select(option, in: group))&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; option = options.first {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#75715e&#34;&gt;// Select Spanish-language subtitle option&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              player?.currentItem!.select(option, &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt;: group)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\(&lt;/span&gt;player?.currentItem!.select&lt;span style=&#34;color:#e6db74&#34;&gt;(&lt;/span&gt;option, &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt;: group&lt;span style=&#34;color:#e6db74&#34;&gt;))&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      playerLayer &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AVPlayerLayer(player: player)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      playerLayer&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;.videoGravity &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; AVLayerVideoGravity.resizeAspectFill
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      playerContainerView&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.layer.addSublayer(playerLayer&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      playerLayer = AVPlayerLayer(player: player)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      playerContainerView?.layer.addSublayer(playerLayer!)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.currentItem&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.addObserver(self, forKeyPath:ViewController.observerKeyStatus, options:[NSKeyValueObservingOptions.new, NSKeyValueObservingOptions.initial], context: nil)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.currentItem&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.addObserver(self, forKeyPath: ViewController.observerKeyLoadedTimeRanges, options: NSKeyValueObservingOptions.new, context: nil)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player?.currentItem?.addObserver(&lt;span style=&#34;color:#66d9ef&#34;&gt;self&lt;/span&gt;, forKeyPath:ViewController.observerKeyStatus, options:[NSKeyValueObservingOptions.new, NSKeyValueObservingOptions.initial], context: &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player?.currentItem?.addObserver(&lt;span style=&#34;color:#66d9ef&#34;&gt;self&lt;/span&gt;, forKeyPath: ViewController.observerKeyLoadedTimeRanges, options: NSKeyValueObservingOptions.new, context: &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;// Subtitle file
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;      let subtitleFile &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Bundle.main.path(forResource: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt;, ofType: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;srt&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      let subtitleURL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; URL(fileURLWithPath: subtitleFile&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;// Subtitle file&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; subtitleFile = Bundle.main.path(forResource: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt;, ofType: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;srt&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; subtitleURL = URL(fileURLWithPath: subtitleFile!)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;// Subtitle parser
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;      parser &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Subtitles(file: subtitleURL, encoding: .utf8)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;// Subtitle parser&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      parser = Subtitles(file: subtitleURL, encoding: .utf8)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.addPeriodicTimeObserver(forInterval: CMTimeMake(value: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, timescale: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;), queue: DispatchQueue.main, using: { [&lt;span style=&#34;color:#66d9ef&#34;&gt;weak&lt;/span&gt; self] (time: CMTime) &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player?.addPeriodicTimeObserver(forInterval: CMTimeMake(value: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, timescale: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;), queue: DispatchQueue.main, using: { [&lt;span style=&#34;color:#66d9ef&#34;&gt;weak&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;self&lt;/span&gt;] (time: CMTime) &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          let currentTime &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; CMTimeGetSeconds(time)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; currentTime = CMTimeGetSeconds(time)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          guard let self &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;guard&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; self = &lt;span style=&#34;color:#66d9ef&#34;&gt;self&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          self.movieTextLabel&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.text &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self.parser&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.searchSubtitles(at: currentTime)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;self&lt;/span&gt;.movieTextLabel?.text = &lt;span style=&#34;color:#66d9ef&#34;&gt;self&lt;/span&gt;.parser?.searchSubtitles(at: currentTime)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          let totolCTTime &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;  self.player&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.currentItem&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.duration &lt;span style=&#34;color:#f92672&#34;&gt;??&lt;/span&gt; CMTimeMake(value: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, timescale: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; totolCTTime =  &lt;span style=&#34;color:#66d9ef&#34;&gt;self&lt;/span&gt;.player?.currentItem?.duration ?? CMTimeMake(value: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, timescale: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          let totalTime  &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; CMTimeGetSeconds(totolCTTime)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; totalTime  = CMTimeGetSeconds(totolCTTime)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; totalTime &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              self.slider&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.value &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Float(currentTime&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;totalTime)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#66d9ef&#34;&gt;self&lt;/span&gt;.slider?.value = Float(currentTime&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;totalTime)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      })
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;效果图如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-11-26-iosshi-pin-bo-fang-avplayer/overview_2.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;三两种方式需要手动播放或暂停&#34;&gt;三.两种方式需要手动播放或暂停&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @&lt;span style=&#34;color:#66d9ef&#34;&gt;IBAction&lt;/span&gt; func handleStartPlayerEvent(sender: AnyObject) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      isPlaying &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.play()
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-11-26-iosshi-pin-bo-fang-avplayer/overview_2.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;三两种方式需要手动播放或暂停&#34;&gt;三.两种方式需要手动播放或暂停&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;@IBAction&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handleStartPlayerEvent&lt;/span&gt;(sender: AnyObject) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      isPlaying = &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      player?.play()
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @&lt;span style=&#34;color:#66d9ef&#34;&gt;IBAction&lt;/span&gt; func handlePausePlayerEvent(sender: AnyObject) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;@IBAction&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handlePausePlayerEvent&lt;/span&gt;(sender: AnyObject) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; isPlaying {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          player&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.pause()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          player?.pause()
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
@@ -194,13 +196,13 @@ srt格式解析可参考&lt;a href=&#34;https://github.com/mhergon/AVPlayerViewC
     
     <item>
       <title>XCode使用PMD扫描重复代码（一）</title>
-      <link>https://github.io/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/</link>
+      <link>https://ksnowlv.github.io/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/</link>
       <pubDate>Mon, 19 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/</guid>
       
         <description>&lt;p&gt;如何使用PMD在XCode下扫描重复代码（Copy&amp;amp;Past）呢？&lt;/p&gt;
-&lt;h3 id=&#34;1下载pmdhttpspmdgithubiohttpspmdgithubio放置到工程主目录下面imageimagespost2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma1png&#34;&gt;1.下载PMD：&lt;a href=&#34;https://pmd.github.io&#34;&gt;https://pmd.github.io&lt;/a&gt;，放置到工程主目录下面。&lt;img src=&#34;https://github.io/images/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/1.png&#34; alt=&#34;image&#34;&gt;&lt;/h3&gt;
+&lt;h3 id=&#34;1下载pmdhttpspmdgithubiohttpspmdgithubio放置到工程主目录下面imageimagespost2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma1png&#34;&gt;1.下载PMD：&lt;a href=&#34;https://pmd.github.io&#34;&gt;https://pmd.github.io&lt;/a&gt;，放置到工程主目录下面。&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/1.png&#34; alt=&#34;image&#34;&gt;&lt;/h3&gt;
 &lt;h3 id=&#34;2xcode中检测脚本配置-1在xcode的-build-phases-中我们增加一个新的-run-script脚本内容如下&#34;&gt;2.XCode中检测脚本配置#### 1.在&lt;code&gt;Xcode&lt;/code&gt;的 &lt;code&gt;Build Phases&lt;/code&gt; 中，我们增加一个新的 &lt;code&gt;Run Script&lt;/code&gt;，脚本内容如下：&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;#检测swift代码
 #pmd cpd --files ${EXECUTABLE_NAME} --minimum-tokens 50 --language swift --encoding UTF-8 --format net.sourceforge.pmd.cpd.XMLRenderer &amp;gt; cpd-output.xml --failOnViolation true
@@ -223,16 +225,16 @@ foreach (simplexml_load_file(&#39;cpd-output.xml&#39;)-&amp;gt;duplication as $d
 }
 ?&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/2.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/2.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
       
     </item>
     
     <item>
       <title>flutter安装和运行</title>
-      <link>https://github.io/post/2019-05-22-flutteran-zhuang-he-yun-xing/</link>
+      <link>https://ksnowlv.github.io/post/2019-05-22-flutteran-zhuang-he-yun-xing/</link>
       <pubDate>Wed, 22 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-05-22-flutteran-zhuang-he-yun-xing/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-05-22-flutteran-zhuang-he-yun-xing/</guid>
       
         <description>&lt;h3 id=&#34;1创建flutter工程目录各项目flutter目录在flutter-目录下载flutter-sdk&#34;&gt;1.创建flutter工程目录（各项目+flutter目录），在flutter 目录下载flutter SDK&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;git init
@@ -315,19 +317,24 @@ Doctor summary (to see all details, run flutter doctor -v):
 &lt;p&gt;使用flutter run运行app，&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;../flutter/bin/flutter run
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-05-22-flutteran-zhuang-he-yun-xing/flutter-run_cmd.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-05-22-flutteran-zhuang-he-yun-xing/flutter-run_iOS.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-05-22-flutteran-zhuang-he-yun-xing/flutter-run_cmd.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-05-22-flutteran-zhuang-he-yun-xing/flutter-run_iOS.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
       
     </item>
     
     <item>
-      <title>flutter创建工程报错:Cannot create a project within the Flutter SDK. Target directory &#39;x&#39; is within the Flutter SDK at&#39;/Users/x/Music/flutter/flutter&#39;</title>
-      <link>https://github.io/post/2019-05-22-flutter-cannot-create-a-project-within-the-flutter-sdk/</link>
+      <title>flutter创建工程报错</title>
+      <link>https://ksnowlv.github.io/post/2019-05-22-flutter-cannot-create-a-project-within-the-flutter-sdk/</link>
       <pubDate>Wed, 22 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-05-22-flutter-cannot-create-a-project-within-the-flutter-sdk/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-05-22-flutter-cannot-create-a-project-within-the-flutter-sdk/</guid>
       
-        <description>&lt;p&gt;在使用 &lt;code&gt;flutter create&lt;/code&gt;命令创建&lt;code&gt;flutter&lt;/code&gt;工程时，如果报&lt;code&gt;Cannot create a project within the Flutter SDK. Target directory &#39;/Users/ksnowlv/Music/flutter/flutter/my_app&#39; is within the Flutter SDK at &#39;/Users/ksnowlv/Music/flutter/flutter&#39;的错误，&lt;/code&gt;注意不要在&lt;code&gt;flutter SDK&lt;/code&gt;目录及子目录下创建工程，可考虑在其它目录下创建工程。例如平级目录&lt;/p&gt;
+        <description>&lt;h2 id=&#34;1问题&#34;&gt;1.问题&lt;/h2&gt;
+&lt;p&gt;在使用 &lt;code&gt;flutter create&lt;/code&gt;命令创建&lt;code&gt;flutter&lt;/code&gt;工程时，如果报`Cannot create a project within the Flutter SDK. Target directory &amp;lsquo;/Users/ksnowlv/Music/flutter/flutter/my_app&amp;rsquo; is within the Flutter SDK at
+&amp;lsquo;/Users/ksnowlv/Music/flutter/flutter&amp;rsquo;的错误。&lt;/p&gt;
+&lt;h2 id=&#34;2解决方案&#34;&gt;2.解决方案&lt;/h2&gt;
+&lt;p&gt;注意不要在&lt;code&gt;flutter SDK&lt;/code&gt;目录及子目录下创建工程，可考虑在其它目录下创建工程。例如平级目录&lt;/p&gt;
+&lt;p&gt;实际操作如下：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;ksnowlvdeMacBook-Pro:flutter ksnowlv$ ./flutter/bin/flutter create my_app
 Creating project my_app...
   my_app/ios/Runner.xcworkspace/contents.xcworkspacedata (created)
@@ -420,10 +427,10 @@ ksnowlvdeMacBook-Pro:flutter ksnowlv$
     
     <item>
       <title>swift泛型</title>
-      <link>https://github.io/post/2019-05-16-swiftfan-xing/</link>
+      <link>https://ksnowlv.github.io/post/2019-05-16-swiftfan-xing/</link>
       <pubDate>Thu, 16 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-05-16-swiftfan-xing/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-05-16-swiftfan-xing/</guid>
       
         <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/// 交换两个对象的值
@@ -467,10 +474,10 @@ ksnowlvdeMacBook-Pro:flutter ksnowlv$
     
     <item>
       <title>python筛选目录下非jpeg，png，bmp格式的图片</title>
-      <link>https://github.io/post/2019-05-15-pythonshai-xuan-mu-lu-xia-fei-jpegpngbmpge-shi-de-tu-pian/</link>
+      <link>https://ksnowlv.github.io/post/2019-05-15-pythonshai-xuan-mu-lu-xia-fei-jpegpngbmpge-shi-de-tu-pian/</link>
       <pubDate>Wed, 15 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-05-15-pythonshai-xuan-mu-lu-xia-fei-jpegpngbmpge-shi-de-tu-pian/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-05-15-pythonshai-xuan-mu-lu-xia-fei-jpegpngbmpge-shi-de-tu-pian/</guid>
       
         <description>&lt;p&gt;功能：筛选指定目录下非jpeg/png/bmp格式的文件，并把路径以日志形式输出。&lt;/p&gt;
 &lt;p&gt;关键有两点：&lt;/p&gt;
@@ -543,10 +550,10 @@ ksnowlvdeMacBook-Pro:flutter ksnowlv$
     
     <item>
       <title>Kotlin通过jni间接调用c&#43;&#43;</title>
-      <link>https://github.io/post/2019-04-25-kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-25-kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/</link>
       <pubDate>Thu, 25 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-25-kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-25-kotlintong-guo-jnijian-jie-diao-yong-c-plus-plus/</guid>
       
         <description>&lt;p&gt;本篇重点内容，Kotlin通过JNI直接调用C，C调用C++相关的类。实际上只是JAVA换成Kotlin的写法而已。&lt;/p&gt;
 &lt;h3 id=&#34;一添加kotlin类kotlinpersonkotlin&#34;&gt;一.添加Kotlin类`KotlinPerson````kotlin&lt;/h3&gt;
@@ -810,10 +817,10 @@ JNIEXPORT jlong JNICALL Java_com_ksnowlv_kotlinjni_KotlinPerson_createPerson
     
     <item>
       <title>Android通过jni间接调用c&#43;&#43;</title>
-      <link>https://github.io/post/2019-04-22-androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-22-androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/</link>
       <pubDate>Mon, 22 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-22-androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-22-androidtong-guo-jnijian-jie-diao-yong-c-plus-plus/</guid>
       
         <description>&lt;p&gt;本篇重点内容，C如何调用C++类，思路是JAVA通过JNI直接调用C，C调用C++相关的类。&lt;/p&gt;
 &lt;h4 id=&#34;1java层接口person类相关接口&#34;&gt;1.JAVA层接口Person类相关接口&lt;/h4&gt;
@@ -1050,10 +1057,10 @@ JNIEXPORT jlong JNICALL Java_com_ksnowlv_kotlinjni_KotlinPerson_createPerson
     
     <item>
       <title>Android通过jni调用c&#43;&#43;</title>
-      <link>https://github.io/post/2019-04-18-androidtong-guo-jnidiao-yong-c-plus-plus/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-18-androidtong-guo-jnidiao-yong-c-plus-plus/</link>
       <pubDate>Thu, 18 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-18-androidtong-guo-jnidiao-yong-c-plus-plus/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-18-androidtong-guo-jnidiao-yong-c-plus-plus/</guid>
       
         <description>&lt;p&gt;本篇重点内容在于如何把C++的类通过JNI转换为JAVA的类&lt;/p&gt;
 &lt;h3 id=&#34;1创建java类javaperson&#34;&gt;1.创建JAVA类：&lt;code&gt;JavaPerson&lt;/code&gt;&lt;/h3&gt;
@@ -1433,10 +1440,10 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
     
     <item>
       <title>Android-jni-demo</title>
-      <link>https://github.io/post/2019-04-10-android-jni-demo/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-10-android-jni-demo/</link>
       <pubDate>Wed, 10 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-10-android-jni-demo/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-10-android-jni-demo/</guid>
       
         <description>&lt;h4 id=&#34;1创建appsrcmainjnilibs目录-2把so库拷贝到jnilibs目录&#34;&gt;1.创建&lt;code&gt;app/src/main/jniLibs&lt;/code&gt;目录#### 2.把so库拷贝到&lt;code&gt;jniLibs&lt;/code&gt;目录。&lt;/h4&gt;
 &lt;h4 id=&#34;3javacalljni内容如下&#34;&gt;3.&lt;code&gt;JavaCallJNI&lt;/code&gt;内容如下&lt;/h4&gt;
@@ -1508,17 +1515,17 @@ public static native int showValue(int value);
     
     <item>
       <title>”mac下android配置jni开发环境(一)“</title>
-      <link>https://github.io/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/</link>
       <pubDate>Tue, 09 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/</guid>
       
         <description>&lt;p&gt;mac机器上，在进行jni开发之前，android studio 3.3.2，需要配置java环境与ndk环境。&lt;/p&gt;
 &lt;h3 id=&#34;一配置java环境参数-1通过which-java查看mac下jdk安装目录&#34;&gt;一.配置java环境参数#### 1.通过&lt;em&gt;which java&lt;/em&gt;查看Mac下jdk安装目录&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;ksnowlvdeMacBook-Pro:~ ksnowlv$ which java
 /Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/bin/java
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/jdk-path.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/jdk-path.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h4 id=&#34;2在bash_profile文件中配置java环境&#34;&gt;2.在*.bash_profile*文件中配置java环境&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;JAVA_HOME=/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
 PATH=$JAVA_HOME/bin:$PATH:.
@@ -1549,7 +1556,7 @@ export PATH=$PATH:$ANDROID_SDK_ROOT
 export PATH=$PATH:$ANDROID_NDK_ROOT 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;ndk路径，sdk路径一定要与实际目录一致，参考下图
-&lt;img src=&#34;https://github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/jdk-path.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/jdk-path.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h4 id=&#34;2保存bash_profile并使之生效ksnowlvdemacbook-pro-ksnowlv-source-bash_profile&#34;&gt;2.保存*.bash_profile*，并使之生效。	ksnowlvdeMacBook-Pro:~ ksnowlv$ source .bash_profile&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;ksnowlvdeMacBook-Pro:~ ksnowlv$ echo $ANDROID_NDK_ROOT
 /Users/ksnowlv/Library/Android/sdk/ndk-bundle
@@ -1563,10 +1570,10 @@ ksnowlvdeMacBook-Pro:~ ksnowlv$
     
     <item>
       <title>”mac下配置jni开发环境(二)“</title>
-      <link>https://github.io/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/</link>
       <pubDate>Tue, 09 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/</guid>
       
         <description>&lt;p&gt;创建android基础工程&lt;/p&gt;
 &lt;h4 id=&#34;1jni-java文件创建&#34;&gt;1.JNI java文件创建&lt;/h4&gt;
@@ -1579,7 +1586,7 @@ ksnowlvdeMacBook-Pro:~ ksnowlv$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    public &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; native &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; showValue(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; value);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/jni-files.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/jni-files.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h4 id=&#34;2在appscrmain目录下创建目录jni-3在jni目录下创建androidmk文件文件内容如下&#34;&gt;2.在&lt;code&gt;app/scr/main/&lt;/code&gt;目录下，创建目录&lt;code&gt;jni&lt;/code&gt;#### 3.在jni目录下，创建&lt;code&gt;Android.mk&lt;/code&gt;文件文件内容如下：&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
@@ -1613,7 +1620,7 @@ ksnowlvdeMacBook-Pro:java ksnowlv$ javah -d ../jni 	com.ksnowlv.hellojniforjava.
 Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
 ksnowlvdeMacBook-Pro:java ksnowlv$ cd ..
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/jni_header_create.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/jni_header_create.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;实现文件中内容如下&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;#include &amp;quot;com_ksnowlv_hellojniforjava_JavaCallJNI.h&amp;quot;
 
@@ -1643,7 +1650,7 @@ JNIEXPORT jint JNICALL 	Java_com_ksnowlv_hellojniforjava_JavaCallJNI_showValue(J
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/build-gradle.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/build-gradle.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h4 id=&#34;5在终端进入jni路径appsrcmainjni输入ndk-build即生成各种版本的so&#34;&gt;5.在终端进入jni路径:app/src/main/jni,输入&lt;code&gt;ndk-build&lt;/code&gt;即生成各种版本的so&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;ksnowlvdeMacBook-Pro:java ksnowlv$ javac com/ksnowlv/	hellojniforjava/JavaCallJNI.java 
 Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
@@ -1653,16 +1660,16 @@ ksnowlvdeMacBook-Pro:java ksnowlv$ cd ..
 ksnowlvdeMacBook-Pro:main ksnowlv$ cd jni
 ksnowlvdeMacBook-Pro:jni ksnowlv$ ndk-build
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/so.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-er/so.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
       
     </item>
     
     <item>
       <title>300指数量化基金</title>
-      <link>https://github.io/post/2019-04-05-you-xiu-de-liang-hua-ji-jin/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-05-you-xiu-de-liang-hua-ji-jin/</link>
       <pubDate>Fri, 05 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-05-you-xiu-de-liang-hua-ji-jin/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-05-you-xiu-de-liang-hua-ji-jin/</guid>
       
         <description>&lt;table&gt;
 &lt;thead&gt;
@@ -1746,10 +1753,10 @@ ksnowlvdeMacBook-Pro:jni ksnowlv$ ndk-build
     
     <item>
       <title>swift call c</title>
-      <link>https://github.io/post/2019-04-01-swift-call-c/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-01-swift-call-c/</link>
       <pubDate>Mon, 01 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-01-swift-call-c/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-01-swift-call-c/</guid>
       
         <description>&lt;p&gt;如何在swift调整c代码呢？&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;swift通过工程的桥接文件，调用oc或c的相关代码!!!&lt;/em&gt;&lt;/p&gt;
@@ -1786,10 +1793,10 @@ ksnowlvdeMacBook-Pro:jni ksnowlv$ ndk-build
     
     <item>
       <title>swift call c&#43;&#43;（二）</title>
-      <link>https://github.io/post/2019-04-01-swift-call-c-plus-plus-er/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-01-swift-call-c-plus-plus-er/</link>
       <pubDate>Mon, 01 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-01-swift-call-c-plus-plus-er/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-01-swift-call-c-plus-plus-er/</guid>
       
         <description>&lt;p&gt;如何在swift调整c++代码呢？&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;swift通过工程的桥接文件，调用oc的代码，间接调用c++代码!!!&lt;/em&gt;&lt;/p&gt;
@@ -2000,10 +2007,10 @@ ksnowlvdeMacBook-Pro:jni ksnowlv$ ndk-build
     
     <item>
       <title>swift call c&#43;&#43;（一）</title>
-      <link>https://github.io/post/2019-04-01-swift-call-c-plus-plus-yi/</link>
+      <link>https://ksnowlv.github.io/post/2019-04-01-swift-call-c-plus-plus-yi/</link>
       <pubDate>Mon, 01 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-04-01-swift-call-c-plus-plus-yi/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-04-01-swift-call-c-plus-plus-yi/</guid>
       
         <description>&lt;p&gt;如何在swift调整c++代码呢？&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;swift通过工程的桥接文件，调用c的代码，间接调用c++代码!!!&lt;/em&gt;&lt;/p&gt;
@@ -2215,10 +2222,10 @@ ksnowlvdeMacBook-Pro:jni ksnowlv$ ndk-build
     
     <item>
       <title>go变量声明和使用</title>
-      <link>https://github.io/post/2019-02-01-gobian-liang/</link>
+      <link>https://ksnowlv.github.io/post/2019-02-01-gobian-liang/</link>
       <pubDate>Fri, 01 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2019-02-01-gobian-liang/</guid>
+      <guid>https://ksnowlv.github.io/post/2019-02-01-gobian-liang/</guid>
       
         <description>&lt;p&gt;go变量声明和使用&lt;/p&gt;
 &lt;p&gt;···go&lt;/p&gt;
@@ -2266,10 +2273,10 @@ func main() {
     
     <item>
       <title>swift中pthread_t之mutex</title>
-      <link>https://github.io/post/2018-08-07-swiftzhong-pthread-tzhi-mutex/</link>
+      <link>https://ksnowlv.github.io/post/2018-08-07-swiftzhong-pthread-tzhi-mutex/</link>
       <pubDate>Tue, 07 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2018-08-07-swiftzhong-pthread-tzhi-mutex/</guid>
+      <guid>https://ksnowlv.github.io/post/2018-08-07-swiftzhong-pthread-tzhi-mutex/</guid>
       
         <description>&lt;p&gt;mutex类型有四种&lt;/p&gt;
 &lt;ul&gt;
@@ -2298,10 +2305,10 @@ func main() {
     
     <item>
       <title>synchronized到objc_sync_enter/objc_sync_exit</title>
-      <link>https://github.io/post/2018-08-07-swiftzhong-yu-oczhong-yong-fa-qu-bie/</link>
+      <link>https://ksnowlv.github.io/post/2018-08-07-swiftzhong-yu-oczhong-yong-fa-qu-bie/</link>
       <pubDate>Tue, 07 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://github.io/post/2018-08-07-swiftzhong-yu-oczhong-yong-fa-qu-bie/</guid>
+      <guid>https://ksnowlv.github.io/post/2018-08-07-swiftzhong-yu-oczhong-yong-fa-qu-bie/</guid>
       
         <description>&lt;p&gt;&lt;code&gt;synchronized&lt;/code&gt;-&amp;gt;&lt;code&gt;objc_sync_enter/objc_sync_exit&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;objc_sync_enter&lt;/code&gt;：递归锁，与objc_sync_exit配合使用，注意死锁&lt;/p&gt;
