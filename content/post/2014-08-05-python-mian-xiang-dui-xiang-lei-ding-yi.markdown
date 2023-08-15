@@ -9,11 +9,11 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
-#### 1.python类的定义
+
+### 1.python类的定义
 使用class语句定义一个类，class之后为类的名称并以冒号结尾，
 
 
@@ -29,8 +29,9 @@ mathjax: false
 
 `class_body` 由`类成员`，`方法`，`数据属性`组成。
 
-#### 2.创建老师类，类成员，方法，属性。
-#### 代码示例如下
+### 2.创建老师类，类成员，方法，属性。
+
+ 代码示例
 ``` python
 
 #!/usr/bin/python
@@ -71,10 +72,11 @@ del t1.address
 
 ```
 
-运行情况如下:
-
+### 执行情况
+```terminal
     Name :  张明 , Age:  24
     Name :  李海 , Age:  30
     Total Teacher 2
     张明 居住在北京市朝阳区
     张明 搬家到北京市海淀区
+ ```   

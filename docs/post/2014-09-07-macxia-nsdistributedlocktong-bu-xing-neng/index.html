@@ -29,7 +29,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="梵梵爸" />
-  <meta name="description" content="Mac下NSDistributedLock也可以用来同步。" />
+  <meta name="description" content="一.NSDistributedLock同步性能 Mac下NSDistributedLock也可以用来同步。
+" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -68,18 +69,21 @@
 
 
 <meta property="og:title" content="Mac下NSDistributedLock同步性能" />
-<meta property="og:description" content="Mac下NSDistributedLock也可以用来同步。" />
+<meta property="og:description" content="一.NSDistributedLock同步性能
+Mac下NSDistributedLock也可以用来同步。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ksnowlv.github.io/post/2014-09-07-macxia-nsdistributedlocktong-bu-xing-neng/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2014-09-07T00:00:00+00:00" />
 <meta property="article:modified_time" content="2014-09-07T00:00:00+00:00" />
 <meta itemprop="name" content="Mac下NSDistributedLock同步性能">
-<meta itemprop="description" content="Mac下NSDistributedLock也可以用来同步。"><meta itemprop="datePublished" content="2014-09-07T00:00:00+00:00" />
+<meta itemprop="description" content="一.NSDistributedLock同步性能
+Mac下NSDistributedLock也可以用来同步。"><meta itemprop="datePublished" content="2014-09-07T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-09-07T00:00:00+00:00" />
-<meta itemprop="wordCount" content="281">
+<meta itemprop="wordCount" content="328">
 <meta itemprop="keywords" content="Mac," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Mac下NSDistributedLock同步性能"/>
-<meta name="twitter:description" content="Mac下NSDistributedLock也可以用来同步。"/>
+<meta name="twitter:description" content="一.NSDistributedLock同步性能
+Mac下NSDistributedLock也可以用来同步。"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -345,7 +349,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 281 字 -
+        约 328 字 -
         预计阅读 1 分钟
       </span>
 
@@ -368,19 +372,16 @@
 
         
         <div class="post-content">
-          <h4 id="mac下nsdistributedlockhttpsdeveloperapplecomlibrarymacdocumentationcocoareferencefoundationclassesnsdistributedlock_classreferencereferencehtml也可以用来同步">Mac下<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSDistributedLock_Class/Reference/Reference.html">NSDistributedLock</a>也可以用来同步。</h4>
-<blockquote>
+          <h3 id="一nsdistributedlock同步性能">一.NSDistributedLock同步性能</h3>
+<p>Mac下<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSDistributedLock_Class/Reference/Reference.html">NSDistributedLock</a>也可以用来同步。</p>
 <ul>
 <li>可以用来限制对某些共享资源的访问，比如一个文件。</li>
-</ul>
-</blockquote>
-<ul>
 <li>没有实现<strong>NSLocking</strong>协议，所有没有<code>lock</code>方法。一个<code>lock</code>方法将会阻塞线程的执行，并要求系统以预定的速度轮询锁。</li>
 <li>它提供了一个<code>tryLock</code>方法，并让你决定是否轮询。访问结束后，可以通过调用unlock方法来释放它。</li>
 </ul>
+<h3 id="二nsdistributedlock测试示例">二.NSDistributedLock测试示例</h3>
 <p>我们使用该锁对<code>doucument</code>目录访问。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    ...        
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>     
 </span></span><span style="display:flex;"><span>    NSString <span style="color:#f92672">*</span>doucumentDir <span style="color:#f92672">=</span> [paths objectAtIndex:<span style="color:#ae81ff">0</span>];
 </span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;doucumentDir = %@&#34;</span>, doucumentDir);
 </span></span><span style="display:flex;"><span>    
@@ -401,15 +402,34 @@
 </span></span><span style="display:flex;"><span>    curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
 </span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;@synchronized: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
 </span></span><span style="display:flex;"><span>    
-</span></span></code></pre></div><h4 id="日志输出">日志输出:</h4>
+</span></span></code></pre></div><h3 id="三日志输出">三.日志输出</h3>
 <pre><code>2014-09-07 14:55:32.438 NSDistributedLockTest[4131:303] doucumentDir = /Users/ksnowlv/Documents
 2014-09-07 14:55:33.703 NSDistributedLockTest[4131:303] @synchronized: 1264.391005 ms
 </code></pre>
-<h4 id="结论和其它同步锁相比耗时是比较高的">结论：和其它同步锁相比，耗时是比较高的。</h4>
+<h3 id="四结论">四.结论</h3>
+<p>和其它同步锁相比，耗时是比较高的。</p>
         </div>
 
         
         
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2014-09-07
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
 
 
 
@@ -480,6 +500,27 @@
 
   
   
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
 
   
   
@@ -505,7 +546,10 @@
   <ul>
     <li>
       <ul>
-        <li></li>
+        <li><a href="#一nsdistributedlock同步性能">一.NSDistributedLock同步性能</a></li>
+        <li><a href="#二nsdistributedlock测试示例">二.NSDistributedLock测试示例</a></li>
+        <li><a href="#三日志输出">三.日志输出</a></li>
+        <li><a href="#四结论">四.结论</a></li>
       </ul>
     </li>
   </ul>

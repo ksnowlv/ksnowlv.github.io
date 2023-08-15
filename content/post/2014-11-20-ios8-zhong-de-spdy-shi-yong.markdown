@@ -9,14 +9,13 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-### spdy需要客户端和服务端同时支持。
+## spdy需要客户端和服务端同时支持
 
-#### 1.spdy available on both OS X Yosemite and iOS 8 
+### 1.spdy available on both OS X Yosemite and iOS 8 
 SPDY/2, SPDY/3, and SPDY/3.1 are supported Supported transparently by NSURLSession No source changes needed—it just works
 
 ``` objective-c
@@ -33,7 +32,7 @@ SPDY/2, SPDY/3, and SPDY/3.1 are supported Supported transparently by NSURLSessi
 
 直接复用session,启用spdy.
 
-#### 2.SPDY does require server-side support
+### 2.SPDY does require server-side support
 * Client negotiates with server during TLS handshake
 * Uses https:// URLs
 * Existing web server software and many CDNs already support SPDY 

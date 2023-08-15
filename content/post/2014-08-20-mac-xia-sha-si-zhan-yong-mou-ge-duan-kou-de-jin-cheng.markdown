@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -19,12 +18,14 @@ mathjax: false
 如何杀死占用相应端口的进程呢？
 
 
-#### 1.查看占用该端口的进程。格式:**lsof -i:port**   port:端口号
+### 1.查看占用该端口的进程
 
-#### 2.杀死进程。
+格式:**lsof -i:port**   port:端口号
+
+### 2.杀死进程
 格式:**kill PID**   PID:进程的PID
 
-#### 3.示例
+### 3.示例
     ksnowlv@ksnowlvdeMacBook-Pro~$lsof -i:80
     COMMAND    PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
     com.apple  640 ksnowlv   13u  IPv4 0x5c463434d35d8295      0t0  TCP 10.68.187.236:56236->117.79.146.98:http (ESTABLISHED)

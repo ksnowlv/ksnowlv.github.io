@@ -9,16 +9,21 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-#### python支持函数重载，和C++/Objective-c/Java类似。    适用场景:父类的方法不能满足你的需求.
+### python函数重载
+
+和C++/Objective-c/Java类似。   
+
+### 适用场景
+
+父类的方法不能满足你的需求.
   
   <!--more-->
     
-代码示例如下：
+### 代码示例
 
 ``` python
 
@@ -55,13 +60,13 @@ QBaseClass.showMessage(p1)
 
 ```
 
-运行结果如下:
-
+### 执行情况
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python overloadmethod.py 
     className = QPerson, address = 北京市朝阳区
     className = QBaseClass
     className = QBaseClass
-
+```
 
 #### 下面两种写法虽然执行结果相同，那有什么不同呢？
 ``` python   

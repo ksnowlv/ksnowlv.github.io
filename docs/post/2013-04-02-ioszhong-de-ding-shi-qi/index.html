@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="梵梵爸" />
-  <meta name="description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIVie" />
+  <meta name="description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动， 而SDK中，提供的是一个街景view。 鉴于UIVie" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -68,18 +68,18 @@
 
 
 <meta property="og:title" content="iOS中的定时器" />
-<meta property="og:description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIVie" />
+<meta property="og:description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动， 而SDK中，提供的是一个街景view。 鉴于UIVie" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ksnowlv.github.io/post/2013-04-02-ioszhong-de-ding-shi-qi/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2013-04-02T00:00:00+00:00" />
 <meta property="article:modified_time" content="2013-04-02T00:00:00+00:00" />
 <meta itemprop="name" content="iOS中的定时器">
-<meta itemprop="description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIVie"><meta itemprop="datePublished" content="2013-04-02T00:00:00+00:00" />
+<meta itemprop="description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动， 而SDK中，提供的是一个街景view。 鉴于UIVie"><meta itemprop="datePublished" content="2013-04-02T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-04-02T00:00:00+00:00" />
-<meta itemprop="wordCount" content="633">
+<meta itemprop="wordCount" content="609">
 <meta itemprop="keywords" content="iOS," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS中的定时器"/>
-<meta name="twitter:description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIVie"/>
+<meta name="twitter:description" content="一.背景 在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动， 而SDK中，提供的是一个街景view。 鉴于UIVie"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 633 字 -
+        约 609 字 -
         预计阅读 2 分钟
       </span>
 
@@ -368,93 +368,101 @@
 
         
         <div class="post-content">
-          <h4 id="一背景--在做街景iphone-sdk时opengl的渲染需要启用一个类timer来驱动而sdk中提供的是一个街景view鉴于uiview一般释放时不需要手动调用清理函数而timer如果直接添加到街景view中会造成相互retain导致即使在街景view中添加timer的释放也不能完成正常的释放">一.背景  在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIView一般释放时不需要手动调用清理函数，而Timer如果直接添加到街景View中会造成相互retain，导致即使在街景View中添加Timer的释放,也不能完成正常的释放.</h4>
-<h4 id="二-qopenglrendertimer">二. QOpenGLRenderTimer</h4>
-<h4 id="1头文件objective-c">1.头文件```objective-c</h4>
-<p>//
-//  QOpenGLTimer.h
-//  SOSOStreetViewMapAPI
-//
-//  Created by lv wei on 13-3-27.
-//  Copyright (c) 2013年 lv wei. All rights reserved.
-//</p>
-<p>/**
-*QOpenGLRenderTimer的Delegate,通知绘制OPENGL
-*Author:ksnowlv
-**/
-@protocol QOpenGLRenderTimerDelegate <!-- raw HTML omitted -->
-@optional</p>
-<p>/**
-*地图区域即将改变时会调用此接
-*/</p>
-<ul>
-<li>(void)renderOpenGLEvent;</li>
-</ul>
-<p>@end</p>
-<p>@interface QOpenGLRenderTimer : NSObject</p>
-<p>@property (nonatomic, assign) id<!-- raw HTML omitted --> delegate;
-@property (nonatomic, assign) CADisplayLink *displayLink;</p>
-<p>-(void)startOpenGLRenderTimer;
--(void)stopOpenGLRenderTimer;</p>
-<p>@end</p>
-<pre tabindex="0"><code>
-
-#### 2.实现文件  ```objective-c
-  //
-//  QOpenGLRenderTimer.m
-//  SOSOStreetViewMapAPI
-//
-//  Created by lv wei on 13-3-27.
-//  Copyright (c) 2013年 lv wei. All rights reserved.
-//
-
-#import &#34;QOpenGLRenderTimer.h&#34;
-#import &lt;QuartzCore/QuartzCore.h&gt;
-
-
-@implementation QOpenGLRenderTimer
-@synthesize delegate = _delegate;
-@synthesize displayLink = _displayLink;
-
-- (void)dealloc {
-    [self stopOpenGLRenderTimer];
-    [super dealloc];
-}
-
-- (void)startOpenGLRenderTimer{
-    
-    if (self.displayLink != nil)
-    {
-        [self.displayLink invalidate];
-    }
-    
-    CADisplayLink *aDisplayLink = [[UIScreen mainScreen] displayLinkWithTarget:self selector:@selector(renderOpenGL)];
-    [aDisplayLink setFrameInterval:1.0f];
-
-    [aDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    self.displayLink = aDisplayLink;
-}
-
-- (void)stopOpenGLRenderTimer
-{
-    if (_displayLink) {
-        [_displayLink invalidate];
-        _displayLink = nil;
-    }
-}
-
-- (void)renderOpenGL
-{
-    [_delegate renderOpenGLEvent];
-}
-</code></pre><h4 id="三-qopenglrendertimer的使用">三. QOpenGLRenderTimer的使用</h4>
-<h5 id="1街景view中开启opengl渲染循环如下">1.街景View中开启OpenGL渲染循环如下：</h5>
+          <h2 id="一背景">一.背景</h2>
+<p>在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，</p>
+<p>而SDK中，提供的是一个街景view。</p>
+<p>鉴于UIView一般释放时不需要手动调用清理函数，而Timer如果直接添加到街景View中会造成相互retain，导致即使在街景View中添加Timer的释放,也不能完成正常的释放.</p>
+<h2 id="二解决方案">二.解决方案</h2>
+<p>QOpenGLRenderTimer</p>
+<h3 id="1头文件">1.头文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  QOpenGLTimer.h
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  SOSOStreetViewMapAPI
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Created by lv wei on 13-3-27.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Copyright (c) 2013年 lv wei. All rights reserved.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *QOpenGLRenderTimer的Delegate,通知绘制OPENGL
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *Author:ksnowlv
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> **/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@protocol</span> <span style="color:#a6e22e">QOpenGLRenderTimerDelegate</span> <span style="color:#f92672">&lt;</span>NSObject<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@optional</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *地图区域即将改变时会调用此接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-</span> (<span style="color:#66d9ef">void</span>)renderOpenGLEvent;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">QOpenGLRenderTimer</span> : <span style="color:#a6e22e">NSObject</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span> (<span style="color:#66d9ef">nonatomic</span>, <span style="color:#66d9ef">assign</span>) <span style="color:#66d9ef">id</span><span style="color:#f92672">&lt;</span>QOpenGLRenderTimerDelegate<span style="color:#f92672">&gt;</span> delegate;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span> (<span style="color:#66d9ef">nonatomic</span>, <span style="color:#66d9ef">assign</span>) CADisplayLink <span style="color:#f92672">*</span>displayLink;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>-(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">startOpenGLRenderTimer</span>;
+</span></span><span style="display:flex;"><span>-(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">stopOpenGLRenderTimer</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span></code></pre></div><h3 id="2实现文件">2.实现文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>  <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  QOpenGLRenderTimer.m
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  SOSOStreetViewMapAPI
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Created by lv wei on 13-3-27.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Copyright (c) 2013年 lv wei. All rights reserved.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#import &#34;QOpenGLRenderTimer.h&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#import &lt;QuartzCore/QuartzCore.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">QOpenGLRenderTimer</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@synthesize</span> delegate <span style="color:#f92672">=</span> _delegate;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@synthesize</span> displayLink <span style="color:#f92672">=</span> _displayLink;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">dealloc</span> {
+</span></span><span style="display:flex;"><span>    [self stopOpenGLRenderTimer];
+</span></span><span style="display:flex;"><span>    [super dealloc];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">startOpenGLRenderTimer</span>{
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (self.displayLink <span style="color:#f92672">!=</span> nil)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        [self.displayLink invalidate];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    CADisplayLink <span style="color:#f92672">*</span>aDisplayLink <span style="color:#f92672">=</span> [[UIScreen mainScreen] displayLinkWithTarget:self selector:<span style="color:#66d9ef">@selector</span>(renderOpenGL)];
+</span></span><span style="display:flex;"><span>    [aDisplayLink setFrameInterval:<span style="color:#ae81ff">1.0f</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    [aDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+</span></span><span style="display:flex;"><span>    self.displayLink <span style="color:#f92672">=</span> aDisplayLink;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">stopOpenGLRenderTimer</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (_displayLink) {
+</span></span><span style="display:flex;"><span>        [_displayLink invalidate];
+</span></span><span style="display:flex;"><span>        _displayLink <span style="color:#f92672">=</span> nil;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">renderOpenGL</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    [_delegate renderOpenGLEvent];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="三-qopenglrendertimer的使用">三. QOpenGLRenderTimer的使用</h2>
+<h3 id="1街景view中开启opengl渲染循环">1.街景View中开启OpenGL渲染循环</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>        QOpenGLRenderTimer<span style="color:#f92672">*</span> timer <span style="color:#f92672">=</span> [[QOpenGLRenderTimer alloc] init];
 </span></span><span style="display:flex;"><span>        timer.delegate <span style="color:#f92672">=</span> self;
 </span></span><span style="display:flex;"><span>        [timer startOpenGLRenderTimer];
 </span></span><span style="display:flex;"><span>        self.openGLRenderTimer <span style="color:#f92672">=</span> timer;
 </span></span><span style="display:flex;"><span>        [timer <span style="color:#66d9ef">release</span>];
-</span></span></code></pre></div><h5 id="2在街景view的dealloc-方法中-停止opengl渲染循环">2.在街景View的dealloc 方法中 停止OpenGL渲染循环.</h5>
+</span></span></code></pre></div><h3 id="2在街景view的dealloc-方法中-停止opengl渲染循环">2.在街景View的dealloc 方法中 停止OpenGL渲染循环.</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">dealloc</span>  {
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">if</span> (_openGLRenderTimer) {
 </span></span><span style="display:flex;"><span>       _openGLRenderTimer.delegate <span style="color:#f92672">=</span> nil;
@@ -463,16 +471,35 @@
 </span></span><span style="display:flex;"><span>       _openGLRenderTimer <span style="color:#f92672">=</span> nil;
 </span></span><span style="display:flex;"><span>   }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="四其它-1当时考虑过放在街景的代理中根据代理设置的是否为空启用或停止opengl渲染的逻辑但是为什么没有那么做呢-1开发者使用街景view不一定会设置代理">四.其它。##### 1.当时考虑过放在街景的代理中，根据代理设置的是否为空，启用或停止OPENGL渲染的逻辑。但是，为什么没有那么做呢？* 1.开发者使用街景View，不一定会设置代理。</h4>
+</span></span></code></pre></div><h2 id="四其它">四.其它</h2>
+<h4 id="当时考虑过放在街景的代理中根据代理设置的是否为空启用或停止opengl渲染的逻辑但是为什么没有那么做呢">当时考虑过放在街景的代理中，根据代理设置的是否为空，启用或停止OPENGL渲染的逻辑。但是，为什么没有那么做呢？</h4>
 <ul>
-<li>2.即使创建街景View设置代理了，这种设计和实现不太好。</li>
-<li>3.有更好的解决方案。</li>
+<li>1.开发者使用街景View，不一定会设置代理。</li>
+<li>2.即使创建街景View设置代理了，这种设计和实现不太好，有更好的解决方案。</li>
 </ul>
 
         </div>
 
         
         
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2013-04-02
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
 
 
 
@@ -543,6 +570,27 @@
 
   
   
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
 
   
   
@@ -566,7 +614,20 @@
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#一背景">一.背景</a></li>
+    <li><a href="#二解决方案">二.解决方案</a>
+      <ul>
+        <li><a href="#1头文件">1.头文件</a></li>
+        <li><a href="#2实现文件">2.实现文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#三-qopenglrendertimer的使用">三. QOpenGLRenderTimer的使用</a>
+      <ul>
+        <li><a href="#1街景view中开启opengl渲染循环">1.街景View中开启OpenGL渲染循环</a></li>
+        <li><a href="#2在街景view的dealloc-方法中-停止opengl渲染循环">2.在街景View的dealloc 方法中 停止OpenGL渲染循环.</a></li>
+      </ul>
+    </li>
+    <li><a href="#四其它">四.其它</a>
       <ul>
         <li></li>
       </ul>

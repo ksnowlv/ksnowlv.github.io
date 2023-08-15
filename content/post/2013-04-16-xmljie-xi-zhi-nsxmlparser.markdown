@@ -9,15 +9,19 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+## iPhone NSXMLParser
 
-NSXMLParser为IPHONE SDK 自带的，还是很方便的。
+NSXMLParser为iPhone SDK 自带的，还是很方便的。
 
-#### 1.头文件```objective-c
+### 代码示例
+
+#### 1.头文件
+
+```objective-c
 //  ViewController.h
 #import <UIKit/UIKit.h>
 

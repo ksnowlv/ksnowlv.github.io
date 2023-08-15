@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -20,10 +19,17 @@ mathjax: false
 >  * **UILabel** 
 >  * **UITableView**
 
-#### 1.**ViewController**继承`UITableViewDataSource`，`UITableViewDelegate`，重写相应方法。#### 2.声明`UIButton`/`UIImageView`/`UILabel`/UITableView四种控件和列表数据数组，定义按钮事件。#### 3.控件及事件在IB连好。![image](/images/post/2014-09-08-swift-ui-kong-jian-chu-ti-yan/swift_ui_overviw_ib.png)
+### 1.**ViewController**继承`UITableViewDataSource`，`UITableViewDelegate`，重写相应方法
 
-#### 完整代码
-``` objective-c
+### 2.声明`UIButton`/`UIImageView`/`UILabel`/UITableView四种控件和列表数据数组，定义按钮事件
+
+### 3.控件及事件在IB连好
+
+![image](/images/post/2014-09-08-swift-ui-kong-jian-chu-ti-yan/swift_ui_overviw_ib.png)
+
+### 4.完整代码
+
+``` swift
 
 class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     
@@ -92,9 +98,10 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
 
 ```
 
-#### 效果图
+### 5.效果图
+
 ![image](/images/post/2014-09-08-swift-ui-kong-jian-chu-ti-yan/swift_run_overview.png)
 
-#### 小结
-    和objective-c下使用方法类似，优化方法大体相同，你原来的开发经验依然是很有用的。
+### 6.小结
+   和Objective-c下使用方法类似，优化方法大体相同，你原来的开发经验依然是很有用的。
 

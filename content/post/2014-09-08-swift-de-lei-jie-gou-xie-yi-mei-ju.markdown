@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -17,9 +16,11 @@ mathjax: false
 现在主要体验swift类(创建，销毁，继承/派生)，结构体，协议，枚举等方面的使用.
 
 
-#### 1.结构体和常量定义。结构体定义其实与c/c++大体类似。示例如下:
+### 1.结构体和常量定义
 
-``` objective-c
+结构体定义其实与c/c++大体类似。示例如下:
+
+``` swift
 let QMapPointZero:QMapPoint = QMapPoint(x:0,y:0);
 let QMapSizeZero:QMapSize = QMapSize(width:0,height:0);
 
@@ -35,10 +36,10 @@ struct QMapSize{
 
 ```
 
-#### 2.枚举定义(和c/c++中差别比较大)。
+### 2.枚举定义(和c/c++中差别比较大)。
  `swift`中，像类和其它类型命名类似，枚举可以拥有和它关联的方法。
  
-``` objective-c
+```swift
  
 enum QMapType:Int{
     case QMapTypeNone
@@ -70,11 +71,13 @@ enum QMapType:Int{
 
 如果访问这些枚举变量，需要通过枚举名来访问。以上为例就是通过`QMapType.QMapTypeNoraml`访问，如果要访问枚举变量的值，可通过`getMapType`访问。
 
-#### 3.关于协议/接口。与objetive-c类似，不支持多继承，同样需要通过`protocol`声明定义，同样，分为必选协议和可选协议。但是，swift中的协议可以有成员变量。
+### 3.关于协议/接口
+
+与objetive-c类似，不支持多继承，同样需要通过`protocol`声明定义，同样，分为必选协议和可选协议。但是，swift中的协议可以有成员变量。
 
 必选协议的声明
 
-``` objective-c
+``` swift
 
 protocol ShapeInterface{
     
@@ -89,7 +92,7 @@ protocol ShapeInterface{
 
 可选协议声明
 
-``` objective-c
+```swift
 
 @objc protocol QMapViewInterface{
     
@@ -102,11 +105,13 @@ protocol ShapeInterface{
 
 ``` 
 
-#### 4.类的声明，定义，继承，派生等。与**c++**/**objective-c**类似，支持面向对象，有构造初始化，有析构，支持继承/派生。
+### 4.类的声明，定义，继承，派生等
+
+与**c++**/**objective-c**类似，支持面向对象，有构造初始化，有析构，支持继承/派生。
 
 我们声明shape类，继承`ShapeInterface`协议。
 
-``` objective-c
+``` swift
 
 class Shape:ShapeInterface{
     
@@ -144,8 +149,10 @@ class Shape:ShapeInterface{
 
 ```
 
-### 5.示例:地图类和图形类#### 地图类相关
-``` objective-c
+### 5.示例:地图类和图形类
+
+#### 地图类相关
+``` swift
 
 /// 地图坐标相关数据结构和常量定义
 let QMapPointZero:QMapPoint = QMapPoint(x:0,y:0);
@@ -249,7 +256,7 @@ class QMapView{
 
 调用：
 
-``` objective-c
+```swift
 
 var mapView:QMapView = QMapView(mapType:QMapType.QMapTypeNoraml);      
 var mapSize =  QMapSize(width: Int(self.view.frame.width), height:Int(self.view.frame.height));
@@ -261,18 +268,18 @@ print("mapView rect = {point = {\(mapView.mapRect.point.x),\(mapView.mapRect.poi
 
 日志输出：
 
-``` objective-c
+``` swift
 mapType = 1 drawing
 mapView rect = {point = {0,0},size = {320,480}}
 QMapView deinit
-``` 
 
+``` 
 #### 图形类(Shape类族)相关
 Shape类族
 ![image](/images/post/2014-09-08-swift-de-lei-jie-gou-xie-yi-mei-ju/shape_class.jpg)
 
 
-``` objective-c
+```swift
 
 /**
 *  图形接口
@@ -389,7 +396,7 @@ class Square: Shape{
 
 调用
 
-``` objective-c
+``` swift
 var shape:Shape = Shape(name: "Shape");
 shape.draw();
 print("className = \(shape.className) shape:{description = \(shape.description()), area = \(shape.area()), circumference = \(shape.circumference())}\n");
@@ -405,7 +412,7 @@ print("className = \(square.className) square:{description = \(square.descriptio
 ``` 
 日志输出
 
-``` objective-c
+``` swift
 
 shape name = Shape
 className = Shape shape:{description = Shape, area = 0.0, circumference = 0.0}
@@ -426,7 +433,8 @@ Shape deinit
  * 2.对象的创建顺序和析构顺序是相反的。
  * 3.如果派生类在类的外部调用基类的同名函数，如何调用呢？
     与**objective-c**/**python**中的调用都不太一样。可以使用声明基类指针的方式。
-``` objective-c
+    
+``` swift
 
    var squareShap:Shape = square;
    squareShap.draw();

@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -25,7 +24,7 @@ mathjax: false
 * UI横向的放大比例：屏幕适配时使用，通常用于图片。
 * 1像素线条比例
 
-```objective-c
+```swift
     /**
  *  设备屏幕尺寸类型
  */

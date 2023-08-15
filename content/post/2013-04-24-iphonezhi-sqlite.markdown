@@ -9,16 +9,27 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-iPhone系统自带`SQLite`,首先工程中，引入头文件`#import <sqlite3.h>`和`libsqlite3.dylib LIB`库。
+## iPhone SQLite
 
-现在要使用SQLite创建一个数据库文件（ 路径:/Users/lvwei/Library/Application Support/iPhone Simulator/4.3.2/Applications/C6B78C3D-8DD5-47B9-B0EE-160B009EA485/Documents/myDbFile/dbFile.db,注意文件名，不要把dbFile.db中的.db去掉，不然，给你创建个目录).
+### 1.工程引用SQLite
+
+iPhone系统自带`SQLite`
+
+首先工程中，引入头文件`#import <sqlite3.h>`和`libsqlite3.dylib LIB`库。
+
+### 2.创建数据库
+
+现在要使用SQLite创建一个数据库文件（ 路径:/Users/lvwei/Library/Application Support/iPhone Simulator/4.3.2/Applications/C6B78C3D-8DD5-47B9-B0EE-160B009EA485/Documents/myDbFile/dbFile.db；
+
+注意文件名，不要把dbFile.db中的.db去掉，不然，给你创建个目录).
   
-  然后创建个关于学生的表，有SVID（学生学号),name(姓名),sex（性别）,age（年龄）属性，对数据库有增删查改的操作。特别注意SQL语句的写法.
+### 3.创建数据库表,并执行相关数据库操作
+
+  创建关于学生的表，有SVID（学生学号),name(姓名),sex（性别）,age（年龄）属性，对数据库有增删查改的操作。特别注意SQL语句的写法.
   
 
 ```objective-c
@@ -369,9 +380,9 @@ static NSString* const KDBFileName = @"dbFile.db";
 
 ```
 
-日志：
+### 4.执行情况
 
-
+```terminal
 	2013-04-24 17:53:49.170 dbTest_sqlite[26700:c303] filePath = /Users/lvwei/Library/Application Support/iPhone Simulator/4.3.2/Applications/C6B78C3D-8DD5-47B9-B0EE-160B009EA485/Documents/myDbFile/dbFile.db
 	2013-04-24 17:53:49.222 dbTest_sqlite[26700:c303] create table student ok!
 	2013-04-24 17:53:49.228 dbTest_sqlite[26700:c303] insert student svid = 030341318, name = ksnow,sex = 女,age=28
@@ -398,3 +409,4 @@ static NSString* const KDBFileName = @"dbFile.db";
 	2013-04-24 17:53:49.344 dbTest_sqlite[26700:c303] student svid = 030341301, name = 学生2,sex = 男,age=32
 	2013-04-24 17:53:49.366 dbTest_sqlite[26700:c303] student svid = 030341302, name = 学生3,sex = 女,age=12
 
+```

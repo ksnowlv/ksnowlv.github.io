@@ -9,15 +9,14 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-### 一.swift中闭包
+## 一.swift中闭包
 swift中的闭包格式
 
-```objective-c
+```swift
 
 { (parameters) -> return type in
     statements
@@ -25,8 +24,8 @@ swift中的闭包格式
 
 ```
 
-#### 1. swift block, without any arguments and without return value
-```objective-c
+### 1. swift block, without any arguments and without return value
+```swift
  typealias funcBlockA = () -> ()
  typealias funcBlockAA = () -> Void
  
@@ -38,8 +37,8 @@ var _funcBlockA:funcBlockA = {
 }   
 ```
 
-#### 2.swift block with arguments and  return value
-```objective-c
+### 2.swift block with arguments and  return value
+```swift
 var _funcBlockB:funcBlockB = {
     (stringA:String, stringB:String) ->String in
     
@@ -50,8 +49,8 @@ var _funcBlockB:funcBlockB = {
 
 ``` 
 
-#### 3.swift block with arguments and  return value as function
-```objective-c
+### 3.swift block with arguments and  return value as function
+```swift
 
 var _funcBlockC:funcBlockC = {
     
@@ -63,8 +62,8 @@ var _funcBlockC:funcBlockC = {
 
 ```
 
-#### 4.swift block as function parameter and  return value as function with parameter and return value
-```objective-c
+### 4.swift block as function parameter and  return value as function with parameter and return value
+```swift
 
 var _funcBlockD:funcBlockD = {
     (stringA:String, stringB:String) ->(String)->(String) in
@@ -76,9 +75,9 @@ var _funcBlockD:funcBlockD = {
 ```
 
 
-### 二.示例
-#### 1.示例代码
-```objective-c
+## 二.示例
+### 1.示例代码
+```swift
 
 func blockC(name:String)  {
     
@@ -162,15 +161,16 @@ class QBlock{
 
 ```
 
-#### 2.调用```objective-c
+### 2.调用
+
+```swift
 
 var block = QBlock()
 
-```objective-c
+```
 
 #### 3.日志
-```objective-c
-
+```terminal
 ***block without any arguments and without return value
 ***swift block with arguments and without any return value
 _funcBlockB = result = ksnowlvkair
@@ -182,6 +182,8 @@ result blockD = blockD = go shopping
 
 ```
 
-### 三.小结* 1.与objective-c中的闭包在使用方法上类似，大体上相同，语法格式上的差异。
+## 三.小结
+
+* 1.与objective-c中的闭包在使用方法上类似，大体上相同，语法格式上的差异。
 * 2.在内存管理方面:objective-c中需要注意循环引用导致的内存泄漏。而swift依然需要注意该问题。
 

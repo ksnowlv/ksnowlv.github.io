@@ -8,30 +8,29 @@ tags:
   - "iOS"
 comment: true
 toc: true
-autoCollapseToc: false
-contentCopyright: false
+autoCollapseToc: true
 reward: true
-mathjax: false
+mathjax: true
 ---
 
 iOS集合类默认是浅拷贝，那如何深拷贝呢？
 
 
-#### 1.集合类的浅拷贝:
+### 1.集合类的浅拷贝
 ``` objective-c
 
 NSMutableArray *newNames =  [[NSMutableArray alloc] initWithArray:names];
 
 ```
 
-#### 2.集合类的深拷贝:
+### 2.集合类的深拷贝
 ``` objective-c
 
 NSMutableArray *newNames =  [[NSMutableArray alloc] initWithArray:names copyItems:YES];
 
 ```
 
-#### 3.特殊场景下的集合类真正的深拷贝:
+### 3.特殊场景下的集合类真正的深拷贝
 如果对于集合类中含有集合类的情况呢？
 要实现真正的深拷贝,可以通过序列化(`archive`)和反序列化(`unarchive`)该集合类。
 

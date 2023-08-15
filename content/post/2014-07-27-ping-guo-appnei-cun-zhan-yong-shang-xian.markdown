@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -17,8 +16,14 @@ mathjax: false
 如何测试iOS/iPad App内存占用上限呢？
 
 
-#### iOS/iPad App内存占用在只有一个App运行时，该App占用内存的上限能达到多少呢？
-#### 关闭设备上所有其它应用,测试 demo app 占用内存上限.
+## iOS/iPad App内存占用
+
+只有一个App运行时，该App占用内存的上限能达到多少呢？
+
+### 1.测试验证
+
+关闭设备上所有其它应用,测试 demo app 占用内存上限.
+
 ``` objective-c
 
 - (void)didReceiveMemoryWarning
@@ -100,8 +105,12 @@ mathjax: false
 
 ```
 
-#### 测试工具:使用苹果自带测试工具,点击按钮后, 直到 app 被系统杀死。被杀死时    内存占用情况如下：    activity monitor 显示的内存占用为:468M.
-    allocation 显示的内存占用为:681M. 
+### 2.测试工具
+
+使用苹果自带测试工具,点击按钮后, 直到 app 被系统杀死。被杀死时    内存占用情况如下：    
+
+   * activity monitor 显示的内存占用为:468M.
+   * allocation 显示的内存占用为:681M. 
     
 
 详情如下：

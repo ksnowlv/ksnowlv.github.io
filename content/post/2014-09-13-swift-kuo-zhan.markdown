@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -30,7 +29,7 @@ mathjax: false
 
 * 1.声明运行时关联对象的key
 
-``` objective-c
+```swift
 
 // 设置关联对象的key的定义
 var KUIViewExtraPropertySelector:Selector = 
@@ -39,7 +38,7 @@ var KUIViewExtraPropertySelector:Selector =
 
 * 2.获取关联属性
 
-``` objective-c
+```swift
     
 // 获取关联属性的对象
 func getExtraPropertyFromObject(object: AnyObject) -> AnyObject? { // Returns optional
@@ -50,7 +49,7 @@ return objc_getAssociatedObject(object, &KUIViewExtraPropertySelector)
 
 * 3.设置关联属性的对象,retain该属性的对象
 
-``` objective-c
+```swift
 
 //设置关联属性的对象,retain该属性的对象
 func setExtraProperty(property: AnyObject, object: AnyObject) {
@@ -61,7 +60,7 @@ objc_setAssociatedObject(object, &KUIViewExtraPropertySelector, property, UInt(O
 
 ### 二.示例
 #### 1.代码
-``` objective-c
+``` swift
 
 //设置关联对象的key的定义
 var KUIViewExtraPropertySelector:Selector = "UIViewExtraPropertySelector"
@@ -88,7 +87,7 @@ extension UIView {
 ``` 
 
 #### 2.调用
-``` objective-c
+```swift
 self.view.showBackgroundColor(UIColor.redColor())
 
 
@@ -143,4 +142,4 @@ object is [Array<String>] (
 ```
 
 ### 三.小结
-> 大体上使用方法与原`objective-c`类似
+ 大体上使用方法与原`objective-c`类似

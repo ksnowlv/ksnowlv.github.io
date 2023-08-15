@@ -9,16 +9,15 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
 现在主要体验Swift基础语法，基本数据类型，集合类，控制逻辑(if-else,switch,for循环)等。
 
-示例及注释
+### 示例
 
-``` objective-c
+``` swift
 
 func baseTest(){
 
@@ -175,9 +174,9 @@ func testIf(type:Int)
 
 ```
 
-日志输出：
+### 输出
 
-``` objective-c
+``` terminal
 
 name =ksnow,age = 100
 UInt8 min =0,UInt8 max =255,UInt min =0 UInt max =18446744073709551615

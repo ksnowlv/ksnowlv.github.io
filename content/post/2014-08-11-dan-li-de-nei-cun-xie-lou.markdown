@@ -9,15 +9,14 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
 今天发现iOS上的单例，在苹果自带memory leak工具中,
 
-    使用iOS6显示有内容泄漏。
-    使用iOS7或以上无内存泄漏。
+   * 使用iOS6显示有内容泄漏。
+   * 使用iOS7或以上无内存泄漏。
     
 推测应该是iOS系统对内存回收策略可能不太一样。
 

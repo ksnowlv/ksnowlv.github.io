@@ -9,10 +9,11 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
+
+### 1.CGD监视进程
 
 **GCD**可以检测进程的运行，退出状态，可以检测到进程间的信号。
 
@@ -25,7 +26,8 @@ mathjax: false
 * **DISPATCH_PROC_EXIT**在**Mac**上可以捕获，在**iOS**上是无法捕获的。
 * **DISPATCH_PROC_SIGNAL**在**Mac**/**iOS**上均可捕获。
 
-#### 1.Mac上示例:
+### 2.Mac代码示例
+
 ```objective-c
 // 可以通过注释掉的代码找关掉应用的BundleIdentifier
 //    NSArray *runningAppList = [NSWorkspace sharedWorkspace].runningApplications;
@@ -58,7 +60,7 @@ mathjax: false
     
 ```
 
-#### 2. iOS示例
+### 3. iOS代码示例
 ``` objective-c
 
     pid_t pid = getpid();

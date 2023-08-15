@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="梵梵爸" />
-  <meta name="description" content="1.ZLib与GZip解压缩 ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。 zlib(RFC1950):一种格式，是对defl" />
+  <meta name="description" content="一.ZLib与GZip解压缩 ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。 zlib(RFC1950):一种格式，是对defl" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -68,18 +68,18 @@
 
 
 <meta property="og:title" content="ZLib与GZip解压缩对比" />
-<meta property="og:description" content="1.ZLib与GZip解压缩 ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。 zlib(RFC1950):一种格式，是对defl" />
+<meta property="og:description" content="一.ZLib与GZip解压缩 ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。 zlib(RFC1950):一种格式，是对defl" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ksnowlv.github.io/post/2014-12-02-zlibyu-gzip-jie-ya-suo-dui-bi/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2014-12-02T00:00:00+00:00" />
 <meta property="article:modified_time" content="2014-12-02T00:00:00+00:00" />
 <meta itemprop="name" content="ZLib与GZip解压缩对比">
-<meta itemprop="description" content="1.ZLib与GZip解压缩 ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。 zlib(RFC1950):一种格式，是对defl"><meta itemprop="datePublished" content="2014-12-02T00:00:00+00:00" />
+<meta itemprop="description" content="一.ZLib与GZip解压缩 ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。 zlib(RFC1950):一种格式，是对defl"><meta itemprop="datePublished" content="2014-12-02T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-12-02T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1757">
+<meta itemprop="wordCount" content="1722">
 <meta itemprop="keywords" content="网络," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ZLib与GZip解压缩对比"/>
-<meta name="twitter:description" content="1.ZLib与GZip解压缩 ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。 zlib(RFC1950):一种格式，是对defl"/>
+<meta name="twitter:description" content="一.ZLib与GZip解压缩 ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。 zlib(RFC1950):一种格式，是对defl"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 1757 字 -
+        约 1722 字 -
         预计阅读 4 分钟
       </span>
 
@@ -368,327 +368,356 @@
 
         
         <div class="post-content">
-          <h3 id="1zlib与gzip解压缩----zlib库默认解压缩方法并非gzip解压缩而是zlib的">1.ZLib与GZip解压缩    ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。</h3>
-<pre><code>zlib(RFC1950):一种格式，是对deflate进行了简单的封装； 
-gzip(RFC1952):一种格式，也是对deflate进行的封装.
-gzip与GZip是一种数据压缩格式，可以大体分为头部，数据部和尾部三个部分
-gzip数据头比zlib数据头要大，因为它保存了文件名和其他文件系统信息，事实上这是广泛使用的gzip文件的数据头格式。
-而zlib和gzip格式的区别仅仅是头部和尾部不一样，而实际的内容都是deflate编码的，即： gzip = gzip头(10字节) + deflate编码的实际内容 + gzip尾(8字节)
-</code></pre>
-<h3 id="zlib头部0x780x9c-是zlib数据头非固定参考rfc-1951或者0x00x00xff0xff也可以实现正常解压缩而00-00-ff-ff是zlib容错方式的数据块头">ZLib头部0x78,0x9c 是zlib数据头(非固定，参考RFC 1951)。或者0x0,0x0,0xFF,0xFF也可以实现正常解压缩，而00 00 FF FF是zlib容错方式的数据块头</h3>
-<h4 id="gzip头部第一个字节0x1f31第二个字节为0x8b139标识为gzip格式第三个字节为0x088指示deflate方法目前只有一种cm8">GZip头部：第一个字节0x1f(31),第二个字节为0x8b(139),标识为GZIP格式。第三个字节为0x08(8)，指示DEFLATE方法.目前只有一种，CM=8;</h4>
-<h4 id="gzip尾部crc324字节原始未压缩数据的32位校验和">GZip尾部：CRC32：4字节。原始(未压缩)数据的32位校验和。</h4>
-<p>ISIZE：4字节。原始(未压缩)数据的长度的低32位。
-GZIP中字节排列顺序是LSB方式，即Little-Endian，与ZLIB中的相反</p>
-<h3 id="2objective-c版本的zlib与gzip解压缩-zlib压缩objective-c">2.objective-c版本的ZLib与GZip解压缩#### ZLib压缩```objective-c</h3>
-<ul>
-<li>
-<p>(NSData *)zlibCompressData:(NSData *)sourceData {</p>
-<p>NSUInteger sourceDataLength = [sourceData length];</p>
-<p>if (sourceDataLength == 0) {
-return sourceData;
-}</p>
-<p>z_stream stream;
-memset(&amp;stream, 0, sizeof(z_stream));</p>
-<p>stream.next_in = (Bytef *)[sourceData bytes];
-stream.avail_in = (uInt)sourceDataLength;
-stream.total_out = 0;
-stream.zalloc = Z_NULL;
-stream.zfree = Z_NULL;</p>
-<p>if (deflateInit(&amp;stream, Z_DEFAULT_COMPRESSION) != Z_OK) {
-return nil;
-}</p>
-<p>const int KBufLen = 1024;
-Byte buf[KBufLen];
-memset(buf, 0, KBufLen * sizeof(Byte));</p>
-<p>BOOL isCompressOK = NO;</p>
-<p>NSMutableData *compressedData =
-[NSMutableData dataWithLength:sourceDataLength];
-[compressedData setData:nil]; //必须得加</p>
-<p>int res = 0;</p>
-<p>while (stream.avail_out == 0) {</p>
-<p>memset(buf, 0, KBufLen * sizeof(Byte));
-stream.avail_out = KBufLen;
-stream.next_out = buf;</p>
-<p>res = deflate(&amp;stream, Z_FINISH);
-;</p>
-<p>switch (res) {
-case Z_NEED_DICT:
-case Z_DATA_ERROR:
-case Z_MEM_ERROR:
-case Z_STREAM_ERROR:
-case Z_BUF_ERROR: {
-isCompressOK = NO;
-break;
-}</p>
-<p>default: {
-if (res == Z_OK || res == Z_STREAM_END) {
-const int dataLen = KBufLen - stream.avail_out;
-isCompressOK = YES;</p>
-<pre><code>  if (dataLen &gt; 0) {
-    [compressedData appendBytes:buf length:dataLen];
-  }
-}
-
-break;
-</code></pre>
-<p>}
-}</p>
-<p>if (!isCompressOK) {
-break;
-}
-}</p>
-<p>res = deflateEnd(&amp;stream);
-if (res != Z_OK) {
-return nil;
-}</p>
-<p>if (isCompressOK) {
-return compressedData;
-} else {
-return nil;
-}
-}</p>
-</li>
-</ul>
-<pre tabindex="0"><code>
-#### ZLib解压```objective-c
-+ (NSData *)zlibUncompressData:(NSData *)sourceData {
-
-  NSUInteger sourceDataLength = [sourceData length];
-
-  if (sourceDataLength == 0) {
-    return sourceData;
-  }
-
-  z_stream stream;
-  memset(&amp;stream, 0, sizeof(z_stream));
-
-  stream.next_in = (Bytef *)[sourceData bytes];
-  stream.avail_in = (uInt)sourceDataLength;
-  stream.total_out = 0;
-  stream.zalloc = Z_NULL;
-  stream.zfree = Z_NULL;
-
-  int res = inflateInit(&amp;stream);
-  // inflateInit2(&amp;strm, (15+32))
-
-  if (res != Z_OK) {
-    return nil;
-  }
-
-  const int KBufLen = 1024;
-  Byte buf[KBufLen];
-  memset(buf, 0, KBufLen * sizeof(Byte));
-
-  BOOL isUncompressOK = NO;
-
-  NSMutableData *decompressed = [NSMutableData dataWithLength:sourceDataLength];
-  [decompressed setData:nil]; //必须得加
-
-  while (stream.avail_out == 0) {
-
-    memset(buf, 0, KBufLen * sizeof(Byte));
-    stream.avail_out = KBufLen;
-    stream.next_out = buf;
-
-    res = inflate(&amp;stream, Z_NO_FLUSH);
-
-    switch (res) {
-    case Z_NEED_DICT:
-    case Z_DATA_ERROR:
-    case Z_MEM_ERROR:
-    case Z_STREAM_ERROR:
-    case Z_BUF_ERROR: {
-      isUncompressOK = NO;
-      break;
-    }
-
-    default: {
-      if (res == Z_OK || res == Z_STREAM_END) {
-        const int dataLen = KBufLen - stream.avail_out;
-        isUncompressOK = YES;
-
-        if (dataLen &gt; 0) {
-          [decompressed appendBytes:buf length:dataLen];
-        }
-      }
-
-      break;
-    }
-    }
-
-    if (!isUncompressOK) {
-      break;
-    }
-  }
-
-  if (inflateEnd(&amp;stream) != Z_OK) {
-    return nil;
-  }
-
-  if (isUncompressOK) {
-    return decompressed;
-  } else {
-    return nil;
-  }
-}
-</code></pre><h4 id="gzip压缩objective-c">GZip压缩```objective-c</h4>
-<ul>
-<li>
-<p>(NSData *)gzipCompress:(NSData *)sourceData {</p>
-<p>NSUInteger sourceDataLength = [sourceData length];</p>
-<p>if (sourceDataLength == 0) {
-return sourceData;
-}</p>
-<p>z_stream stream;
-memset(&amp;stream, 0, sizeof(z_stream));</p>
-<p>stream.next_in = (Bytef *)[sourceData bytes];
-stream.avail_in = (uInt)sourceDataLength;
-stream.total_out = 0;
-stream.zalloc = Z_NULL;
-stream.zfree = Z_NULL;</p>
-<p>//只有设置为MAX_WBITS + 16才能在在压缩文本中带header和trailer
-if (deflateInit2(&amp;stream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, MAX_WBITS + 16,
-8, Z_DEFAULT_STRATEGY) != Z_OK) {
-return nil;
-}</p>
-<p>const int KBufLen = 1024;
-Byte buf[KBufLen];
-memset(buf, 0, KBufLen * sizeof(Byte));</p>
-<p>BOOL isCompressOK = NO;</p>
-<p>NSMutableData *compressedData =
-[NSMutableData dataWithLength:sourceDataLength];
-[compressedData setData:nil]; //必须得加</p>
-<p>int res = 0;</p>
-<p>while (stream.avail_out == 0) {</p>
-<p>memset(buf, 0, KBufLen * sizeof(Byte));
-stream.avail_out = KBufLen;
-stream.next_out = buf;</p>
-<p>res = deflate(&amp;stream, Z_FINISH);
-;</p>
-<p>switch (res) {
-case Z_NEED_DICT:
-case Z_DATA_ERROR:
-case Z_MEM_ERROR:
-case Z_STREAM_ERROR:
-case Z_BUF_ERROR: {
-isCompressOK = NO;
-break;
-}</p>
-<p>default: {
-if (res == Z_OK || res == Z_STREAM_END) {
-const int dataLen = KBufLen - stream.avail_out;
-isCompressOK = YES;</p>
-<pre><code>  if (dataLen &gt; 0) {
-    [compressedData appendBytes:buf length:dataLen];
-  }
-}
-
-break;
-</code></pre>
-<p>}
-}</p>
-<p>if (!isCompressOK) {
-break;
-}
-}</p>
-<p>res = deflateEnd(&amp;stream);
-if (res != Z_OK) {
-return nil;
-}</p>
-<p>if (isCompressOK) {
-return compressedData;
-} else {
-return nil;
-}
-}</p>
-</li>
-</ul>
-<pre tabindex="0"><code>
-
-#### GZip解压```objective-c
-+ (NSData *)gzipUncompress:(NSData *)sourceData {
-
-  NSUInteger sourceDataLength = [sourceData length];
-
-  if (sourceDataLength == 0) {
-    return sourceData;
-  }
-
-  z_stream stream;
-  memset(&amp;stream, 0, sizeof(z_stream));
-
-  stream.next_in = (Bytef *)[sourceData bytes];
-  stream.avail_in = (uInt)sourceDataLength;
-  stream.total_out = 0;
-  stream.zalloc = Z_NULL;
-  stream.zfree = Z_NULL;
-
-  int res = inflateInit2(&amp;stream, MAX_WBITS + 16);
-  // inflateInit2(&amp;strm, (15+32))
-  //只有设置为MAX_WBITS + 16才能在解压带header和trailer的文本
-
-  if (res != Z_OK) {
-    return nil;
-  }
-
-  const int KBufLen = 1024;
-  Byte buf[KBufLen];
-  memset(buf, 0, KBufLen * sizeof(Byte));
-
-  BOOL isUncompressOK = NO;
-
-  NSMutableData *decompressed = [NSMutableData dataWithLength:sourceDataLength];
-  [decompressed setData:nil]; //必须得加
-
-  while (stream.avail_out == 0) {
-
-    memset(buf, 0, KBufLen * sizeof(Byte));
-    stream.avail_out = KBufLen;
-    stream.next_out = buf;
-
-    res = inflate(&amp;stream, Z_SYNC_FLUSH);
-
-    switch (res) {
-    case Z_NEED_DICT:
-    case Z_DATA_ERROR:
-    case Z_MEM_ERROR:
-    case Z_STREAM_ERROR:
-    case Z_BUF_ERROR: {
-      isUncompressOK = NO;
-      break;
-    }
-
-    default: {
-      if (res == Z_OK || res == Z_STREAM_END) {
-        const int dataLen = KBufLen - stream.avail_out;
-        isUncompressOK = YES;
-
-        if (dataLen &gt; 0) {
-          [decompressed appendBytes:buf length:dataLen];
-        }
-      }
-
-      break;
-    }
-    }
-
-    if (!isUncompressOK) {
-      break;
-    }
-  }
-
-  if (inflateEnd(&amp;stream) != Z_OK) {
-    return nil;
-  }
-
-  if (isUncompressOK) {
-    return decompressed;
-  } else {
-    return nil;
-  }
-}
-</code></pre><h3 id="3代码示例">3.代码示例</h3>
+          <h2 id="一zlib与gzip解压缩">一.ZLib与GZip解压缩</h2>
+<p>ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。</p>
+<p>zlib(RFC1950):一种格式，是对deflate进行了简单的封装；</p>
+<p>gzip(RFC1952):一种格式，也是对deflate进行的封装.</p>
+<p>gzip与GZip是一种数据压缩格式，可以大体分为头部，数据部和尾部三个部分</p>
+<p>gzip数据头比zlib数据头要大，因为它保存了文件名和其他文件系统信息，事实上这是广泛使用的gzip文件的数据头格式。</p>
+<p>而zlib和gzip格式的区别仅仅是头部和尾部不一样，而实际的内容都是deflate编码的，即： gzip = gzip头(10字节) + deflate编码的实际内容 + gzip尾(8字节)</p>
+<h3 id="zlib头部">ZLib头部</h3>
+<p>ZLib头部0x78,0x9c 是zlib数据头(非固定，参考RFC 1951)。或者0x0,0x0,0xFF,0xFF也可以实现正常解压缩，而00 00 FF FF是zlib容错方式的数据块头</p>
+<h3 id="gzip头部">GZip头部</h3>
+<p>第一个字节0x1f(31),第二个字节为0x8b(139),标识为GZIP格式。第三个字节为0x08(8)，指示DEFLATE方法.目前只有一种，CM=8;</p>
+<h3 id="gzip尾部">GZip尾部</h3>
+<p>GZip尾部：CRC32：4字节。原始(未压缩)数据的32位校验和。</p>
+<p>CRC32：4字节。原始(未压缩)数据的32位校验和。</p>
+<p>ISIZE：4字节。原始(未压缩)数据的长度的低32位。</p>
+<p>GZIP中字节排列顺序是LSB方式，即Little-Endian，与ZLIB中的相反</p>
+<h2 id="二objective-c版本的zlib与gzip解压缩">二.objective-c版本的ZLib与GZip解压缩</h2>
+<h3 id="zlib压缩">ZLib压缩</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>+ (NSData <span style="color:#f92672">*</span>)<span style="color:#a6e22e">zlibCompressData:</span>(NSData <span style="color:#f92672">*</span>)sourceData {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  NSUInteger sourceDataLength <span style="color:#f92672">=</span> [sourceData length];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (sourceDataLength <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> sourceData;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  z_stream stream;
+</span></span><span style="display:flex;"><span>  memset(<span style="color:#f92672">&amp;</span>stream, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(z_stream));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  stream.next_in <span style="color:#f92672">=</span> (Bytef <span style="color:#f92672">*</span>)[sourceData bytes];
+</span></span><span style="display:flex;"><span>  stream.avail_in <span style="color:#f92672">=</span> (uInt)sourceDataLength;
+</span></span><span style="display:flex;"><span>  stream.total_out <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  stream.zalloc <span style="color:#f92672">=</span> Z_NULL;
+</span></span><span style="display:flex;"><span>  stream.zfree <span style="color:#f92672">=</span> Z_NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (deflateInit(<span style="color:#f92672">&amp;</span>stream, Z_DEFAULT_COMPRESSION) <span style="color:#f92672">!=</span> Z_OK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> KBufLen <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span>;
+</span></span><span style="display:flex;"><span>  Byte buf[KBufLen];
+</span></span><span style="display:flex;"><span>  memset(buf, <span style="color:#ae81ff">0</span>, KBufLen <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(Byte));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">BOOL</span> isCompressOK <span style="color:#f92672">=</span> NO;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  NSMutableData <span style="color:#f92672">*</span>compressedData <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      [NSMutableData dataWithLength:sourceDataLength];
+</span></span><span style="display:flex;"><span>  [compressedData setData:nil]; <span style="color:#75715e">//必须得加
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> (stream.avail_out <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    memset(buf, <span style="color:#ae81ff">0</span>, KBufLen <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(Byte));
+</span></span><span style="display:flex;"><span>    stream.avail_out <span style="color:#f92672">=</span> KBufLen;
+</span></span><span style="display:flex;"><span>    stream.next_out <span style="color:#f92672">=</span> buf;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> deflate(<span style="color:#f92672">&amp;</span>stream, Z_FINISH);
+</span></span><span style="display:flex;"><span>    ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (res) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_NEED_DICT:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_DATA_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_MEM_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_STREAM_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_BUF_ERROR: {
+</span></span><span style="display:flex;"><span>      isCompressOK <span style="color:#f92672">=</span> NO;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">==</span> Z_OK <span style="color:#f92672">||</span> res <span style="color:#f92672">==</span> Z_STREAM_END) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> dataLen <span style="color:#f92672">=</span> KBufLen <span style="color:#f92672">-</span> stream.avail_out;
+</span></span><span style="display:flex;"><span>        isCompressOK <span style="color:#f92672">=</span> YES;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (dataLen <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>          [compressedData appendBytes:buf length:dataLen];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>isCompressOK) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  res <span style="color:#f92672">=</span> deflateEnd(<span style="color:#f92672">&amp;</span>stream);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">!=</span> Z_OK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (isCompressOK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> compressedData;
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="zlib解压">ZLib解压</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>+ (NSData <span style="color:#f92672">*</span>)<span style="color:#a6e22e">zlibUncompressData:</span>(NSData <span style="color:#f92672">*</span>)sourceData {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  NSUInteger sourceDataLength <span style="color:#f92672">=</span> [sourceData length];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (sourceDataLength <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> sourceData;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  z_stream stream;
+</span></span><span style="display:flex;"><span>  memset(<span style="color:#f92672">&amp;</span>stream, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(z_stream));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  stream.next_in <span style="color:#f92672">=</span> (Bytef <span style="color:#f92672">*</span>)[sourceData bytes];
+</span></span><span style="display:flex;"><span>  stream.avail_in <span style="color:#f92672">=</span> (uInt)sourceDataLength;
+</span></span><span style="display:flex;"><span>  stream.total_out <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  stream.zalloc <span style="color:#f92672">=</span> Z_NULL;
+</span></span><span style="display:flex;"><span>  stream.zfree <span style="color:#f92672">=</span> Z_NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> inflateInit(<span style="color:#f92672">&amp;</span>stream);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// inflateInit2(&amp;strm, (15+32))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">!=</span> Z_OK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> KBufLen <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span>;
+</span></span><span style="display:flex;"><span>  Byte buf[KBufLen];
+</span></span><span style="display:flex;"><span>  memset(buf, <span style="color:#ae81ff">0</span>, KBufLen <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(Byte));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">BOOL</span> isUncompressOK <span style="color:#f92672">=</span> NO;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  NSMutableData <span style="color:#f92672">*</span>decompressed <span style="color:#f92672">=</span> [NSMutableData dataWithLength:sourceDataLength];
+</span></span><span style="display:flex;"><span>  [decompressed setData:nil]; <span style="color:#75715e">//必须得加
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> (stream.avail_out <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    memset(buf, <span style="color:#ae81ff">0</span>, KBufLen <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(Byte));
+</span></span><span style="display:flex;"><span>    stream.avail_out <span style="color:#f92672">=</span> KBufLen;
+</span></span><span style="display:flex;"><span>    stream.next_out <span style="color:#f92672">=</span> buf;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> inflate(<span style="color:#f92672">&amp;</span>stream, Z_NO_FLUSH);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (res) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_NEED_DICT:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_DATA_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_MEM_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_STREAM_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_BUF_ERROR: {
+</span></span><span style="display:flex;"><span>      isUncompressOK <span style="color:#f92672">=</span> NO;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">==</span> Z_OK <span style="color:#f92672">||</span> res <span style="color:#f92672">==</span> Z_STREAM_END) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> dataLen <span style="color:#f92672">=</span> KBufLen <span style="color:#f92672">-</span> stream.avail_out;
+</span></span><span style="display:flex;"><span>        isUncompressOK <span style="color:#f92672">=</span> YES;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (dataLen <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>          [decompressed appendBytes:buf length:dataLen];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>isUncompressOK) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (inflateEnd(<span style="color:#f92672">&amp;</span>stream) <span style="color:#f92672">!=</span> Z_OK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (isUncompressOK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> decompressed;
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="gzip压缩">GZip压缩</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>+ (NSData <span style="color:#f92672">*</span>)<span style="color:#a6e22e">gzipCompress:</span>(NSData <span style="color:#f92672">*</span>)sourceData {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  NSUInteger sourceDataLength <span style="color:#f92672">=</span> [sourceData length];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (sourceDataLength <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> sourceData;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  z_stream stream;
+</span></span><span style="display:flex;"><span>  memset(<span style="color:#f92672">&amp;</span>stream, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(z_stream));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  stream.next_in <span style="color:#f92672">=</span> (Bytef <span style="color:#f92672">*</span>)[sourceData bytes];
+</span></span><span style="display:flex;"><span>  stream.avail_in <span style="color:#f92672">=</span> (uInt)sourceDataLength;
+</span></span><span style="display:flex;"><span>  stream.total_out <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  stream.zalloc <span style="color:#f92672">=</span> Z_NULL;
+</span></span><span style="display:flex;"><span>  stream.zfree <span style="color:#f92672">=</span> Z_NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">//只有设置为MAX_WBITS + 16才能在在压缩文本中带header和trailer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (deflateInit2(<span style="color:#f92672">&amp;</span>stream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, MAX_WBITS <span style="color:#f92672">+</span> <span style="color:#ae81ff">16</span>,
+</span></span><span style="display:flex;"><span>                   <span style="color:#ae81ff">8</span>, Z_DEFAULT_STRATEGY) <span style="color:#f92672">!=</span> Z_OK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> KBufLen <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span>;
+</span></span><span style="display:flex;"><span>  Byte buf[KBufLen];
+</span></span><span style="display:flex;"><span>  memset(buf, <span style="color:#ae81ff">0</span>, KBufLen <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(Byte));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">BOOL</span> isCompressOK <span style="color:#f92672">=</span> NO;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  NSMutableData <span style="color:#f92672">*</span>compressedData <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      [NSMutableData dataWithLength:sourceDataLength];
+</span></span><span style="display:flex;"><span>  [compressedData setData:nil]; <span style="color:#75715e">//必须得加
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> (stream.avail_out <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    memset(buf, <span style="color:#ae81ff">0</span>, KBufLen <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(Byte));
+</span></span><span style="display:flex;"><span>    stream.avail_out <span style="color:#f92672">=</span> KBufLen;
+</span></span><span style="display:flex;"><span>    stream.next_out <span style="color:#f92672">=</span> buf;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> deflate(<span style="color:#f92672">&amp;</span>stream, Z_FINISH);
+</span></span><span style="display:flex;"><span>    ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (res) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_NEED_DICT:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_DATA_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_MEM_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_STREAM_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_BUF_ERROR: {
+</span></span><span style="display:flex;"><span>      isCompressOK <span style="color:#f92672">=</span> NO;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">==</span> Z_OK <span style="color:#f92672">||</span> res <span style="color:#f92672">==</span> Z_STREAM_END) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> dataLen <span style="color:#f92672">=</span> KBufLen <span style="color:#f92672">-</span> stream.avail_out;
+</span></span><span style="display:flex;"><span>        isCompressOK <span style="color:#f92672">=</span> YES;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (dataLen <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>          [compressedData appendBytes:buf length:dataLen];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>isCompressOK) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  res <span style="color:#f92672">=</span> deflateEnd(<span style="color:#f92672">&amp;</span>stream);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">!=</span> Z_OK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (isCompressOK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> compressedData;
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="gzip解压">GZip解压</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>+ (NSData <span style="color:#f92672">*</span>)<span style="color:#a6e22e">gzipUncompress:</span>(NSData <span style="color:#f92672">*</span>)sourceData {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  NSUInteger sourceDataLength <span style="color:#f92672">=</span> [sourceData length];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (sourceDataLength <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> sourceData;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  z_stream stream;
+</span></span><span style="display:flex;"><span>  memset(<span style="color:#f92672">&amp;</span>stream, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(z_stream));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  stream.next_in <span style="color:#f92672">=</span> (Bytef <span style="color:#f92672">*</span>)[sourceData bytes];
+</span></span><span style="display:flex;"><span>  stream.avail_in <span style="color:#f92672">=</span> (uInt)sourceDataLength;
+</span></span><span style="display:flex;"><span>  stream.total_out <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  stream.zalloc <span style="color:#f92672">=</span> Z_NULL;
+</span></span><span style="display:flex;"><span>  stream.zfree <span style="color:#f92672">=</span> Z_NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> inflateInit2(<span style="color:#f92672">&amp;</span>stream, MAX_WBITS <span style="color:#f92672">+</span> <span style="color:#ae81ff">16</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// inflateInit2(&amp;strm, (15+32))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">//只有设置为MAX_WBITS + 16才能在解压带header和trailer的文本
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">!=</span> Z_OK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> KBufLen <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span>;
+</span></span><span style="display:flex;"><span>  Byte buf[KBufLen];
+</span></span><span style="display:flex;"><span>  memset(buf, <span style="color:#ae81ff">0</span>, KBufLen <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(Byte));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">BOOL</span> isUncompressOK <span style="color:#f92672">=</span> NO;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  NSMutableData <span style="color:#f92672">*</span>decompressed <span style="color:#f92672">=</span> [NSMutableData dataWithLength:sourceDataLength];
+</span></span><span style="display:flex;"><span>  [decompressed setData:nil]; <span style="color:#75715e">//必须得加
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> (stream.avail_out <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    memset(buf, <span style="color:#ae81ff">0</span>, KBufLen <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(Byte));
+</span></span><span style="display:flex;"><span>    stream.avail_out <span style="color:#f92672">=</span> KBufLen;
+</span></span><span style="display:flex;"><span>    stream.next_out <span style="color:#f92672">=</span> buf;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> inflate(<span style="color:#f92672">&amp;</span>stream, Z_SYNC_FLUSH);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (res) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_NEED_DICT:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_DATA_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_MEM_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_STREAM_ERROR:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> Z_BUF_ERROR: {
+</span></span><span style="display:flex;"><span>      isUncompressOK <span style="color:#f92672">=</span> NO;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">==</span> Z_OK <span style="color:#f92672">||</span> res <span style="color:#f92672">==</span> Z_STREAM_END) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> dataLen <span style="color:#f92672">=</span> KBufLen <span style="color:#f92672">-</span> stream.avail_out;
+</span></span><span style="display:flex;"><span>        isUncompressOK <span style="color:#f92672">=</span> YES;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (dataLen <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>          [decompressed appendBytes:buf length:dataLen];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>isUncompressOK) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (inflateEnd(<span style="color:#f92672">&amp;</span>stream) <span style="color:#f92672">!=</span> Z_OK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (isUncompressOK) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> decompressed;
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="三示例">三.示例</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>NSString<span style="color:#f92672">*</span> hello <span style="color:#f92672">=</span> <span style="color:#e6db74">@&#34;helloabc123&#34;</span>;
 </span></span><span style="display:flex;"><span>    NSData <span style="color:#f92672">*</span>helloData <span style="color:#f92672">=</span> [NSData dataWithBytes:hello.UTF8String length:[hello lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
 </span></span><span style="display:flex;"><span>    
@@ -708,11 +737,13 @@ return nil;
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>NSLog(<span style="color:#e6db74">@&#34;GZip compressData Length = %lu compressData = %@&#34;</span>, (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span>)compressDataGZip.length,[compressDataGZip description]);
 </span></span><span style="display:flex;"><span>    
-</span></span></code></pre></div><h3 id="4日志输出">4.日志输出：</h3>
+</span></span></code></pre></div><h2 id="四日志">四.日志</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#ae81ff">2014</span><span style="color:#f92672">-</span><span style="color:#ae81ff">12</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span> <span style="color:#ae81ff">21</span><span style="color:#f92672">:</span><span style="color:#ae81ff">14</span><span style="color:#f92672">:</span><span style="color:#ae81ff">20.946</span> ZlibGZipTest[<span style="color:#ae81ff">14417</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4245959</span>] Zlib compressData Length <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span> compressData <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span><span style="color:#ae81ff">789</span>ccb48 cdc9c94f <span style="color:#ae81ff">4</span>c4a3634 <span style="color:#ae81ff">32060019</span> <span style="color:#ae81ff">9003</span>d1<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">2014</span><span style="color:#f92672">-</span><span style="color:#ae81ff">12</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span> <span style="color:#ae81ff">21</span><span style="color:#f92672">:</span><span style="color:#ae81ff">14</span><span style="color:#f92672">:</span><span style="color:#ae81ff">24.142</span> ZlibGZipTest[<span style="color:#ae81ff">14417</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4245959</span>] GZip compressData Length <span style="color:#f92672">=</span> <span style="color:#ae81ff">31</span> compressData <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1f</span><span style="color:#ae81ff">8</span>b0800 <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0003</span>cb48 cdc9c94f <span style="color:#ae81ff">4</span>c4a3634 <span style="color:#ae81ff">32060012</span> e873880b <span style="color:#ae81ff">000000</span><span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>(lldb) 
-</span></span></code></pre></div><h3 id="5结论-1zlib默认压缩后比gzip小一点-2zlib与gzip头尾对比">5.结论#### 1.zlib默认压缩后比gzip小一点。#### 2.zlib与gzip头尾对比。</h3>
+</span></span></code></pre></div><h2 id="五结论">五.结论</h2>
+<h3 id="1zlib默认压缩后比gzip小一点">1.zlib默认压缩后比gzip小一点。</h3>
+<h3 id="2zlib与gzip头尾对比">2.zlib与gzip头尾对比。</h3>
 <ul>
 <li><strong>zlib头</strong>：789ccb48  <strong>zlib尾</strong>：32060019 9003d1</li>
 <li><strong>gzip头</strong>：1f8b0800 00000000 0003cb48 <strong>gzip尾</strong>：32060012 e873880b 000000</li>
@@ -723,6 +754,24 @@ return nil;
 
         
         
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2014-12-02
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
 
 
 
@@ -793,6 +842,27 @@ return nil;
 
   
   
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
 
   
   
@@ -816,14 +886,27 @@ return nil;
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#一zlib与gzip解压缩">一.ZLib与GZip解压缩</a>
       <ul>
-        <li><a href="#1zlib与gzip解压缩----zlib库默认解压缩方法并非gzip解压缩而是zlib的">1.ZLib与GZip解压缩    ZLib库默认解压缩方法，并非GZip解压缩，而是ZLib的。</a></li>
-        <li><a href="#zlib头部0x780x9c-是zlib数据头非固定参考rfc-1951或者0x00x00xff0xff也可以实现正常解压缩而00-00-ff-ff是zlib容错方式的数据块头">ZLib头部0x78,0x9c 是zlib数据头(非固定，参考RFC 1951)。或者0x0,0x0,0xFF,0xFF也可以实现正常解压缩，而00 00 FF FF是zlib容错方式的数据块头</a></li>
-        <li><a href="#2objective-c版本的zlib与gzip解压缩-zlib压缩objective-c">2.objective-c版本的ZLib与GZip解压缩#### ZLib压缩```objective-c</a></li>
-        <li><a href="#3代码示例">3.代码示例</a></li>
-        <li><a href="#4日志输出">4.日志输出：</a></li>
-        <li><a href="#5结论-1zlib默认压缩后比gzip小一点-2zlib与gzip头尾对比">5.结论#### 1.zlib默认压缩后比gzip小一点。#### 2.zlib与gzip头尾对比。</a></li>
+        <li><a href="#zlib头部">ZLib头部</a></li>
+        <li><a href="#gzip头部">GZip头部</a></li>
+        <li><a href="#gzip尾部">GZip尾部</a></li>
+      </ul>
+    </li>
+    <li><a href="#二objective-c版本的zlib与gzip解压缩">二.objective-c版本的ZLib与GZip解压缩</a>
+      <ul>
+        <li><a href="#zlib压缩">ZLib压缩</a></li>
+        <li><a href="#zlib解压">ZLib解压</a></li>
+        <li><a href="#gzip压缩">GZip压缩</a></li>
+        <li><a href="#gzip解压">GZip解压</a></li>
+      </ul>
+    </li>
+    <li><a href="#三示例">三.示例</a></li>
+    <li><a href="#四日志">四.日志</a></li>
+    <li><a href="#五结论">五.结论</a>
+      <ul>
+        <li><a href="#1zlib默认压缩后比gzip小一点">1.zlib默认压缩后比gzip小一点。</a></li>
+        <li><a href="#2zlib与gzip头尾对比">2.zlib与gzip头尾对比。</a></li>
       </ul>
     </li>
   </ul>

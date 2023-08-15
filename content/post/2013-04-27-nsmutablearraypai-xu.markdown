@@ -9,14 +9,17 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+### NSMutableArray的sortUsingSelector
+
 主要使用sortUsingComparator，sortUsingFunction，sortUsingSelector进行排序。
 
-#### 1.头文件。```objective-c
+### 1.头文件
+
+```objective-c
 //
 //  ArraryTest_OrderViewController.m
 //  ArraryTest_Order
@@ -37,8 +40,10 @@ mathjax: false
 
 ```
 
-#### 2.实现文件。
+### 2.实现文件
+
 ```objective-c
+
 @implementation QStudent
 @synthesize studentID = _studentID;
 
@@ -219,7 +224,8 @@ static NSComparisonResult ObjectCompare(id  obj1, id obj2, void* context)
 
 ```
 
-日志：
+### 3.执行情况
+```terminal
 
 	2013-04-27 15:55:57.515 ArraryTest_Order[22759:11303] sortUsingComparator
 	2013-04-27 15:55:57.516 ArraryTest_Order[22759:11303] 原始的：(
@@ -294,4 +300,4 @@ static NSComparisonResult ObjectCompare(id  obj1, id obj2, void* context)
 	2013-04-27 15:55:57.568 ArraryTest_Order[22759:11303] 23
 	2013-04-27 15:55:57.568 ArraryTest_Order[22759:11303] 1
 	2013-04-27 15:55:57.569 ArraryTest_Order[22759:11303] 0
-
+```

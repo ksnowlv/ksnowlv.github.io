@@ -9,14 +9,13 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
 #### 学习python调试可参考官方文档的[pdb](https://docs.python.org/2/library/pdb.html).
 
-#### 一.在python中,在调试模块添加pdb调试支持. 
+### 一.python在调试模块添加pdb调试支持.
 ``` python   
 
     import pdb; 
@@ -24,17 +23,21 @@ mathjax: false
  
 ```  
  
-#### 不然，会遇见类似如下的错误:
+#### 不然，会遇见类似如下的错误
+
+```terminal
     (Pdb) n
     > /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(38)<module>()
     -> nameList = ["One", "Two", "Three", "Four", "Five"]
     (Pdb) a
     (Pdb) p namelist
     *** NameError: NameError("name 'namelist' is not defined",)
+```
 
-
-#### 二.一些常用命令：
+### 二.常用命令
 #### 查看帮助
+
+```terminal
     help
     (Pdb) 
     Documented commands (type help <topic>):
@@ -65,8 +68,9 @@ mathjax: false
     enable        #恢复断点的功能  
     j/jump        #跳转到某行执行 
         
+```
 
-#### 代码示例如下:
+### 三.代码示例
 ``` python
 
 #!/usr/bin/python
@@ -139,10 +143,11 @@ for t in threads:
     t.join()
 print "Exiting Main Thread"
 
-
 ```
 
-#### 调试示例如下：
+#### 调试示例
+
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python thread_queue.py 
     > /Users/ksnowlv/Documents/lvwei projects/python/thread_queue.py(9)<module>()
     -> exitFlag = 0
@@ -204,7 +209,7 @@ print "Exiting Main Thread"
     Exiting Main Thread
     Exception AttributeError: "'NoneType' object has no attribute 'path'" in <function _remove at 0x10fb59b18> ignored
     ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$
-
+```
 
     
     

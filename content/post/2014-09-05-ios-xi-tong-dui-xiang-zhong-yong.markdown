@@ -9,20 +9,20 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-#### 当我们重复创建/销毁对象的操作时，iOS系统对象是否会被重用呢？
+### 1.对象重用
 
-#### 结论:iOS系统较低概率会输出可重用的对象,so,注意内存使用效率[可用Allocation工具检测]。
->不要寄希望于系统对你低效的代码进行你想象中的优化!
+ 当我们重复创建/销毁对象的操作时，iOS系统对象是否会被重用呢？
 
-#### 测试思路
+### 2.测试思路
     以0.1s为间隔的timer,周期性的创建UILabel/NSMutableData，观察它们内存地址变化情况？
     
-#### 测试代码``` objective-c
+### 3.测试代码
+
+``` objective-c
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,7 +44,9 @@ mathjax: false
 
 ```    
 
-#### 截取部分日志情况``` objective-c
+#### 截取部分日志情况
+
+``` terminal
 2014-09-05 16:22:43.564 DataReuseTest[70877:5448269] UILabel address = 0xba12bd0,NSMutableData address = 0xba06aa0
 2014-09-05 16:22:43.664 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
 2014-09-05 16:22:43.764 DataReuseTest[70877:5448269] UILabel address = 0xbb0d7d0,NSMutableData address = 0xbb08710
@@ -64,3 +66,10 @@ mathjax: false
 2014-09-05 16:22:45.164 DataReuseTest[70877:5448269] UILabel address = 0xb84ea90,NSMutableData address = 0xb811d60
 
 ``` 
+
+### 4.结论
+
+   iOS系统较低概率会输出可重用的对象,so,注意内存使用效率[可用Allocation工具检测]。
+
+不要寄希望于系统对你低效的代码进行你想象中的优化!
+

@@ -9,23 +9,27 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+
+## git revert操作命令
+
 如何使用git的撤消操作呢？
 
 
-#### `git revert`撤销某次操作，此次操作之前的commit都会被保留。    
+ `git revert`撤销某次操作，此次操作之前的commit都会被保留。    
 因此revert 只會使commit继续往前,优点是可以针对某個 commit 進行还原 并且留下还原记录
 
     git revert -n <commit id>     #撤销某次操作，commit id为提交号
     git revert -n HEAD~<number>   #撤销某个版本，number为向前数的版本号。 
     
     
-#### `git reset` 是撤销某次提交，但是此次之后的修改都会被退回到暂存区。
-#### 1.撤销到某一个提交号的版本。    git revert -n 08a94d26db3e7678d615625eb6c839729a21ac3f
+ `git reset` 是撤销某次提交，但是此次之后的修改都会被退回到暂存区。
+### 1.撤销到某一个提交号的版
+```terminal
+    git revert -n 08a94d26db3e7678d615625eb6c839729a21ac3f
     ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git status
     On branch master
     You are currently reverting commit 08a94d2.
@@ -38,8 +42,10 @@ mathjax: false
 	deleted:    1.txt
 
     ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
+```
+### 2.撤销到某个版本
 
-#### 2.撤销到某个版本。
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git revert -n HEAD~2
     ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$ls
     a     a.txt
@@ -58,3 +64,4 @@ mathjax: false
 
     ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
 
+```

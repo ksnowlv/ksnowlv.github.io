@@ -9,25 +9,33 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-#### 在iOS开发中,经常会遇见"selector not recognized"这种类型的crash,其原因:
+## 一.问题
+#### 在iOS开发中,经常会遇见"selector not recognized"这种类型的crash
 
-#### 1.该方法实际上不存在.    1.检查是否拼写错误。
-    2.检查该方法在iOS SDK版本中的适用版本范围。
-    3.检查对象传递是否传递有误。
+## 二.原因
 
-#### 2.内存管理不当。    1.你的App试图引用一个已经被释放的对象.可以使用Zombies检查下问题原因。
-    2.检查是否有内存越界的问题,可以开启内存防护，日志等选项,再添加异常断点。
+### 1.该方法实际上不存在.    
+   * 1.检查是否拼写错误。
+   * 2.检查该方法在iOS SDK版本中的适用版本范围。
+   * 3.检查对象传递是否传递有误。
+
+### 2.内存管理不当   
+* 1.你的App试图引用一个已经被释放的对象.可以使用Zombies检查下问题原因。
+* 2.检查是否有内存越界的问题,可以开启内存防护，日志等选项,再添加异常断点。
     
-#### 内存防护，日志等选项开启![image](/images/post/2014-08-14-selector-not-recognized-fix/memory_option.png)
+#### 内存防护，日志等选项开启
 
-#### 异常断点开启![image](/images/post/2014-08-14-selector-not-recognized-fix/exceptions_breakpoint.png);
+![image](/images/post/2014-08-14-selector-not-recognized-fix/memory_option.png)
 
-#### 3.使用静态库分类方法加载不当。
+#### 异常断点开启
+
+![image](/images/post/2014-08-14-selector-not-recognized-fix/exceptions_breakpoint.png);
+
+### 3.使用静态库分类方法加载不当
     静态库的分类方法默认是不加载的,-需要检查编译选项设置。
        -ObjC,-all_load,-force_load 
   

@@ -9,15 +9,17 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+### block内存泄漏问题
 
 `block`作为成员使用时，避免直接引用成员变量，造成block和所在的类相互retain引发内存泄露。
 
-##### 解决方法：* 1.解除相互引用关系，在释放对象时先把成员BLOCK释放，再释放自己。
+### 解决方法
+
+* 1.解除相互引用关系，在释放对象时先把成员BLOCK释放，再释放自己。
 * 2.间接使用成员变量，调整BLOCK参数和相关代码，避免出现问题。
 
 首先声明一个块。
@@ -200,7 +202,8 @@ typedef void (^output)();
     
 ```
     
-运行结果如下：
+
+### 执行情况
 
 	2013-04-27 11:25:08.569 memorytest_block[9073:11303] Block_member information:kair
 	2013-04-27 11:25:08.570 memorytest_block[9073:11303] Block_notmember information:ksnowlv

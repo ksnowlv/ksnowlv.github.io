@@ -9,10 +9,11 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
+
+## 局部block
 
 iOS4在UIKit中引入了block,可以帮助我们组织独立的代码段，并提高复用性和可读性.
 
@@ -26,7 +27,9 @@ Block是符合如下要求的匿名内联的代码集：
 * 可以在词义范围（堆栈帧）被销毁后继续共享和修改该词义范围（堆栈帧）的状态。
 Block是一个自包含的小代码段，封装了用于遍历（线性遍历）或者回调，可以并发执行的任务单元。
 
-#### 1.示例1```objective-c
+### 1.示例代码
+
+```objective-c
 typedef void(^printBlock)(NSString* toDo);
     printBlock pb;
     
@@ -48,7 +51,8 @@ typedef void(^printBlock)(NSString* toDo);
 	
 创建block对象时，此对象只会捕获当前引用值。以后引用值怎么变，只会使用之前的值。
 
-#### 2.示例2
+### 2.示例代码
+
 如果用__block修饰name
 
 ```objective-c
@@ -71,7 +75,8 @@ typedef void(^printBlock)(NSString* toDo);
 
 	2013-04-05 14:05:56.893 test[16610:c303] infomation:tom go to park
 	
-#### 3.关于__block
+### 3.关于__block
+
 __block 存储类型
 
 你可以规定一个外部的变量是否可变——可读写——通过使用__block存储类型修饰符。__block存储类似但不同于register，auto和static存储类型。

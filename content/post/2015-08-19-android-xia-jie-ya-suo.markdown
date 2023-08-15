@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -17,8 +16,9 @@ mathjax: false
 在Android开发中，网络传输的数据如果采用压缩的方式，能大大减少网络流量，对文本的数据效果更明显。
 
 
-#### 一. gzip压缩.
-```objective-c
+### 一.gzip压缩
+
+```java
 
  	public static byte[] gzipCompress(final byte[] data) {
 
@@ -47,8 +47,9 @@ mathjax: false
 ```  
 
 
-#### 二. gzip解压.
-```objective-c
+### 二. gzip解压
+
+```java
 
     public static byte[] gzipUncompress(final byte[] data) {
 
@@ -103,7 +104,7 @@ mathjax: false
 ``` 
 
 ### 三.gzip数据的判断
-```objective-c
+```java
     //判断一个数据流是否是GZip
     public static boolean isGZipData(final byte[] data){
 
@@ -119,7 +120,8 @@ mathjax: false
 ```  
 
 ### 四.说明
-##### 1.KGZipUncompressBufferKGZipUncompressBuffer是一固定大小的内存缓冲区，减少内存的频繁创建与过大内存的分配。
+
+#### 1.KGZipUncompressBufferKGZipUncompressBuffer是一固定大小的内存缓冲区，减少内存的频繁创建与过大内存的分配。
 #### 2.GZip数据流识别KYKGZipHeaderFirstByte|KYKGZipHeaderSecondByte：第一个字节0x1f(31),第二个字节为0x8b(139),标识为GZIP格式
 
     

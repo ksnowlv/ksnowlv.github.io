@@ -9,12 +9,14 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+### 一.问题
 当iOS App出现bug时，由于不能很快上架，如何紧急修复bug呢？
+
+### 二.解决方案
 
 **可以通过Lua给app打补丁**。
     
@@ -22,4 +24,10 @@ mathjax: false
     
 >建议尽量少用，或不用。非紧急bug尽量不用。
    
-### 示例代码#### 1.[Create-a-More-Flexible-App](https://github.com/mmin18/Create-a-More-Flexible-App)#### 2.[Wax项目](http://github.com/probablycorey/wax)#### 3.[WaxPatch](https://github.com/mmin18/WaxPatch)
+### 三.示例代码
+
+#### 1.[Create-a-More-Flexible-App](https://github.com/mmin18/Create-a-More-Flexible-App)
+
+#### 2.[Wax项目](http://github.com/probablycorey/wax)
+
+#### 3.[WaxPatch](https://github.com/mmin18/WaxPatch)

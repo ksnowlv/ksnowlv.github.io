@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -17,9 +16,12 @@ mathjax: false
 iOS中，以1970年1月1日00：00：00起始到现在，计算时间差值，可采用NSDate直接合成计算。如果需要重复计算次数较高，可能会导致NSDate大量生成；有没有更好的方法呢？
 
 
->使用**CFAbsoluteTimeGetCurrent**来计算,减去2001年1月1日00:00:00到1970年1月1日00：00：00差值和时区差值即可。
+使用**CFAbsoluteTimeGetCurrent**来计算,减去2001年1月1日00:00:00到1970年1月1日00：00：00差值和时区差值即可。
 
-#### 具体方法### 1.计算时间差值
+## 具体方法
+
+### 1.计算时间差值
+
 ``` objective-c
 //1970年1月1日00：00：00到2001年1月1日00:00:00差值和时区差值之和
 NSString *string = @"2001-01-01 00:00:00";
@@ -30,7 +32,7 @@ _deltaTimeSince1970To2001 = [date timeIntervalSince1970] + [NSTimeZone systemTim
 
 ``` 
 
-### 2.计算当前时间到截止时间的差值,避免了可能大量生成NSDate.
+### 2.计算当前时间到截止时间的差值,避免了可能大量生成NSDate
 ``` objective-c
 
 - (TBHDCountDownTimerTimeIntervalType)handleTimerEvent:(id)sender{

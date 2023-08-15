@@ -9,23 +9,25 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-#### Python中使用线程有两种方式：    1.函数式方式
-    2.类包装线程对象方式。
+## 一.Python中使用线程有两种方式   
+* 1.函数式方式
+* 2.类包装线程对象方式。
 
 
-下面使用`函数式方式`，调用thread模块中的start_new_thread()函数来产生新线程。
+## 二.`函数式方式`
 
-语法格式如下:
+调用thread模块中的start_new_thread()函数来产生新线程。
+
+### 语法格式
 
     thread.start_new_thread ( function, args[, kwargs] )
     
     
-代码示例如下:
+### 代码示例
 
 ``` python
 
@@ -61,8 +63,9 @@ while 1:
    
 ```
 
-运行结果如下：
+### 执行情况
 
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python thread_start_new_thread.py 
     ksnow thread : Thu Aug  7 21:11:33 2014
     kair thread : Thu Aug  7 21:11:34 2014
@@ -79,8 +82,8 @@ while 1:
     kair thread : Thu Aug  7 21:11:46 2014
     baby thread : Thu Aug  7 21:11:51 2014
     baby thread : Thu Aug  7 21:11:56 2014
+```    
     
-    
-#### 注意事项    1.线程的结束一般依靠线程函数的自然结束；
-    2.可以在线程函数中调用thread.exit()，
-    抛出SystemExit exception，达到退出线程的目的。
+### 注意事项    
+* 1.线程的结束一般依靠线程函数的自然结束；
+* 2.可以在线程函数中调用thread.exit()，抛出SystemExit exception，达到退出线程的目的。

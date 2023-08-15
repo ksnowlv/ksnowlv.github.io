@@ -9,12 +9,11 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-python内置类属性
+## 一.python内置类属性
 
     __doc__:类的文档字符串.
 
@@ -27,7 +26,7 @@ python内置类属性
     __base__:类的所有父类构成元素（包含了以个由所有父类组成的元组).
 
 
-代码示例如下:
+## 二.代码示例
 
 ``` python
 
@@ -75,9 +74,9 @@ print "Teacher.__dict__",Teacher.__dict__
 
 ```
 
-运行结果如下：
-
-    ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python teacher_inner_property.py 
+## 三.执行情况
+```terminal
+   ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python teacher_inner_property.py 
     Name :  张明 , Age:  24
     Name :  李海 , Age:  30
     Total Teacher 2
@@ -92,5 +91,6 @@ print "Teacher.__dict__",Teacher.__dict__
     'displayTeacher': <function displayTeacher at 0x10572cb18>, 
     'teacherCount': 2, 
     '__doc__': 'Common base class for all teacher', 
-    '__init__': <function __init__ at 0x105725d70>}    
+    '__init__': <function __init__ at 0x105725d70>}  
+```      
 

@@ -9,15 +9,15 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
 swift类的属性**setter/getter**，普通方法，类方法/变量，访问权限等。
 
-#### 1.setter/getter方法
-``` objective-c
+### 1.setter/getter方法
+
+``` swift
  
  var 变量名:变量类型{
      get{
@@ -31,11 +31,11 @@ swift类的属性**setter/getter**，普通方法，类方法/变量，访问权
 
 ```
 
-#### 2.类方法和变量使用`class`修饰的方法或变量
+### 2.类方法和变量使用`class`修饰的方法或变量
 
 `类变量`
 
-``` objective-c
+``` swift
 
 class var 变量名: 类型 {
   get{
@@ -47,16 +47,17 @@ class var 变量名: 类型 {
 
 `类方法`
 
-``` objective-c
+``` swift
 class func 方法名->参数{
   return 类名.类变量;
 }
 
 ```
 
-#### 3.常方法。使用final修饰的方法 `final` func 方法名
+### 3.常方法。使用final修饰的方法 `final` func 方法名
  
-#### 4.访问权限
+### 4.访问权限
+
 >  * 类/方法/变量可以由关键字**public**/**internal**/**private**.
 >  * 系统默认为`internal`,`private`可用于隐藏一些实现细节。
     
@@ -73,15 +74,11 @@ class func 方法名->参数{
     在哪里写的，就在哪里用。无论是类、变量、常量还是函数，一旦被标记为私有的，就只能在定义他们的源文件里使用，不能为别的文件所用。
 
 
-
-
- 
-  
-#### 5.willSet/didSet这两个属性用来监视属性的除初始化之外的属性值变化情况。
+### 5.willSet/didSet这两个属性用来监视属性的除初始化之外的属性值变化情况
 
 示例代码如下。
 
-``` objective-c
+``` swift
 
 class QPerson{
 

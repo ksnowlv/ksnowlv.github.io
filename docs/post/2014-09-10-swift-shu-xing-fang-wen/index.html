@@ -76,7 +76,7 @@
 <meta itemprop="name" content="swift属性访问">
 <meta itemprop="description" content="objective-c中property方法支持assign/readonly/retain/readwrite等。 swift也支持类似这些"><meta itemprop="datePublished" content="2014-09-10T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-09-10T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1014">
+<meta itemprop="wordCount" content="910">
 <meta itemprop="keywords" content="swift," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="swift属性访问"/>
 <meta name="twitter:description" content="objective-c中property方法支持assign/readonly/retain/readwrite等。 swift也支持类似这些"/>
@@ -345,8 +345,8 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 1014 字 -
-        预计阅读 3 分钟
+        约 910 字 -
+        预计阅读 2 分钟
       </span>
 
     <div class="post-meta-category">
@@ -370,169 +370,180 @@
         <div class="post-content">
           <p><code>objective-c</code>中<code>property</code>方法支持<code>assign/readonly/retain/readwrite</code>等。
 <code>swift</code>也支持类似这些属性。</p>
-<h3 id="一swift属性方法">一.swift属性方法</h3>
-<h4 id="1readonlyobjective-c">1.readonly```objective-c</h4>
-<p>var name:String{
-get{
-return self.name
-}
-}</p>
-<pre tabindex="0"><code>
-#### 2.read/write with backing store如果发生`EXC_BAD_ACCESS`参考[http://stackoverflow.com/questions/24025340/property-getters-and-setters](http://stackoverflow.com/questions/24025340/property-getters-and-setters)
-
-```objective-c
-
-//read/write Setters/Getters用来计算和获取属性，
-//并没有给成员变量实例分配存储,所以，会触发EXC_BAD_ACCESS.
-private var realAge:Int = 0;
-
-var age:Int{
-    get{
-        return realAge
-    }
-    
-    set{
-        realAge = newValue
-    }
-}
-</code></pre><h4 id="3readwrite--with-backing-store信息隐藏监控属性变化附加额外处理类似">3.read/write  with backing store,信息隐藏，监控属性变化，附加额外处理类似</h4>
+<h2 id="一swift属性方法">一.swift属性方法</h2>
+<h3 id="1readonly">1.readonly</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> name:String{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">get</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">self</span>.name
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="2readwrite-with-backing-store如果发生exc_bad_access">2.read/write with backing store如果发生<code>EXC_BAD_ACCESS</code></h3>
+<p>参考<a href="http://stackoverflow.com/questions/24025340/property-getters-and-setters">http://stackoverflow.com/questions/24025340/property-getters-and-setters</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//read/write Setters/Getters用来计算和获取属性，</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//并没有给成员变量实例分配存储,所以，会触发EXC_BAD_ACCESS.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> realAge:Int = <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> age:Int{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">get</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> realAge
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span>{
+</span></span><span style="display:flex;"><span>        realAge = newValue
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="3readwrite--with-backing-store信息隐藏监控属性变化附加额外处理类似">3.read/write  with backing store,信息隐藏，监控属性变化，附加额外处理类似</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span> <span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">nonatomic</span>, <span style="color:#66d9ef">retain</span>)NSString address;
 </span></span></code></pre></div><p>实例变量自动为_address</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>private var _address :String <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>{
-</span></span><span style="display:flex;"><span>    willSet{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> _address :String = <span style="color:#e6db74">&#34;&#34;</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">willSet</span>{
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>          println(<span style="color:#e6db74">&#34;old Value = \(_address) will clear,new value = \(newValue) will set&#34;</span>)
+</span></span><span style="display:flex;"><span>          println(<span style="color:#e6db74">&#34;old Value = </span><span style="color:#e6db74">\(</span>_address<span style="color:#e6db74">)</span><span style="color:#e6db74"> will clear,new value = </span><span style="color:#e6db74">\(</span>newValue<span style="color:#e6db74">)</span><span style="color:#e6db74"> will set&#34;</span>)
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        self._address <span style="color:#f92672">=</span> newValue;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>._address = newValue;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    didSet{
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//可以追回一些额外的处理逻辑
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         println(<span style="color:#e6db74">&#34;Property did set&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">didSet</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//可以追回一些额外的处理逻辑</span>
+</span></span><span style="display:flex;"><span>         println(<span style="color:#e6db74">&#34;Property did set&#34;</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>var address :String{
-</span></span><span style="display:flex;"><span>    get{
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self._address;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> address :String{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">get</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">self</span>._address;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    set(newAddress){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">set</span>(newAddress){
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> newAddress <span style="color:#f92672">!=</span> _address{
-</span></span><span style="display:flex;"><span>            self._address <span style="color:#f92672">=</span> newAddress
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">self</span>._address = newAddress
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="二完整示例">二.完整示例</h3>
-<h4 id="1qbaseclass-overview">1.QBaseClass overview</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> QBaseClass{
+</span></span></code></pre></div><h2 id="二完整示例">二.完整示例</h2>
+<h3 id="1qbaseclass-overview">1.QBaseClass overview</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QBaseClass</span>{
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//read only
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    var name:String{
-</span></span><span style="display:flex;"><span>        get{
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> self.name
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//read only</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> name:String{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">get</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">self</span>.name
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//read/write Setters/Getters用来计算和获取属性，
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//并没有给成员变量实例分配存储,所以，会触发EXC_BAD_ACCESS.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    private var realAge:Int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//read/write Setters/Getters用来计算和获取属性，</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//并没有给成员变量实例分配存储,所以，会触发EXC_BAD_ACCESS.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> realAge:Int = <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    var age:Int{
-</span></span><span style="display:flex;"><span>        get{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> age:Int{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">get</span>{
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> realAge
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        set{
-</span></span><span style="display:flex;"><span>            realAge <span style="color:#f92672">=</span> newValue
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">set</span>{
+</span></span><span style="display:flex;"><span>            realAge = newValue
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//read/write  with backing store，
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//类似 @property(nonatomic, assign)NSInter number;变量自动为_number
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    private var _number:UInt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//read/write  with backing store，</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//类似 @property(nonatomic, assign)NSInter number;变量自动为_number</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> _number:UInt = <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    var number :UInt{
-</span></span><span style="display:flex;"><span>        get{
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> self._number;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> number :UInt{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">get</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">self</span>._number;
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        set(newNumber){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">set</span>(newNumber){
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> newNumber <span style="color:#f92672">!=</span> number{
-</span></span><span style="display:flex;"><span>                self._number <span style="color:#f92672">=</span> newNumber
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">self</span>._number = newNumber
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//read/write  with backing store,信息隐藏，监控属性变化，附加额外处理
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>     <span style="color:#75715e">//类似 @property(nonatomic, retain)NSString address;变量自动为_address
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    private var _address :String <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>{
-</span></span><span style="display:flex;"><span>        willSet{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//read/write  with backing store,信息隐藏，监控属性变化，附加额外处理</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">//类似 @property(nonatomic, retain)NSString address;变量自动为_address</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> _address :String = <span style="color:#e6db74">&#34;&#34;</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">willSet</span>{
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>            println(<span style="color:#e6db74">&#34;old Value = \(_address) will clear,new value = \(newValue) will set&#34;</span>)
+</span></span><span style="display:flex;"><span>            println(<span style="color:#e6db74">&#34;old Value = </span><span style="color:#e6db74">\(</span>_address<span style="color:#e6db74">)</span><span style="color:#e6db74"> will clear,new value = </span><span style="color:#e6db74">\(</span>newValue<span style="color:#e6db74">)</span><span style="color:#e6db74"> will set&#34;</span>)
 </span></span><span style="display:flex;"><span>            
-</span></span><span style="display:flex;"><span>            self._address <span style="color:#f92672">=</span> newValue;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">self</span>._address = newValue;
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        didSet{
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//可以追回一些额外的处理逻辑
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>             println(<span style="color:#e6db74">&#34;Property did set&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">didSet</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//可以追回一些额外的处理逻辑</span>
+</span></span><span style="display:flex;"><span>             println(<span style="color:#e6db74">&#34;Property did set&#34;</span>)
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    var address :String{
-</span></span><span style="display:flex;"><span>        get{
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> self._address;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> address :String{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">get</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">self</span>._address;
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        set(newAddress){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">set</span>(newAddress){
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> newAddress <span style="color:#f92672">!=</span> _address{
-</span></span><span style="display:flex;"><span>                self._address <span style="color:#f92672">=</span> newAddress
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">self</span>._address = newAddress
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    init(){
-</span></span><span style="display:flex;"><span>        self.age <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.age = <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="2调用objective-c">2.调用```objective-c</h4>
-<p>var baseClass:QBaseClass = QBaseClass()</p>
-<p>//baseClass.name = &ldquo;ksnowlv&rdquo;//报错
-baseClass.address = &ldquo;北京海淀区&rdquo;
-baseClass.age = 20;
-baseClass.number = 0917;
-println(&ldquo;address =(baseClass.address),age =(baseClass.age),number =(baseClass.number)&rdquo;)</p>
-<pre tabindex="0"><code>
-#### 3.日志输出
-```objective-c
-
-old Value =  will clear,new value = 北京海淀区 will set
+</span></span></code></pre></div><h3 id="2调用">2.调用</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> baseClass:QBaseClass = QBaseClass()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//baseClass.name = &#34;ksnowlv&#34;//报错</span>
+</span></span><span style="display:flex;"><span>baseClass.address = <span style="color:#e6db74">&#34;北京海淀区&#34;</span>
+</span></span><span style="display:flex;"><span>baseClass.age = <span style="color:#ae81ff">20</span>;
+</span></span><span style="display:flex;"><span>baseClass.number = <span style="color:#ae81ff">0917</span>;
+</span></span><span style="display:flex;"><span>println(<span style="color:#e6db74">&#34;address =</span><span style="color:#e6db74">\(</span>baseClass.address<span style="color:#e6db74">)</span><span style="color:#e6db74">,age =</span><span style="color:#e6db74">\(</span>baseClass.age<span style="color:#e6db74">)</span><span style="color:#e6db74">,number =</span><span style="color:#e6db74">\(</span>baseClass.number<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)   
+</span></span></code></pre></div><h3 id="3日志输出">3.日志输出</h3>
+<pre tabindex="0"><code class="language-terminal" data-lang="terminal">old Value =  will clear,new value = 北京海淀区 will set
 Property did set
 address =北京海淀区,age =20,number =917
-</code></pre><h3 id="三小结-与objective-c中属性方法的不同之处">三.小结 与<code>objective-c</code>中属性方法的不同之处：</h3>
+</code></pre><h2 id="三小结">三.小结</h2>
+<p>与<code>objective-c</code>中属性方法的不同之处：</p>
+<h3 id="1生成属性方法实例的方式不同">1.生成属性方法实例的方式不同。</h3>
 <ul>
 <li>
-<p>1.生成属性方法实例的方式不同。</p>
-<blockquote>
 <p>1.<code>objective-c</code>中属性方法会自动为属性方法生成实例变量，为实例变量分配内存。</p>
-</blockquote>
-<blockquote>
-<p>2.而<code>swift</code>中属性方法仅仅是设置属性和获取属性，实例变量需要手动分配。</p>
-</blockquote>
 </li>
 <li>
-<p>2.属性方法使用便捷性不同。</p>
-<blockquote>
-<p><code>objective-c</code>的属性方法比较方便</p>
-</blockquote>
+<p>2.而<code>swift</code>中属性方法仅仅是设置属性和获取属性，实例变量需要手动分配。</p>
 </li>
 </ul>
+<h3 id="2属性方法使用便捷性不同">2.属性方法使用便捷性不同。</h3>
+<pre><code> objective-c的属性方法比较方便   
+</code></pre>
 
         </div>
 
         
         
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2014-09-10
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
 
 
 
@@ -603,6 +614,27 @@ address =北京海淀区,age =20,number =917
 
   
   
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
 
   
   
@@ -626,11 +658,24 @@ address =北京海淀区,age =20,number =917
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#一swift属性方法">一.swift属性方法</a>
       <ul>
-        <li><a href="#一swift属性方法">一.swift属性方法</a></li>
-        <li><a href="#二完整示例">二.完整示例</a></li>
-        <li><a href="#三小结-与objective-c中属性方法的不同之处">三.小结 与<code>objective-c</code>中属性方法的不同之处：</a></li>
+        <li><a href="#1readonly">1.readonly</a></li>
+        <li><a href="#2readwrite-with-backing-store如果发生exc_bad_access">2.read/write with backing store如果发生<code>EXC_BAD_ACCESS</code></a></li>
+        <li><a href="#3readwrite--with-backing-store信息隐藏监控属性变化附加额外处理类似">3.read/write  with backing store,信息隐藏，监控属性变化，附加额外处理类似</a></li>
+      </ul>
+    </li>
+    <li><a href="#二完整示例">二.完整示例</a>
+      <ul>
+        <li><a href="#1qbaseclass-overview">1.QBaseClass overview</a></li>
+        <li><a href="#2调用">2.调用</a></li>
+        <li><a href="#3日志输出">3.日志输出</a></li>
+      </ul>
+    </li>
+    <li><a href="#三小结">三.小结</a>
+      <ul>
+        <li><a href="#1生成属性方法实例的方式不同">1.生成属性方法实例的方式不同。</a></li>
+        <li><a href="#2属性方法使用便捷性不同">2.属性方法使用便捷性不同。</a></li>
       </ul>
     </li>
   </ul>

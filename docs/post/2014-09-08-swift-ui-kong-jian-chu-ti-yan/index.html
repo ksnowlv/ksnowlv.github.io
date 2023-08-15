@@ -76,7 +76,7 @@
 <meta itemprop="name" content="swift-UI-控件初体验">
 <meta itemprop="description" content="现在我们体验swift下UI控件的使用 UIButton UIImageView UILabel UITableView 1.ViewController继承UITableViewDataSource，UITable"><meta itemprop="datePublished" content="2014-09-08T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-09-08T00:00:00+00:00" />
-<meta itemprop="wordCount" content="440">
+<meta itemprop="wordCount" content="435">
 <meta itemprop="keywords" content="swift," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="swift-UI-控件初体验"/>
 <meta name="twitter:description" content="现在我们体验swift下UI控件的使用 UIButton UIImageView UILabel UITableView 1.ViewController继承UITableViewDataSource，UITable"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 440 字 -
+        约 435 字 -
         预计阅读 1 分钟
       </span>
 
@@ -377,66 +377,69 @@
 <li><strong>UITableView</strong></li>
 </ul>
 </blockquote>
-<h4 id="1viewcontroller继承uitableviewdatasourceuitableviewdelegate重写相应方法-2声明uibuttonuiimageviewuilabeluitableview四种控件和列表数据数组定义按钮事件-3控件及事件在ib连好imageimagespost2014-09-08-swift-ui-kong-jian-chu-ti-yanswift_ui_overviw_ibpng">1.<strong>ViewController</strong>继承<code>UITableViewDataSource</code>，<code>UITableViewDelegate</code>，重写相应方法。#### 2.声明<code>UIButton</code>/<code>UIImageView</code>/<code>UILabel</code>/UITableView四种控件和列表数据数组，定义按钮事件。#### 3.控件及事件在IB连好。<img src="/images/post/2014-09-08-swift-ui-kong-jian-chu-ti-yan/swift_ui_overviw_ib.png" alt="image"></h4>
-<h4 id="完整代码">完整代码</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+<h3 id="1viewcontroller继承uitableviewdatasourceuitableviewdelegate重写相应方法">1.<strong>ViewController</strong>继承<code>UITableViewDataSource</code>，<code>UITableViewDelegate</code>，重写相应方法</h3>
+<h3 id="2声明uibuttonuiimageviewuilabeluitableview四种控件和列表数据数组定义按钮事件">2.声明<code>UIButton</code>/<code>UIImageView</code>/<code>UILabel</code>/UITableView四种控件和列表数据数组，定义按钮事件</h3>
+<h3 id="3控件及事件在ib连好">3.控件及事件在IB连好</h3>
+<p><img src="/images/post/2014-09-08-swift-ui-kong-jian-chu-ti-yan/swift_ui_overviw_ib.png" alt="image"></p>
+<h3 id="4完整代码">4.完整代码</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ViewController</span>: UIViewController,UITableViewDataSource,UITableViewDelegate {
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    @<span style="color:#66d9ef">IBOutlet</span> <span style="color:#66d9ef">weak</span> var myButton: UIButton<span style="color:#f92672">!</span>
-</span></span><span style="display:flex;"><span>    @<span style="color:#66d9ef">IBOutlet</span> <span style="color:#66d9ef">weak</span> var imageView: UIImageView<span style="color:#f92672">!</span>
-</span></span><span style="display:flex;"><span>    @<span style="color:#66d9ef">IBOutlet</span> <span style="color:#66d9ef">weak</span> var label:UILabel<span style="color:#f92672">!</span>
-</span></span><span style="display:flex;"><span>    @<span style="color:#66d9ef">IBOutlet</span> <span style="color:#66d9ef">weak</span> var tableView:UITableView<span style="color:#f92672">!</span>
-</span></span><span style="display:flex;"><span>    var list:NSArray<span style="color:#f92672">!</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@IBOutlet</span> <span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">var</span> myButton: UIButton!
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@IBOutlet</span> <span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">var</span> imageView: UIImageView!
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@IBOutlet</span> <span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">var</span> label:UILabel!
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@IBOutlet</span> <span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">var</span> tableView:UITableView!
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> list:NSArray!
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    override func viewDidLoad() {
-</span></span><span style="display:flex;"><span>        super.viewDidLoad()
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Do any additional setup after loading the view, typically from a nib.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        
-</span></span><span style="display:flex;"><span>        var image : UIImage <span style="color:#f92672">=</span> UIImage(named:<span style="color:#e6db74">&#34;qq_icon.jpg&#34;</span>);
-</span></span><span style="display:flex;"><span>        self.list <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;kair&#34;</span>,<span style="color:#e6db74">&#34;ksnowlv&#34;</span>,<span style="color:#e6db74">&#34;snow&#34;</span>,<span style="color:#e6db74">&#34;air&#34;</span>,<span style="color:#e6db74">&#34;rain&#34;</span>,<span style="color:#e6db74">&#34;krain&#34;</span>,<span style="color:#e6db74">&#34;cloud&#34;</span>,<span style="color:#e6db74">&#34;kcloud&#34;</span>];
-</span></span><span style="display:flex;"><span>        self.imageView.image <span style="color:#f92672">=</span> image;
-</span></span><span style="display:flex;"><span>        self.label.text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ksnowlv&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">viewDidLoad</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.viewDidLoad()
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Do any additional setup after loading the view, typically from a nib.</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> image : UIImage = UIImage(named:<span style="color:#e6db74">&#34;qq_icon.jpg&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.list = [<span style="color:#e6db74">&#34;kair&#34;</span>,<span style="color:#e6db74">&#34;ksnowlv&#34;</span>,<span style="color:#e6db74">&#34;snow&#34;</span>,<span style="color:#e6db74">&#34;air&#34;</span>,<span style="color:#e6db74">&#34;rain&#34;</span>,<span style="color:#e6db74">&#34;krain&#34;</span>,<span style="color:#e6db74">&#34;cloud&#34;</span>,<span style="color:#e6db74">&#34;kcloud&#34;</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.imageView.image = image;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.label.text = <span style="color:#e6db74">&#34;ksnowlv&#34;</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    override func didReceiveMemoryWarning() {
-</span></span><span style="display:flex;"><span>        super.didReceiveMemoryWarning()
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Dispose of any resources that can be recreated.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    @<span style="color:#66d9ef">IBAction</span> func buttonClicked(sender: UIButton) {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// The tag for each color was set in the storyboard for each button based
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// on the type of color.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        var alertView:UIAlertView <span style="color:#f92672">=</span> UIAlertView(title: <span style="color:#e6db74">&#34;swift UIAlertView&#34;</span>, message: <span style="color:#e6db74">&#34;按钮被按下&#34;</span>, delegate: nil, cancelButtonTitle: <span style="color:#e6db74">&#34;ok&#34;</span>);
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//title: String?, message: String?, delegate: AnyObject?, cancelButtonTitle: String?
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        alertView.show();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">didReceiveMemoryWarning</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>.didReceiveMemoryWarning()
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Dispose of any resources that can be recreated.</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) <span style="color:#f92672">-&gt;</span> Int{
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self.list.count;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buttonClicked</span>(sender: UIButton) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// The tag for each color was set in the storyboard for each button based</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// on the type of color.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> alertView:UIAlertView = UIAlertView(title: <span style="color:#e6db74">&#34;swift UIAlertView&#34;</span>, message: <span style="color:#e6db74">&#34;按钮被按下&#34;</span>, delegate: <span style="color:#66d9ef">nil</span>, cancelButtonTitle: <span style="color:#e6db74">&#34;ok&#34;</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//title: String?, message: String?, delegate: AnyObject?, cancelButtonTitle: String?</span>
+</span></span><span style="display:flex;"><span>        alertView.show();
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) <span style="color:#f92672">-&gt;</span> UITableViewCell{
-</span></span><span style="display:flex;"><span>        let KTableViewCellIdentifier <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tableViewCellIdentifier&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">tableView</span>(tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">self</span>.list.count;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">tableView</span>(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> KTableViewCellIdentifier = <span style="color:#e6db74">&#34;tableViewCellIdentifier&#34;</span>;
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        var cell <span style="color:#f92672">=</span> tableView.dequeueReusableCellWithIdentifier(KTableViewCellIdentifier) as UITableViewCell<span style="color:#f92672">!</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> cell = tableView.dequeueReusableCellWithIdentifier(KTableViewCellIdentifier) <span style="color:#66d9ef">as</span> UITableViewCell!
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (cell <span style="color:#f92672">==</span> nil) {
-</span></span><span style="display:flex;"><span>            cell <span style="color:#f92672">=</span> UITableViewCell(style:.Default, reuseIdentifier: KTableViewCellIdentifier)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (cell == <span style="color:#66d9ef">nil</span>) {
+</span></span><span style="display:flex;"><span>            cell = UITableViewCell(style:.Default, reuseIdentifier: KTableViewCellIdentifier)
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        var rowIndex <span style="color:#f92672">=</span> indexPath.row;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> rowIndex = indexPath.row;
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> rowIndex <span style="color:#f92672">&lt;</span> self.list.count{    
-</span></span><span style="display:flex;"><span>            cell.textLabel<span style="color:#f92672">?</span>.text <span style="color:#f92672">=</span> self.list.objectAtIndex(rowIndex) as NSString;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> rowIndex <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">self</span>.list.count{    
+</span></span><span style="display:flex;"><span>            cell.textLabel?.text = <span style="color:#66d9ef">self</span>.list.objectAtIndex(rowIndex) <span style="color:#66d9ef">as</span> NSString;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> cell;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) <span style="color:#f92672">-&gt;</span> CGFloat{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">tableView</span>(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -&gt; CGFloat{
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self.tableView <span style="color:#f92672">==</span> tableView{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">self</span>.tableView == tableView{
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">50</span>;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        
@@ -444,16 +447,33 @@
 </span></span><span style="display:flex;"><span>    }   
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="效果图">效果图</h4>
+</span></span></code></pre></div><h3 id="5效果图">5.效果图</h3>
 <p><img src="/images/post/2014-09-08-swift-ui-kong-jian-chu-ti-yan/swift_run_overview.png" alt="image"></p>
-<h4 id="小结">小结</h4>
-<pre><code>和objective-c下使用方法类似，优化方法大体相同，你原来的开发经验依然是很有用的。
-</code></pre>
+<h3 id="6小结">6.小结</h3>
+<p>和Objective-c下使用方法类似，优化方法大体相同，你原来的开发经验依然是很有用的。</p>
 
         </div>
 
         
         
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2014-09-08
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
 
 
 
@@ -524,6 +544,27 @@
 
   
   
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
 
   
   
@@ -550,6 +591,12 @@
     <li>
       <ul>
         <li><a href="#现在我们体验swift下ui控件的使用">现在我们体验<strong>swift</strong>下UI控件的使用</a></li>
+        <li><a href="#1viewcontroller继承uitableviewdatasourceuitableviewdelegate重写相应方法">1.<strong>ViewController</strong>继承<code>UITableViewDataSource</code>，<code>UITableViewDelegate</code>，重写相应方法</a></li>
+        <li><a href="#2声明uibuttonuiimageviewuilabeluitableview四种控件和列表数据数组定义按钮事件">2.声明<code>UIButton</code>/<code>UIImageView</code>/<code>UILabel</code>/UITableView四种控件和列表数据数组，定义按钮事件</a></li>
+        <li><a href="#3控件及事件在ib连好">3.控件及事件在IB连好</a></li>
+        <li><a href="#4完整代码">4.完整代码</a></li>
+        <li><a href="#5效果图">5.效果图</a></li>
+        <li><a href="#6小结">6.小结</a></li>
       </ul>
     </li>
   </ul>

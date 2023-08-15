@@ -9,14 +9,16 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-### 1.参考官方文档[How do I prevent files from being backed up to iCloud and iTunes?](https://developer.apple.com/library/ios/#qa/qa1719/_index.html)
+### 1.参考官方文档
 
-### 2.示例代码```objective-c
+[How do I prevent files from being backed up to iCloud and iTunes?](https://developer.apple.com/library/ios/#qa/qa1719/_index.html)
+
+### 2.示例代码
+```objective-c
 + (BOOL)addSkipBackupAttributeToItemAtPath:(NSString *)path {
   BOOL success = NO;
 
@@ -51,5 +53,5 @@ mathjax: false
 }
 ```
 
-       通过上述方法可以使该目录和该目录包含的所有文件和文件夹不被icloud和itunes同步了！
+    通过上述方法可以使该目录和该目录包含的所有文件和文件夹不被icloud和itunes同步了！
 

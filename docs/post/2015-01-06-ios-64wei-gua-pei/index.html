@@ -76,7 +76,7 @@
 <meta itemprop="name" content="iOS-64位适配">
 <meta itemprop="description" content="请参考苹果文档链接：https://developer.apple.com/library/ios/documentation/Genera"><meta itemprop="datePublished" content="2015-01-06T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2015-01-06T00:00:00+00:00" />
-<meta itemprop="wordCount" content="617">
+<meta itemprop="wordCount" content="627">
 <meta itemprop="keywords" content="iOS," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS-64位适配"/>
 <meta name="twitter:description" content="请参考苹果文档链接：https://developer.apple.com/library/ios/documentation/Genera"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 617 字 -
+        约 627 字 -
         预计阅读 2 分钟
       </span>
 
@@ -370,31 +370,51 @@
         <div class="post-content">
           <p>请参考苹果文档链接：<a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html">https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html</a></p>
 <p>摘取几条如下：</p>
-<h3 id="指针不要转换为整数---将指针类型转换成整型的情况一般很少但是非要用指针类型的话请确保你的变量地址足够大">指针不要转换为整数   将指针类型转换成整型的情况一般很少,但是非要用指针类型的话,请确保你的变量地址足够大。</h3>
+<h3 id="1指针不要转换为整数">1.指针不要转换为整数</h3>
+<p>将指针类型转换成整型的情况一般很少,但是非要用指针类型的话,请确保你的变量地址足够大。</p>
 <p>在 32 位中,这段代码运行正常,是因为 int 类型和 指针类型大小相同。
 在 64 位中指针类型是比int类型的大,所以这个赋值将会丢失指针类型的数据。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>c <span style="color:#f92672">=</span> something passed <span style="color:#66d9ef">in</span> as an argument.... 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>d <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>)((<span style="color:#66d9ef">int</span>)c <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>); <span style="color:#75715e">// Incorrect.
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>d <span style="color:#f92672">=</span> c <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">// Correct!
-</span></span></span></code></pre></div><h3 id="数据类型保持一致---许多常见的程序错误都是应为数据类型用的不一致性导致的尽管当你用了不-一样的数据类型的时候编译器给出了警告如果你留意这些改变的话它将会帮助你意识到这些问题">数据类型保持一致   许多常见的程序错误都是应为数据类型用的不一致性导致的,尽管当你用了不 一样的数据类型的时候编译器给出了警告,如果你留意这些改变的话,它将会帮助你意识到这些问题。</h3>
-<p>方法调用的时候,方法接受的参数应该和调用的参数类型匹配。如果调用方法的参数比接收的方法的参数要大,这个值将会被截取。</p>
+</span></span></span></code></pre></div><h3 id="2数据类型保持一致">2.数据类型保持一致</h3>
+<p>许多常见的程序错误都是应为数据类型用的不一致性导致的,尽管当你用了不 一样的数据类型的时候编译器给出了警告,如果你留意这些改变的话,它将会帮助你意识到这些问题。
+方法调用的时候,方法接受的参数应该和调用的参数类型匹配。如果调用方法的参数比接收的方法的参数要大,这个值将会被截取。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>NSInteger <span style="color:#a6e22e">PerformCalculation</span>(<span style="color:#66d9ef">void</span>);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> PerformCalculation(); <span style="color:#75715e">// incorrect
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>NSInteger y <span style="color:#f92672">=</span> PerformCalculation(); <span style="color:#75715e">// correct!
-</span></span></span></code></pre></div><h3 id="使用方法函数的原型调度objective-c的消息">使用方法函数的原型调度Objective-C的消息</h3>
+</span></span></span></code></pre></div><h3 id="3使用方法函数的原型调度objective-c的消息">3.使用方法函数的原型调度Objective-C的消息</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">doSomething:</span>(<span style="color:#66d9ef">int</span>) x { ... }
 </span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>) <span style="color:#a6e22e">doSomethingElse</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>action)(<span style="color:#66d9ef">id</span>, <span style="color:#66d9ef">SEL</span>, <span style="color:#66d9ef">int</span>) <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>)(<span style="color:#66d9ef">id</span>, <span style="color:#66d9ef">SEL</span>, <span style="color:#66d9ef">int</span>)) objc_msgSend;
 </span></span><span style="display:flex;"><span>    action(self, <span style="color:#66d9ef">@selector</span>(doSomething:), <span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="检查可变参数函数">检查可变参数函数</h3>
+</span></span></code></pre></div><h3 id="4检查可变参数函数">4.检查可变参数函数</h3>
 <p>如果你的方法使用了可变参数如fun(id self, SEL cmd, &hellip;)或者va_start, va_list, va_arg等宏，在iphone6真机测试此函数接收的参数是否正确。</p>
-<h3 id="isa指针不能直接访问">isa指针不能直接访问</h3>
+<h3 id="5isa指针不能直接访问">5.isa指针不能直接访问</h3>
 
         </div>
 
         
         
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2015-01-06
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
 
 
 
@@ -465,6 +485,27 @@
 
   
   
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
 
   
   
@@ -490,11 +531,11 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#指针不要转换为整数---将指针类型转换成整型的情况一般很少但是非要用指针类型的话请确保你的变量地址足够大">指针不要转换为整数   将指针类型转换成整型的情况一般很少,但是非要用指针类型的话,请确保你的变量地址足够大。</a></li>
-        <li><a href="#数据类型保持一致---许多常见的程序错误都是应为数据类型用的不一致性导致的尽管当你用了不-一样的数据类型的时候编译器给出了警告如果你留意这些改变的话它将会帮助你意识到这些问题">数据类型保持一致   许多常见的程序错误都是应为数据类型用的不一致性导致的,尽管当你用了不 一样的数据类型的时候编译器给出了警告,如果你留意这些改变的话,它将会帮助你意识到这些问题。</a></li>
-        <li><a href="#使用方法函数的原型调度objective-c的消息">使用方法函数的原型调度Objective-C的消息</a></li>
-        <li><a href="#检查可变参数函数">检查可变参数函数</a></li>
-        <li><a href="#isa指针不能直接访问">isa指针不能直接访问</a></li>
+        <li><a href="#1指针不要转换为整数">1.指针不要转换为整数</a></li>
+        <li><a href="#2数据类型保持一致">2.数据类型保持一致</a></li>
+        <li><a href="#3使用方法函数的原型调度objective-c的消息">3.使用方法函数的原型调度Objective-C的消息</a></li>
+        <li><a href="#4检查可变参数函数">4.检查可变参数函数</a></li>
+        <li><a href="#5isa指针不能直接访问">5.isa指针不能直接访问</a></li>
       </ul>
     </li>
   </ul>

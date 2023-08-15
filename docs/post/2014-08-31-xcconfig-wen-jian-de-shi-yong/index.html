@@ -76,7 +76,7 @@
 <meta itemprop="name" content="XCConfig文件的使用">
 <meta itemprop="description" content="XCConfig:XCode的Config文件，可以方便的对项目工程进行配置。只需要引入该工程配置文件即可。 1.分别创建ConfigDebu"><meta itemprop="datePublished" content="2014-08-31T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-08-31T00:00:00+00:00" />
-<meta itemprop="wordCount" content="730">
+<meta itemprop="wordCount" content="732">
 <meta itemprop="keywords" content="iOS," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="XCConfig文件的使用"/>
 <meta name="twitter:description" content="XCConfig:XCode的Config文件，可以方便的对项目工程进行配置。只需要引入该工程配置文件即可。 1.分别创建ConfigDebu"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 730 字 -
+        约 732 字 -
         预计阅读 2 分钟
       </span>
 
@@ -369,11 +369,12 @@
         
         <div class="post-content">
           <p><strong>XCConfig:XCode</strong>的<strong>Config</strong>文件，可以方便的对项目工程进行配置。只需要引入该工程配置文件即可。</p>
-<p>1.分别创建<strong>ConfigDebug.xcconfig</strong>/<strong>ConfigRelease.xcconfig</strong>文件</p>
+<h3 id="1分别创建configdebugxcconfigconfigreleasexcconfig文件">1.分别创建<strong>ConfigDebug.xcconfig</strong>/<strong>ConfigRelease.xcconfig</strong>文件</h3>
 <p><img src="/images/post/2014-08-31-xcconfig-wen-jian-de-shi-yong/xconfig_create.png" alt="image"></p>
-<p>2.分别把<strong>ConfigDebug.xcconfig</strong>/<strong>ConfigRelease.xcconfig</strong>引入到工程配置中</p>
+<h3 id="2分别把configdebugxcconfigconfigreleasexcconfig引入到工程配置">2.分别把<strong>ConfigDebug.xcconfig</strong>/<strong>ConfigRelease.xcconfig</strong>引入到工程配置</h3>
 <p><img src="/images/post/2014-08-31-xcconfig-wen-jian-de-shi-yong/xcconfig_use.png" alt="image"></p>
-<p>3.编辑<strong>ConfigDebug.xcconfig</strong>/<strong>ConfigRelease.xcconfig</strong>文件，分别<strong>对other link flag</strong>和<strong>Preprocessor Macros</strong>修改设置查看生效情况。</p>
+<h3 id="3-xcconfig配置">3. xcconfig配置</h3>
+<p>编辑<strong>ConfigDebug.xcconfig</strong>/<strong>ConfigRelease.xcconfig</strong>文件，分别<strong>对other link flag</strong>和<strong>Preprocessor Macros</strong>修改设置查看生效情况。</p>
 <p>展开&quot;<strong>other link flag</strong>&ldquo;后，直接选择<strong>Release</strong>整行复制到<strong>ConfigRelease.xcconfig</strong>中，再设置**-ObjC**，<strong>-weak_framework UIKit</strong>，** -framework CoreLocation**参数。</p>
 <p>相同方法修改<strong>ConfigDebug.xcconfig</strong>即可。</p>
 <p><strong>ConfigDebug.xcconfig</strong>内容如下:</p>
@@ -388,29 +389,48 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">//:configuration = Release
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>OTHER_LDFLAGS <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>ObjC <span style="color:#f92672">-</span>weak_framework UIKit  <span style="color:#f92672">-</span>framework CoreLocation
-</span></span></code></pre></div><p>4.修改完毕后，切换到XCConfigTest <strong>TARGETS</strong>视图查看设置。</p>
+</span></span></code></pre></div><h3 id="4切换到xcconfigtest-targets视图查看设置">4.切换到XCConfigTest <strong>TARGETS</strong>视图查看设置。</h3>
 <pre><code>                            other link flag
 </code></pre>
 <p><img src="/images/post/2014-08-31-xcconfig-wen-jian-de-shi-yong/other_link_flag_test.png" alt="image"></p>
 <pre><code>                            Preprocessor Macros
 </code></pre>
 <p><img src="/images/post/2014-08-31-xcconfig-wen-jian-de-shi-yong/debug_flag_test.png" alt="image"></p>
-<p>5.添加测试代码对 *_<em>TAOBAOTEST</em>_*宏的测试。
-查看<code>debug</code>状态下生效情况。</p>
+<h3 id="5添加测试代码对-__taobaotest__宏的测试">5.添加测试代码对 __TAOBAOTEST__宏的测试</h3>
+<p>查看<code>debug</code>状态下生效情况。</p>
 <p><img src="/images/post/2014-08-31-xcconfig-wen-jian-de-shi-yong/xcconfig_test.png" alt="image"></p>
-<p>显然，*_<em>TAOBAOTEST</em>_*在<code>debug</code>状态下是生效的。
+<p>显然，__TAOBAOTEST__在<code>debug</code>状态下是生效的。
 再测试下<code>release</code>状态下，是不生效的。</p>
 <p>其它:</p>
 <ul>
 <li>1.<a href="https://github.com/cocoapods/cocoapods">CocoaPods</a>中使用<code>XCConfig</code>来进行配置。</li>
 <li>2.<a href="https://github.com/jspahrsummers/xcconfigs">xcconfigs</a>，一个支持<code>XCConfig</code>的开源库，支持对<strong>iOS</strong>/<strong>Mac OS</strong>配置。</li>
 </ul>
-<h4 id="总结不同的项目中如果可以共用相同的配置环境这种方式再方便不过了">总结:不同的项目中，如果可以共用相同的配置环境，这种方式再方便不过了。</h4>
+<h3 id="6总结">6.总结</h3>
+<p>不同的项目中，如果可以共用相同的配置环境，这种方式再方便不过了。</p>
 
         </div>
 
         
         
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2014-08-31
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
 
 
 
@@ -481,6 +501,27 @@
 
   
   
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
 
   
   
@@ -506,7 +547,12 @@
   <ul>
     <li>
       <ul>
-        <li></li>
+        <li><a href="#1分别创建configdebugxcconfigconfigreleasexcconfig文件">1.分别创建<strong>ConfigDebug.xcconfig</strong>/<strong>ConfigRelease.xcconfig</strong>文件</a></li>
+        <li><a href="#2分别把configdebugxcconfigconfigreleasexcconfig引入到工程配置">2.分别把<strong>ConfigDebug.xcconfig</strong>/<strong>ConfigRelease.xcconfig</strong>引入到工程配置</a></li>
+        <li><a href="#3-xcconfig配置">3. xcconfig配置</a></li>
+        <li><a href="#4切换到xcconfigtest-targets视图查看设置">4.切换到XCConfigTest <strong>TARGETS</strong>视图查看设置。</a></li>
+        <li><a href="#5添加测试代码对-__taobaotest__宏的测试">5.添加测试代码对 __TAOBAOTEST__宏的测试</a></li>
+        <li><a href="#6总结">6.总结</a></li>
       </ul>
     </li>
   </ul>

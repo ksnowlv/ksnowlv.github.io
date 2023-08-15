@@ -9,15 +9,16 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 如何同步github博客内容到gitcafe呢？
 
 
-#### 1.在博客目录(例如：_config.yml所在目录)，找到Rakefile文件并打开，在
-    .....
+### 1.Rakefile文件配置
+
+ 在博客目录(例如：_config.yml所在目录)，找到Rakefile文件并打开，在
+ 
     message = "Site updated at #{Time.now.utc}"
     system "git commit -m \"#{message}\""
     puts "\n## Pushing generated #{deploy_dir} website"
@@ -26,6 +27,7 @@ mathjax: false
     
   
 末尾追回两行，如下所示：
+
 
     system "git remote add <gitcafe项目url> >> /dev/null 2>&1"
     system  "git push -u gitcafe master:gitcafe-pages"
@@ -37,7 +39,10 @@ mathjax: false
     
 成功推送。
 
-#### 2.在博客目录(例如：_config.yml所在目录)进入到.git目录，打开config文件，添加向gitcafe推送源代码文件的支持，完整的文件内容如下：
+### 2. config添加向gitcafe推送
+
+在博客目录(例如：_config.yml所在目录)进入到.git目录，打开config文件，添加向gitcafe推送源代码文件的支持，完整的文件内容如下：
+
     [core]
 	    repositoryformatversion = 0
 	    filemode = true
@@ -62,6 +67,8 @@ mathjax: false
 	    merge = refs/heads/source
 	    
 在向github推送博客源代码的时，地同时向gitcafe推送最新博客源代码。
+
+### 3.测试验证
 
 创建一新博客
     

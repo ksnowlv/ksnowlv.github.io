@@ -9,12 +9,12 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
 
+## 一.编译器内置宏
 针对Objective-C-,[Clang](http://zh.wikipedia.org/wiki/Clang)编译器内置哪些宏呢？
 
 像平时看到的
@@ -31,6 +31,8 @@ mathjax: false
  
 等.
 
+## 二.clang查看编译器内置宏
+
 那Clang编译器支持的所有宏定义可通过
 
     clang -dM -E - < /dev/null
@@ -38,6 +40,7 @@ mathjax: false
 命令查看
  <!--more-->   
 
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~$clang -dM -E - < /dev/null
     #define OBJC_NEW_PROPERTIES 1
     #define _LP64 1
@@ -208,4 +211,6 @@ mathjax: false
     #define __weak __attribute__((objc_gc(weak)))
     #define __x86_64 1
     #define __x86_64__ 1
+    
+   ``` 
     

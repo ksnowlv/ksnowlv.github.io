@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -19,11 +18,18 @@ mathjax: false
 需要考虑几个关键点。
 
 
-#### 1.状态栏风格。#### 2.导航栏。#### 3. 右侧滑关闭手势与页面UITableView滑动手势冲突。#### 4. push/present/pop动画，某些场景下需要需要禁止。#### 5.与UITabBarController配合使用。
+### 1.状态栏风格
+### 2.导航栏
+### 3. 右侧滑关闭手势与页面UITableView滑动手势冲突。
+### 4. push/present/pop动画，某些场景下需要需要禁止。
+
+### 5.与UITabBarController配合使用。
 ```objective-c
-    if self.viewControllers.count > 0 {
+if self.viewControllers.count > 0 {
             viewController.hidesBottomBarWhenPushed = true
-        }
+ 
+}
+
 ``` 
 
 源代码见[demo](https://github.com/ksnowlv/KNavigationViewControllerTest.git)

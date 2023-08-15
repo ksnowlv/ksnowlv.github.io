@@ -76,7 +76,7 @@
 <meta itemprop="name" content="swift委托">
 <meta itemprop="description" content="swift中的委托和objective-c中的类似。 一.协议支持required/optional 如果协议是optional协议 1.协议接口"><meta itemprop="datePublished" content="2014-09-11T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-09-11T00:00:00+00:00" />
-<meta itemprop="wordCount" content="790">
+<meta itemprop="wordCount" content="757">
 <meta itemprop="keywords" content="swift," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="swift委托"/>
 <meta name="twitter:description" content="swift中的委托和objective-c中的类似。 一.协议支持required/optional 如果协议是optional协议 1.协议接口"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 790 字 -
+        约 757 字 -
         预计阅读 2 分钟
       </span>
 
@@ -369,52 +369,54 @@
         
         <div class="post-content">
           <p>swift中的委托和objective-c中的类似。</p>
-<h3 id="一协议支持requiredoptional">一.协议支持required/optional</h3>
+<h2 id="一协议支持requiredoptional">一.协议支持required/optional</h2>
 <p>如果协议是optional协议</p>
-<h4 id="1协议接口存在与否的判断">1.协议接口存在与否的判断,</h4>
+<h3 id="1协议接口存在与否的判断">1.协议接口存在与否的判断</h3>
 <p>调用方法、属性、下标索引等前面需要加上一个?</p>
-<blockquote>
+<ul>
+<li>
 <p>1.如果是nil值，也就是Optional.None，会跳过后面的操作不执行;</p>
-</blockquote>
-<blockquote>
+</li>
+<li>
 <p>2.如果有值，就是Optional.Some，就会拆包(unwrap)，然后对拆包后的值执行后面的操作，来保证执行这个操作的安全性.</p>
-</blockquote>
-<h4 id="2声明与必选协议的不同之处可选协议需要objc">2.声明与必选协议的不同之处。可选协议需要@objc</h4>
-<h3 id="二示例">二.示例</h3>
-<p>1.完整示例代码</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/**
+</li>
+</ul>
+<h3 id="2声明与必选协议的不同之处可选协议需要objc">2.声明与必选协议的不同之处。可选协议需要@objc</h3>
+<h2 id="二示例">二.示例</h2>
+<h3 id="1完整示例代码">1.完整示例代码</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">游戏状态
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> QQGameState :Int{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStateNone <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStateStart <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStatePlaying <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStatePause <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStateGameOver <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">QQGameState</span> :Int{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStateNone = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStateStart = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStatePlaying = <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStatePause = <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> QQGameStateGameOver = <span style="color:#ae81ff">4</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">游戏Delegate
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
-</span></span><span style="display:flex;"><span>@objc protocol QQGameDelegate{
-</span></span><span style="display:flex;"><span>    func notifyPlayerState()
-</span></span><span style="display:flex;"><span>    optional func notifyGameState(gameState: Int)
-</span></span><span style="display:flex;"><span>    optional func notifyGameNotification(gameNotification: String)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@objc</span> <span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">QQGameDelegate</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">notifyPlayerState</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">optional</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">notifyGameState</span>(gameState: Int)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">optional</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">notifyGameNotification</span>(gameNotification: String)
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">游戏事件类
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> QQGameStateEvent:QQGameDelegate{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QQGameStateEvent</span>:QQGameDelegate{
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    func notifyPlayerState() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">notifyPlayerState</span>() {
 </span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;notifyPlayerState!!!&#34;</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    func notifyGameNotification(gameNotification: String) {
-</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;game notification : \(gameNotification)&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">notifyGameNotification</span>(gameNotification: String) {
+</span></span><span style="display:flex;"><span>        println(<span style="color:#e6db74">&#34;game notification : </span><span style="color:#e6db74">\(</span>gameNotification<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -422,70 +424,87 @@
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">游戏类
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> QQGame{
-</span></span><span style="display:flex;"><span>    private var _gameState:QQGameState <span style="color:#f92672">=</span> QQGameState.QQGameStateNone
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QQGame</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> _gameState:QQGameState = QQGameState.QQGameStateNone
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    private var _gameDelegate:QQGameDelegate
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> _gameDelegate:QQGameDelegate
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    private var gameDelegate:QQGameDelegate{
-</span></span><span style="display:flex;"><span>        get{
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> self._gameDelegate
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> gameDelegate:QQGameDelegate{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">get</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">self</span>._gameDelegate
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        set{
-</span></span><span style="display:flex;"><span>            self._gameDelegate <span style="color:#f92672">=</span> newValue
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">set</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">self</span>._gameDelegate = newValue
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    init(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(){
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        self._gameDelegate <span style="color:#f92672">=</span> QQGameStateEvent();
-</span></span><span style="display:flex;"><span>        self.gameRunning();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>._gameDelegate = QQGameStateEvent();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.gameRunning();
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    func gameRunning(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">gameRunning</span>(){
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//game start
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        _gameDelegate.notifyGameState<span style="color:#f92672">?</span>(QQGameState.QQGameStateStart.toRaw());
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//game playing
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        _gameDelegate.notifyGameState<span style="color:#f92672">?</span>(QQGameState.QQGameStatePlaying.toRaw());
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//game start</span>
+</span></span><span style="display:flex;"><span>        _gameDelegate.notifyGameState?(QQGameState.QQGameStateStart.toRaw());
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//game playing</span>
+</span></span><span style="display:flex;"><span>        _gameDelegate.notifyGameState?(QQGameState.QQGameStatePlaying.toRaw());
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//game pause
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        _gameDelegate.notifyGameState<span style="color:#f92672">?</span>(QQGameState.QQGameStatePause.toRaw());
-</span></span><span style="display:flex;"><span>        _gameDelegate.notifyGameNotification<span style="color:#f92672">?</span>(<span style="color:#e6db74">&#34;游戏停服更新!!!&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Game Over
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        _gameDelegate.notifyGameState<span style="color:#f92672">?</span>(QQGameState.QQGameStateGameOver.toRaw());
-</span></span><span style="display:flex;"><span>        _gameDelegate.notifyGameNotification<span style="color:#f92672">?</span>(<span style="color:#e6db74">&#34;系统检测到你使用外挂，封号七天!!!&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//game pause</span>
+</span></span><span style="display:flex;"><span>        _gameDelegate.notifyGameState?(QQGameState.QQGameStatePause.toRaw());
+</span></span><span style="display:flex;"><span>        _gameDelegate.notifyGameNotification?(<span style="color:#e6db74">&#34;游戏停服更新!!!&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Game Over</span>
+</span></span><span style="display:flex;"><span>        _gameDelegate.notifyGameState?(QQGameState.QQGameStateGameOver.toRaw());
+</span></span><span style="display:flex;"><span>        _gameDelegate.notifyGameNotification?(<span style="color:#e6db74">&#34;系统检测到你使用外挂，封号七天!!!&#34;</span>);
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>        _gameDelegate.notifyPlayerState();
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="2调用objective-c">2.调用```objective-c</h4>
-<p>var game =  QQGame();</p>
-<pre tabindex="0"><code>
-#### 3.日志```objective-c
-
-game notification : 游戏停服更新!!!
+</span></span></code></pre></div><h3 id="2调用">2.调用</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> game =  QQGame();
+</span></span></code></pre></div><h4 id="3日志">3.日志</h4>
+<pre tabindex="0"><code class="language-terminal" data-lang="terminal">game notification : 游戏停服更新!!!
 game notification : 系统检测到你使用外挂，封号七天!!!
 notifyPlayerState
-</code></pre><h3 id="三小结">三.小结</h3>
-<h4 id="1的使用场景-1声明optional值变量">1.?的使用场景:* 1.声明Optional值变量</h4>
+</code></pre><h2 id="三小结">三.小结</h2>
+<h3 id="1的使用场景">1.?的使用场景:</h3>
 <ul>
+<li>1.声明Optional值变量</li>
 <li>2.在对Optional值操作中，用来判断是否能响应后面的操作</li>
 <li>3.用于安全调用protocol的optional方法</li>
 <li>4.使用 as? 向下转型(Downcast)</li>
 </ul>
-<h4 id="2使用场景1强制对optional值进行拆包unwrap">2.!使用场景1.强制对Optional值进行拆包(unwrap)</h4>
-<p>2.声明Implicitly Unwrapped Optionals值，一般用于类中的属性</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">IBOutlet</span> <span style="color:#66d9ef">weak</span> var tableView:UITableView<span style="color:#f92672">!</span>
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">IBOutlet</span> <span style="color:#66d9ef">weak</span>  var nameLabel: ImplicitlyUnwrappedOptional<span style="color:#f92672">&lt;</span>UILabel<span style="color:#f92672">&gt;</span>
-</span></span></code></pre></div><h4 id="3和objective-c协议用法类似仅仅是细节上的差异">3.和objective-c协议用法类似，仅仅是细节上的差异。</h4>
+<h3 id="2使用场景1强制对optional值进行拆包unwrap">2.!使用场景1.强制对Optional值进行拆包(unwrap)</h3>
+<h3 id="3声明implicitly-unwrapped-optionals值一般用于类中的属性">3.声明Implicitly Unwrapped Optionals值，一般用于类中的属性</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">@IBOutlet</span> <span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">var</span> tableView:UITableView!
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@IBOutlet</span> <span style="color:#66d9ef">weak</span>  <span style="color:#66d9ef">var</span> nameLabel: ImplicitlyUnwrappedOptional&lt;UILabel&gt;
+</span></span></code></pre></div><p>和objective-c协议用法类似，仅仅是细节上的差异。</p>
 
         </div>
 
         
         
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2014-09-11
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
 
 
 
@@ -556,6 +575,27 @@ notifyPlayerState
 
   
   
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
 
   
   
@@ -579,11 +619,23 @@ notifyPlayerState
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#一协议支持requiredoptional">一.协议支持required/optional</a>
       <ul>
-        <li><a href="#一协议支持requiredoptional">一.协议支持required/optional</a></li>
-        <li><a href="#二示例">二.示例</a></li>
-        <li><a href="#三小结">三.小结</a></li>
+        <li><a href="#1协议接口存在与否的判断">1.协议接口存在与否的判断</a></li>
+        <li><a href="#2声明与必选协议的不同之处可选协议需要objc">2.声明与必选协议的不同之处。可选协议需要@objc</a></li>
+      </ul>
+    </li>
+    <li><a href="#二示例">二.示例</a>
+      <ul>
+        <li><a href="#1完整示例代码">1.完整示例代码</a></li>
+        <li><a href="#2调用">2.调用</a></li>
+      </ul>
+    </li>
+    <li><a href="#三小结">三.小结</a>
+      <ul>
+        <li><a href="#1的使用场景">1.?的使用场景:</a></li>
+        <li><a href="#2使用场景1强制对optional值进行拆包unwrap">2.!使用场景1.强制对Optional值进行拆包(unwrap)</a></li>
+        <li><a href="#3声明implicitly-unwrapped-optionals值一般用于类中的属性">3.声明Implicitly Unwrapped Optionals值，一般用于类中的属性</a></li>
       </ul>
     </li>
   </ul>

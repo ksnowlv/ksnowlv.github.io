@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -18,14 +17,17 @@ iOS下有限后台任务如何使用呢？
 iOS应用，在切换到后台时，可以开启有限后台任务。
 见[苹果开发文档](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/)，
 
-#### 一.几个相关方法* 1.beginBackgroundTaskWithExpirationHandler
+## 一.几个相关方法
+* 1.beginBackgroundTaskWithExpirationHandler
 
 * 2.beginBackgroundTaskWithName:expirationHandler
 * 3.endBackgroundTask
 * 4.setMinimumBackgroundFetchInterval
 
 
-#### 二.切换到后台的处理```objective-c
+## 二.切换到后台的处理
+
+```objective-c
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     
@@ -41,7 +43,8 @@ iOS应用，在切换到后台时，可以开启有限后台任务。
 
 ```
 
-#### 三.切换到前台的处理
+## 三.切换到前台的处理
+
 ```objective-c
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     

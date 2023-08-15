@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -17,7 +16,9 @@ mathjax: false
 我们通过localhost访问php页面，如何使用自定义域名服务在本地生效呢？
 
 
-#### 1.修改nginx配置文件。文件位置:`/usr/local/etc/nginx/nginx.conf`,内容如下:
+### 1.修改nginx配置文件
+
+文件位置:`/usr/local/etc/nginx/nginx.conf`
 
      server {
         listen       80;
@@ -57,7 +58,9 @@ mathjax: false
 
     }
 
-#### 2.添加ip和域名服务的绑定。 打开`etc`目录下的`hosts`文件,在文件末尾添加对域名服务的支持。
+### 2.添加ip和域名服务的绑定
+
+ 打开`etc`目录下的`hosts`文件,在文件末尾添加对域名服务的支持。
  
     
     # Host Database
@@ -72,7 +75,9 @@ mathjax: false
     #添加对域名服务www.ksnowlv.com的支持。
     127.0.0.1	 www.ksnowlv.com  
 
-#### 3.修改codeigniter中php配置文件对域名服务的支持。编辑`Codeigiter/application/configconfig.php`文件。
+### 3.修改codeigniter中php配置文件对域名服务的支持
+
+编辑`Codeigiter/application/configconfig.php`文件。
 
 **原有的**
 
@@ -98,7 +103,7 @@ $config['uri_protocol']	= 'REQUEST_URI';
 
 ```
 
-#### 3.启动nginx和php服务。
+### 4.启动nginx和php服务
     #如果已启动过nginx服务，可以使用sudo nginx -s reload 来重启.
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$sudo nginx
     Password:
@@ -106,7 +111,9 @@ $config['uri_protocol']	= 'REQUEST_URI';
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$
  此时`nginx`和`php`服务启动完成。
  
-#### 4.在浏览器打开`http://www.ksnowlv.com/index.php`，即可看到`Welcome to CodeIgniter!`欢迎页面。
+### 5.验证
+
+在浏览器打开`http://www.ksnowlv.com/index.php`，即可看到`Welcome to CodeIgniter!`欢迎页面。
 ![image](/images/post/2014-08-21-mac-nginx-xia-codeigniteryu-ming-fu-wu-fang-wen/codeigniter_url_page.png) 
 
 至此，关于`CodeIgniter`的基本安装配置已经OK.下一步,直接投入实战吧!

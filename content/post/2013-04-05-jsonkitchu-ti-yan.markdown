@@ -9,13 +9,15 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
+
+## iPhone jsonkit
+
 以下面数据作为样例
 
-```objective-c
+```json
 {
 "info":{
 "type":34,
@@ -38,7 +40,7 @@ mathjax: false
 
 进行json数据组装与解析
 
-#### 1.json数据组装
+### 1.json数据组装
 ```objective-c
     NSDictionary* jsonDic = [[NSMutableDictionary alloc] init];
     //添加info字段
@@ -69,7 +71,8 @@ mathjax: false
     [jsonDic release];
 ```
 
-#### 2.json数据解析
+### 2.json数据解析
+
 ```objective-c
 NSString* jsonString =   @"{\"info\":{\"error\":0,\"type\":34},\"poilist\":[{\"name\":\"银科大厦\",\"x\":116.345,\"y\":39.3334},{\"name\":\"中国技术交易大厦\",\"x\":116.3451,\"y\":39.31334}]}";
     

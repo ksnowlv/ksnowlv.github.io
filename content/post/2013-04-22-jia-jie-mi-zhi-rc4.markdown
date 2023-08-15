@@ -9,12 +9,14 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-IPHONE开发过程中，可能会用到加解密之类的，这里使用IPHONE SDK自带的加密接口。主要是针对RC4方式下的加解密。
+## iPhone RC4
+iPhone开发过程中，可能会用到加解密之类的，这里使用iPhone SDK自带的加密接口。主要是针对RC4方式下的加解密。
+
+### 示例代码
 
 ```objective-c
 //
@@ -123,7 +125,9 @@ IPHONE开发过程中，可能会用到加解密之类的，这里使用IPHONE S
 
 ```
 
-运行结果如下：
+### 执行情况
 
+```terminal
 	encryptData = <dc3fcda3 7fcdb553 772337cc eba99575 39a071e7 bdf85b49 c8538ffb 66a0c6f1 d79e1773 51967eae f7da1aac 5574edc4 59595855 8413bf>
 	2013-04-22 17:34:16.297 RC4Test[12957:11303] decryptData = 五一回家休息几天啊，好好出去转转玩玩!
+```

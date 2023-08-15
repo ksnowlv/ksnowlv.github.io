@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -17,13 +16,14 @@ mathjax: false
 使用Cocoa框架中的输入输出流，可以从文件或应用中内存读取数据，也可以向文件/应用中内存写入数据。你可以在基于socket连接的远程服务交换数据中使用。---翻译自苹果文档。
 
 
-#### 其主要类与方法
+## 其主要类与方法
 ![image](/images/post/2014-09-05-ios-de-shu-ru-slash-shu-chu-liu/cocoa_stream_class.jpg)
 
 使用示例：我们从使用输入流从本地文件中读取图片，使用输出流存储读取的图片数据并显示。
 
 
-#### 1.声明输入/输出流/图片框属性。
+### 1.声明输入/输出流/图片框属性
+
 ``` objective-c
 
 @property(nonatomic, strong) NSInputStream *imageInputStream;
@@ -32,7 +32,7 @@ mathjax: false
 
 ```
 
-#### 2.初始化输出流/输入流，清理方法，相关方法调用。
+### 2.初始化输出流/输入流，清理方法，相关方法调用
 ``` objective-c
 
 - (void)viewDidLoad {

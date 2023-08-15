@@ -9,14 +9,13 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 [Appledoc](https://github.com/tomaz/appledoc)默认生成的文档风格与苹果的官方文档是一致的,生成docset，可以集成到xcode中。在源码中按住option再单击就可以调出相应方法的帮助。
 
 
-#### 1.Appledoc安装.
+### 1.Appledoc安装
     git clone git://github.com/tomaz/appledoc.git
     cd appledoc
     sudo sh install-appledoc.sh
@@ -25,7 +24,7 @@ mathjax: false
      
      brew install appledoc
      
-#### 2.Appledoc生成。
+### 2.Appledoc生成
 我使用曾经做的[iOS腾讯地图API](http://open.map.qq.com/ios_v1/index.html)为例，把**API**的**inc**文件拷贝到目录**QQMapAPI**.指定工程名为**QQMapAPI**，公司名为**tencent**
 
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/QQMapAPI$appledoc    -p QQMapAPI -c  tencent -v 1.0  -o  /Users/ksnowlv/Movies/QQMapAPI/inc  /Users/ksnowlv/Movies/QQMapAPI
@@ -60,7 +59,9 @@ mathjax: false
 * `/Users/ksnowlv/Movies/QQMapAPI/`:生成结果输出路径。成功以后,appledoc会新建一个文本文件来记录生成情况.
 * `/Users/ksnowlv/Movies/QQMapAPI/inc`:扫描目标的目录所有文件。
 
-#### 3.文档查看。   在苹果帮助文档目录：`/Users/ksnowlv/Library/Developer/Shared/Documentation/DocSets`查看**QQMapAPI**生成的文档。
+### 3.文档查看
+
+在苹果帮助文档目录：`/Users/ksnowlv/Library/Developer/Shared/Documentation/DocSets`查看**QQMapAPI**生成的文档。
    ![image](/images/post/2014-09-06-objective-c-de-wen-dang-sheng-cheng-gong-ju-appledoc/qqmapapi_path.png)
    
    在xcode帮助文档中查看**QQMapAPI文档**

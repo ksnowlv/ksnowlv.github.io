@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -17,12 +16,15 @@ mathjax: false
    经过筛选对比,php开发框架，我选择了[CodeIgniter](https://ellislab.com/codeigniter)`2.2`版本。
 
 
-#### 1.下载解压即可。其目录结构：
+### 1. CodeIgniter下载安装
+
+下载解压即可。其目录结构：
 ![image](/images/post/2014-08-21-mac-nginx-xia-codeigniterde-an-zhuang-pei-zhi/codeigniter_dir.png)  
 
 详情参看相关开发文档
  
-#### 2.修改nginx配置文件。
+### 2.修改nginx配置文件
+
 在`/usr/local/etc/nginx`打开`nginx.conf`进行编辑。
 主要修改点:`root`目录指向`codeigniter`目录.完整内容如下：
 
@@ -74,7 +76,7 @@ mathjax: false
 
 当时在这折腾了半天，试了不少坑爹的做法。
     
-#### 3.启动nginx和php服务。
+### 3.启动nginx和php服务。
     #如果已启动过nginx服务，可以使用sudo nginx -s reload 来重启.
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$sudo nginx
     Password:
@@ -82,7 +84,9 @@ mathjax: false
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$
  此时`nginx`和`php`服务启动完成。
  
-#### 4.在浏览器打开`http://localhost:8080/index.php`，即可看到`Welcome to CodeIgniter!`欢迎页面。
+### 4.效果验证
+
+在浏览器打开`http://localhost:8080/index.php`，即可看到`Welcome to CodeIgniter!`欢迎页面。
 ![image](/images/post/2014-08-21-mac-nginx-xia-codeigniterde-an-zhuang-pei-zhi/codeigniter_page.png) 
 
 **其它**:和凡兄聊的时候,原来已经身在大百度做智能交通,good luck!

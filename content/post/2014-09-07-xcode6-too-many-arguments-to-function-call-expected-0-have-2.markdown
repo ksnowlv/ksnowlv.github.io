@@ -9,14 +9,14 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-#### 在XCode6下，写了如下一段代码：
-``` objective-c
+### 1.问题 
 
+在XCode6下，写了如下一段代码：
+``` objective-c
 
    NSLock *myLock = [NSLock new];
    IMP lockIMP = [myLock methodForSelector:lockSEL];
@@ -27,9 +27,15 @@ mathjax: false
     “Too many arguments to function call, expected 0, have 2”
 
 #### 后来发现在使用objc_msgSend编译时，与IMP报错类似。
-#### 原来是LLVM升级后，增加一些默认设置    
+
+
+### 2.原因
+
+原来是LLVM升级后，增加一些默认设置    
     objc_msgSend without a typecast is usually an error  
     Recommended build setting for strict checking
+
+### 3.解决方案
 
   那我们在**Build Setting**->**Apple LLVM 6.0 - Preprocessing**下，把**Enable Strict Check for objc_msgSend Call**设置为`NO`即可。
   

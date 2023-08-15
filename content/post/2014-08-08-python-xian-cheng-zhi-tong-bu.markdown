@@ -9,13 +9,15 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+## 一.线程同步
 如果多个线程共同对某个数据修改访问，为了保证数据的正确性，需要对多个线程进行同步。
 
+
+## 二.解决方案
 
 使用Thread对象的Lock和Rlock可以实现简单的线程同步，
     
@@ -24,7 +26,7 @@ mathjax: false
     
 对于需要每次只允许一个线程操作的数据，可以使用上述锁来实现互斥访问。  
 
-代码示例如下:
+## 三.代码示例
 
 ``` python
 
@@ -83,8 +85,8 @@ print "Exiting From Main Thread"
 
 ```
 
-运行情况如下:
-    
+## 四.执行情况
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python thread_synchronization.py
     KSnow running
     KAir running
@@ -95,6 +97,6 @@ print "Exiting From Main Thread"
     KAir showThreadMessage
     KAir showThreadMessage
     Exiting From Main Thread
-
+```
 
 

@@ -9,18 +9,20 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 `Mac`上安装[mysql-5.6.20-osx10.8-x86_64-3](http://dev.mysql.com/downloads/mysql/)完成。
 
+### 问题
 
 在**MySQL的控制面板**(系统偏好设置->MySQL)上，显示**mac mysql service can't start**。
 
-**解决方案**：
+### 解决方案
 
-编辑`/usr/local/mysql-5.6.20-osx10.8-x86_64/support-files/`目录下`mysql.server`文件,把
+编辑`/usr/local/mysql-5.6.20-osx10.8-x86_64/support-files/`目录下`mysql.server`文件,
+
+把
 
     basedir=
     datadir=

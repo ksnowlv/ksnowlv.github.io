@@ -9,16 +9,25 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
 
-#### 一.背景  在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，而SDK中，提供的是一个街景view。鉴于UIView一般释放时不需要手动调用清理函数，而Timer如果直接添加到街景View中会造成相互retain，导致即使在街景View中添加Timer的释放,也不能完成正常的释放.
+## 一.背景  
+
+在做街景iPhone SDK时，OpenGL的渲染需要启用一个类Timer来驱动，
+
+而SDK中，提供的是一个街景view。
+
+鉴于UIView一般释放时不需要手动调用清理函数，而Timer如果直接添加到街景View中会造成相互retain，导致即使在街景View中添加Timer的释放,也不能完成正常的释放.
   
-#### 二. QOpenGLRenderTimer
-#### 1.头文件```objective-c
+## 二.解决方案
+
+ QOpenGLRenderTimer
+ 
+### 1.头文件
+```objective-c
 //
 //  QOpenGLTimer.h
 //  SOSOStreetViewMapAPI
@@ -55,7 +64,9 @@ mathjax: false
 ``` 
 
 
-#### 2.实现文件  ```objective-c
+### 2.实现文件  
+
+```objective-c
   //
 //  QOpenGLRenderTimer.m
 //  SOSOStreetViewMapAPI
@@ -107,8 +118,9 @@ mathjax: false
   ```
   
  
-#### 三. QOpenGLRenderTimer的使用
-##### 1.街景View中开启OpenGL渲染循环如下：
+## 三. QOpenGLRenderTimer的使用
+### 1.街景View中开启OpenGL渲染循环
+
 ```objective-c
         QOpenGLRenderTimer* timer = [[QOpenGLRenderTimer alloc] init];
         timer.delegate = self;
@@ -117,7 +129,7 @@ mathjax: false
         [timer release];
  ```
  
-##### 2.在街景View的dealloc 方法中 停止OpenGL渲染循环.
+### 2.在街景View的dealloc 方法中 停止OpenGL渲染循环.
  
  ```objective-c
 - (void)dealloc  {
@@ -130,6 +142,9 @@ mathjax: false
 }
 ```
 
-#### 四.其它。##### 1.当时考虑过放在街景的代理中，根据代理设置的是否为空，启用或停止OPENGL渲染的逻辑。但是，为什么没有那么做呢？* 1.开发者使用街景View，不一定会设置代理。
-* 2.即使创建街景View设置代理了，这种设计和实现不太好。
-* 3.有更好的解决方案。
+## 四.其它
+
+#### 当时考虑过放在街景的代理中，根据代理设置的是否为空，启用或停止OPENGL渲染的逻辑。但是，为什么没有那么做呢？
+
+* 1.开发者使用街景View，不一定会设置代理。
+* 2.即使创建街景View设置代理了，这种设计和实现不太好，有更好的解决方案。

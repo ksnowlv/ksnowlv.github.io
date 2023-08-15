@@ -9,46 +9,57 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
+
+## git reset
 
 git reset有三种撤消方式
 
 如下：
 
-#### 1.git reset --mixed：    此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保留源码，回退commit和index信息git 
+### 1.git reset --mixed：   
+
+ 此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保留源码，回退commit和index信息git 
        也就是说：取消了commit ，取消了add
 
-#### 2.reset --soft  HEAD～number    回退到某个版本，只回退了commit的信息，不会恢复到index file一级。如果还要提交，直接commit即可
+### 2.reset --soft  HEAD～number    
+
+回退到某个版本，只回退了commit的信息，不会恢复到index file一级。如果还要提交，直接commit即可
     也就是说取消了commit
 
-#### 3.git reset --hard <version>    彻底回退到某个版本，本地的源码也会变为该版本的内容。
+### 3.git reset --hard <version>    
+
+彻底回退到某个版本，本地的源码也会变为该版本的内容。
     也就是说取消了commit ，取消了add，取消源文件修改
     
-#### 说明：`--soft`和`--hard`后面为版本号`HEAD~number`：`number`表示倒数第number次的提交结果
+### 说明
+
+`--soft`和`--hard`后面为版本号`HEAD~number`：`number`表示倒数第number次的提交结果
 
 `<version>`:可以通过`git log`获取，参见下面的样例。
 
-### 样例如下：
-#### 1.撤消add:撤消提交到暂存区的文件
+## 样例
+### 1.撤消add:撤消提交到暂存区的文件
 先添加一个文件
-
+```terminal
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ vim b.text
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ git add .
-
+```
 查看当前git状态
-   
+```terminal   
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ git status
     On branch master
     Changes to be committed:
       (use "git reset HEAD <file>..." to unstage)
 
 	new file:   b.text
+```
 	
 使用`git reset`或`git reset b.text`撤消
 
+```terminal
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ git reset
 此时查看git状态
 
@@ -60,18 +71,20 @@ git reset有三种撤消方式
 	    b.text
 
     nothing added to commit but untracked files present (use "git add" to track)
+```
     
-#### 2.撤消commit:撤消commit到本地版本库的文件
+### 2.撤消commit:撤消commit到本地版本库的文件
 先创建并添加c.txt文件
-
+```terminal
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ vim c.txt
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ git add c.txt
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ git commit -a -m "add c.txt"
     [master 66b155f] add c.txt
      1 file changed, 1 insertion(+)
      create mode 100644 c.txt
+```     
 使用git log查看提交日志
-
+```terminal
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ git log
     commit 66b155f5f76ae0b48129638d082432fa2fcd62c8
     Author: xxxx
@@ -90,30 +103,33 @@ git reset有三种撤消方式
     Date:   Sun Jul 27 19:21:48 2014 +0800
 
     add new file
+```    
  撤消commit操作   
-
+```terminal
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ git reset --hard 5636eace1f76c6fa548cb126324f9ec8ad8a4f04
     HEAD is now at 5636eac add new file
+```
     
 本地回退到该版本，如果想远程分支也回退到该版本，再强制推送到远程分支即可，    
    
     git push -f origin master
     
     
-#### 3.将本地的状态回退到和远程的一样 先将本地文件b.text修改下，观察是否回退到的远程.
- 
+### 3.将本地的状态回退到和远程的一样 先将本地文件b.text修改下，观察是否回退到的远程.
+```terminal 
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ vim b.text 
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ git reset --hard origin/master
     HEAD is now at 804b9f4 modify b
-   
+```   
 b.text是和远程的相同的
 
-#### 4.使用`HEAD~number`撤消
+### 4.使用`HEAD~number`撤消
+```terminal
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ git reset --hard HEAD~1
     HEAD is now at 5636eac add new file
     ksnowlvdeMacBook-Pro:gittest ksnowlv$ ls
     a.text
-    
+```    
 再强制推送到远程分支，即回到了想回的状态。
 
     git push -f origin master

@@ -9,40 +9,43 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+## iPhone xml
 
 首先，添加系统库`libxml2`.dylib.
 
 另外，引入`#import <libxml/tree.h>`.
 
-#### 一.重要函数简介如下： * 1.得到一个节点的内容
+## 一.重要函数简介： 
+
+### 1.得到一个节点的内容
  
    xmlChar *value = xmlNodeGetContent(node);返回值value应该使用xmlFree(value)释放内存
 
- * 2.得到一个节点的某属性值：
+### 2.得到一个节点的某属性值
+
    xmlChar *value = xmlGetProp(node, (const xmlChar *)"prop1");返回值需要xmlFree(value)释放内存
 
- * 3.设置一个节点的内容：
+### 3.设置一个节点的内容
  
    xmlNodeSetContent(node, (const xmlChar *)"test");
   
- *  4.设置一个节点的某属性值：
+###  4.设置一个节点的某属性值
  
    xmlSetProp(node, (const xmlChar *)"prop1", (const xmlChar *)"v1");
 
- * 5.添加一个节点元素：
+### 5.添加一个节点元素：
  
    xmlNewTextChild(node, NULL, (const xmlChar *)"keyword", (const xmlChar *)"test Element");
  
- * 6.添加一个节点属性：
+### 6.添加一个节点属性：
    
    xmlNewProp(node, (const xmlChar *)"prop1", (const xmlChar *)"test Prop");
 
-#### 二.示例：本文采用DOM的方式解析XML
+## 二.示例：本文采用DOM的方式解析XML
 
 ```objective-c
 
@@ -364,7 +367,8 @@ mathjax: false
 ```
 
 
-#### 三.运行结果如下：
+## 三.执行情况
+```terminal
 	2013-04-19 12:52:24.966 XMLTest_Libxml2[1301:11303] ----------开始XML解析----------
 	poiInfo:catalog = 生活服务,name = 火车票飞机票售票处, x = 12960121.140000, y = 4864264.440000
 	poiInfo:catalog = 购物,name = 皂就人生, x = 12960087.850000, y = 4864269.380000
@@ -378,9 +382,9 @@ mathjax: false
 	2013-04-19 12:52:24.968 XMLTest_Libxml2[1301:11303] ----------xml文档开始生成----------
 	2013-04-19 12:52:24.969 XMLTest_Libxml2[1301:11303] xml生成目录=/Users/lvwei/Library/Application Support/iPhone Simulator/6.0/Applications/836D7AFA-DE7E-4351-83CD-536E17814C82/Library/Caches/xmlSaveDic/buildxml.xml
 	2013-04-19 12:52:24.969 XMLTest_Libxml2[1301:11303] ----------xml文档完成生成----------
-
-#### 四。buildxml.xml文件中的内容
-```objective-c
+```
+## 四.buildxml.xml文件中的内容
+```xml
 
 <?xml version="1.0" encoding="UTF-8"?>
 <city>
@@ -401,5 +405,8 @@ mathjax: false
 </city>
 
 ```
-总结：使用起来和tinyxml差别不小，但是也挺好用的！出于测试的目的，没有在继续切分函数！
+## 五.总结
+
+使用起来和tinyxml差别不小，但是也挺好用的！出于测试的目的，没有在继续切分函数！
+
 推荐一篇相关的博客，可以参考下：[http://jianlee.ylinux.org/Computer/C/libxml.html](http://jianlee.ylinux.org/Computer/C/libxml.html)

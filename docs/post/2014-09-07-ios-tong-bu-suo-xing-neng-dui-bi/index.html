@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="梵梵爸" />
-  <meta name="description" content="在iOS开发中，支持多种同步方法，我们从耗时角度出发，评估各种同步对象的性能。 1.@synchronized 2.NSLock 3.NSCondition 4.NSConditionLock 5.NSRecursiveLock 6.pthread_mutex_t 7.OSSpinLock 8.dispatch_barrier_async 示例代码如下： const NSInteger KRunTimes = 1000 * 1000; double curTime, lastTime; // 1.同步s" />
+  <meta name="description" content="在iOS开发中，支持多种同步锁，我们从耗时角度出发，评估各种同步对象的性能。 一.同步锁 1.@synchronized 2.NSLock 3.NSCondition 4.NSConditionLock 5.NSRecursiveLock 6.pthread_mutex_t 7.OSSpinLock 8.dispatch_barrier_async 二.性能测试示例代码 const NSInteger KRunTimes = 1000 * 1000; double curTime," />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -68,18 +68,18 @@
 
 
 <meta property="og:title" content="iOS同步对象性能对比" />
-<meta property="og:description" content="在iOS开发中，支持多种同步方法，我们从耗时角度出发，评估各种同步对象的性能。 1.@synchronized 2.NSLock 3.NSCondition 4.NSConditionLock 5.NSRecursiveLock 6.pthread_mutex_t 7.OSSpinLock 8.dispatch_barrier_async 示例代码如下： const NSInteger KRunTimes = 1000 * 1000; double curTime, lastTime; // 1.同步s" />
+<meta property="og:description" content="在iOS开发中，支持多种同步锁，我们从耗时角度出发，评估各种同步对象的性能。 一.同步锁 1.@synchronized 2.NSLock 3.NSCondition 4.NSConditionLock 5.NSRecursiveLock 6.pthread_mutex_t 7.OSSpinLock 8.dispatch_barrier_async 二.性能测试示例代码 const NSInteger KRunTimes = 1000 * 1000; double curTime," />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ksnowlv.github.io/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2014-09-07T00:00:00+00:00" />
 <meta property="article:modified_time" content="2014-09-07T00:00:00+00:00" />
 <meta itemprop="name" content="iOS同步对象性能对比">
-<meta itemprop="description" content="在iOS开发中，支持多种同步方法，我们从耗时角度出发，评估各种同步对象的性能。 1.@synchronized 2.NSLock 3.NSCondition 4.NSConditionLock 5.NSRecursiveLock 6.pthread_mutex_t 7.OSSpinLock 8.dispatch_barrier_async 示例代码如下： const NSInteger KRunTimes = 1000 * 1000; double curTime, lastTime; // 1.同步s"><meta itemprop="datePublished" content="2014-09-07T00:00:00+00:00" />
+<meta itemprop="description" content="在iOS开发中，支持多种同步锁，我们从耗时角度出发，评估各种同步对象的性能。 一.同步锁 1.@synchronized 2.NSLock 3.NSCondition 4.NSConditionLock 5.NSRecursiveLock 6.pthread_mutex_t 7.OSSpinLock 8.dispatch_barrier_async 二.性能测试示例代码 const NSInteger KRunTimes = 1000 * 1000; double curTime,"><meta itemprop="datePublished" content="2014-09-07T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-09-07T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1323">
+<meta itemprop="wordCount" content="1332">
 <meta itemprop="keywords" content="多线程," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS同步对象性能对比"/>
-<meta name="twitter:description" content="在iOS开发中，支持多种同步方法，我们从耗时角度出发，评估各种同步对象的性能。 1.@synchronized 2.NSLock 3.NSCondition 4.NSConditionLock 5.NSRecursiveLock 6.pthread_mutex_t 7.OSSpinLock 8.dispatch_barrier_async 示例代码如下： const NSInteger KRunTimes = 1000 * 1000; double curTime, lastTime; // 1.同步s"/>
+<meta name="twitter:description" content="在iOS开发中，支持多种同步锁，我们从耗时角度出发，评估各种同步对象的性能。 一.同步锁 1.@synchronized 2.NSLock 3.NSCondition 4.NSConditionLock 5.NSRecursiveLock 6.pthread_mutex_t 7.OSSpinLock 8.dispatch_barrier_async 二.性能测试示例代码 const NSInteger KRunTimes = 1000 * 1000; double curTime,"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 1323 字 -
+        约 1332 字 -
         预计阅读 3 分钟
       </span>
 
@@ -368,9 +368,9 @@
 
         
         <div class="post-content">
-          <p>在iOS开发中，支持多种同步方法，我们从耗时角度出发，评估各种同步对象的性能。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">1.</span><span style="color:#66d9ef">@synchronized</span> 
+          <p>在iOS开发中，支持多种同步锁，我们从耗时角度出发，评估各种同步对象的性能。</p>
+<h2 id="一同步锁">一.同步锁</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span> <span style="color:#ae81ff">1.</span><span style="color:#66d9ef">@synchronized</span> 
 </span></span><span style="display:flex;"><span> <span style="color:#ae81ff">2.</span>NSLock
 </span></span><span style="display:flex;"><span> <span style="color:#ae81ff">3.</span>NSCondition
 </span></span><span style="display:flex;"><span> <span style="color:#ae81ff">4.</span>NSConditionLock
@@ -378,7 +378,7 @@
 </span></span><span style="display:flex;"><span> <span style="color:#ae81ff">6.</span>pthread_mutex_t
 </span></span><span style="display:flex;"><span> <span style="color:#ae81ff">7.</span>OSSpinLock
 </span></span><span style="display:flex;"><span> <span style="color:#ae81ff">8.</span>dispatch_barrier_async
-</span></span></code></pre></div><p>示例代码如下：</p>
+</span></span></code></pre></div><h2 id="二性能测试示例代码">二.性能测试示例代码</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> NSInteger KRunTimes <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">double</span> curTime, lastTime;
@@ -486,36 +486,33 @@
 </span></span><span style="display:flex;"><span>  curTime <span style="color:#f92672">=</span> CFAbsoluteTimeGetCurrent();
 </span></span><span style="display:flex;"><span>  NSLog(<span style="color:#e6db74">@&#34;@dispatch_barrier_async: %f ms&#34;</span>, (curTime <span style="color:#f92672">-</span> lastTime) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>);
 </span></span><span style="display:flex;"><span>  
-</span></span></code></pre></div><h3 id="一模拟器ios7xcode6下性能对比-日志情况">一.模拟器/iOS7/XCode6下性能对比#### 日志情况:</h3>
-<pre><code> 2014-09-07 11:26:48.071 LockTest[2713:98107] @synchronized: 232.551038 ms
-
-2014-09-07 11:26:48.173 LockTest[2713:98107] NSLock: 100.879967 ms
-2014-09-07 11:26:48.263 LockTest[2713:98107] NSLock + IMP: 89.570999 ms
-2014-09-07 11:26:48.353 LockTest[2713:98107] NSCondition: 89.850008 ms
-2014-09-07 11:26:48.587 LockTest[2713:98107] NSConditionLock: 233.431995 ms
-2014-09-07 11:26:48.677 LockTest[2713:98107] NSRecursiveLock: 89.230001 ms
-2014-09-07 11:26:48.740 LockTest[2713:98107] pthread_mutex: 62.326968 ms
-2014-09-07 11:26:48.750 LockTest[2713:98107] OSSpinlock: 10.430992 ms
-2014-09-07 11:26:49.985 LockTest[2713:98107] dispatch_barrier_async: 1234.429002 ms
-</code></pre>
-<h4 id="总结对比">总结对比</h4>
+</span></span></code></pre></div><h2 id="三模拟器ios7xcode6下性能对比">三.模拟器/iOS7/XCode6下性能对比</h2>
+<h3 id="日志情况">日志情况</h3>
+<pre tabindex="0"><code class="language-terminal" data-lang="terminal">     2014-09-07 11:26:48.071 LockTest[2713:98107] @synchronized: 232.551038 ms
+    
+    2014-09-07 11:26:48.173 LockTest[2713:98107] NSLock: 100.879967 ms
+    2014-09-07 11:26:48.263 LockTest[2713:98107] NSLock + IMP: 89.570999 ms
+    2014-09-07 11:26:48.353 LockTest[2713:98107] NSCondition: 89.850008 ms
+    2014-09-07 11:26:48.587 LockTest[2713:98107] NSConditionLock: 233.431995 ms
+    2014-09-07 11:26:48.677 LockTest[2713:98107] NSRecursiveLock: 89.230001 ms
+    2014-09-07 11:26:48.740 LockTest[2713:98107] pthread_mutex: 62.326968 ms
+    2014-09-07 11:26:48.750 LockTest[2713:98107] OSSpinlock: 10.430992 ms
+    2014-09-07 11:26:49.985 LockTest[2713:98107] dispatch_barrier_async: 1234.429002 ms
+</code></pre><h3 id="模拟器环境下总结对比">模拟器环境下总结对比</h3>
 <p><img src="/images/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/syn_compared_simulate.png" alt="image"></p>
-<h4 id="二ipad-mini2ios7xcode6下性能对比">二.iPad Mini2/iOS7/XCode6下性能对比</h4>
-<pre><code>2014-09-07 13:32:47.720 LockTest[3494:60b] @synchronized: 499.736011 ms
-2014-09-07 13:32:47.948 LockTest[3494:60b] NSLock: 227.194011 ms
-2014-09-07 13:32:48.170 LockTest[3494:60b] NSLock + IMP: 221.384048 ms
-2014-09-07 13:32:48.393 LockTest[3494:60b] NSCondition: 221.689999 ms
-2014-09-07 13:32:49.030 LockTest[3494:60b] NSConditionLock: 636.340976 ms
-2014-09-07 13:32:49.260 LockTest[3494:60b] NSRecursiveLock: 229.423046 ms
-2014-09-07 13:32:49.431 LockTest[3494:60b] pthread_mutex: 170.615971 ms
-2014-09-07 13:32:49.495 LockTest[3494:60b] OSSpinlock: 63.916981 ms
-2014-09-07 13:32:49.826 LockTest[3494:60b] dispatch_barrier_async: 329.769015 ms
-</code></pre>
-<p><img src="/images/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/syn_compared_ipad_mini2.png" alt="image"></p>
-<h3 id="总结">总结</h3>
-<ul>
-<li>
-<p>耗时方面：</p>
+<h2 id="四ipad-mini2ios7xcode6下性能对比">四.iPad Mini2/iOS7/XCode6下性能对比</h2>
+<pre tabindex="0"><code class="language-terminal" data-lang="terminal">    2014-09-07 13:32:47.720 LockTest[3494:60b] @synchronized: 499.736011 ms
+    2014-09-07 13:32:47.948 LockTest[3494:60b] NSLock: 227.194011 ms
+    2014-09-07 13:32:48.170 LockTest[3494:60b] NSLock + IMP: 221.384048 ms
+    2014-09-07 13:32:48.393 LockTest[3494:60b] NSCondition: 221.689999 ms
+    2014-09-07 13:32:49.030 LockTest[3494:60b] NSConditionLock: 636.340976 ms
+    2014-09-07 13:32:49.260 LockTest[3494:60b] NSRecursiveLock: 229.423046 ms
+    2014-09-07 13:32:49.431 LockTest[3494:60b] pthread_mutex: 170.615971 ms
+    2014-09-07 13:32:49.495 LockTest[3494:60b] OSSpinlock: 63.916981 ms
+    2014-09-07 13:32:49.826 LockTest[3494:60b] dispatch_barrier_async: 329.769015 ms
+</code></pre><p><img src="/images/post/2014-09-07-ios-tong-bu-suo-xing-neng-dui-bi/syn_compared_ipad_mini2.png" alt="image"></p>
+<h2 id="五总结">五.总结</h2>
+<h3 id="耗时方面">耗时方面</h3>
 <ul>
 <li>OSSpinlock耗时最少;</li>
 <li>pthread_mutex其次。</li>
@@ -523,7 +520,7 @@
 <li>NSConditionLock最差，我们常用synchronized倒数第二。</li>
 <li>dispatch_barrier_async也许，性能并不像我们想象中的那么好.推测与线程同步调度开销有关。单独block耗时在1ms以下基本上可以忽略不计的。</li>
 </ul>
-</li>
+<ul>
 <li>
 <p>在访问次数比较多的情况下,IMP访问耗时要比消息发送略小。
 参看<code>NSLock</code>与<code>NSLock + IMP</code>对比。</p>
@@ -537,27 +534,41 @@ XCode6下IMP不能指定参数，报错如下：
 </ul>
 <h3 id="原因分析">原因分析</h3>
 <h4 id="1synchronized">1.synchronized</h4>
-<pre><code>会创建一个异常捕获handler和一些内部的锁。所以，使用@synchronized替换普通锁的代价是，你付出更多的时间消耗。
-</code></pre>
+<p>会创建一个异常捕获handler和一些内部的锁。所以，使用@synchronized替换普通锁的代价是，你付出更多的时间消耗。</p>
 <h4 id="2nsconditionlock">2.NSConditionLock</h4>
-<pre><code>条件锁，与特定的，用户定义的条件有关。可以确保一个线程可以获取满足一定条件的锁。
+<p>条件锁，与特定的，用户定义的条件有关。可以确保一个线程可以获取满足一定条件的锁。
 内部会涉及到信号量机制，一旦一个线程获得锁后，它可以放弃锁并设置相关条件;其它线程竞争该锁。
-线程之间的竞争激烈，涉及到条件锁检测，线程间通信。系统调用，上下切换方切换比较频繁。
-</code></pre>
+线程之间的竞争激烈，涉及到条件锁检测，线程间通信。系统调用，上下切换方切换比较频繁。</p>
 <h4 id="3osspinlock">3.OSSpinLock</h4>
-<pre><code>自旋锁几乎不进入内核，仅仅是重新加载自旋锁。
+<p>自旋锁几乎不进入内核，仅仅是重新加载自旋锁。
 如果自旋锁被占用时间是几十，上百纳秒，性能还是挺高的。减少了代价较高的系统调用和一系列上下文言切换。
 但是，该锁不是万能的;如果该锁抢占比较多的时候，不要使用该锁。会占用较多cpu,导致耗电较多。
-这种情况下使用pthread_mutex虽然耗时多一点，但是，避免了电量过多的消耗。是不错的选择。
-</code></pre>
+这种情况下使用pthread_mutex虽然耗时多一点，但是，避免了电量过多的消耗。是不错的选择。</p>
 <h4 id="4pthread_mutex">4.pthread_mutex</h4>
-<pre><code>底层的API还是性能比较高啊，在各种同步对象中，性能属于佼佼者。
-</code></pre>
+<p>底层的API还是性能比较高啊，在各种同步对象中，性能属于佼佼者。</p>
 
         </div>
 
         
         
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2014-09-07
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
 
 
 
@@ -628,6 +639,27 @@ XCode6下IMP不能指定参数，报错如下：
 
   
   
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
 
   
   
@@ -651,10 +683,18 @@ XCode6下IMP不能指定参数，报错如下：
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#一同步锁">一.同步锁</a></li>
+    <li><a href="#二性能测试示例代码">二.性能测试示例代码</a></li>
+    <li><a href="#三模拟器ios7xcode6下性能对比">三.模拟器/iOS7/XCode6下性能对比</a>
       <ul>
-        <li><a href="#一模拟器ios7xcode6下性能对比-日志情况">一.模拟器/iOS7/XCode6下性能对比#### 日志情况:</a></li>
-        <li><a href="#总结">总结</a></li>
+        <li><a href="#日志情况">日志情况</a></li>
+        <li><a href="#模拟器环境下总结对比">模拟器环境下总结对比</a></li>
+      </ul>
+    </li>
+    <li><a href="#四ipad-mini2ios7xcode6下性能对比">四.iPad Mini2/iOS7/XCode6下性能对比</a></li>
+    <li><a href="#五总结">五.总结</a>
+      <ul>
+        <li><a href="#耗时方面">耗时方面</a></li>
         <li><a href="#原因分析">原因分析</a></li>
       </ul>
     </li>

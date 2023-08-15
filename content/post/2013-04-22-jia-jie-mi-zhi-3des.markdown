@@ -9,13 +9,17 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+## iPhone 3DES
 
-iPhone开发过程中，可能会用到加解密之类的，这里使用iPhone SDK自带的加密接口。主要是针对3DES方式下的加解密。CODE如下：
+iPhone开发过程中，可能会用到加解密之类的，这里使用iPhone SDK自带的加密接口。主要是针对3DES方式下的加解密。
+
+### 1. 示例代码
+* 加密
+* 解密
 
 ```objective-c
 //
@@ -124,10 +128,11 @@ iPhone开发过程中，可能会用到加解密之类的，这里使用iPhone S
 
 ```
 
-运行结果如下：
+### 2.执行情况
 
+```terminal
 	2013-04-22 15:47:15.207 3DESTest[11832:11303] ~~ encrypt data successfully...
 	encryptData = <685d98c2 68e6ea39 f238964b f78b3a46 27a7909f 546da9e3 56c7f844 d2353a51 fdeb2e7c 749dcb17 3c7dc951 0883fe5c cf46974e db2d10a9>
 	2013-04-22 15:47:15.209 3DESTest[11832:11303] decrypt data successfully...
 	2013-04-22 15:47:15.209 3DESTest[11832:11303] decryptData = 五一回家休息几天啊，好好出去转转玩玩!
-
+```

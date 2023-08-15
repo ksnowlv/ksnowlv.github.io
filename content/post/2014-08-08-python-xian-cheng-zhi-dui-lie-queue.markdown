@@ -9,20 +9,20 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
+
+## 一.Python Queue
 Python的Queue模块中提供了同步的、线程安全的队列类.
 
-
-    1.FIFO（先入先出)队列Queue，
-    2.LIFO（后入先出）队列LifoQueue，
-    3.优先级队列PriorityQueue。
+* 1.FIFO（先入先出)队列Queue，
+* 2.LIFO（后入先出）队列LifoQueue，
+* 3.优先级队列PriorityQueue。
 
 这些队列都实现了锁原语，能够在多线程中直接使用。可以使用队列来实现线程间的同步。
 
-代码示例如下:
+## 二.代码示例
 
 ``` python
 
@@ -98,8 +98,8 @@ print "Exiting Main Thread"
 
 ```
 
-运行结果如下:
-
+## 三.运行结果
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python thread_queue.py
     Starting ksnow
     Starting kair
@@ -113,5 +113,8 @@ print "Exiting Main Thread"
     Exiting ksnow
     Exiting kair
     Exiting Main Thread
+```
 
+## 四.注意
 
+*  此处仅仅为了演示Queue的使用，exitFlag在真实场景下，需要考虑多线程同步。

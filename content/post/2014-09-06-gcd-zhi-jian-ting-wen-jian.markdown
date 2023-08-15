@@ -9,13 +9,16 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+### 1.GCD 监听文件
 GCD可以用来监听文件变化，例如目录变化，重命名等之类的。
 例如我们监听`Document`目录下，`ksnow`目录的变化。
+
+
+### 2.iOS代码示例
 
 ``` objective-c
 
@@ -68,6 +71,8 @@ NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
 ```
 
 对`/Users/ksnowlv/Library/Developer/CoreSimulator/Devices/DCA2391F-AA20-484C-AC45-BB762077A904/data/Containers/Data/Application/C268F09F-1B97-4546-BED0-EF56782A50B8/Documents/ksnow`该目录进行重命名，添加文件，删除文件等操作。
+
+### 3.日志
 
 ```objective-c
 

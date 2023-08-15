@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -18,11 +17,15 @@ mathjax: false
 iOS开发中经常会用到一些自定义UI控件，控件的效果和属性可以通过**IB_DESIGNABLE**和**IBInspectable**预览和修改。
 
 
-#### IB_DESIGNABLE自定义 UIView 可以在 XIB 中预览,，查看自定义控件的效果。
+### IB_DESIGNABLE
 
-#### IBInspectable自定义 UIView 的属性出现在 XIB 中 Attributes inspector，可以通过修改属性，在XIB中查看效果 。
+自定义 UIView 可以在 XIB 中预览,，查看自定义控件的效果。
 
-示例如下：
+### IBInspectable
+
+自定义 UIView 的属性出现在 XIB 中 Attributes inspector，可以通过修改属性，在XIB中查看效果 。
+
+### 示例
 
 ```objective-c
 

@@ -9,14 +9,15 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 为Mac Terminal更换主题
 
-#### 一.创建主题文件。#### 1.ir_black.terminal
-#### 内容如下： 
+## 一.创建主题文件
+
+### 1.ir_black.terminal
+
 ``` xml
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -311,8 +312,8 @@ mathjax: false
 
 ``` 
 
-#### 2.saschalein.terminal
-#### 内容如下:
+### 2.saschalein.terminal
+
 ``` xml
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -495,7 +496,9 @@ mathjax: false
 
 在终端的菜单->偏好设置其中之一，再做配置的修改。
 
-#### 二.下载：colors。命令行切换到colors所在目录：
+## 二.下载colors
+
+命令行切换到colors所在目录：
  
     chmod +x colors
     ./colors 
@@ -504,7 +507,9 @@ mathjax: false
 
 配置成功！
 
-#### 三.配置登录脚本下载[bash_profile](http://)和[bashrc](http://)
+## 三.配置登录脚本下载
+
+[bash_profile](http://)和[bashrc](http://)
 在`/Users/ksnowlv/`目录下,替换`.bash_profile`和`.bashrc`文件。
 
-#### 四.重新打开终端，即可看到效果。
+## 四.重新打开终端，即可看到效果

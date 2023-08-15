@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -17,7 +16,9 @@ mathjax: false
 
 Mac下安装nginx,我使用的是Homebrew,Homebrew安装好的情况下。
 
-#### 1.先安装pcre.
+## 一.安装pcre
+
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$brew install pcre
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$brew install pcre
     ==> Downloading https://downloads.sf.net/project/machomebrew/Bottles/pcre-8.35.mavericks.bottle.tar.gz
@@ -38,10 +39,12 @@ Mac下安装nginx,我使用的是Homebrew,Homebrew安装好的情况下。
       brew link --overwrite --dry-run pcre
 
     Possible conflicting files are:
-
+```
 静待pcre安装完即可。
 
-#### 2.安装nginx.    ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$brew install nginx
+## 二.安装nginx  
+
+ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$brew install nginx
     ==> Downloading https://downloads.sf.net/project/machomebrew/    Bottles/nginx-1.6.1.mavericks.bottle.tar.gz
  静待nginx安装完成即可。
     
@@ -52,7 +55,9 @@ Mac下安装nginx,我使用的是Homebrew,Homebrew安装好的情况下。
 #### 如果解决上述错误会怎么样呢？nginx环境安装不成功呗。  在启动nginx时，`http://localhost:8080/`，页面一直显示`404`。
   
 
-#### 3.启动nginx。    ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$sudo nginx
+## 三.启动nginx    
+
+ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$sudo nginx
     Password:
  
 输入正确密码后,在浏览器中打开`http://localhost:8080/`,即可看到`nginx欢迎页面`
@@ -65,7 +70,9 @@ Mac下安装nginx,我使用的是Homebrew,Homebrew安装好的情况下。
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$sudo nginx -s stop
 
 
-#### 4.查看nginx版本信息和help
+## 四.查看nginx版本信息和help
+
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/PHP$nginx -v
     nginx version: nginx/1.6.1
 
@@ -83,9 +90,12 @@ Mac下安装nginx,我使用的是Homebrew,Homebrew安装好的情况下。
       -p prefix     : set prefix path (default: /usr/local/Cellar/nginx/1.6.1/)
       -c filename   : set configuration file (default: /usr/local/etc/nginx/nginx.conf)
       -g directives : set global directives out of configuration file
-
+      
+```
         
-总结:今天尝试把pcre,nginx在Mac上卸载一遍,重新安装时,才发现当时忽略
+## 总结
+
+今天尝试把pcre,nginx在Mac上卸载一遍,重新安装时,才发现当时忽略
 
     Error: You must `brew link pcre' before nginx can be installed
     

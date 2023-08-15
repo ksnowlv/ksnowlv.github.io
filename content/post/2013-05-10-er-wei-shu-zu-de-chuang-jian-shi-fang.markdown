@@ -6,15 +6,17 @@ categories:
   - "C++"
 tags:
   - "C++"
+  - "数组"
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-```objective-c
+
+### 1.二维数据创建及释放
+```C++
 template<class T>
 void CreateArray(T** &aArray, const int aRow,const int aCol) {
  T** aArray = new T*[aRow];
@@ -43,7 +45,10 @@ void ReleaseArray(T** &aArray, const int aRow,const int aCol) {
 
 突然让写个这玩意，从来没有写过，凭借对指针的理解写出如上代码，当时没有用模板，用给定的int类型的数组，后来回来，写了个测试例子验证下，当时写对了。好险！后来写的测试例子如下：
 
-```objective-c
+
+### 2.实测示例
+
+```C++
 void TestMgr::testArray()
 {
  const int KCol = 3;
@@ -105,6 +110,8 @@ void ReleaseArray(T** &aArray, const int aRow,const int aCol)
 
 ```
 
-结论：基础一定得扎实，即使遇见过从来没有用过的，也可以通过其实质写对！
+### 3结论
+
+基础一定得扎实，即使遇见过从来没有用过的，也可以通过其实质写对！
 
 

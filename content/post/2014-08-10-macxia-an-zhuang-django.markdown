@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -18,7 +17,8 @@ Mac下如何安装Django呢？
 
 安装步骤如下
 
-#### 1.Django安装前，先安装python,再安装pip
+### 1.Django安装前，先安装python,再安装pip
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$sudo easy_install pip
     Password:
     Searching for pip
@@ -40,8 +40,10 @@ Mac下如何安装Django呢？
     Processing dependencies for pip
     Finished processing dependencies for pip
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$
-    
-#### 2.然后安装Django：
+ ```   
+### 2.安装Django
+
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$sudo pip install Django
     Password:
     Downloading/unpacking Django
@@ -79,12 +81,14 @@ Mac下如何安装Django呢？
 
     Storing debug log for failure in /Users/ksnowlv/Library/Logs/pip.log
     ksnowlv@ksnowlvdeMa
-    
-#### 3.安装出错，如何解决呢？方案是添加两个环境变量:
+ ```
+### 3.安装出错的解决方案
+
+方案是添加两个环境变量:
     export CFLAGS=-Qunused-arguments
     export CPPFLAGS=-Qunused-arguments
 示例如下:
-
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$export CFLAGS=-Qunused-arguments
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$export CPPFLAGS=-Qunused-arguments
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$sudo pip install Django
@@ -95,11 +99,13 @@ Mac下如何安装Django呢？
     Successfully installed Django
     Cleaning up...
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$  
-    
+```    
 
-`这个过程好折腾，找半天解决方案。希望大家多注意!!!`
+这个过程好折腾，找半天解决方案。希望大家多注意!!!`
 
-#### 4.验证下是否安装成功
+### 4.验证下是否安装成功
+
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$python
     Python 2.7.5 (default, Mar  9 2014, 22:15:05) 
     [GCC 4.2.1 Compatible Apple LLVM 5.0 (clang-500.0.68)] on darwin
@@ -111,5 +117,5 @@ Mac下如何安装Django呢？
     >>> ^D
     #退出python control + D
     ksnowlv@ksnowlvdeMacBook-Pro~/Movies/python server$  
-
+```
 终于安装成功,大功告成!

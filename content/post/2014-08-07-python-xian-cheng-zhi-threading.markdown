@@ -9,24 +9,26 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
 
-#### 接上文，介绍下`类包装线程对象方式`使用线程
+## `类包装线程对象方式`使用线程
 
 #### python通过两个标准库thread和threading提供对线程的支持。thread提供了低级别的、原始的线程以及一个简单的锁。
 
-#### 样例会使用Threading模块创建线程，涉及到线程启动和运行    
-    run(): 用以表示线程活动的方法。
-    start():启动线程活动。
+### 1.使用Threading模块创建线程
+
+涉及到线程启动和运行    
+   
+   * run(): 用以表示线程活动的方法。
+   * start():启动线程活动。
 
 
 我们的QThread类会从threading.Thread继承，然后重写__init__方法和run方法。
 
-示例代码如下
+### 2.示例代码
 
 ```  python
 
@@ -81,8 +83,9 @@ print "exit from Main Thread"
 
 ```
 
-运行结果如下：
+### 3.执行情况
 
+```terminal
     ksnowlv@ksnowlvdeMacBook-Pro~/Documents/lvwei projects/python$python python_threading.py 
     ksnow start
     kair start
@@ -109,3 +112,4 @@ print "exit from Main Thread"
      Exit frombaby
     kair : Thu Aug  7 22:41:58 2014
     Exit fromkair
+ ```   

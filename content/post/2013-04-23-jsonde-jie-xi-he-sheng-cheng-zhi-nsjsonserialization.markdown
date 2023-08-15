@@ -9,12 +9,16 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+
+## JSON库使用
+
 `NSJSONSerialization`在(10_7, 5_0)版本中开始出现的，因此，如果使用系统自带的JSON API,需要对系统版本做一下校验或其他方式校验来确定是否使用该类。
+
+### 1.示例代码
 
 ```objective-c
 //
@@ -145,8 +149,8 @@ mathjax: false
 
 ```
 
-日志：
-
+### 2.执行情况
+```terminal
 	2013-04-23 10:06:11.667 JsonTest_NSJSONSerialization[2028:11303] -----NSJSONSerialization-----开始解析
 	2013-04-23 10:06:11.705 JsonTest_NSJSONSerialization[2028:11303] error = 0,type = 34
 	2013-04-23 10:06:11.705 JsonTest_NSJSONSerialization[2028:11303] poi:{name=银科大厦,x=116.345000,y=39.333400}
@@ -172,3 +176,4 @@ mathjax: false
   	}
     }
 	2013-04-23 10:06:12.893 JsonTest_NSJSONSerialization[2028:11303] -----NSJSONSerialization-----完成生成jSON数据
+```

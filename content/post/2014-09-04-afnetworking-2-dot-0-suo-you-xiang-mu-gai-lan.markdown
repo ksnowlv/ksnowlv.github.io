@@ -9,7 +9,6 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
@@ -18,8 +17,11 @@ mathjax: false
 
 ![image](/images/post/2014-09-04-afnetworking-2-dot-0-suo-you-xiang-mu-gai-lan/AFNetworking_all_projects_overview.png)
 
-#### AFNetworking子项目地址：[https://github.com/AFNetworking](https://github.com/AFNetworking)子项目列表
->* 1.[AFNetworkActivityLogger](https://github.com/AFNetworking/AFNetworkActivityLogger)
+## AFNetworking
+
+子项目地址：[https://github.com/AFNetworking](https://github.com/AFNetworking)子项目列表
+
+* 1.[AFNetworkActivityLogger](https://github.com/AFNetworking/AFNetworkActivityLogger)
 * 2.[AFAmazonS3Client](https://github.com/AFNetworking/AFAmazonS3Client)
 * 3.[AFJSONRPCClient](https://github.com/AFNetworking/AFJSONRPCClient)
 * 4.[Xcode-Project-Templates](https://github.com/AFNetworking/Xcode-Project-Templates)

@@ -9,14 +9,15 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
+## iPhone AES
+
 iPhone开发过程中，可能会用到加解密之类的，这里使用iPhone SDK自带的加密接口。主要是针对AES256方式下的加解密。
 
-代码如下：
+### 代码示例
 
 ```objective-c
 //
@@ -127,8 +128,9 @@ iPhone开发过程中，可能会用到加解密之类的，这里使用iPhone S
 ```
 
 
-运行如下：
+### 执行情况
 
+```terminal
 	encryptData = <05d8792e 27e4845b 5d98a2b7 7818fdf4 9e954a09 821e794d 377249ee 2de099e8 eecf9e9d 06317391 7037fd36 b9df8bc3 8bbdfc99 2140c1b2 ce4a594b b38e65f8>
 	2013-04-22 15:02:42.017 AES256Test[11335:11303] decryptData = 五一回家休息几天啊，好好出去转转玩玩!
-
+```

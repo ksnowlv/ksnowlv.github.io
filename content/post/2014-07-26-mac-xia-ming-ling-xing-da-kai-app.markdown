@@ -9,18 +9,19 @@ tags:
 comment: true
 toc: true
 autoCollapseToc: false
-contentCopyright: false
 reward: true
 mathjax: false
 ---
 
-#### mac下如何使用命令行打开App呢？可以使用***open***命令。
+### mac下如何使用命令行打开App呢？
+
+可以使用***open***命令。
 
 例如：
 
     open -a /Applications/mou.app
 
-#### 可以查看下open都支持哪些参数    
+### 可以查看下open都支持哪些参数    
     ksnowlvdeMacBook-Pro:lvweigithubblog ksnowlv$ open
     Usage: open [-e] [-t] [-f] [-W] [-R] [-n] [-g] [-h] [-b <bundle identifier>] [-a <application>] [filenames] [--args arguments]
     Help: Open opens files from a shell.
@@ -42,8 +43,8 @@ mathjax: false
       -h, --header      Searches header file locations for headers matching the given filenames, and opens them.
       
       
-#### 如何使用mou打开markdown文件呢？    
+### 如何使用mou打开markdown文件呢？    
     open -a /Applications/mou.app /Users/ksnowlv/Movies/lvweigithubblog/source/_posts/2014-07-26-macxia-ming-ling-xing-da-kai-app.markdown
     
-#### 正常打开，你可以定义一个脚本来做这件事。
+### 正常打开，你可以定义一个脚本来做这件事。
 
