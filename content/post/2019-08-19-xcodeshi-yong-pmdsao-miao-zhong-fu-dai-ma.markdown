@@ -15,10 +15,19 @@ mathjax: false
 
 如何使用PMD在XCode下扫描重复代码（Copy&Past）呢？
 
-### 1.下载PMD：[https://pmd.github.io](https://pmd.github.io)，放置到工程主目录下面。![image](/images/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/1.png) 
+### 1.下载PMD
 
-### 2.XCode中检测脚本配置#### 1.在`Xcode`的 `Build Phases` 中，我们增加一个新的 `Run Script`，脚本内容如下：
+[https://pmd.github.io](https://pmd.github.io)，放置到工程主目录下面。
 
+![image](/images/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/1.jpg) 	
+
+### 2.XCode中检测脚本配置
+
+#### 1.脚本配置
+
+在`Xcode`的 `Build Phases` 中，我们增加一个新的 `Run Script`，脚本内容如下
+
+```php
 	#检测swift代码
 	#pmd cpd --files ${EXECUTABLE_NAME} --minimum-tokens 50 --language swift --encoding UTF-8 --format net.sourceforge.pmd.cpd.XMLRenderer > cpd-output.xml --failOnViolation true
 
@@ -28,9 +37,13 @@ mathjax: false
 	# Running script
 	php ./cpd_script.php -cpd-xml cpd-output.xml
 	
+```	
 	
-#### 2.在工程主目录下，创建cpd_script.php文件！！！需要安装好php
+#### 2.配置php文件
 
+在工程主目录下，创建cpd_script.php文件！！！需要安装好php
+
+```php
 	<?php
 	foreach (simplexml_load_file('cpd-output.xml')->duplication as $duplication) {
 	    $files = $duplication->xpath('file');
@@ -41,7 +54,7 @@ mathjax: false
 	    }
 	}
 	?>
-	
+```	
 	
 ![image](/images/post/2019-08-19-xcodeshi-yong-pmdsao-miao-zhong-fu-dai-ma/2.jpg) 	
 	

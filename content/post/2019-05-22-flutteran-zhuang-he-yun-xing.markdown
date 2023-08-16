@@ -15,16 +15,22 @@ mathjax: false
 
 
 ### 1.创建flutter工程目录（各项目+flutter目录），在flutter 目录下载flutter SDK
+
+```terminal
 	git init
 	git clone -b dev https://github.com/flutter/flutter.git
+```	
 
 ### 2.进入flutter SDK目录即flutter禁用通过 Google Analytics 发送数据
+```terminal
 	cd flutter
 	./bin/flutter config --no-analytics
-	
+```	
 禁用通过 Google Analytics 发送相关数据，以免国内网络连接失败问题。
 
 ### 3.检查flutter安装情况：flutter doctor
+
+```terminal
 	ksnowlvdeMacBook-Pro:flutter ksnowlv$ ./bin/flutter doctor
 	Downloading Material fonts...                                       0.7s
 	Downloading android-arm-profile/darwin-x64 tools...                 1.3s
@@ -74,27 +80,33 @@ mathjax: false
 	    ! No devices available
 	
 	! Doctor found issues in 4 categories.
+```
 
-### 4.安装XCode和打开iOS模拟器* 安装XCode
+### 4.安装XCode和打开iOS模拟器*
+安装XCode
 	* 我机器安装的XCode版本是10.2.1，比较新了。如果安装的版本较老，可以更新下
 
-
-			ksnowlvdeMacBook-Pro:flutter ksnowlv$ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+```terminal
+	ksnowlvdeMacBook-Pro:flutter ksnowlv$ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
 					Password:
+```					
 
 * 打开模拟器
 	* 在Mac机器上，可以通过	`open -a Simulator`	
 
 ### 5.创建工程使用`flutter create 项目名称`创建项目
 
-	在使用 flutter create命令创建flutter工程时，如果报Cannot create a project within the Flutter SDK. Target directory '/Users/ksnowlv/Music/flutter/flutter/my_app' is within the Flutter SDK at '/Users/ksnowlv/Music/flutter/flutter'的错误，注意不要在flutter SDK目录及子目录下创建工程，可考虑在其它目录下创建工程。例如平级目录
+在使用 **flutter create**命令创建flutter工程时，如果报Cannot create a project within the Flutter SDK. Target directory '/Users/ksnowlv/Music/flutter/flutter/my_app' is within the Flutter SDK at '/Users/ksnowlv/Music/flutter/flutter'的错误，
+	
+注意不要在flutter SDK目录及子目录下创建工程，可考虑在其它目录下创建工程。例如平级目录
 
 
 ### 6.运行工程
  使用flutter run运行app，
- 
+
+```terminal
  	../flutter/bin/flutter run
- 	
+``` 	
  	
 ![image](/images/post/2019-05-22-flutteran-zhuang-he-yun-xing/flutter-run_cmd.png) 
 

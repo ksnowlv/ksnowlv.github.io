@@ -24,6 +24,7 @@ mathjax: false
 
 实际操作如下：
 
+```terminal
 	ksnowlvdeMacBook-Pro:flutter ksnowlv$ ./flutter/bin/flutter create my_app
 	Creating project my_app...
 	  my_app/ios/Runner.xcworkspace/contents.xcworkspacedata (created)
@@ -110,3 +111,4 @@ mathjax: false
 	Your application code is in my_app/lib/main.dart.
 	
 	ksnowlvdeMacBook-Pro:flutter ksnowlv$ 
+```
