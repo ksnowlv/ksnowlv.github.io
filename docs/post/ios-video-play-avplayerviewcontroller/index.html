@@ -7,7 +7,9 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>视频 · ksnowlv技术笔记</title>
+    <title>
+          iOS视频播放-AVPlayerViewController - ksnowlv技术笔记
+        </title>
     
 
 <meta name="renderer" content="webkit" />
@@ -27,8 +29,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="梵梵爸" />
-  <meta name="description" content="Hugo theme jane example site." />
-  <meta name="keywords" content="Hugo, theme, jane" />
+  <meta name="description" content="" />
+<meta name="keywords" content="iOS, swift, 视频" />
+
 
 
 
@@ -38,8 +41,8 @@
 <meta name="generator" content="Hugo 0.117.0" />
 
 
-<link rel="canonical" href="https://ksnowlv.github.io/tags/%E8%A7%86%E9%A2%91/" />
-<link href="/tags/%E8%A7%86%E9%A2%91/index.xml" rel="alternate" type="application/rss+xml" title="ksnowlv技术笔记" />
+<link rel="canonical" href="https://ksnowlv.github.io/post/ios-video-play-avplayerviewcontroller/" />
+
 
 
 
@@ -64,14 +67,19 @@
 
 
 
-<meta property="og:title" content="视频" />
-<meta property="og:description" content="Hugo theme jane example site." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://ksnowlv.github.io/tags/%E8%A7%86%E9%A2%91/" />
-<meta itemprop="name" content="视频">
-<meta itemprop="description" content="Hugo theme jane example site."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="视频"/>
-<meta name="twitter:description" content="Hugo theme jane example site."/>
+<meta property="og:title" content="iOS视频播放-AVPlayerViewController" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ksnowlv.github.io/post/ios-video-play-avplayerviewcontroller/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-12-25T20:37:53+08:00" />
+<meta property="article:modified_time" content="2019-12-25T20:37:53+08:00" />
+<meta itemprop="name" content="iOS视频播放-AVPlayerViewController">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2019-12-25T20:37:53+08:00" />
+<meta itemprop="dateModified" content="2019-12-25T20:37:53+08:00" />
+<meta itemprop="wordCount" content="274">
+<meta itemprop="keywords" content="iOS,swift,视频," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="iOS视频播放-AVPlayerViewController"/>
+<meta name="twitter:description" content=""/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -307,67 +315,288 @@
 
     <div id="mobile-panel">
       <main id="main" class="main bg-llight wallpaper">
+        <div class="content-wrapper">
+    <div id="content" class="content">
+      <article class="post">
         
+        <header class="post-header">
+          <h1 class="post-title">iOS视频播放-AVPlayerViewController</h1>
+          
 
-<section id="archive" class="archive">
-  
+          <div class="post-meta">
+  <div class="post-meta-author">
+    by
+      <a href="/about">
+        <span class="post-meta-author-name">
+          梵梵爸
+        </span>
+      </a>
     
-      <div class="archive-title tag">
-        <h2 class="archive-name">标签： 视频</h2>
+  </div>
+
+  <div class="post-meta-time">
+    <time datetime="2019-12-25">
+      2019-12-25
+    </time>
+  </div>
+
+  
+
+
+  <div class="post-meta__right">
+    <span class="post-meta-more">
+        约 274 字 -
+        预计阅读 1 分钟
+      </span>
+
+    <div class="post-meta-category">
+        <a href="https://ksnowlv.github.io/categories/ios/"> iOS </a>
+          <a href="https://ksnowlv.github.io/categories/swift/"> swift </a>
+          <a href="https://ksnowlv.github.io/categories/%E8%A7%86%E9%A2%91/"> 视频 </a>
+          
       </div>
+
+
     
+    
+
+
+    
+    
+  </div>
+</div>
+
+        </header>
+
+        
+        <div class="post-content">
+          <h2 id="一avplayerviewcontroller播放视频">一.AVPlayerViewController播放视频</h2>
+<p>分两种形式</p>
+<ul>
+<li>内嵌视图的形式显示</li>
+<li>模态视图的形式显示</li>
+</ul>
+<h3 id="1初始化avplayerviewcontroller">1.初始化AVPlayerViewController</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadPlayer</span>() -&gt; Void {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> movieUrl = Bundle.main.path(forResource: <span style="color:#e6db74">&#34;zh-zhfanti-en&#34;</span>, ofType: <span style="color:#e6db74">&#34;m4v&#34;</span>) <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> player = AVPlayer(url: URL(fileURLWithPath: movieUrl))
+</span></span><span style="display:flex;"><span>        playerViewController = AVPlayerViewController()
+</span></span><span style="display:flex;"><span>        playerViewController!.player = player
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span></code></pre></div><h3 id="2内嵌视图的形式显示">2.内嵌视图的形式显示</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handlePlayInViewEvent</span>(sender: AnyObject) {
+</span></span><span style="display:flex;"><span>        loadPlayer()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> (playerViewController <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span>) <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        containerView?.addSubview(playerViewController!.view)
+</span></span><span style="display:flex;"><span>        playerViewController?.view.frame = containerView!.bounds
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.addChild(playerViewController!)
+</span></span><span style="display:flex;"><span>        playerViewController?.player?.play()
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   
+</span></span></code></pre></div><p>效果图</p>
+<p><img src="/images/post/iOS%E8%A7%86%E9%A2%91%E6%92%AD-AVPlayerViewController/1.png" alt="image"></p>
+<p>点击<code>AVPlayerViewController</code>可以全屏播放</p>
+<h3 id="3模态视图的形式显示">3.模态视图的形式显示</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>	<span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handlePlayWithModelViewEvent</span>(sender: AnyObject) {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        loadPlayer()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> (playerViewController <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span>) <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.present(playerViewController!, animated: <span style="color:#66d9ef">true</span>) { [<span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">self</span>] () -&gt; Void <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> self = <span style="color:#66d9ef">self</span> <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">self</span>.playerViewController?.player?.play()
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>效果图</p>
+<h3 id="二停止视频播放">二.停止视频播放</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleStopPlayEvent</span>(sender: AnyObject? ){
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> playerViewController <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ((playerViewController?.parent) <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span>) {
+</span></span><span style="display:flex;"><span>            playerViewController?.view.removeFromSuperview()
+</span></span><span style="display:flex;"><span>            playerViewController?.removeFromParent()
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> playerViewController <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> playerViewController!.isModalInPresentation {
+</span></span><span style="display:flex;"><span>            playerViewController?.dismiss(animated: (sender <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> ? <span style="color:#66d9ef">true</span>:<span style="color:#66d9ef">false</span>), completion: <span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        playerViewController?.player?.pause()
+</span></span><span style="display:flex;"><span>        playerViewController = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>    
+</span></span></code></pre></div>
+        </div>
+
+        
+        
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梵梵爸</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2019-12-25
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">原创文章，如需转载请注明文章作者和出处。谢谢</a></span>
+  </p>
+</div>
+
+
+
+        
+        
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    
+    
+  </div>
+</div>
+
+
+        <footer class="post-footer">
+          <div class="post-tags">
+              <a href="https://ksnowlv.github.io/tags/ios/">iOS</a>
+                <a href="https://ksnowlv.github.io/tags/swift/">swift</a>
+                <a href="https://ksnowlv.github.io/tags/%E8%A7%86%E9%A2%91/">视频</a>
+                
+            </div>
+
+
+          
+          <nav class="post-nav">
+            
+              <a class="prev" href="/post/swift-objective-c%E6%B7%B7%E7%BC%96swift%E4%BB%A3%E7%A0%81%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96/">
+                
+                <i class="iconfont">
+                  <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+                </i>
+                <span class="prev-text nav-default">Swift Objective C混编swift代码体积优化</span>
+                <span class="prev-text nav-mobile">上一篇</span>
+              </a>
+            
+              <a class="next" href="/post/2019-11-26-iosshi-pin-bo-fang-avplayer/">
+                <span class="next-text nav-default">iOS视频播放-AVPlayer和AVPlayerLayer</span>
+                <span class="prev-text nav-mobile">下一篇</span>
+                
+                <i class="iconfont">
+                  <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+                </i>
+              </a>
+          </nav>
+        </footer>
+      </article>
+
+      
+      
+        
+      
+
+
+      
+      
+
   
 
   
-    <div class="archive-post">
-      <time datetime="2019-12-25" class="archive-post-time">
-        2019-12-25
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/ios-video-play-avplayerviewcontroller/" class="archive-post-link">
-          iOS视频播放-AVPlayerViewController
-        </a>
-      </span>
+  
+    <div class="post">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="ksnowlv/ksnowlv.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkyMTUzODA1Mg=="
+    data-category="Announcements"
+    data-category-id="DIC_kwDOAUilBM4CYnZS"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+  
+
+  
+  
+
+  
+
+  
+
+    
+
+  
+
+  
+
+
     </div>
-  
-    <div class="archive-post">
-      <time datetime="2019-11-26" class="archive-post-time">
-        2019-11-26
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/2019-11-26-iosshi-pin-bo-fang-avplayer/" class="archive-post-link">
-          iOS视频播放-AVPlayer和AVPlayerLayer
-        </a>
-      </span>
+
+    
+    <nav class="toc" id="toc">
+    <div class="toc-title">文章目录</div>
+    <div class="toc-content custom-scrollbar">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一avplayerviewcontroller播放视频">一.AVPlayerViewController播放视频</a>
+      <ul>
+        <li><a href="#1初始化avplayerviewcontroller">1.初始化AVPlayerViewController</a></li>
+        <li><a href="#2内嵌视图的形式显示">2.内嵌视图的形式显示</a></li>
+        <li><a href="#3模态视图的形式显示">3.模态视图的形式显示</a></li>
+        <li><a href="#二停止视频播放">二.停止视频播放</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
     </div>
-  
-</section>
+  </nav>
 
 
-
-
-
-
-  
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-
-
-
-
-
+  </div>
 
       </main>
 
