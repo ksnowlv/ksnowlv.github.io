@@ -76,7 +76,7 @@
 <meta itemprop="name" content="git stash">
 <meta itemprop="description" content="git stash 如何使用git stash(暂存)命令呢？ 查看git stash相关命令 在mac terminal输入git help stash git stash list #显示出所有的暫存清单 git"><meta itemprop="datePublished" content="2014-07-29T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-07-29T00:00:00+00:00" />
-<meta itemprop="wordCount" content="505">
+<meta itemprop="wordCount" content="555">
 <meta itemprop="keywords" content="git," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="git stash"/>
 <meta name="twitter:description" content="git stash 如何使用git stash(暂存)命令呢？ 查看git stash相关命令 在mac terminal输入git help stash git stash list #显示出所有的暫存清单 git"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 505 字 -
+        约 555 字 -
         预计阅读 2 分钟
       </span>
 
@@ -386,66 +386,176 @@ git stash store [-m|--message &lt;message&gt;] [-q|--quiet] &lt;commit&gt;
 </code></pre>
 <p>示例如下：</p>
 <h3 id="创建ctxt文件并暂存暂存信息为add-ctxt">创建c.txt文件，并暂存，暂存信息为“add c.txt”</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$vim c.txt
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git add .
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash save &#34;add c.txt&#34;
-    Saved working directory and index state On master: add c.txt
-    HEAD is now at 5636eac add new file
-    
-</code></pre><h3 id="显示暂存列表信息">显示暂存列表信息</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash list
-    stash@{0}: On master: add c.txt
-    stash@{1}: On master: mm
-    stash@{2}: WIP on master: 5636eac add new file
-</code></pre><h3 id="显示最近一次暂存的一些修改">显示最近一次暂存的一些修改</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">   ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash show
-     c.txt | 1 +
-     1 file changed, 1 insertion(+)
-</code></pre><h3 id="把stash2的暂停版本更新到本地版本">把stash@{2}的暂停版本更新到本地版本</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">
-  ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash apply stash@{2} 
-    On branch master
-    Changes to be committed:
-      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
-
-	new file:   b.txt
-</code></pre><h3 id="丢弃stash2的暂停版本">丢弃stash@{2}的暂停版本</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">   ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash drop stash@{2}
-    Dropped stash@{2} (b6aaa50f4b36fb264b677bc4b35e51bf0601a3c0)
-</code></pre><h3 id="显示最新的暂存列表信息">显示最新的暂存列表信息</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">  ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash list
-    stash@{0}: On master: add c.txt
-    stash@{1}: On master: mm
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
-</code></pre><h3 id="把stash1stash0暂存版本恢复到本地">把stash@{1}，stash@{0}暂存版本恢复到本地</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash apply stash@{1}
-    On branch master
-    Changes to be committed:
-      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
-
-	new file:   b.txt
-
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash apply stash@{0}
-    On branch master
-    Changes to be committed:
-      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
-
-	new file:   b.txt
-	new file:   c.txt
-</code></pre><h3 id="观察是不是先前暂停版本的文件">观察是不是先前暂停版本的文件</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$ls
-    a.text b.txt  c.txt
-</code></pre><h3 id="显示暂存列表信息-1">显示暂存列表信息</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">  ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash list
-    stash@{0}: On master: add c.txt
-    stash@{1}: On master: mm
-</code></pre><h3 id="清除暂存列表信息">清除暂存列表信息</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash clear
-    #暂存列表已经被清空
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash list
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
-    
-</code></pre>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$vim c.txt
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git add .
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash save &#34;add c.txt&#34;
+</span></span><span style="display:flex;"><span>    Saved working directory and index state On master: add c.txt
+</span></span><span style="display:flex;"><span>    HEAD is now at 5636eac add new file
+</span></span><span style="display:flex;"><span>    
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="显示暂存列表信息">显示暂存列表信息</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash list
+</span></span><span style="display:flex;"><span>    stash@{0}: On master: add c.txt
+</span></span><span style="display:flex;"><span>    stash@{1}: On master: mm
+</span></span><span style="display:flex;"><span>    stash@{2}: WIP on master: 5636eac add new file
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="显示最近一次暂存的一些修改">显示最近一次暂存的一些修改</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>   ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash show
+</span></span><span style="display:flex;"><span>     c.txt | 1 +
+</span></span><span style="display:flex;"><span>     1 file changed, 1 insertion(+)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="把stash2的暂停版本更新到本地版本">把stash@{2}的暂停版本更新到本地版本</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash apply stash@{2} 
+</span></span><span style="display:flex;"><span>    On branch master
+</span></span><span style="display:flex;"><span>    Changes to be committed:
+</span></span><span style="display:flex;"><span>      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	new file:   b.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="丢弃stash2的暂停版本">丢弃stash@{2}的暂停版本</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>   ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash drop stash@{2}
+</span></span><span style="display:flex;"><span>    Dropped stash@{2} (b6aaa50f4b36fb264b677bc4b35e51bf0601a3c0)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="显示最新的暂存列表信息">显示最新的暂存列表信息</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash list
+</span></span><span style="display:flex;"><span>    stash@{0}: On master: add c.txt
+</span></span><span style="display:flex;"><span>    stash@{1}: On master: mm
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="把stash1stash0暂存版本恢复到本地">把stash@{1}，stash@{0}暂存版本恢复到本地</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash apply stash@{1}
+</span></span><span style="display:flex;"><span>    On branch master
+</span></span><span style="display:flex;"><span>    Changes to be committed:
+</span></span><span style="display:flex;"><span>      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	new file:   b.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash apply stash@{0}
+</span></span><span style="display:flex;"><span>    On branch master
+</span></span><span style="display:flex;"><span>    Changes to be committed:
+</span></span><span style="display:flex;"><span>      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	new file:   b.txt
+</span></span><span style="display:flex;"><span>	new file:   c.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="观察是不是先前暂停版本的文件">观察是不是先前暂停版本的文件</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$ls
+</span></span><span style="display:flex;"><span>    a.text b.txt  c.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="显示暂存列表信息-1">显示暂存列表信息</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash list
+</span></span><span style="display:flex;"><span>    stash@{0}: On master: add c.txt
+</span></span><span style="display:flex;"><span>    stash@{1}: On master: mm
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="清除暂存列表信息">清除暂存列表信息</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash clear
+</span></span><span style="display:flex;"><span>    #暂存列表已经被清空
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git stash list
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
+</span></span><span style="display:flex;"><span>    
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
         </div>
 
         

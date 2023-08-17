@@ -76,7 +76,7 @@
 <meta itemprop="name" content="git revert">
 <meta itemprop="description" content="git revert操作命令 如何使用git的撤消操作呢？ git revert撤销某次操作，此次操作之前的commit都会被保留。 因此revert 只會使c"><meta itemprop="datePublished" content="2014-07-29T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-07-29T00:00:00+00:00" />
-<meta itemprop="wordCount" content="304">
+<meta itemprop="wordCount" content="334">
 <meta itemprop="keywords" content="git," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="git revert"/>
 <meta name="twitter:description" content="git revert操作命令 如何使用git的撤消操作呢？ git revert撤销某次操作，此次操作之前的commit都会被保留。 因此revert 只會使c"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 304 字 -
+        约 334 字 -
         预计阅读 1 分钟
       </span>
 
@@ -377,38 +377,80 @@ git revert -n HEAD~&lt;number&gt;   #撤销某个版本，number为向前数的�
 </code></pre>
 <p><code>git reset</code> 是撤销某次提交，但是此次之后的修改都会被退回到暂存区。</p>
 <h3 id="1撤销到某一个提交号的版">1.撤销到某一个提交号的版</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">    git revert -n 08a94d26db3e7678d615625eb6c839729a21ac3f
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git status
-    On branch master
-    You are currently reverting commit 08a94d2.
-      (all conflicts fixed: run &#34;git revert --continue&#34;)
-      (use &#34;git revert --abort&#34; to cancel the revert operation)
-
-    Changes to be committed:
-      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
-
-	deleted:    1.txt
-
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
-</code></pre><h3 id="2撤销到某个版本">2.撤销到某个版本</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git revert -n HEAD~2
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$ls
-    a     a.txt
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git status
-    On branch master
-    You are currently reverting commit d5527c7.
-      (all conflicts fixed: run &#34;git revert --continue&#34;)
-      (use &#34;git revert --abort&#34; to cancel the revert operation)
-
-    Changes to be committed:
-      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
-
-	deleted:    1.txt
-	new file:   a.txt
-	new file:   a/a.txt
-
-    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
-</code></pre>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    git revert -n 08a94d26db3e7678d615625eb6c839729a21ac3f
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git status
+</span></span><span style="display:flex;"><span>    On branch master
+</span></span><span style="display:flex;"><span>    You are currently reverting commit 08a94d2.
+</span></span><span style="display:flex;"><span>      (all conflicts fixed: run &#34;git revert --continue&#34;)
+</span></span><span style="display:flex;"><span>      (use &#34;git revert --abort&#34; to cancel the revert operation)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Changes to be committed:
+</span></span><span style="display:flex;"><span>      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	deleted:    1.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2撤销到某个版本">2.撤销到某个版本</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git revert -n HEAD~2
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$ls
+</span></span><span style="display:flex;"><span>    a     a.txt
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$git status
+</span></span><span style="display:flex;"><span>    On branch master
+</span></span><span style="display:flex;"><span>    You are currently reverting commit d5527c7.
+</span></span><span style="display:flex;"><span>      (all conflicts fixed: run &#34;git revert --continue&#34;)
+</span></span><span style="display:flex;"><span>      (use &#34;git revert --abort&#34; to cancel the revert operation)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Changes to be committed:
+</span></span><span style="display:flex;"><span>      (use &#34;git reset HEAD &lt;file&gt;...&#34; to unstage)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	deleted:    1.txt
+</span></span><span style="display:flex;"><span>	new file:   a.txt
+</span></span><span style="display:flex;"><span>	new file:   a/a.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ksnowlv@ksnowlvdeMacBook-Pro~/Music/gittest$
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
         </div>
 
         

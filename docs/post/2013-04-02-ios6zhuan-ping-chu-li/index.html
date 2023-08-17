@@ -29,7 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="author" content="梵梵爸" />
-  <meta name="description" content="以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法： [self.window addSubview:self.viewController.view]; 我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改成" />
+  <meta name="description" content="以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法： 1 [self.window addSubview:self.viewController.view]; 我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改" />
 
   <meta name="keywords" content="Hugo, theme, jane" />
 
@@ -68,18 +68,18 @@
 
 
 <meta property="og:title" content="iOS6转屏处理" />
-<meta property="og:description" content="以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法： [self.window addSubview:self.viewController.view]; 我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改成" />
+<meta property="og:description" content="以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法： 1 [self.window addSubview:self.viewController.view]; 我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ksnowlv.github.io/post/2013-04-02-ios6zhuan-ping-chu-li/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2013-04-02T00:00:00+00:00" />
 <meta property="article:modified_time" content="2013-04-02T00:00:00+00:00" />
 <meta itemprop="name" content="iOS6转屏处理">
-<meta itemprop="description" content="以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法： [self.window addSubview:self.viewController.view]; 我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改成"><meta itemprop="datePublished" content="2013-04-02T00:00:00+00:00" />
+<meta itemprop="description" content="以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法： 1 [self.window addSubview:self.viewController.view]; 我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改"><meta itemprop="datePublished" content="2013-04-02T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-04-02T00:00:00+00:00" />
-<meta itemprop="wordCount" content="350">
+<meta itemprop="wordCount" content="367">
 <meta itemprop="keywords" content="UI," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS6转屏处理"/>
-<meta name="twitter:description" content="以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法： [self.window addSubview:self.viewController.view]; 我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改成"/>
+<meta name="twitter:description" content="以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法： 1 [self.window addSubview:self.viewController.view]; 我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 350 字 -
+        约 367 字 -
         预计阅读 1 分钟
       </span>
 
@@ -369,29 +369,76 @@
         
         <div class="post-content">
           <p>以前的 iOS 程式 (4.0 版以前) 都是用 addSubview 来将 app 的 root view 加到 window 上面，例如下面的作法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>[self.window addSubview:self.viewController.view];
-</span></span></code></pre></div><p>我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改成这个方式：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>([[[UIDevice currentDevice] systemVersion] floatValue] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">4.0</span>) {
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>[self.window addSubview:self.viewController.view];
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我发现在 iOS 6 上面，这个作法会使 rotation 失效 (iOS 6 以前完全没问题)，必须改成这个方式：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>([[[UIDevice currentDevice] systemVersion] floatValue] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">4.0</span>) {
 </span></span><span style="display:flex;"><span>        self.window.rootViewController <span style="color:#f92672">=</span> self.viewController;
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>        [self.window addSubview:self.viewController.view];
 </span></span><span style="display:flex;"><span>    }
-</span></span></code></pre></div><p>iOS 4 之后才支持self.window.rootViewController = self.viewController;的方式。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>iOS 4 之后才支持self.window.rootViewController = self.viewController;的方式。</p>
 <p>另外，相关的ViewController中，如果支持转屏需要添加如下CODE：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">shouldAutorotateToInterfaceOrientation:</span>(UIInterfaceOrientation)interfaceOrientation {
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">shouldAutorotateToInterfaceOrientation:</span>(UIInterfaceOrientation)interfaceOrientation {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> (interfaceOrientation <span style="color:#f92672">!=</span> UIDeviceOrientationPortraitUpsideDown);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">shouldAutorotate</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> YES;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>说明：如果你想禁止转屏，可以返回NO</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (NSUInteger)<span style="color:#a6e22e">supportedInterfaceOrientations</span> {
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>说明：如果你想禁止转屏，可以返回NO</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (NSUInteger)<span style="color:#a6e22e">supportedInterfaceOrientations</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> UIInterfaceOrientationMaskAllButUpsideDown;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>如果VIEW需要处理转屏，需要添加如下代码处理：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>self.autoresizingMask <span style="color:#f92672">=</span> UIViewAutoresizingFlexibleWidth <span style="color:#f92672">|</span> UIViewAutoresizingFlexibleHeight;
-</span></span></code></pre></div><p>view会自动调整宽和高
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果VIEW需要处理转屏，需要添加如下代码处理：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>self.autoresizingMask <span style="color:#f92672">=</span> UIViewAutoresizingFlexibleWidth <span style="color:#f92672">|</span> UIViewAutoresizingFlexibleHeight;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>view会自动调整宽和高
 要么重写view的<code>- (void) layoutSubviews</code>方法，调整view，添加对应的处理。推荐前者方法，后者方法除非在转屏时会修改重新调整某些UI的精确位置时使用</p>
 
         </div>

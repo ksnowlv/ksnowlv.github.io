@@ -76,7 +76,7 @@
 <meta itemprop="name" content="Mac配置jni开发环境(一)">
 <meta itemprop="description" content="Mac机器上，在进行jni开发之前，android studio 3.3.2，需要配置java环境与ndk环境。 一.配置java环境参数 1.jdk安装目录"><meta itemprop="datePublished" content="2019-04-09T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2019-04-09T00:00:00+00:00" />
-<meta itemprop="wordCount" content="362">
+<meta itemprop="wordCount" content="398">
 <meta itemprop="keywords" content="jni," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Mac配置jni开发环境(一)"/>
 <meta name="twitter:description" content="Mac机器上，在进行jni开发之前，android studio 3.3.2，需要配置java环境与ndk环境。 一.配置java环境参数 1.jdk安装目录"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 362 字 -
+        约 398 字 -
         预计阅读 1 分钟
       </span>
 
@@ -372,51 +372,117 @@
 <h2 id="一配置java环境参数">一.配置java环境参数</h2>
 <h3 id="1jdk安装目录">1.jdk安装目录</h3>
 <p>使用<em>which java</em>查看jdk安装目录</p>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">	ksnowlvdeMacBook-Pro:~ ksnowlv$ which java
- 	/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/bin/java
-</code></pre><p><img src="/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/jdk-path.png" alt="image"></p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>	ksnowlvdeMacBook-Pro:~ ksnowlv$ which java
+</span></span><span style="display:flex;"><span> 	/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/bin/java
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/jdk-path.png" alt="image"></p>
 <h3 id="2在bash_profile文件配置java环境">2.在.bash_profile文件配置java环境</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">	JAVA_HOME=/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
-	PATH=$JAVA_HOME/bin:$PATH:.
-	CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.
-
-	export JAVA_HOME
-	export PATH
-	export CLASSPATH
-	
-</code></pre><h3 id="3保存bash_profile并使之生效">3.保存.bash_profile，并使之生效。</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">
-	ksnowlvdeMacBook-Pro:~ ksnowlv$ source .bash_profile
-	
-	ksnowlvdeMacBook-Pro:~ ksnowlv$ echo $JAVA_HOME
-	/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
-	
-	ksnowlvdeMacBook-Pro:~ ksnowlv$ java -version
-	Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
-	java version &#34;1.6.0_65&#34;
-	Java(TM) SE Runtime Environment (build 1.6.0_65-b14-468)
-	Java HotSpot(TM) 64-Bit Server VM (build 20.65-b04-468, mixed mode)
-	
-</code></pre><h2 id="二配置ndk">二.配置ndk</h2>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>	JAVA_HOME=/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+</span></span><span style="display:flex;"><span>	PATH=$JAVA_HOME/bin:$PATH:.
+</span></span><span style="display:flex;"><span>	CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	export JAVA_HOME
+</span></span><span style="display:flex;"><span>	export PATH
+</span></span><span style="display:flex;"><span>	export CLASSPATH
+</span></span><span style="display:flex;"><span>	
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3保存bash_profile并使之生效">3.保存.bash_profile，并使之生效。</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	ksnowlvdeMacBook-Pro:~ ksnowlv$ source .bash_profile
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	ksnowlvdeMacBook-Pro:~ ksnowlv$ echo $JAVA_HOME
+</span></span><span style="display:flex;"><span>	/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	ksnowlvdeMacBook-Pro:~ ksnowlv$ java -version
+</span></span><span style="display:flex;"><span>	Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
+</span></span><span style="display:flex;"><span>	java version &#34;1.6.0_65&#34;
+</span></span><span style="display:flex;"><span>	Java(TM) SE Runtime Environment (build 1.6.0_65-b14-468)
+</span></span><span style="display:flex;"><span>	Java HotSpot(TM) 64-Bit Server VM (build 20.65-b04-468, mixed mode)
+</span></span><span style="display:flex;"><span>	
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="二配置ndk">二.配置ndk</h2>
 <h3 id="1bash_profile文件配置ndk路径">1..bash_profile文件配置ndk路径</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">
- 	export ANDROID_NDK_ROOT=/Users/ksnowlv/Library/Android/sdk/ndk-bundle 
- 	export ANDROID_SDK_ROOT=/Users/ksnowlv/Library/Android/sdk
-
- 	export PATH=$PATH:$ANDROID_SDK_ROOT  
- 	export PATH=$PATH:$ANDROID_NDK_ROOT 
-</code></pre><p>ndk路径，sdk路径一定要与实际目录一致，参考下图
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> 	export ANDROID_NDK_ROOT=/Users/ksnowlv/Library/Android/sdk/ndk-bundle 
+</span></span><span style="display:flex;"><span> 	export ANDROID_SDK_ROOT=/Users/ksnowlv/Library/Android/sdk
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> 	export PATH=$PATH:$ANDROID_SDK_ROOT  
+</span></span><span style="display:flex;"><span> 	export PATH=$PATH:$ANDROID_NDK_ROOT 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ndk路径，sdk路径一定要与实际目录一致，参考下图
 <img src="/images/post/2019-04-09-macxia-pei-zhi-jnikai-fa-huan-jing-1/jdk-path.png" alt="image"></p>
 <h3 id="2保存bash_profile并使之生效">2.保存.bash_profile，并使之生效。</h3>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">
-ksnowlvdeMacBook-Pro:~ ksnowlv$ source .bash_profile
-	ksnowlvdeMacBook-Pro:~ ksnowlv$ echo $ANDROID_NDK_ROOT
-	/Users/ksnowlv/Library/Android/sdk/ndk-bundle
-	ksnowlvdeMacBook-Pro:~ ksnowlv$ echo $ANDROID_SDK_ROOT
-	/Users/ksnowlv/Library/Android/sdk
-	ksnowlvdeMacBook-Pro:~ ksnowlv$ 
-	
-</code></pre><h2 id="三其它">三.其它</h2>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ksnowlvdeMacBook-Pro:~ ksnowlv$ source .bash_profile
+</span></span><span style="display:flex;"><span>	ksnowlvdeMacBook-Pro:~ ksnowlv$ echo $ANDROID_NDK_ROOT
+</span></span><span style="display:flex;"><span>	/Users/ksnowlv/Library/Android/sdk/ndk-bundle
+</span></span><span style="display:flex;"><span>	ksnowlvdeMacBook-Pro:~ ksnowlv$ echo $ANDROID_SDK_ROOT
+</span></span><span style="display:flex;"><span>	/Users/ksnowlv/Library/Android/sdk
+</span></span><span style="display:flex;"><span>	ksnowlvdeMacBook-Pro:~ ksnowlv$ 
+</span></span><span style="display:flex;"><span>	
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="三其它">三.其它</h2>
 <h3 id="1关于jdk版本">1.关于jdk版本</h3>
 <p>Q：为什么不使用jdk-12.jdk？而使用了旧版jdk？</p>
 <p>A：javah命令在旧版有效。新版可使用javac -h</p>

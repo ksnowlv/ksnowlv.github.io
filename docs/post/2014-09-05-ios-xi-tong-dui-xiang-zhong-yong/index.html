@@ -76,7 +76,7 @@
 <meta itemprop="name" content="iOS系统对象重用">
 <meta itemprop="description" content="1.对象重用 当我们重复创建/销毁对象的操作时，iOS系统对象是否会被重用呢？ 2.测试思路 以0.1s为间隔的timer,周期性的创建UILab"><meta itemprop="datePublished" content="2014-09-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-09-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="426">
+<meta itemprop="wordCount" content="461">
 <meta itemprop="keywords" content="iOS," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS系统对象重用"/>
 <meta name="twitter:description" content="1.对象重用 当我们重复创建/销毁对象的操作时，iOS系统对象是否会被重用呢？ 2.测试思路 以0.1s为间隔的timer,周期性的创建UILab"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 426 字 -
+        约 461 字 -
         预计阅读 1 分钟
       </span>
 
@@ -374,7 +374,29 @@
 <pre><code>以0.1s为间隔的timer,周期性的创建UILabel/NSMutableData，观察它们内存地址变化情况？
 </code></pre>
 <h3 id="3测试代码">3.测试代码</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">viewDidLoad</span> {
 </span></span><span style="display:flex;"><span>    [super viewDidLoad];
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Do any additional setup after loading the view, typically from a nib.
@@ -392,25 +414,50 @@
 </span></span><span style="display:flex;"><span>    NSMutableData <span style="color:#f92672">*</span>data <span style="color:#f92672">=</span> [[NSMutableData alloc] initWithCapacity:<span style="color:#ae81ff">1024</span>];
 </span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;UILabel address = %p,NSMutableData address = %p&#34;</span>,label,data);
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="截取部分日志情况">截取部分日志情况</h4>
-<pre tabindex="0"><code class="language-terminal" data-lang="terminal">2014-09-05 16:22:43.564 DataReuseTest[70877:5448269] UILabel address = 0xba12bd0,NSMutableData address = 0xba06aa0
-2014-09-05 16:22:43.664 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
-2014-09-05 16:22:43.764 DataReuseTest[70877:5448269] UILabel address = 0xbb0d7d0,NSMutableData address = 0xbb08710
-2014-09-05 16:22:43.864 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
-2014-09-05 16:22:43.964 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
-2014-09-05 16:22:44.064 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
-2014-09-05 16:22:44.164 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xae0d9d0
-2014-09-05 16:22:44.263 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
-2014-09-05 16:22:44.364 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
-2014-09-05 16:22:44.464 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
-2014-09-05 16:22:44.564 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
-2014-09-05 16:22:44.664 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xbb02d20
-2014-09-05 16:22:44.764 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
-2014-09-05 16:22:44.864 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba13490
-2014-09-05 16:22:44.963 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba13490
-2014-09-05 16:22:45.064 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
-2014-09-05 16:22:45.164 DataReuseTest[70877:5448269] UILabel address = 0xb84ea90,NSMutableData address = 0xb811d60
-</code></pre><h3 id="4结论">4.结论</h3>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="截取部分日志情况">截取部分日志情况</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>2014-09-05 16:22:43.564 DataReuseTest[70877:5448269] UILabel address = 0xba12bd0,NSMutableData address = 0xba06aa0
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:43.664 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:43.764 DataReuseTest[70877:5448269] UILabel address = 0xbb0d7d0,NSMutableData address = 0xbb08710
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:43.864 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:43.964 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.064 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.164 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xae0d9d0
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.263 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.364 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.464 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.564 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba12330
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.664 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xbb02d20
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.764 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.864 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba13490
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:44.963 DataReuseTest[70877:5448269] UILabel address = 0xba315f0,NSMutableData address = 0xba13490
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:45.064 DataReuseTest[70877:5448269] UILabel address = 0xae104c0,NSMutableData address = 0xae19f70
+</span></span><span style="display:flex;"><span>2014-09-05 16:22:45.164 DataReuseTest[70877:5448269] UILabel address = 0xb84ea90,NSMutableData address = 0xb811d60
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4结论">4.结论</h3>
 <p>iOS系统较低概率会输出可重用的对象,so,注意内存使用效率[可用Allocation工具检测]。</p>
 <p>不要寄希望于系统对你低效的代码进行你想象中的优化!</p>
 

@@ -76,7 +76,7 @@
 <meta itemprop="name" content="swift中escaping与noescaping之区别">
 <meta itemprop="description" content="Swift3之前： 默认escaping，逃逸闭包，是不安全的。对于非逃逸闭包，你需要标记@noescaping Swift3及之后 默认是noe"><meta itemprop="datePublished" content="2018-07-16T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-07-16T00:00:00+00:00" />
-<meta itemprop="wordCount" content="335">
+<meta itemprop="wordCount" content="352">
 <meta itemprop="keywords" content="swift," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="swift中escaping与noescaping之区别"/>
 <meta name="twitter:description" content="Swift3之前： 默认escaping，逃逸闭包，是不安全的。对于非逃逸闭包，你需要标记@noescaping Swift3及之后 默认是noe"/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 335 字 -
+        约 352 字 -
         预计阅读 1 分钟
       </span>
 
@@ -377,28 +377,75 @@
 <h2 id="一具体区别">一.具体区别</h2>
 <p>先举例说明。</p>
 <h3 id="1-声明testblock">1 声明testBlock</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">typealias</span> testBlock = (<span style="color:#66d9ef">_</span> type: Int, <span style="color:#66d9ef">_</span> contextObject: Any) -&gt; Void
-</span></span></code></pre></div><h3 id="2-noescaping">2 <code>noescaping</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testBlock1</span>(block:testBlock) {
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">typealias</span> testBlock = (<span style="color:#66d9ef">_</span> type: Int, <span style="color:#66d9ef">_</span> contextObject: Any) -&gt; Void
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-noescaping">2 <code>noescaping</code></h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testBlock1</span>(block:testBlock) {
 </span></span><span style="display:flex;"><span>        block(<span style="color:#ae81ff">0</span>,<span style="color:#e6db74">&#34;hello&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
-</span></span></code></pre></div><h3 id="3-escaping">3 <code>escaping</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>   <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testBlock2</span>(block:@escaping testBlock) {
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-escaping">3 <code>escaping</code></h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>   <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testBlock2</span>(block:@escaping testBlock) {
 </span></span><span style="display:flex;"><span>        DispatchQueue.global().async {
 </span></span><span style="display:flex;"><span>            block(<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#34;world&#34;</span>)
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
-</span></span></code></pre></div><h3 id="4-调用">4 调用</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>      testBlock1(block:{ (type: Int, contextObject: Any) <span style="color:#66d9ef">in</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4-调用">4 调用</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>      testBlock1(block:{ (type: Int, contextObject: Any) <span style="color:#66d9ef">in</span>
 </span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;type=</span><span style="color:#e6db74">\(</span>type<span style="color:#e6db74">)</span><span style="color:#e6db74">,contextObject=</span><span style="color:#e6db74">\(</span>contextObject<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>        } )
 </span></span><span style="display:flex;"><span>        testBlock2(block: {(type: Int, contextObject: Any) <span style="color:#66d9ef">in</span>
 </span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;type=</span><span style="color:#e6db74">\(</span>type<span style="color:#e6db74">)</span><span style="color:#e6db74">,contextObject=</span><span style="color:#e6db74">\(</span>contextObject<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>        })
-</span></span></code></pre></div><h3 id="5-输出日志">5 输出日志</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>type=<span style="color:#ae81ff">0</span>,contextObject=hello
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="5-输出日志">5 输出日志</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>type=<span style="color:#ae81ff">0</span>,contextObject=hello
 </span></span><span style="display:flex;"><span>type=<span style="color:#ae81ff">1</span>,contextObject=world
-</span></span></code></pre></div><h2 id="二总结">二.总结</h2>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="二总结">二.总结</h2>
 <h3 id="1escaping会逃逸">1.<code>@escaping</code>会“逃逸”</h3>
 <p>通俗点来讲，这个闭包的作用域可能超过该函数的作用域，也就是说，该闭包在函数执行完成之后才被调用。</p>
 <h3 id="2noescaping非逃逸">2.<code>@noescaping</code>非逃逸</h3>
