@@ -2,6 +2,7 @@
 title: "Python应用程序打包安装"
 date: 2023-08-16T19:41:33+08:00
 lastmod: 2023-08-16T19:41:33+08:00
+slug: "python-application-packaging-and-installation"
 keywords: ["Python", "应用打包"]
 tags: ["Python", "应用打包"]
 categories: ["Python"]
