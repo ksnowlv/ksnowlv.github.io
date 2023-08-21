@@ -1,5 +1,5 @@
 ---
-title: "Swift Objective C混编swift代码体积优化"
+title: "Swift与Objective-C混编swift代码体积优化"
 date: 2021-04-14T19:46:06+08:00
 lastmod: 2021-04-14T19:46:06+08:00
 keywords: ["swift", "iOS", "代码体积", "优化"]
@@ -30,14 +30,15 @@ reward: true
 @objc class STXXXXXBuilder: NSObject {
 }
 ```
+
 调整为
+
 ```swift
 class STXXXXXBuilder{
 }
   ```
 
 ### 2.取消类中非公有方法或扩展导出
-
 
 ```swift
 
@@ -100,6 +101,5 @@ class STXXXXCell: STBaseTableViewCell {
 ![image](/images/post/Swift-Objective-c混编swift代码体积优化/result.png)
 
 ## 四.其它
+
 可以想下swift类中IBOutlet/IBAction为什么是导出objective-c方法的？
-
-
