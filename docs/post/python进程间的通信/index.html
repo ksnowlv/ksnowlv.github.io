@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-          Python线程间的通信-队列(Queue) - ksnowlv技术笔记
+          Python进程间的通信 - ksnowlv技术笔记
         </title>
     
 
@@ -30,7 +30,7 @@
 
 <meta name="author" content="梵梵爸" />
   <meta name="description" content="" />
-<meta name="keywords" content="Python, 多线程, 队列" />
+<meta name="keywords" content="Python, 多进程, 队列, 信号量, 进程池" />
 
 
 
@@ -41,7 +41,7 @@
 <meta name="generator" content="Hugo 0.117.0" />
 
 
-<link rel="canonical" href="https://ksnowlv.github.io/post/python%E7%BA%BF%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1-%E9%98%9F%E5%88%97queue/" />
+<link rel="canonical" href="https://ksnowlv.github.io/post/python%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/" />
 
 
 
@@ -67,18 +67,18 @@
 
 
 
-<meta property="og:title" content="Python线程间的通信-队列(Queue)" />
+<meta property="og:title" content="Python进程间的通信" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ksnowlv.github.io/post/python%E7%BA%BF%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1-%E9%98%9F%E5%88%97queue/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-08-23T09:38:12+08:00" />
-<meta property="article:modified_time" content="2023-08-23T09:38:12+08:00" />
-<meta itemprop="name" content="Python线程间的通信-队列(Queue)">
-<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-08-23T09:38:12+08:00" />
-<meta itemprop="dateModified" content="2023-08-23T09:38:12+08:00" />
-<meta itemprop="wordCount" content="668">
-<meta itemprop="keywords" content="Python,多线程,队列," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Python线程间的通信-队列(Queue)"/>
+<meta property="og:url" content="https://ksnowlv.github.io/post/python%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-08-24T15:38:19+08:00" />
+<meta property="article:modified_time" content="2023-08-24T15:38:19+08:00" />
+<meta itemprop="name" content="Python进程间的通信">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-08-24T15:38:19+08:00" />
+<meta itemprop="dateModified" content="2023-08-24T15:38:19+08:00" />
+<meta itemprop="wordCount" content="2269">
+<meta itemprop="keywords" content="Python,多进程," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python进程间的通信"/>
 <meta name="twitter:description" content=""/>
 
 <!--[if lte IE 9]>
@@ -320,7 +320,7 @@
       <article class="post">
         
         <header class="post-header">
-          <h1 class="post-title">Python线程间的通信-队列(Queue)</h1>
+          <h1 class="post-title">Python进程间的通信</h1>
           
 
           <div class="post-meta">
@@ -335,8 +335,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2023-08-23">
-      2023-08-23
+    <time datetime="2023-08-24">
+      2023-08-24
     </time>
   </div>
 
@@ -345,14 +345,13 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 668 字 -
-        预计阅读 2 分钟
+        约 2269 字 -
+        预计阅读 5 分钟
       </span>
 
     <div class="post-meta-category">
         <a href="https://ksnowlv.github.io/categories/python/"> Python </a>
-          <a href="https://ksnowlv.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"> 多线程 </a>
-          <a href="https://ksnowlv.github.io/categories/%E9%98%9F%E5%88%97/"> 队列 </a>
+          <a href="https://ksnowlv.github.io/categories/%E5%A4%9A%E8%BF%9B%E7%A8%8B/"> 多进程 </a>
           
       </div>
 
@@ -370,14 +369,114 @@
 
         
         <div class="post-content">
-          <h2 id="python-互斥锁可重入锁">Python 互斥锁/可重入锁</h2>
-<p>Python多线程场景下，线程间的通信可以使用Queue，分为</p>
-<ul>
-<li>FIFO（先入先出)队列Queue: Queue.Queue:队列顺序为先进先出</li>
-<li>LIFO（后入先出）队列LifoQueue: 队列顺序为后进先出</li>
-<li>优先级队列PriorityQueue:队列会自动根据元素的优先级进行排序，优先级数字越小，代表优先级越高，排在队列的最前面.</li>
-</ul>
-<h3 id="1fifo先入先出队列queue示例">1.FIFO（先入先出)队列Queue示例</h3>
+          <h2 id="python进程间的通信">Python进程间的通信</h2>
+<p>在 Python 中，有几种常用的方式用于实现进程间通信</p>
+<h3 id="1管道-pipe">1.管道 (Pipe)</h3>
+<p>管道是一种常用的进程间通信机制，它可以在父进程和子进程之间传递数据。通过 multiprocessing 模块中的 Pipe() 函数可以创建一个双向管道，其中一个连接可以用于父进程向子进程发送数据，另一个连接可以用于子进程向父进程发送数据。</p>
+<p>示例代码</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">work_with_pipe</span>(self, connection):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>            data <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;child_process recv </span><span style="color:#e6db74">{</span>data<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> data <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;close&#34;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> type(data) <span style="color:#f92672">in</span> [int, float]:
+</span></span><span style="display:flex;"><span>                result <span style="color:#f92672">=</span> data <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>                connection<span style="color:#f92672">.</span>send(result)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            connection<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;error = </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调用示例</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_with_pipe</span>(self):
+</span></span><span style="display:flex;"><span>        parent_connection, child_connection <span style="color:#f92672">=</span> Pipe()
+</span></span><span style="display:flex;"><span>        child_process <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>work_with_pipe, args<span style="color:#f92672">=</span>(child_connection,))
+</span></span><span style="display:flex;"><span>        child_process<span style="color:#f92672">.</span>start()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>            parent_connection<span style="color:#f92672">.</span>send(i)
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">=</span> parent_connection<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;parent_connection recv </span><span style="color:#e6db74">{</span>res<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        parent_connection<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#34;close&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        child_process<span style="color:#f92672">.</span>join()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;process finish&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行情况</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>child_process recv <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>parent_connection recv <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>child_process recv <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>parent_connection recv <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>child_process recv <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>parent_connection recv <span style="color:#ae81ff">9</span>
+</span></span><span style="display:flex;"><span>child_process recv <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>parent_connection recv <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>child_process recv close
+</span></span><span style="display:flex;"><span>process finish
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2队列-queue">2.队列 (Queue)</h3>
+<p>队列是在多个进程之间安全传递消息的一种简单方式。multiprocessing 模块中的 Queue 类实现了进程安全的队列，可以用于在多个进程之间传递数据。</p>
+<p>示例代码</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -396,27 +495,79 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">work</span>(self):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">work_with_queue_produce</span>(self):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>queue<span style="color:#f92672">.</span>put(i)
+</span></span><span style="display:flex;"><span>            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>queue<span style="color:#f92672">.</span>put(<span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">work_with_queue_consume</span>(self):
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>:
 </span></span><span style="display:flex;"><span>                item <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>queue<span style="color:#f92672">.</span>get()
-</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---work---item:</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>queue<span style="color:#f92672">.</span>task_done()
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> self<span style="color:#f92672">.</span>queue<span style="color:#f92672">.</span>empty():
-</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;queue empty&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>lock:
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>exit_flag:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> item <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>                    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---consume--- finish&#34;</span>)
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---consume--- item:</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---consume--- error:</span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="2lifo后入先出队列lifoqueue示例">2.LIFO（后入先出）队列LifoQueue示例</h3>
+</div><p>调用示例</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_with_queue</span>(self):
+</span></span><span style="display:flex;"><span>        producer <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>work_with_queue_produce)
+</span></span><span style="display:flex;"><span>        consumer <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>work_with_queue_consume)
+</span></span><span style="display:flex;"><span>        producer<span style="color:#f92672">.</span>start()
+</span></span><span style="display:flex;"><span>        consumer<span style="color:#f92672">.</span>start()
+</span></span><span style="display:flex;"><span>        producer<span style="color:#f92672">.</span>join()
+</span></span><span style="display:flex;"><span>        consumer<span style="color:#f92672">.</span>join()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行情况</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">---</span>consume<span style="color:#f92672">---</span> item:<span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>consume<span style="color:#f92672">---</span> item:<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>consume<span style="color:#f92672">---</span> item:<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>consume<span style="color:#f92672">---</span> item:<span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>consume<span style="color:#f92672">---</span> item:<span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>consume<span style="color:#f92672">---</span> finish
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3共享内存-shared-memory">3.共享内存 (Shared Memory)</h3>
+<p>共享内存提供了一种进程间数据共享的机制，多个进程可以直接访问共享内存中的数据。multiprocessing 模块中的 Value 和 Array 类可以用于创建在多个进程之间共享的变量和数组，并确保它们的访问是进程安全的。</p>
+<p>示例代码</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -435,27 +586,207 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lifo_work</span>(self):
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">work_with_shared_memory1</span>(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>shared_value<span style="color:#f92672">.</span>value <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>                item <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>lifo_queue<span style="color:#f92672">.</span>get()
-</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---lifo_work---item:</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>lifo_queue<span style="color:#f92672">.</span>task_done()
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> self<span style="color:#f92672">.</span>lifo_queue<span style="color:#f92672">.</span>empty():
-</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;lifo_queue empty&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(self<span style="color:#f92672">.</span>shared_array)):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>shared_array[i] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        print(
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---process_data_shared_memory1---&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;shared_value:</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>shared_value<span style="color:#f92672">.</span>value<span style="color:#e6db74">}</span><span style="color:#e6db74">, &#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;shared_array:</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>shared_array[:]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>lock:
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>exit_flag:
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">work_with_shared_memory2</span>(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>shared_value<span style="color:#f92672">.</span>value <span style="color:#f92672">+=</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(self<span style="color:#f92672">.</span>shared_array)):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>shared_array[i] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        print(
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---process_data_shared_memory2---&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;shared_value:</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>shared_value<span style="color:#f92672">.</span>value<span style="color:#e6db74">}</span><span style="color:#e6db74">, &#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;shared_array:</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>shared_array[:]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="3优先级队列priorityqueue示例">3.优先级队列PriorityQueue示例</h3>
+</div><p>调用示例</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_with_shared_memory</span>(self):
+</span></span><span style="display:flex;"><span>        p1 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>work_with_shared_memory1)
+</span></span><span style="display:flex;"><span>        p2 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>work_with_shared_memory2)
+</span></span><span style="display:flex;"><span>        p1<span style="color:#f92672">.</span>start()
+</span></span><span style="display:flex;"><span>        p2<span style="color:#f92672">.</span>start()
+</span></span><span style="display:flex;"><span>        p1<span style="color:#f92672">.</span>join()
+</span></span><span style="display:flex;"><span>        p2<span style="color:#f92672">.</span>join()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        print(
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---start_with_shared_memory---&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;shared_value:</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>shared_value<span style="color:#f92672">.</span>value<span style="color:#e6db74">}</span><span style="color:#e6db74">, &#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;shared_array:</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>shared_array[:]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中shared_value，shared_array声明</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    self<span style="color:#f92672">.</span>shared_value <span style="color:#f92672">=</span> Value(<span style="color:#e6db74">&#39;i&#39;</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    self<span style="color:#f92672">.</span>shared_array <span style="color:#f92672">=</span> Array(<span style="color:#e6db74">&#39;i&#39;</span>, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>])
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可共享的基本类型如下</p>
+<ul>
+<li>&lsquo;i&rsquo;：有符号整型（int）</li>
+<li>&rsquo;d&rsquo;：双精度浮点型（double）</li>
+<li>&lsquo;f&rsquo;：单精度浮点型（float）</li>
+<li>&lsquo;c&rsquo;：字符型（char）</li>
+<li>&lsquo;b&rsquo;：有符号字节型（byte）</li>
+<li>&lsquo;B&rsquo;：无符号字节型（byte）</li>
+</ul>
+<p>执行情况</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>process_data_shared_memory2<span style="color:#f92672">---</span>shared_value:<span style="color:#ae81ff">5</span>, shared_array:[<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>]
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>process_data_shared_memory1<span style="color:#f92672">---</span>shared_value:<span style="color:#ae81ff">6</span>, shared_array:[<span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">11</span>]
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>start_with_shared_memory<span style="color:#f92672">---</span>shared_value:<span style="color:#ae81ff">6</span>, shared_array:[<span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">11</span>]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4信号量-semaphore">4.信号量 (Semaphore)</h3>
+<p>信号量是一种通信机制，用于在多个进程之间控制共享资源的访问。multiprocessing 模块中的 Semaphore 类实现了进程间的信号量机制，可以用于多个进程之间的同步和互斥访问控制。</p>
+<p>示例代码</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">work_with_semaphore</span>(self, num):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>semaphore<span style="color:#f92672">.</span>acquire()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---进程:</span><span style="color:#e6db74">{</span>num<span style="color:#e6db74">}</span><span style="color:#e6db74"> work_with_semaphore start---&#34;</span>)
+</span></span><span style="display:flex;"><span>        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---进程:</span><span style="color:#e6db74">{</span>num<span style="color:#e6db74">}</span><span style="color:#e6db74"> work_with_semaphore finish---&#34;</span>)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>semaphore<span style="color:#f92672">.</span>release()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调用示例</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_with_semaphore</span>(self):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        procs <span style="color:#f92672">=</span> [Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>work_with_semaphore, args<span style="color:#f92672">=</span>(i,)) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> procs:
+</span></span><span style="display:flex;"><span>            p<span style="color:#f92672">.</span>start()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> procs:
+</span></span><span style="display:flex;"><span>            p<span style="color:#f92672">.</span>join()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行情况</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">0</span> work_with_semaphore start<span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">0</span> work_with_semaphore finish<span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">2</span> work_with_semaphore start<span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">2</span> work_with_semaphore finish<span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">3</span> work_with_semaphore start<span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">3</span> work_with_semaphore finish<span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">1</span> work_with_semaphore start<span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">1</span> work_with_semaphore finish<span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">4</span> work_with_semaphore start<span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>进程:<span style="color:#ae81ff">4</span> work_with_semaphore finish<span style="color:#f92672">---</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="5进程池-pool">5.进程池 (Pool)</h3>
+<p>进程池是一种用于调度和管理进程的方式，使得可以方便地进行进程间通信。multiprocessing 模块中的 Pool 类可以用于创建一个进程池，并通过它来进行进程间的任务分发和结果收集。</p>
+<p>示例代码</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#a6e22e">@staticmethod</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">work_with_pool</span>(num):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;work_with_pool---进程名</span><span style="color:#e6db74">{</span>multiprocessing<span style="color:#f92672">.</span>current_process()<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">，进程号</span><span style="color:#e6db74">{</span>os<span style="color:#f92672">.</span>getpid()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>        num <span style="color:#f92672">+=</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;work_with_pool = num:</span><span style="color:#e6db74">{</span>num<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> num
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调用示例</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -474,27 +805,31 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">priority_work</span>(self):
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_with_pool</span>(self):
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>                item <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>priority_queue<span style="color:#f92672">.</span>get()
-</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---priority_queue---item:</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>priority_queue<span style="color:#f92672">.</span>task_done()
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> self<span style="color:#f92672">.</span>priority_queue<span style="color:#f92672">.</span>empty():
-</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;priority_queue empty&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> Pool(<span style="color:#ae81ff">5</span>) <span style="color:#66d9ef">as</span> pool:
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">=</span> pool<span style="color:#f92672">.</span>map(ProcessTest<span style="color:#f92672">.</span>work_with_pool, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>])
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---start_with_pool---res:</span><span style="color:#e6db74">{</span>res<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        results <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> Pool(<span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">as</span> pool:
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>lock:
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>exit_flag:
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>):
+</span></span><span style="display:flex;"><span>                result <span style="color:#f92672">=</span> pool<span style="color:#f92672">.</span>apply_async(func<span style="color:#f92672">=</span>ProcessTest<span style="color:#f92672">.</span>work_with_pool, args<span style="color:#f92672">=</span>(i,))
+</span></span><span style="display:flex;"><span>                results<span style="color:#f92672">.</span>append(result)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            pool<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>            pool<span style="color:#f92672">.</span>join()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">=</span> [result<span style="color:#f92672">.</span>get() <span style="color:#66d9ef">for</span> result <span style="color:#f92672">in</span> results]
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---start_with_pool---res = </span><span style="color:#e6db74">{</span>res<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="4其它代码示例">4.其它代码示例</h3>
+</div><p>执行情况</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -527,220 +862,44 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">79
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">80
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">81
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    MAX_THREAD_NUM <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>    MAX_QUEUE_NUM <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>exit_flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>lock <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>queue <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>Queue(QueueTest<span style="color:#f92672">.</span>MAX_QUEUE_NUM)
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>lifo_queue <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>LifoQueue(QueueTest<span style="color:#f92672">.</span>MAX_QUEUE_NUM)
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>priority_queue <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>PriorityQueue(QueueTest<span style="color:#f92672">.</span>MAX_QUEUE_NUM)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>(self):
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        threads <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---queue---&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 先入先出</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(QueueTest<span style="color:#f92672">.</span>MAX_THREAD_NUM):
-</span></span><span style="display:flex;"><span>            t <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>work)
-</span></span><span style="display:flex;"><span>            threads<span style="color:#f92672">.</span>append(t)
-</span></span><span style="display:flex;"><span>            t<span style="color:#f92672">.</span>start()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(QueueTest<span style="color:#f92672">.</span>MAX_QUEUE_NUM):
-</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>queue<span style="color:#f92672">.</span>put(i)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>queue<span style="color:#f92672">.</span>join()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>lock:
-</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>exit_flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(QueueTest<span style="color:#f92672">.</span>MAX_THREAD_NUM):
-</span></span><span style="display:flex;"><span>            threads[i]<span style="color:#f92672">.</span>join(timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        threads<span style="color:#f92672">.</span>clear()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---lifo_queue---&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 后入先出</span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>exit_flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(QueueTest<span style="color:#f92672">.</span>MAX_THREAD_NUM):
-</span></span><span style="display:flex;"><span>            t <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>lifo_work)
-</span></span><span style="display:flex;"><span>            threads<span style="color:#f92672">.</span>append(t)
-</span></span><span style="display:flex;"><span>            t<span style="color:#f92672">.</span>start()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(QueueTest<span style="color:#f92672">.</span>MAX_QUEUE_NUM):
-</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>lifo_queue<span style="color:#f92672">.</span>put(i)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>lifo_queue<span style="color:#f92672">.</span>join()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>lock:
-</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>exit_flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(QueueTest<span style="color:#f92672">.</span>MAX_THREAD_NUM):
-</span></span><span style="display:flex;"><span>            threads[i]<span style="color:#f92672">.</span>join(timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        threads<span style="color:#f92672">.</span>clear()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---priority_queue---&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>exit_flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(QueueTest<span style="color:#f92672">.</span>MAX_THREAD_NUM):
-</span></span><span style="display:flex;"><span>            t <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>priority_work)
-</span></span><span style="display:flex;"><span>            threads<span style="color:#f92672">.</span>append(t)
-</span></span><span style="display:flex;"><span>            t<span style="color:#f92672">.</span>start()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(QueueTest<span style="color:#f92672">.</span>MAX_QUEUE_NUM):
-</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>priority_queue<span style="color:#f92672">.</span>put((QueueTest<span style="color:#f92672">.</span>MAX_QUEUE_NUM <span style="color:#f92672">-</span> i, <span style="color:#e6db74">&#34;hello priority_queue&#34;</span> <span style="color:#f92672">+</span> str(QueueTest<span style="color:#f92672">.</span>MAX_QUEUE_NUM <span style="color:#f92672">-</span> i)))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>priority_queue<span style="color:#f92672">.</span>join()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>lock:
-</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>exit_flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(QueueTest<span style="color:#f92672">.</span>MAX_THREAD_NUM):
-</span></span><span style="display:flex;"><span>            threads[i]<span style="color:#f92672">.</span>join(timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        threads<span style="color:#f92672">.</span>clear()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---all finish---&#34;</span>)
-</span></span><span style="display:flex;"><span>    
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">12</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94978
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">11</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">11</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94977
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">13</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94979
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">13</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">14</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94980
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">14</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">15</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94981
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">15</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>start_with_pool<span style="color:#f92672">---</span>res:[<span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">13</span>, <span style="color:#ae81ff">14</span>, <span style="color:#ae81ff">15</span>]
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">16</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94985
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">11</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">17</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94986
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">18</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94987
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">13</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">17</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94986
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">14</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">18</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94987
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">15</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">16</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94985
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">17</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94986
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">17</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">16</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94985
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">18</span>
+</span></span><span style="display:flex;"><span>work_with_pool<span style="color:#f92672">---</span>进程名SpawnPoolWorker<span style="color:#f92672">-</span><span style="color:#ae81ff">18</span><span style="color:#960050;background-color:#1e0010">，</span>进程号94987
+</span></span><span style="display:flex;"><span>work_with_pool <span style="color:#f92672">=</span> num:<span style="color:#ae81ff">19</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>start_with_pool<span style="color:#f92672">---</span>res <span style="color:#f92672">=</span> [<span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">13</span>, <span style="color:#ae81ff">14</span>, <span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">17</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">19</span>]
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="5执行情况">5.执行情况</h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>---queue---
-</span></span><span style="display:flex;"><span>---work---item:0
-</span></span><span style="display:flex;"><span>---work---item:1
-</span></span><span style="display:flex;"><span>---work---item:2
-</span></span><span style="display:flex;"><span>---work---item:4
-</span></span><span style="display:flex;"><span>---work---item:3
-</span></span><span style="display:flex;"><span>---work---item:5
-</span></span><span style="display:flex;"><span>---work---item:6
-</span></span><span style="display:flex;"><span>---work---item:7
-</span></span><span style="display:flex;"><span>---work---item:8
-</span></span><span style="display:flex;"><span>---work---item:9
-</span></span><span style="display:flex;"><span>---lifo_queue---
-</span></span><span style="display:flex;"><span>---lifo_work---item:9
-</span></span><span style="display:flex;"><span>---lifo_work---item:8
-</span></span><span style="display:flex;"><span>---lifo_work---item:7
-</span></span><span style="display:flex;"><span>---lifo_work---item:6
-</span></span><span style="display:flex;"><span>---lifo_work---item:5
-</span></span><span style="display:flex;"><span>---lifo_work---item:4
-</span></span><span style="display:flex;"><span>---lifo_work---item:3
-</span></span><span style="display:flex;"><span>---lifo_work---item:2
-</span></span><span style="display:flex;"><span>---lifo_work---item:1
-</span></span><span style="display:flex;"><span>---lifo_work---item:0
-</span></span><span style="display:flex;"><span>---priority_queue---
-</span></span><span style="display:flex;"><span>---priority_queue---item:(1, &#39;hello priority_queue1&#39;)
-</span></span><span style="display:flex;"><span>---priority_queue---item:(2, &#39;hello priority_queue2&#39;)
-</span></span><span style="display:flex;"><span>---priority_queue---item:(3, &#39;hello priority_queue3&#39;)
-</span></span><span style="display:flex;"><span>---priority_queue---item:(4, &#39;hello priority_queue4&#39;)
-</span></span><span style="display:flex;"><span>---priority_queue---item:(5, &#39;hello priority_queue5&#39;)
-</span></span><span style="display:flex;"><span>---priority_queue---item:(6, &#39;hello priority_queue6&#39;)
-</span></span><span style="display:flex;"><span>---priority_queue---item:(7, &#39;hello priority_queue7&#39;)
-</span></span><span style="display:flex;"><span>---priority_queue---item:(8, &#39;hello priority_queue8&#39;)
-</span></span><span style="display:flex;"><span>---priority_queue---item:(9, &#39;hello priority_queue9&#39;)
-</span></span><span style="display:flex;"><span>---priority_queue---item:(10, &#39;hello priority_queue10&#39;)
-</span></span><span style="display:flex;"><span>---all finish---
-</span></span></code></pre></td></tr></table>
-</div>
-</div>
+</div><h3 id="6注意事项">6.注意事项</h3>
+<ul>
+<li>进程池指定func时，务必注意是静态方法,不是类方法或对象方法!!!</li>
+</ul>
         </div>
 
         
@@ -753,7 +912,7 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-      2023-08-23
+      2023-08-24
       
     </span>
   </p>
@@ -782,8 +941,7 @@
         <footer class="post-footer">
           <div class="post-tags">
               <a href="https://ksnowlv.github.io/tags/python/">Python</a>
-                <a href="https://ksnowlv.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
-                <a href="https://ksnowlv.github.io/tags/%E9%98%9F%E5%88%97/">队列</a>
+                <a href="https://ksnowlv.github.io/tags/%E5%A4%9A%E8%BF%9B%E7%A8%8B/">多进程</a>
                 
             </div>
 
@@ -791,22 +949,9 @@
           
           <nav class="post-nav">
             
-              <a class="prev" href="/post/python%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/">
-                
-                <i class="iconfont">
-                  <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="18" height="18">
-  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
-</svg>
-
-                </i>
-                <span class="prev-text nav-default">Python进程间的通信</span>
-                <span class="prev-text nav-mobile">上一篇</span>
-              </a>
             
-              <a class="next" href="/post/python%E7%BA%BF%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1-%E4%BA%92%E6%96%A5%E9%94%81-%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81/">
-                <span class="next-text nav-default">Python线程间的通信-互斥锁/可重入锁</span>
+              <a class="next" href="/post/python%E7%BA%BF%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1-%E9%98%9F%E5%88%97queue/">
+                <span class="next-text nav-default">Python线程间的通信-队列(Queue)</span>
                 <span class="prev-text nav-mobile">下一篇</span>
                 
                 <i class="iconfont">
@@ -879,13 +1024,14 @@
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li><a href="#python-互斥锁可重入锁">Python 互斥锁/可重入锁</a>
+    <li><a href="#python进程间的通信">Python进程间的通信</a>
       <ul>
-        <li><a href="#1fifo先入先出队列queue示例">1.FIFO（先入先出)队列Queue示例</a></li>
-        <li><a href="#2lifo后入先出队列lifoqueue示例">2.LIFO（后入先出）队列LifoQueue示例</a></li>
-        <li><a href="#3优先级队列priorityqueue示例">3.优先级队列PriorityQueue示例</a></li>
-        <li><a href="#4其它代码示例">4.其它代码示例</a></li>
-        <li><a href="#5执行情况">5.执行情况</a></li>
+        <li><a href="#1管道-pipe">1.管道 (Pipe)</a></li>
+        <li><a href="#2队列-queue">2.队列 (Queue)</a></li>
+        <li><a href="#3共享内存-shared-memory">3.共享内存 (Shared Memory)</a></li>
+        <li><a href="#4信号量-semaphore">4.信号量 (Semaphore)</a></li>
+        <li><a href="#5进程池-pool">5.进程池 (Pool)</a></li>
+        <li><a href="#6注意事项">6.注意事项</a></li>
       </ul>
     </li>
   </ul>
