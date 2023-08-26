@@ -33,5 +33,10 @@ pip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files
 
 ## 三.解决方案
 
-* 换个网络或换个网络快的时间段
-* 使用pip --default-timeout=1000 install -U 模块名 修改超时时间
+###  换个网络或换个网络快的时间段
+### 使用pip --default-timeout=1000 install -U 模块名 修改超时时间
+
+
+```terminal
+pip --default-timeout=1000 install -U 模块名
+
