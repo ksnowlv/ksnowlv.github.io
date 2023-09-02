@@ -1,10 +1,10 @@
 ---
-title: "Python Karas的安装与简单使用"
+title: "Python Keras的安装与简单使用"
 date: 2023-08-30T16:50:39+08:00
 lastmod: 2023-08-30T16:50:39+08:00
-keywords: [""]
-tags: [""]
-categories: [""]
+keywords: ["Python", "keras"]
+tags: ["Python", "keras"]
+categories: ["Python", "keras"]
 
 comment: true
 toc: true
