@@ -1055,11 +1055,11 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 
 在PyCharm中python解析器的设置中添加安装路径，通过**添加解析器**找到对应路径
-![image](images/post/../../../images/post/MacOS-arm64芯片下如何安装tensorflow/1.png)
+![image](/images/post/../../../images/post/MacOS-arm64芯片下如何安装tensorflow/1.png)
 
 完成确认后，即添加成功。
 
-![image](images/post/../../../images/post/MacOS-arm64芯片下如何安装tensorflow/2.png)
+![image](/images/post/../../../images/post/MacOS-arm64芯片下如何安装tensorflow/2.png)
 
 
 ## 9.PyCharm测试tensorflow
