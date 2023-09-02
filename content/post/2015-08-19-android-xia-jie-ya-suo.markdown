@@ -2,10 +2,11 @@
 title: "Android下gzip数据流解压缩"
 date: 2015-08-19
 lastmod: 2015-08-19
-categories:
-  - "Android"
-tags:
-  - "网络"
+
+keywords: ["Android", "解压缩"]
+tags: ["Android", "解压缩"]
+categories: ["Android", "解压缩"]
+
 comment: true
 toc: true
 autoCollapseToc: false

@@ -5,7 +5,7 @@ lastmod: 2013-05-06
 categories:
   - "Android"
 tags:
-  - "优化"
+  - "Android"
 comment: true
 toc: true
 autoCollapseToc: false

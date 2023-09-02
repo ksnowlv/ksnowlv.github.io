@@ -2,9 +2,9 @@
 title: "iOS视频播放-AVPlayerViewController"
 date: 2019-12-25T20:37:53+08:00
 lastmod: 2019-12-25T20:37:53+08:00
-keywords: ["iOS", "swift", "视频"]
-tags: ["iOS", "swift", "视频"]
-categories: ["iOS", "swift", "视频"]
+keywords: ["iOS", "swift", "音视频"]
+tags: ["iOS", "swift", "音视频"]
+categories: ["iOS", "swift", "音视频"]
 
 comment: true
 toc: true

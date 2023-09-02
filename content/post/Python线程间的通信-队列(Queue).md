@@ -3,8 +3,8 @@ title: "Python线程间的通信-队列(Queue)"
 date: 2023-08-23T09:38:12+08:00
 lastmod: 2023-08-23T09:38:12+08:00
 keywords: ["Python", "多线程", "队列"]
-tags: ["Python", "多线程", "队列"]
-categories: ["Python", "多线程", "队列"]
+tags: ["Python", "多线程"]
+categories: ["Python", "多线程"]
 
 comment: true
 toc: true

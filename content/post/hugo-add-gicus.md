@@ -5,7 +5,7 @@ lastmod: 2023-08-15T19:54:42+08:00
 keywords: ["github-博客", "Gicus", "Hugo"]
 description: ""
 tags: ["github-博客", "Hugo"]
-categories: ["github-博客", "Gicus", "Hugo"]
+categories: ["github-博客", "Hugo"]
 
 comment: true
 toc: true

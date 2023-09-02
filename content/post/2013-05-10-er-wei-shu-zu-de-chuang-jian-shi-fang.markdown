@@ -6,7 +6,6 @@ categories:
   - "C++"
 tags:
   - "C++"
-  - "数组"
 comment: true
 toc: true
 autoCollapseToc: false

@@ -2,9 +2,9 @@
 title: "Swift Data中withUnsafeBytes进行gzip压缩的陷阱"
 date: 2023-08-16T15:25:01+08:00
 lastmod: 2023-08-16T15:25:01+08:00
-keywords: ["Swift", "gzip", "Data"]
-tags: ["Swift", "gzip", "Data"]
-categories: ["Swift", "gzip", "Data"]
+keywords: ["Swift", "解压缩", "Data"]
+tags: ["Swift", "解压缩"]
+categories: ["Swift", "解压缩"]
 
 comment: true
 toc: true

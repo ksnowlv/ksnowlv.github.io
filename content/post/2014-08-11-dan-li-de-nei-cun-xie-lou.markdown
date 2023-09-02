@@ -5,7 +5,7 @@ lastmod: 2014-08-11
 categories:
   - "iOS"
 tags:
-  - "内存"
+  - "性能"
 comment: true
 toc: true
 autoCollapseToc: false

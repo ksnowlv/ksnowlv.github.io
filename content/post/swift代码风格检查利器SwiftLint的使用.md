@@ -2,9 +2,9 @@
 title: "Swift代码风格检查利器SwiftLint的使用"
 date: 2021-07-30T21:09:40+08:00
 lastmod: 2021-07-30T21:09:40+08:00
-keywords: ["Swift","SwiftLint"]
-tags: ["Swift","SwiftLint"]
-categories: ["Swift","SwiftLint"]
+keywords: ["Swift","SwiftLint", "iOS"]
+tags: ["Swift", "iOS"]
+categories: ["Swift", "iOS"]
 
 comment: true
 toc: true

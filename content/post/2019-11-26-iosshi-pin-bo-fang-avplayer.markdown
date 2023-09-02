@@ -4,8 +4,13 @@ date: 2019-11-26
 lastmod: 2019-11-26
 categories:
   - "swift"
+  - “iOS”
+  - "音视频"
 tags:
-  - "视频"
+  - "swift"
+  - “iOS”
+  - "音视频"
+
 comment: true
 toc: true
 autoCollapseToc: false

@@ -6,7 +6,6 @@ categories:
   - "iOS"
 tags:
   - "iOS"
-  - "XML"
 comment: true
 toc: true
 autoCollapseToc: false

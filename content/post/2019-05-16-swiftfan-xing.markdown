@@ -4,8 +4,10 @@ date: 2019-05-16
 lastmod: 2019-05-16
 categories:
   - "swift"
+  - “iOS”
 tags:
-  - "泛型"
+  - "swift"
+  - “iOS”
 comment: true
 toc: true
 autoCollapseToc: false
