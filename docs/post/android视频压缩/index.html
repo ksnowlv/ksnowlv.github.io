@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-          Python ffmpeg视频转码压缩 - ksnowlv技术笔记
+          Android视频压缩 - ksnowlv技术笔记
         </title>
     
 
@@ -30,7 +30,7 @@
 
 <meta name="author" content="梵梵爸" />
   <meta name="description" content="" />
-<meta name="keywords" content="Python, ffmpeg, 视频转码, 视频压缩" />
+<meta name="keywords" content="Android, Python, 音视频" />
 
 
 
@@ -41,7 +41,7 @@
 <meta name="generator" content="Hugo 0.117.0" />
 
 
-<link rel="canonical" href="https://ksnowlv.github.io/post/python-ffmpeg%E8%A7%86%E9%A2%91%E8%BD%AC%E7%A0%81%E5%8E%8B%E7%BC%A9/" />
+<link rel="canonical" href="https://ksnowlv.github.io/post/android%E8%A7%86%E9%A2%91%E5%8E%8B%E7%BC%A9/" />
 
 
 
@@ -67,18 +67,18 @@
 
 
 
-<meta property="og:title" content="Python ffmpeg视频转码压缩" />
+<meta property="og:title" content="Android视频压缩" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ksnowlv.github.io/post/python-ffmpeg%E8%A7%86%E9%A2%91%E8%BD%AC%E7%A0%81%E5%8E%8B%E7%BC%A9/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-09-04T20:04:05+08:00" />
-<meta property="article:modified_time" content="2023-09-04T20:04:05+08:00" />
-<meta itemprop="name" content="Python ffmpeg视频转码压缩">
-<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-09-04T20:04:05+08:00" />
-<meta itemprop="dateModified" content="2023-09-04T20:04:05+08:00" />
-<meta itemprop="wordCount" content="929">
-<meta itemprop="keywords" content="Python,音视频," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Python ffmpeg视频转码压缩"/>
+<meta property="og:url" content="https://ksnowlv.github.io/post/android%E8%A7%86%E9%A2%91%E5%8E%8B%E7%BC%A9/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-09-05T15:15:41+08:00" />
+<meta property="article:modified_time" content="2023-09-05T15:15:41+08:00" />
+<meta itemprop="name" content="Android视频压缩">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-09-05T15:15:41+08:00" />
+<meta itemprop="dateModified" content="2023-09-05T15:15:41+08:00" />
+<meta itemprop="wordCount" content="1294">
+<meta itemprop="keywords" content="Android,Python,音视频," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android视频压缩"/>
 <meta name="twitter:description" content=""/>
 
 <!--[if lte IE 9]>
@@ -320,7 +320,7 @@
       <article class="post">
         
         <header class="post-header">
-          <h1 class="post-title">Python ffmpeg视频转码压缩</h1>
+          <h1 class="post-title">Android视频压缩</h1>
           
 
           <div class="post-meta">
@@ -335,8 +335,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2023-09-04">
-      2023-09-04
+    <time datetime="2023-09-05">
+      2023-09-05
     </time>
   </div>
 
@@ -345,12 +345,13 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 929 字 -
-        预计阅读 2 分钟
+        约 1294 字 -
+        预计阅读 3 分钟
       </span>
 
     <div class="post-meta-category">
-        <a href="https://ksnowlv.github.io/categories/python/"> Python </a>
+        <a href="https://ksnowlv.github.io/categories/android/"> Android </a>
+          <a href="https://ksnowlv.github.io/categories/python/"> Python </a>
           <a href="https://ksnowlv.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"> 音视频 </a>
           
       </div>
@@ -369,10 +370,19 @@
 
         
         <div class="post-content">
-          <h2 id="ffmpeg视频转码压缩">ffmpeg视频转码压缩</h2>
-<p>视频文件如何压缩减少大小呢？</p>
-<p>其中，可以通过视频转码来实现,将视频文件从H.264编码转换为H.265(HEVC）</p>
-<h3 id="1python-ffmpeg视频转码">1.python ffmpeg视频转码</h3>
+          <h2 id="android视频压缩">Android视频压缩</h2>
+<h2 id="一业务场景">一.业务场景</h2>
+<p>Android设备使用相机进行视频录像后，生成视频文件；视频文件上传云端服务后，进行业务方面的处理；
+如何减少视频文件大小呢？</p>
+<h2 id="二解决方案">二.解决方案</h2>
+<p>考虑到安装包大小，视频压缩速度，采用了<a href="https://github.com/yellowcath/VideoProcessor">VideoProcessor</a>进行压缩。</p>
+<p>视频压缩方式</p>
+<ul>
+<li>fps压缩：fps大于25的，控制在20</li>
+<li>720P压缩：720P以上的视频进行720P压缩</li>
+<li>H264转码H265(HEIF): 在相机视频取景时，配置支持HEIF格式或针对所有视频文件转码为H265编码</li>
+</ul>
+<h2 id="三fps压缩">三.fps压缩</h2>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -403,50 +413,244 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">79
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">80
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">81
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">82
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">83
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">84
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">85
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">86
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">87
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> subprocess
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> void fpsCompressVidio(File file) {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> filemgr <span style="color:#f92672">import</span> FileMgr
+</span></span><span style="display:flex;"><span>        String sourcePath = file.getPath();
+</span></span><span style="display:flex;"><span>        String fileName = file.getName();
+</span></span><span style="display:flex;"><span>        long fileSize =  file.length()/1000;
+</span></span><span style="display:flex;"><span>        String resFilePath = fpsFilePath + fileName;
+</span></span><span style="display:flex;"><span>        Uri uri = Uri.parse(sourcePath);
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        long duration = 0;
+</span></span><span style="display:flex;"><span>        int width = 0;
+</span></span><span style="display:flex;"><span>        int height = 0;
+</span></span><span style="display:flex;"><span>        float aveFrameRate = 0.0f;
+</span></span><span style="display:flex;"><span>        int frameRate = 0;
+</span></span><span style="display:flex;"><span>        try {
+</span></span><span style="display:flex;"><span>            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+</span></span><span style="display:flex;"><span>            retriever.setDataSource(this,uri);
+</span></span><span style="display:flex;"><span>            int bitrate = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
+</span></span><span style="display:flex;"><span>            retriever.release();
+</span></span><span style="display:flex;"><span>            MediaExtractor extractor = new MediaExtractor();
+</span></span><span style="display:flex;"><span>            extractor.setDataSource(this,uri,null);
+</span></span><span style="display:flex;"><span>            MediaFormat format = extractor.getTrackFormat(VideoUtil.selectTrack(extractor, false));
+</span></span><span style="display:flex;"><span>            frameRate = format.containsKey(MediaFormat.KEY_FRAME_RATE) ? format.getInteger(MediaFormat.KEY_FRAME_RATE) : -1;
+</span></span><span style="display:flex;"><span>            aveFrameRate = VideoUtil.getAveFrameRate(new VideoProcessor.MediaSource(this,uri));
+</span></span><span style="display:flex;"><span>            width = format.getInteger(MediaFormat.KEY_WIDTH);
+</span></span><span style="display:flex;"><span>            height = format.getInteger(MediaFormat.KEY_HEIGHT);
+</span></span><span style="display:flex;"><span>            int rotation = format.containsKey(MediaFormat.KEY_ROTATION) ? format.getInteger(MediaFormat.KEY_ROTATION) : -1;
+</span></span><span style="display:flex;"><span>            duration = format.containsKey(MediaFormat.KEY_DURATION) ? format.getLong(MediaFormat.KEY_DURATION) : -1;
+</span></span><span style="display:flex;"><span>            String KEY_MIME= format.containsKey(MediaFormat.KEY_MIME) ? format.getString(MediaFormat.KEY_MIME) : &#34;&#34;;
+</span></span><span style="display:flex;"><span>            String  videoInfo = String.format(Locale.ENGLISH,&#34;size:%dX%d,framerate:%d,aveFrameRate:%f,rotation:%d,bitrate:%d,duration:%.1fs&#34;, width, height, frameRate,aveFrameRate, rotation, bitrate,
+</span></span><span style="display:flex;"><span>                    duration / 1000f / 1000f);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FfmpegManager</span>(object):
+</span></span><span style="display:flex;"><span>            extractor.release();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    SOURCE_FILE_PATH <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;python_fps/high/&#34;</span>
-</span></span><span style="display:flex;"><span>    DEST_FILE_PATH <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;python_fps/high_ffmpeg/&#34;</span>
-</span></span><span style="display:flex;"><span>    CODEC_DEST_FILE_PATH <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;python_fps/high_codec/&#34;</span>
+</span></span><span style="display:flex;"><span>            Log.e(&#34;--testVidio&#34;,videoInfo);
+</span></span><span style="display:flex;"><span>        } catch (Exception e) {
+</span></span><span style="display:flex;"><span>            e.printStackTrace();
+</span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>fps <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>fps_list <span style="color:#f92672">=</span> FileMgr<span style="color:#f92672">.</span>all_video_files(FfmpegManager<span style="color:#f92672">.</span>SOURCE_FILE_PATH)
+</span></span><span style="display:flex;"><span>        long startTimestamp = System.currentTimeMillis();
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        if (frameRate &gt; 25) {
+</span></span><span style="display:flex;"><span>            frameRate = 20;
+</span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_codec_compressed</span>(self):
+</span></span><span style="display:flex;"><span>        final int tempFrameRate = frameRate;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(self<span style="color:#f92672">.</span>fps_list) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        sharedExecutor.execute(new Runnable() {
+</span></span><span style="display:flex;"><span>            @Override
+</span></span><span style="display:flex;"><span>            public void run() {
+</span></span><span style="display:flex;"><span>                try {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> file_path <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fps_list:
-</span></span><span style="display:flex;"><span>            file_name <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>basename(file_path)
-</span></span><span style="display:flex;"><span>            dest_file_path <span style="color:#f92672">=</span> FfmpegManager<span style="color:#f92672">.</span>CODEC_DEST_FILE_PATH <span style="color:#f92672">+</span> file_name
+</span></span><span style="display:flex;"><span>                    VideoProcessor.processor(getApplicationContext())
+</span></span><span style="display:flex;"><span>                            .input(sourcePath)
+</span></span><span style="display:flex;"><span>                            .output(resFilePath)
+</span></span><span style="display:flex;"><span>                            .frameRate(tempFrameRate)
+</span></span><span style="display:flex;"><span>                            .progressListener(new VideoProgressListener() {
+</span></span><span style="display:flex;"><span>                                @Override
+</span></span><span style="display:flex;"><span>                                public void onProgress(float progress) {
+</span></span><span style="display:flex;"><span>                                    int intProgress = (int) (progress * 100);
+</span></span><span style="display:flex;"><span>                                    Log.e(&#34;-VideoProcessor:&#34;, String.valueOf(intProgress));
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            subprocess<span style="color:#f92672">.</span>run([<span style="color:#e6db74">&#34;ffmpeg&#34;</span>, <span style="color:#e6db74">&#34;-i&#34;</span>, file_path, <span style="color:#e6db74">&#34;-c:v&#34;</span>, <span style="color:#e6db74">&#34;libx265&#34;</span>, <span style="color:#e6db74">&#34;-preset&#34;</span>, <span style="color:#e6db74">&#34;medium&#34;</span>, <span style="color:#e6db74">&#34;-x265-params&#34;</span>, <span style="color:#e6db74">&#34;crf=28&#34;</span>, dest_file_path], check<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>                                    uiAction(new Runnable() {
+</span></span><span style="display:flex;"><span>                                        @Override
+</span></span><span style="display:flex;"><span>                                        public void run() {
+</span></span><span style="display:flex;"><span>                                            tv_count.setText(fileName + &#34;压缩进度:&#34;+ intProgress + &#34;%&#34; );
+</span></span><span style="display:flex;"><span>                                        }
+</span></span><span style="display:flex;"><span>                                    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                    if (intProgress &gt;=100) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                        long curTime = System.currentTimeMillis();
+</span></span><span style="display:flex;"><span>                                        long deltaTime = curTime - startTimestamp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                        String res = fileName + &#34;压缩耗时为:&#34; + deltaTime + &#34;ms&#34;;
+</span></span><span style="display:flex;"><span>                                        Log.e(&#34;-VideoProcessor:&#34;, res);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                    }
+</span></span><span style="display:flex;"><span>                                }
+</span></span><span style="display:flex;"><span>                            }).process();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                } catch (Exception e) {
+</span></span><span style="display:flex;"><span>                    e.printStackTrace();
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="视频转码参数说明">视频转码参数说明</h4>
-<p>我们使用 subprocess 模块来调用FFmpeg命令将视频文件从H.264编码转换为 H.265（HEVC）编码。</p>
-<ul>
-<li>-i 参数指定输入文件，</li>
-<li>-c:v 参数指定输出视频的编解码器为 H.265（HEVC），</li>
-<li>-preset 参数指定编码速度和质量的平衡点（可选参数包括 ultrafast、superfast、veryfast、faster、fast、medium、slow、slower 和 veryslow），</li>
-<li>-x265-params 参数是 H.265 编码器的附加参数。在这里，我们设置 -x265-params crf=28，以设置恒定质量模式（CQP）下的视频质量，</li>
-<li>28 是质量的值，可供自己选择。输出文件将保存在指定的输出路径中。</li>
-</ul>
-<p>请注意，视频文件的大小和质量受多种因素影响，包括分辨率、比特率、FPS 等。在使用 H.265 编码器进行编码转换时，请根据你的需求进行设置。</p>
-<h3 id="2视频转码后文件压缩效果">2.视频转码后文件压缩效果</h3>
-<h4 id="mainpy文件中统计目录下文件大小">main.py文件中统计目录下文件大小</h4>
+</div><h2 id="四720p压缩">四.720P压缩</h2>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    void compressVideo(File file) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        String sourcePath = file.getPath();
+</span></span><span style="display:flex;"><span>        String fileName = file.getName();
+</span></span><span style="display:flex;"><span>        String resFilePath = w_h_FilePath + fileName;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        long startTimestamp = System.currentTimeMillis();
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        sharedExecutor.execute(new Runnable() {
+</span></span><span style="display:flex;"><span>            @Override
+</span></span><span style="display:flex;"><span>            public void run() {
+</span></span><span style="display:flex;"><span>                try {
+</span></span><span style="display:flex;"><span>                    VideoProcessor.processor(getApplicationContext())
+</span></span><span style="display:flex;"><span>                            .input(sourcePath)
+</span></span><span style="display:flex;"><span>                            .output(resFilePath)
+</span></span><span style="display:flex;"><span>                            .outWidth(1280).outHeight(720)
+</span></span><span style="display:flex;"><span>                            .progressListener(new VideoProgressListener() {
+</span></span><span style="display:flex;"><span>                                @Override
+</span></span><span style="display:flex;"><span>                                public void onProgress(float progress) {
+</span></span><span style="display:flex;"><span>                                    int intProgress = (int) (progress * 100);
+</span></span><span style="display:flex;"><span>                                    Log.e(&#34;-VideoProcessor:&#34;, String.valueOf(intProgress));
+</span></span><span style="display:flex;"><span>                                    
+</span></span><span style="display:flex;"><span>                                    if (intProgress &gt;=100) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                        long curTime = System.currentTimeMillis();
+</span></span><span style="display:flex;"><span>                                        long deltaTime = curTime - startTimestamp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                        String res = fileName + &#34;压缩耗时为:&#34; + deltaTime + &#34;ms&#34;;
+</span></span><span style="display:flex;"><span>                                        Log.e(&#34;-VideoProcessor:&#34;, res);
+</span></span><span style="display:flex;"><span>                                    }
+</span></span><span style="display:flex;"><span>                                }
+</span></span><span style="display:flex;"><span>                            }).process();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                } catch (Exception e) {
+</span></span><span style="display:flex;"><span>                    e.printStackTrace();
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="五视频文件转码为h265">五.视频文件转码为H265</h2>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -461,34 +665,70 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    folder_path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;python_fps/high&#39;</span>
-</span></span><span style="display:flex;"><span>    fps_high_file_size <span style="color:#f92672">=</span> FileMgr<span style="color:#f92672">.</span>get_directory_size(folder_path)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;python_fps/high 目录下所有文件大小:</span><span style="color:#e6db74">{</span>fps_high_file_size<span style="color:#e6db74">}</span><span style="color:#e6db74">, 共</span><span style="color:#e6db74">{</span>fps_high_file_size<span style="color:#f92672">/</span>(<span style="color:#ae81ff">1024.0</span> <span style="color:#f92672">*</span><span style="color:#ae81ff">1024.0</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024.0</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">G&#34;</span>)
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_codec_compressed</span>(self):
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    folder_path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;python_fps/high_codec&#39;</span>
-</span></span><span style="display:flex;"><span>    fps_high_codec_file_size <span style="color:#f92672">=</span> FileMgr<span style="color:#f92672">.</span>get_directory_size(folder_path)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;python_fps/high_codec目录下所有文件大小:</span><span style="color:#e6db74">{</span>fps_high_codec_file_size<span style="color:#e6db74">}</span><span style="color:#e6db74">,共</span><span style="color:#e6db74">{</span>fps_high_codec_file_size<span style="color:#f92672">/</span>(<span style="color:#ae81ff">1024.0</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024.0</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024.0</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">G&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(self<span style="color:#f92672">.</span>fps_list) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%.2f</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> ((fps_high_file_size <span style="color:#f92672">-</span> fps_high_codec_file_size) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100.0</span> <span style="color:#f92672">/</span> fps_high_file_size)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;---所有视频文件采用H264转H265压缩方式的压缩率 = </span><span style="color:#e6db74">{</span>result<span style="color:#e6db74">}</span><span style="color:#e6db74">%&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> file_path <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fps_list:
+</span></span><span style="display:flex;"><span>            file_name <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>basename(file_path)
+</span></span><span style="display:flex;"><span>            dest_file_path <span style="color:#f92672">=</span> FfmpegManager<span style="color:#f92672">.</span>CODEC_DEST_FILE_PATH <span style="color:#f92672">+</span> file_name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            subprocess<span style="color:#f92672">.</span>run([<span style="color:#e6db74">&#34;ffmpeg&#34;</span>, <span style="color:#e6db74">&#34;-i&#34;</span>, file_path, <span style="color:#e6db74">&#34;-c:v&#34;</span>, <span style="color:#e6db74">&#34;libx265&#34;</span>, <span style="color:#e6db74">&#34;-preset&#34;</span>, <span style="color:#e6db74">&#34;medium&#34;</span>, <span style="color:#e6db74">&#34;-x265-params&#34;</span>, <span style="color:#e6db74">&#34;crf=28&#34;</span>, dest_file_path], check<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="h264转h265视频文件压缩效果">H264转H265视频文件压缩效果</h4>
+</div><p>使用ffmpeg进行265转码验证下压缩效果</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>python_fps/high 目录下所有文件大小:4367638719, 共4.0676805367693305G
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>python_fps/high 目录下所有文件大小:4367638719, 共4.0676805367693305G
 </span></span><span style="display:flex;"><span>python_fps/high_codec目录下所有文件大小:1686972766,共1.5711158197373152G
 </span></span><span style="display:flex;"><span>---所有视频文件采用H264转H265压缩方式的压缩率 = 61.38%
 </span></span></code></pre></td></tr></table>
 </div>
+</div><p>在Android设备中，在使用相机录制时，检查设备是否支持H.265编码？如果支持，对相机录制进行配置。如果不支持，使用H264编码。</p>
+<h4 id="1检查设备支持">1.检查设备支持</h4>
+<p>检查设备是否支持 H.265 编码器,通过检查<strong>CamcorderProfile</strong>类中的<strong>QUALITY_HEVC</strong>属性来判断，例如：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>boolean isHEVCSupported = CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HEVC);
+</span></span></code></pre></td></tr></table>
 </div>
+</div><h4 id="2配置-mediarecorder">2.配置 MediaRecorder</h4>
+<p>使用 MediaRecorder 对象进行录制时，你需要将视频编码器属性设置为 VideoEncoder.HEVC，例如：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.HEVC);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="3配置camcorderprofile类">3.配置CamcorderProfile类</h4>
+<p>如果你想使用 CamcorderProfile 类来设置摄像机参数，你可以将 videoCodec 属性设置为 MediaRecorder.VideoEncoder.HEVC，例如：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>CamcorderProfile camcorderProfile = CamcorderProfile.get(cameCamcorderProfile.QUALITY_HIGH);
+</span></span><span style="display:flex;"><span>camcorderProfile.videoCodec = MediaRecorder.VideoEncoder.HEVC;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="六结论">六.结论</h2>
+<ul>
+<li>fps压缩，效果不佳</li>
+<li>720P压缩：效果有限</li>
+<li>转码H265：如果设备支持，则相机录制视频时进行H265配置</li>
+</ul>
         </div>
 
         
@@ -501,7 +741,7 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-      2023-09-04
+      2023-09-05
       
     </span>
   </p>
@@ -529,7 +769,8 @@
 
         <footer class="post-footer">
           <div class="post-tags">
-              <a href="https://ksnowlv.github.io/tags/python/">Python</a>
+              <a href="https://ksnowlv.github.io/tags/android/">Android</a>
+                <a href="https://ksnowlv.github.io/tags/python/">Python</a>
                 <a href="https://ksnowlv.github.io/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
                 
             </div>
@@ -538,22 +779,9 @@
           
           <nav class="post-nav">
             
-              <a class="prev" href="/post/android%E8%A7%86%E9%A2%91%E5%8E%8B%E7%BC%A9/">
-                
-                <i class="iconfont">
-                  <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="18" height="18">
-  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
-</svg>
-
-                </i>
-                <span class="prev-text nav-default">Android视频压缩</span>
-                <span class="prev-text nav-mobile">上一篇</span>
-              </a>
             
-              <a class="next" href="/post/mac-rust%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
-                <span class="next-text nav-default">Mac Rust环境搭建</span>
+              <a class="next" href="/post/python-ffmpeg%E8%A7%86%E9%A2%91%E8%BD%AC%E7%A0%81%E5%8E%8B%E7%BC%A9/">
+                <span class="next-text nav-default">Python ffmpeg视频转码压缩</span>
                 <span class="prev-text nav-mobile">下一篇</span>
                 
                 <i class="iconfont">
@@ -626,12 +854,17 @@
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li><a href="#ffmpeg视频转码压缩">ffmpeg视频转码压缩</a>
+    <li><a href="#android视频压缩">Android视频压缩</a></li>
+    <li><a href="#一业务场景">一.业务场景</a></li>
+    <li><a href="#二解决方案">二.解决方案</a></li>
+    <li><a href="#三fps压缩">三.fps压缩</a></li>
+    <li><a href="#四720p压缩">四.720P压缩</a></li>
+    <li><a href="#五视频文件转码为h265">五.视频文件转码为H265</a>
       <ul>
-        <li><a href="#1python-ffmpeg视频转码">1.python ffmpeg视频转码</a></li>
-        <li><a href="#2视频转码后文件压缩效果">2.视频转码后文件压缩效果</a></li>
+        <li></li>
       </ul>
     </li>
+    <li><a href="#六结论">六.结论</a></li>
   </ul>
 </nav>
     </div>

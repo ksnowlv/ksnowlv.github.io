@@ -16,10 +16,12 @@ mathjax: false
 
 <!--more-->
 
+## ffmpeg视频转码压缩
 视频文件如何压缩减少大小呢？
 
-其中，可以通过视频转码来实现,将视频文件从 H.264 编码转换为 H.265（HEVC）
+其中，可以通过视频转码来实现,将视频文件从H.264编码转换为H.265(HEVC）
 
+### 1.python ffmpeg视频转码
 
 ```python
 
@@ -51,11 +53,10 @@ class FfmpegManager(object):
 
             subprocess.run(["ffmpeg", "-i", file_path, "-c:v", "libx265", "-preset", "medium", "-x265-params", "crf=28", dest_file_path], check=True)
 
-
-
 ```
 
-我们使用 subprocess 模块来调用FFmpeg命令将视频文件从 H.264 编码转换为 H.265（HEVC）编码。
+#### 视频转码参数说明
+   我们使用 subprocess 模块来调用FFmpeg命令将视频文件从H.264编码转换为 H.265（HEVC）编码。
 * -i 参数指定输入文件，
 * -c:v 参数指定输出视频的编解码器为 H.265（HEVC），
 * -preset 参数指定编码速度和质量的平衡点（可选参数包括 ultrafast、superfast、veryfast、faster、fast、medium、slow、slower 和 veryslow），
@@ -63,3 +64,30 @@ class FfmpegManager(object):
 * 28 是质量的值，可供自己选择。输出文件将保存在指定的输出路径中。
 
 请注意，视频文件的大小和质量受多种因素影响，包括分辨率、比特率、FPS 等。在使用 H.265 编码器进行编码转换时，请根据你的需求进行设置。
+
+
+### 2.视频转码后文件压缩效果
+
+#### main.py文件中统计目录下文件大小
+
+```python
+    folder_path = 'python_fps/high'
+    fps_high_file_size = FileMgr.get_directory_size(folder_path)
+    print(f"python_fps/high 目录下所有文件大小:{fps_high_file_size}, 共{fps_high_file_size/(1024.0 *1024.0 * 1024.0)}G")
+
+    folder_path = 'python_fps/high_codec'
+    fps_high_codec_file_size = FileMgr.get_directory_size(folder_path)
+    print(f"python_fps/high_codec目录下所有文件大小:{fps_high_codec_file_size},共{fps_high_codec_file_size/(1024.0 * 1024.0 * 1024.0)}G")
+
+    result = '%.2f' % ((fps_high_file_size - fps_high_codec_file_size) * 100.0 / fps_high_file_size)
+    print(f"---所有视频文件采用H264转H265压缩方式的压缩率 = {result}%")
+```
+
+#### H264转H265视频文件压缩效果
+```terminal
+
+python_fps/high 目录下所有文件大小:4367638719, 共4.0676805367693305G
+python_fps/high_codec目录下所有文件大小:1686972766,共1.5711158197373152G
+---所有视频文件采用H264转H265压缩方式的压缩率 = 61.38%
+```
+
