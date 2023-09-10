@@ -150,6 +150,7 @@ import person
 def main():
     # Use a breakpoint in the code line below to debug your script.
     p = person.Person("ksnowlv", 39, "北京海淀区", "15211111111")
+    print(f"name = {p.name}, age = {p.age}")
     p.get_info()
 
 # Press the green button in the gutter to run the script.
@@ -159,8 +160,8 @@ if __name__ == '__main__':
 
 #### 执行情况
 ```python
+name = ksnowlv, age = 39
 Name: ksnowlv, Age: 39, Address: 北京海淀区, Phone: 15211111111
-
 Process finished with exit code 0
 ```
 
