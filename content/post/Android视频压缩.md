@@ -217,7 +217,23 @@ mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.HEVC);
 CamcorderProfile camcorderProfile = CamcorderProfile.get(cameCamcorderProfile.QUALITY_HIGH);
 camcorderProfile.videoCodec = MediaRecorder.VideoEncoder.HEVC;
 ```
+#### 4.Android系统关于H.265支持情况
 
+HEVC(H.265)是高级视频编码标准,目前有许多现代 Android 设备都支持该标准。以下是一些支持HEVC(H.265)标准的Android系统版本：
+
+* Android 5.0 及以上版本
+
+    在 Android 5.0（Lollipop）及以上版本中，Google 开始支持 HEVC 解码并播放，该功能可通过 MediaCodec API 访问。
+
+* Android 7.0 及以上版本
+  
+   在 Android 7.0（Nougat）中，Google 添加了对 HEVC 编码的支持。该支持使 Android 设备可以使用 HEVC 标准将视频编码成更小的文件，同时保持更高画质。
+
+* Android 8.0 及以上版本
+
+  在 Android 8.0（Oreo）及以上版本中，Google 进一步改进了对 HEVC 的支持，并将其作为系统支持的标准编解码器之一。
+
+需要注意的是，设备支持 HEVC 的主要因素是硬件编解码器的支持。如果设备没有内置硬件加速器来处理 HEVC 编解码，则可能无法支持 HEVC 标准。此外，有些 Android 设备可能通过软件方式支持 HEVC 解码，但可能会消耗更多的 CPU 资源或导致性能下降。因此，在使用 HEVC 执行视频编解码时，需要考虑设备硬件和软件资源，以获得最佳的性能和效果
 ## 六.结论
 
 * fps压缩，效果不佳
