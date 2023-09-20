@@ -2,9 +2,9 @@
 title: "Mac下使用Cython"
 date: 2023-09-09T22:26:10+08:00
 lastmod: 2023-09-09T22:26:10+08:00
-keywords: [""]
-tags: [""]
-categories: [""]
+keywords: ["Python", "Cython"]
+tags: ["Python"]
+categories: ["Python"]
 
 comment: true
 toc: true
