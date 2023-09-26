@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
-          Swift ECDHE加解密 - ksnowlv技术笔记
+          Swift Openssl的安装与使用 - ksnowlv技术笔记
         </title>
     
 
@@ -30,7 +30,7 @@
 
 <meta name="author" content="梵梵爸" />
   <meta name="description" content="" />
-<meta name="keywords" content="Swift, ECDHE, 加解密" />
+<meta name="keywords" content="swift, 安全, AES256" />
 
 
 
@@ -41,7 +41,7 @@
 <meta name="generator" content="Hugo 0.117.0" />
 
 
-<link rel="canonical" href="https://ksnowlv.github.io/post/swift-ecdhe%E5%8A%A0%E8%A7%A3%E5%AF%86/" />
+<link rel="canonical" href="https://ksnowlv.github.io/post/swift-openssl%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" />
 
 
 
@@ -67,18 +67,18 @@
 
 
 
-<meta property="og:title" content="Swift ECDHE加解密" />
+<meta property="og:title" content="Swift Openssl的安装与使用" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ksnowlv.github.io/post/swift-ecdhe%E5%8A%A0%E8%A7%A3%E5%AF%86/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-09-20T19:30:29+08:00" />
-<meta property="article:modified_time" content="2023-09-20T19:30:29+08:00" />
-<meta itemprop="name" content="Swift ECDHE加解密">
-<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-09-20T19:30:29+08:00" />
-<meta itemprop="dateModified" content="2023-09-20T19:30:29+08:00" />
-<meta itemprop="wordCount" content="640">
-<meta itemprop="keywords" content="Swift,iOS,安全," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Swift ECDHE加解密"/>
+<meta property="og:url" content="https://ksnowlv.github.io/post/swift-openssl%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-09-21T21:07:53+08:00" />
+<meta property="article:modified_time" content="2023-09-21T21:07:53+08:00" />
+<meta itemprop="name" content="Swift Openssl的安装与使用">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-09-21T21:07:53+08:00" />
+<meta itemprop="dateModified" content="2023-09-21T21:07:53+08:00" />
+<meta itemprop="wordCount" content="1390">
+<meta itemprop="keywords" content="swift,安全," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Swift Openssl的安装与使用"/>
 <meta name="twitter:description" content=""/>
 
 <!--[if lte IE 9]>
@@ -320,7 +320,7 @@
       <article class="post">
         
         <header class="post-header">
-          <h1 class="post-title">Swift ECDHE加解密</h1>
+          <h1 class="post-title">Swift Openssl的安装与使用</h1>
           
 
           <div class="post-meta">
@@ -335,8 +335,8 @@
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2023-09-20">
-      2023-09-20
+    <time datetime="2023-09-21">
+      2023-09-21
     </time>
   </div>
 
@@ -345,13 +345,12 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 640 字 -
-        预计阅读 2 分钟
+        约 1390 字 -
+        预计阅读 3 分钟
       </span>
 
     <div class="post-meta-category">
-        <a href="https://ksnowlv.github.io/categories/swift/"> Swift </a>
-          <a href="https://ksnowlv.github.io/categories/ios/"> iOS </a>
+        <a href="https://ksnowlv.github.io/categories/swift/"> swift </a>
           <a href="https://ksnowlv.github.io/categories/%E5%AE%89%E5%85%A8/"> 安全 </a>
           
       </div>
@@ -370,40 +369,54 @@
 
         
         <div class="post-content">
-          <h2 id="一-mac上生成-ecdheelliptic-curve-diffie-hellman-ephemeral公钥和私钥">一. Mac上生成 ECDHE（Elliptic Curve Diffie-Hellman Ephemeral）公钥和私钥</h2>
-<h3 id="1mac安装openssl">1.Mac安装OpenSSL</h3>
+          <h2 id="一swift下安装openssl">一.swift下安装Openssl</h2>
+<p>使用podfile的方式引用OpenSSL库</p>
+<p>那为什么不使用<a href="https://github.com/x2on/OpenSSL-for-iPhone">OpenSSL-for-iPhone</a>?主要原因是该工程适用Objective-C，在swift下适配成本较高。</p>
+<h3 id="1创建podfile文件">1.创建Podfile文件</h3>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>brew install openssl
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>source <span style="color:#960050;background-color:#1e0010">&#39;</span>https:<span style="color:#75715e">//github.com/CocoaPods/Specs.git&#39;</span>
+</span></span><span style="display:flex;"><span>use_frameworks!
+</span></span><span style="display:flex;"><span>platform :ios, <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">12.0</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>target <span style="color:#960050;background-color:#1e0010">&#39;</span>SwiftSecretTest<span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    # pod <span style="color:#960050;background-color:#1e0010">&#39;</span>OpenSSL<span style="color:#f92672">-</span>Apple<span style="color:#960050;background-color:#1e0010">&#39;</span>, :path =<span style="color:#f92672">&gt;</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>.<span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span>    pod <span style="color:#960050;background-color:#1e0010">&#39;</span>OpenSSL<span style="color:#f92672">-</span>Universal<span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span>end
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="2生成-ecdhe-密钥对">2.生成 ECDHE 密钥对</h3>
+</div><h3 id="2pod安装">2.pod安装</h3>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>openssl ecparam -name prime256v1 -genkey -noout -out private_key.pem
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>pod install
+</span></span><span style="display:flex;"><span>Analyzing dependencies
+</span></span><span style="display:flex;"><span>Downloading dependencies
+</span></span><span style="display:flex;"><span>Installing OpenSSL-Universal (1.1.2200)
+</span></span><span style="display:flex;"><span>Generating Pods project
+</span></span><span style="display:flex;"><span>Integrating client project
+</span></span><span style="display:flex;"><span>Pod installation complete! There is 1 dependency from the Podfile and 1 total pod installed.
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>终端命令将生成一个 prime256v1（也称为 P-256）曲线的 ECDHE 私钥，并将私钥保存到 private_key.pem 文件中。</p>
-<h3 id="3导出公钥">3.导出公钥</h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>openssl ec -in private_key.pem -pubout -out public_key.pem
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>终端命令将从 private_key.pem 文件中导出公钥，并保存到 public_key.pem 文件</p>
-<h2 id="二ios中的使用">二.iOS中的使用</h2>
-<h3 id="1工程引入公钥和私钥文件">1.工程引入公钥和私钥文件</h3>
-<h3 id="2工程引入cryptokit库">2.工程引入CryptoKit库</h3>
-<h3 id="3加载公钥和私钥">3.加载公钥和私钥</h3>
+</div><h3 id="3查看openssl支持的算法库">3.查看openssl支持的算法库</h3>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -443,48 +456,107 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadKeyAndSecret</span>() -&gt; SymmetricKey? {
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 加载本地私钥文件</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> privateKeyURL = Bundle.main.url(forResource: EcdheTest.PrivateKeyFile, withExtension: <span style="color:#e6db74">&#34;pem&#34;</span>),
-</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">let</span> privateKeyString = <span style="color:#66d9ef">try</span>? String(contentsOf: privateKeyURL) <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            fatalError(<span style="color:#e6db74">&#34;Failed to load private key&#34;</span>)
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 解析本地私钥</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> privateKey = <span style="color:#66d9ef">try</span>! P256.KeyAgreement.PrivateKey(pemRepresentation: privateKeyString)
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 加载对方的公钥文件</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> publicKeyURL = Bundle.main.url(forResource: EcdheTest.PublicKeyFile, withExtension: <span style="color:#e6db74">&#34;pem&#34;</span>),
-</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">let</span> publicKeyString = <span style="color:#66d9ef">try</span>? String(contentsOf: publicKeyURL) <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            fatalError(<span style="color:#e6db74">&#34;Failed to load peer&#39;s public key&#34;</span>)
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 解析对方的公钥</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> peerPublicKey = <span style="color:#66d9ef">try</span>! P256.KeyAgreement.PublicKey(pemRepresentation: publicKeyString)
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 计算共享密钥</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> sharedSecret = <span style="color:#66d9ef">try</span>! privateKey.sharedSecretFromKeyAgreement(with: peerPublicKey)
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 打印共享密钥</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> sharedSecretData = sharedSecret.withUnsafeBytes { bytes <span style="color:#66d9ef">in</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Data(bytes: bytes.baseAddress!, count: bytes.count)
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Print shared secret</span>
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Shared Secret: </span><span style="color:#e6db74">\(</span>sharedSecretData<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> hexString = sharedSecretData.map { String(format: <span style="color:#e6db74">&#34;%02hhx&#34;</span>, $0) }.joined()
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//        print(&#34;Hex String: \(hexString)&#34;)</span>
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 使用共享的密钥进行加密/解密</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> sharedSecret.hkdfDerivedSymmetricKey(using: SHA256.<span style="color:#66d9ef">self</span>, salt: Data(), sharedInfo: Data(), outputByteCount: <span style="color:#ae81ff">32</span>)
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>    }
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>(base) lvwei@lvweideMacBook-Pro SwiftSecretTest % openssl ciphers -V | column -t
+</span></span><span style="display:flex;"><span>0x13,0x02  -  TLS_AES_256_GCM_SHA384         TLSv1.3  Kx=any       Au=any    Enc=AESGCM(256)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0x13,0x03  -  TLS_CHACHA20_POLY1305_SHA256   TLSv1.3  Kx=any       Au=any    Enc=CHACHA20/POLY1305(256)  Mac=AEAD
+</span></span><span style="display:flex;"><span>0x13,0x01  -  TLS_AES_128_GCM_SHA256         TLSv1.3  Kx=any       Au=any    Enc=AESGCM(128)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0xC0,0x2C  -  ECDHE-ECDSA-AES256-GCM-SHA384  TLSv1.2  Kx=ECDH      Au=ECDSA  Enc=AESGCM(256)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0xC0,0x30  -  ECDHE-RSA-AES256-GCM-SHA384    TLSv1.2  Kx=ECDH      Au=RSA    Enc=AESGCM(256)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0x9F  -  DHE-RSA-AES256-GCM-SHA384      TLSv1.2  Kx=DH        Au=RSA    Enc=AESGCM(256)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0xCC,0xA9  -  ECDHE-ECDSA-CHACHA20-POLY1305  TLSv1.2  Kx=ECDH      Au=ECDSA  Enc=CHACHA20/POLY1305(256)  Mac=AEAD
+</span></span><span style="display:flex;"><span>0xCC,0xA8  -  ECDHE-RSA-CHACHA20-POLY1305    TLSv1.2  Kx=ECDH      Au=RSA    Enc=CHACHA20/POLY1305(256)  Mac=AEAD
+</span></span><span style="display:flex;"><span>0xCC,0xAA  -  DHE-RSA-CHACHA20-POLY1305      TLSv1.2  Kx=DH        Au=RSA    Enc=CHACHA20/POLY1305(256)  Mac=AEAD
+</span></span><span style="display:flex;"><span>0xC0,0x2B  -  ECDHE-ECDSA-AES128-GCM-SHA256  TLSv1.2  Kx=ECDH      Au=ECDSA  Enc=AESGCM(128)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0xC0,0x2F  -  ECDHE-RSA-AES128-GCM-SHA256    TLSv1.2  Kx=ECDH      Au=RSA    Enc=AESGCM(128)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0x9E  -  DHE-RSA-AES128-GCM-SHA256      TLSv1.2  Kx=DH        Au=RSA    Enc=AESGCM(128)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0xC0,0x24  -  ECDHE-ECDSA-AES256-SHA384      TLSv1.2  Kx=ECDH      Au=ECDSA  Enc=AES(256)                Mac=SHA384
+</span></span><span style="display:flex;"><span>0xC0,0x28  -  ECDHE-RSA-AES256-SHA384        TLSv1.2  Kx=ECDH      Au=RSA    Enc=AES(256)                Mac=SHA384
+</span></span><span style="display:flex;"><span>0x00,0x6B  -  DHE-RSA-AES256-SHA256          TLSv1.2  Kx=DH        Au=RSA    Enc=AES(256)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0xC0,0x23  -  ECDHE-ECDSA-AES128-SHA256      TLSv1.2  Kx=ECDH      Au=ECDSA  Enc=AES(128)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0xC0,0x27  -  ECDHE-RSA-AES128-SHA256        TLSv1.2  Kx=ECDH      Au=RSA    Enc=AES(128)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0x00,0x67  -  DHE-RSA-AES128-SHA256          TLSv1.2  Kx=DH        Au=RSA    Enc=AES(128)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0xC0,0x0A  -  ECDHE-ECDSA-AES256-SHA         TLSv1    Kx=ECDH      Au=ECDSA  Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0xC0,0x14  -  ECDHE-RSA-AES256-SHA           TLSv1    Kx=ECDH      Au=RSA    Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0x39  -  DHE-RSA-AES256-SHA             SSLv3    Kx=DH        Au=RSA    Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0xC0,0x09  -  ECDHE-ECDSA-AES128-SHA         TLSv1    Kx=ECDH      Au=ECDSA  Enc=AES(128)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0xC0,0x13  -  ECDHE-RSA-AES128-SHA           TLSv1    Kx=ECDH      Au=RSA    Enc=AES(128)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0x33  -  DHE-RSA-AES128-SHA             SSLv3    Kx=DH        Au=RSA    Enc=AES(128)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0xAD  -  RSA-PSK-AES256-GCM-SHA384      TLSv1.2  Kx=RSAPSK    Au=RSA    Enc=AESGCM(256)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0xAB  -  DHE-PSK-AES256-GCM-SHA384      TLSv1.2  Kx=DHEPSK    Au=PSK    Enc=AESGCM(256)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0xCC,0xAE  -  RSA-PSK-CHACHA20-POLY1305      TLSv1.2  Kx=RSAPSK    Au=RSA    Enc=CHACHA20/POLY1305(256)  Mac=AEAD
+</span></span><span style="display:flex;"><span>0xCC,0xAD  -  DHE-PSK-CHACHA20-POLY1305      TLSv1.2  Kx=DHEPSK    Au=PSK    Enc=CHACHA20/POLY1305(256)  Mac=AEAD
+</span></span><span style="display:flex;"><span>0xCC,0xAC  -  ECDHE-PSK-CHACHA20-POLY1305    TLSv1.2  Kx=ECDHEPSK  Au=PSK    Enc=CHACHA20/POLY1305(256)  Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0x9D  -  AES256-GCM-SHA384              TLSv1.2  Kx=RSA       Au=RSA    Enc=AESGCM(256)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0xA9  -  PSK-AES256-GCM-SHA384          TLSv1.2  Kx=PSK       Au=PSK    Enc=AESGCM(256)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0xCC,0xAB  -  PSK-CHACHA20-POLY1305          TLSv1.2  Kx=PSK       Au=PSK    Enc=CHACHA20/POLY1305(256)  Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0xAC  -  RSA-PSK-AES128-GCM-SHA256      TLSv1.2  Kx=RSAPSK    Au=RSA    Enc=AESGCM(128)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0xAA  -  DHE-PSK-AES128-GCM-SHA256      TLSv1.2  Kx=DHEPSK    Au=PSK    Enc=AESGCM(128)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0x9C  -  AES128-GCM-SHA256              TLSv1.2  Kx=RSA       Au=RSA    Enc=AESGCM(128)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0xA8  -  PSK-AES128-GCM-SHA256          TLSv1.2  Kx=PSK       Au=PSK    Enc=AESGCM(128)             Mac=AEAD
+</span></span><span style="display:flex;"><span>0x00,0x3D  -  AES256-SHA256                  TLSv1.2  Kx=RSA       Au=RSA    Enc=AES(256)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0x00,0x3C  -  AES128-SHA256                  TLSv1.2  Kx=RSA       Au=RSA    Enc=AES(128)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0xC0,0x38  -  ECDHE-PSK-AES256-CBC-SHA384    TLSv1    Kx=ECDHEPSK  Au=PSK    Enc=AES(256)                Mac=SHA384
+</span></span><span style="display:flex;"><span>0xC0,0x36  -  ECDHE-PSK-AES256-CBC-SHA       TLSv1    Kx=ECDHEPSK  Au=PSK    Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0xC0,0x21  -  SRP-RSA-AES-256-CBC-SHA        SSLv3    Kx=SRP       Au=RSA    Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0xC0,0x20  -  SRP-AES-256-CBC-SHA            SSLv3    Kx=SRP       Au=SRP    Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0xB7  -  RSA-PSK-AES256-CBC-SHA384      TLSv1    Kx=RSAPSK    Au=RSA    Enc=AES(256)                Mac=SHA384
+</span></span><span style="display:flex;"><span>0x00,0xB3  -  DHE-PSK-AES256-CBC-SHA384      TLSv1    Kx=DHEPSK    Au=PSK    Enc=AES(256)                Mac=SHA384
+</span></span><span style="display:flex;"><span>0x00,0x95  -  RSA-PSK-AES256-CBC-SHA         SSLv3    Kx=RSAPSK    Au=RSA    Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0x91  -  DHE-PSK-AES256-CBC-SHA         SSLv3    Kx=DHEPSK    Au=PSK    Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0x35  -  AES256-SHA                     SSLv3    Kx=RSA       Au=RSA    Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0xAF  -  PSK-AES256-CBC-SHA384          TLSv1    Kx=PSK       Au=PSK    Enc=AES(256)                Mac=SHA384
+</span></span><span style="display:flex;"><span>0x00,0x8D  -  PSK-AES256-CBC-SHA             SSLv3    Kx=PSK       Au=PSK    Enc=AES(256)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0xC0,0x37  -  ECDHE-PSK-AES128-CBC-SHA256    TLSv1    Kx=ECDHEPSK  Au=PSK    Enc=AES(128)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0xC0,0x35  -  ECDHE-PSK-AES128-CBC-SHA       TLSv1    Kx=ECDHEPSK  Au=PSK    Enc=AES(128)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0xC0,0x1E  -  SRP-RSA-AES-128-CBC-SHA        SSLv3    Kx=SRP       Au=RSA    Enc=AES(128)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0xC0,0x1D  -  SRP-AES-128-CBC-SHA            SSLv3    Kx=SRP       Au=SRP    Enc=AES(128)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0xB6  -  RSA-PSK-AES128-CBC-SHA256      TLSv1    Kx=RSAPSK    Au=RSA    Enc=AES(128)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0x00,0xB2  -  DHE-PSK-AES128-CBC-SHA256      TLSv1    Kx=DHEPSK    Au=PSK    Enc=AES(128)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0x00,0x94  -  RSA-PSK-AES128-CBC-SHA         SSLv3    Kx=RSAPSK    Au=RSA    Enc=AES(128)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0x90  -  DHE-PSK-AES128-CBC-SHA         SSLv3    Kx=DHEPSK    Au=PSK    Enc=AES(128)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0x2F  -  AES128-SHA                     SSLv3    Kx=RSA       Au=RSA    Enc=AES(128)                Mac=SHA1
+</span></span><span style="display:flex;"><span>0x00,0xAE  -  PSK-AES128-CBC-SHA256          TLSv1    Kx=PSK       Au=PSK    Enc=AES(128)                Mac=SHA256
+</span></span><span style="display:flex;"><span>0x00,0x8C  -  PSK-AES128-CBC-SHA             SSLv3    Kx=PSK       Au=PSK    Enc=AES(128)                Mac=SHA1
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="4数据加密">4.数据加密</h3>
+</div><h2 id="openssl-下aes加密和解密">Openssl 下AES加密和解密</h2>
+<h3 id="1引入openssl">1.引入OpenSSL</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">OpenSSL</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2生成密钥和向量">2.生成密钥和向量</h3>
+<p>AES256加解密，使用32位的密钥，16位的向量，可用随机数的方式生成密钥和向量</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -497,46 +569,41 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">encryptedData</span>(<span style="color:#66d9ef">_</span> symmetricKey: SymmetricKey, <span style="color:#66d9ef">_</span> text: String) -&gt; Data? {
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">loadKeyAndIV</span>() -&gt;(key: [UInt8], iv: [UInt8])  {
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> plaintext = text.data(using: .utf8) <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> key = [UInt8](repeating: <span style="color:#ae81ff">0</span>, count: AES256Test.AESKeyLen)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> iv = [UInt8](repeating: <span style="color:#ae81ff">0</span>, count: AES256Test.AESIVLen)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> aesKey = key.withUnsafeMutableBufferPointer { buf <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            RAND_bytes(buf.baseAddress, Int32(buf.count))
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">try</span>? ChaChaPoly.seal(plaintext, using: symmetricKey).combined
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="5数据解密">5.数据解密</h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">decryptedData</span>(<span style="color:#66d9ef">_</span> symmetricKey: SymmetricKey, <span style="color:#66d9ef">_</span> encryptedData: Data) -&gt; Data? {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 使用共享的密钥进行解密</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> sealedBox = <span style="color:#66d9ef">try</span>? ChaChaPoly.SealedBox(combined: encryptedData) <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> aesIV = iv.withUnsafeMutableBufferPointer { buf <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>            RAND_bytes(buf.baseAddress, Int32(buf.count))
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">try</span>? ChaChaPoly.open(sealedBox, using: symmetricKey)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Generated Key: </span><span style="color:#e6db74">\(</span>key<span style="color:#e6db74">)</span><span style="color:#e6db74">,</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> key len:</span><span style="color:#e6db74">\(</span>key.count<span style="color:#e6db74">)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">IV: </span><span style="color:#e6db74">\(</span>iv<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (key, iv)
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="6测试">6.测试</h3>
+</div><h3 id="3aes256加密">3.AES256加密</h3>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -572,56 +639,186 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>      <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">encryptedData</span>(<span style="color:#66d9ef">_</span> key: [UInt8], <span style="color:#66d9ef">_</span> iv: [UInt8], <span style="color:#66d9ef">_</span> text: String) -&gt; Data? {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> data = text.data(using: .utf8) <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> aesKey = AES_KEY()
+</span></span><span style="display:flex;"><span>        AES_set_encrypt_key(key, <span style="color:#ae81ff">256</span>, &amp;aesKey)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> copiedData = Data(data)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> appendDataLen = AES_BLOCK_SIZE <span style="color:#f92672">-</span> (Int32(data.count) <span style="color:#f92672">%</span> AES_BLOCK_SIZE)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> appendDataLen <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//AES_BLOCK_SIZE即16个字节一组，如果不足16个字节，补充至16个字节。PKCS7</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> fillBytes = Data(repeating: UInt8(appendDataLen), count: Int(appendDataLen))
+</span></span><span style="display:flex;"><span>            copiedData.append(fillBytes)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> loopNum = (Int32(copiedData.count)<span style="color:#f92672">/</span>AES_BLOCK_SIZE)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> outData = Data(count: copiedData.count)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        copiedData.withUnsafeBytes { (inBuf: UnsafeRawBufferPointer) <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>            outData.withUnsafeMutableBytes { (outBuf: UnsafeMutableRawBufferPointer) <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> inBufPtr = inBuf.baseAddress?.assumingMemoryBound(to: UInt8.<span style="color:#66d9ef">self</span>),
+</span></span><span style="display:flex;"><span>                      <span style="color:#66d9ef">let</span> outBufPtr = outBuf.baseAddress?.assumingMemoryBound(to: UInt8.<span style="color:#66d9ef">self</span>) <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0.</span>.&lt;loopNum {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">let</span> offset = Int32(i) <span style="color:#f92672">*</span> AES_BLOCK_SIZE
+</span></span><span style="display:flex;"><span>                    AES_encrypt(inBufPtr.advanced(by: Int(offset)), outBufPtr.advanced(by: Int(offset)), &amp;aesKey)
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> outData
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4aes256解密">4.AES256解密</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">decryptedData</span>(<span style="color:#66d9ef">_</span> key: [UInt8], <span style="color:#66d9ef">_</span> iv: [UInt8], <span style="color:#66d9ef">_</span> data: Data) -&gt; Data? {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> <span style="color:#f92672">!</span>data.isEmpty <span style="color:#f92672">&amp;&amp;</span> Int32(data.count) <span style="color:#f92672">%</span> AES_BLOCK_SIZE == <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> aesKey = AES_KEY()
+</span></span><span style="display:flex;"><span>        AES_set_decrypt_key(key, <span style="color:#ae81ff">256</span>, &amp;aesKey)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> outData = Data(count: data.count)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> loopNum = (Int32(data.count)<span style="color:#f92672">/</span>AES_BLOCK_SIZE)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        data.withUnsafeBytes({ (inBuf: UnsafeRawBufferPointer) <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>            outData.withUnsafeMutableBytes { outBuf <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> inBufPtr = inBuf.baseAddress?.assumingMemoryBound(to: UInt8.<span style="color:#66d9ef">self</span>),
+</span></span><span style="display:flex;"><span>                      <span style="color:#66d9ef">let</span> outBufPtr = outBuf.baseAddress?.assumingMemoryBound(to: UInt8.<span style="color:#66d9ef">self</span>) <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0.</span>.&lt;loopNum {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">let</span> offset = Int32(i) <span style="color:#f92672">*</span> AES_BLOCK_SIZE
+</span></span><span style="display:flex;"><span>                    AES_decrypt(inBufPtr.advanced(by: Int(offset)), outBufPtr.advanced(by: Int(offset)), &amp;aesKey)
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> removePKCS7Padding(outData, Int(AES_BLOCK_SIZE))
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="5aes256调用">5.AES256调用</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">test</span>() {
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> symmetricKey = <span style="color:#66d9ef">self</span>.loadKeyAndSecret()
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> symmetricKey <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            fatalError(<span style="color:#e6db74">&#34;---loadKeyAndSecret load faile---&#34;</span>)
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> helloWorld = <span style="color:#e6db74">&#34;Hello World!&#34;</span>
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;---helloWorld :</span><span style="color:#e6db74">\(</span>helloWorld<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> encryptedData = <span style="color:#66d9ef">self</span>.encryptedData(symmetricKey!, helloWorld)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> result = <span style="color:#66d9ef">self</span>.loadKeyAndIV()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> helloworld = <span style="color:#e6db74">&#34;Hello world!1234567891011121314151617&#34;</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;---String:</span><span style="color:#e6db74">\(</span>helloworld<span style="color:#e6db74">)</span><span style="color:#e6db74">---&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> encryptedData = <span style="color:#66d9ef">self</span>.encryptedData(result.key, result.iv, helloworld)
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> encryptedData <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            fatalError(<span style="color:#e6db74">&#34;---encryptedData faile---&#34;</span>)
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;encryptedData fail&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;---encryptedData :</span><span style="color:#e6db74">\(</span>String<span style="color:#e6db74">(</span>describing: encryptedData<span style="color:#e6db74">))</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> decryptedData = <span style="color:#66d9ef">self</span>.decryptedData(symmetricKey!, encryptedData!)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;---encryptedData:</span><span style="color:#e6db74">\(</span>encryptedData!<span style="color:#e6db74">)</span><span style="color:#e6db74">---&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> decryptedData = <span style="color:#66d9ef">self</span>.decryptedData(result.key, result.iv, encryptedData!)
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">guard</span> decryptedData <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            fatalError(<span style="color:#e6db74">&#34;---decryptedData faile---&#34;</span>)
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;decryptedData fail&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> decryptedString = String(data: decryptedData!, encoding: .utf8)
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;---decryptedData:</span><span style="color:#e6db74">\(</span>decryptedString ?? <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;---decryptedString:</span><span style="color:#e6db74">\(</span>decryptedString<span style="color:#e6db74">)</span><span style="color:#e6db74">---&#34;</span>)
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="7执行情况">7.执行情况</h3>
+</div><p>执行情况</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Shared Secret: 32 bytes
-</span></span><span style="display:flex;"><span>---helloWorld :Hello World!
-</span></span><span style="display:flex;"><span>---encryptedData :Optional(40 bytes)
-</span></span><span style="display:flex;"><span>---decryptedData:Hello World!
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Generated Key: [162, 231, 91, 155, 215, 253, 224, 101, 8, 143, 64, 142, 39, 11, 11, 237, 185, 127, 213, 147, 20, 20, 251, 88, 157, 96, 28, 28, 42, 174, 63, 45],
+</span></span><span style="display:flex;"><span> key len:32
+</span></span><span style="display:flex;"><span>IV: [246, 239, 34, 73, 154, 100, 89, 195, 192, 52, 55, 235, 125, 80, 111, 165]
+</span></span><span style="display:flex;"><span>---String:Hello world!1234567891011121314151617---
+</span></span><span style="display:flex;"><span>---encryptedData:48 bytes---
+</span></span><span style="display:flex;"><span>---decryptedString:Optional(&#34;Hello world!1234567891011121314151617&#34;)---
 </span></span></code></pre></td></tr></table>
 </div>
 </div>
@@ -637,7 +834,7 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-      2023-09-20
+      2023-09-21
       
     </span>
   </p>
@@ -665,8 +862,7 @@
 
         <footer class="post-footer">
           <div class="post-tags">
-              <a href="https://ksnowlv.github.io/tags/swift/">Swift</a>
-                <a href="https://ksnowlv.github.io/tags/ios/">iOS</a>
+              <a href="https://ksnowlv.github.io/tags/swift/">swift</a>
                 <a href="https://ksnowlv.github.io/tags/%E5%AE%89%E5%85%A8/">安全</a>
                 
             </div>
@@ -675,7 +871,7 @@
           
           <nav class="post-nav">
             
-              <a class="prev" href="/post/swift-openssl%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">
+              <a class="prev" href="/post/swift-openssl%E4%B8%ADaes%E7%9A%84%E4%BD%BF%E7%94%A8/">
                 
                 <i class="iconfont">
                   <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -685,12 +881,12 @@
 </svg>
 
                 </i>
-                <span class="prev-text nav-default">Swift Openssl的安装与使用</span>
+                <span class="prev-text nav-default">Swift Openssl中aes的使用</span>
                 <span class="prev-text nav-mobile">上一篇</span>
               </a>
             
-              <a class="next" href="/post/mac%E4%B8%8B%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/">
-                <span class="next-text nav-default">Mac下抓包工具</span>
+              <a class="next" href="/post/swift-ecdhe%E5%8A%A0%E8%A7%A3%E5%AF%86/">
+                <span class="next-text nav-default">Swift ECDHE加解密</span>
                 <span class="prev-text nav-mobile">下一篇</span>
                 
                 <i class="iconfont">
@@ -763,22 +959,20 @@
     <div class="toc-content custom-scrollbar">
       <nav id="TableOfContents">
   <ul>
-    <li><a href="#一-mac上生成-ecdheelliptic-curve-diffie-hellman-ephemeral公钥和私钥">一. Mac上生成 ECDHE（Elliptic Curve Diffie-Hellman Ephemeral）公钥和私钥</a>
+    <li><a href="#一swift下安装openssl">一.swift下安装Openssl</a>
       <ul>
-        <li><a href="#1mac安装openssl">1.Mac安装OpenSSL</a></li>
-        <li><a href="#2生成-ecdhe-密钥对">2.生成 ECDHE 密钥对</a></li>
-        <li><a href="#3导出公钥">3.导出公钥</a></li>
+        <li><a href="#1创建podfile文件">1.创建Podfile文件</a></li>
+        <li><a href="#2pod安装">2.pod安装</a></li>
+        <li><a href="#3查看openssl支持的算法库">3.查看openssl支持的算法库</a></li>
       </ul>
     </li>
-    <li><a href="#二ios中的使用">二.iOS中的使用</a>
+    <li><a href="#openssl-下aes加密和解密">Openssl 下AES加密和解密</a>
       <ul>
-        <li><a href="#1工程引入公钥和私钥文件">1.工程引入公钥和私钥文件</a></li>
-        <li><a href="#2工程引入cryptokit库">2.工程引入CryptoKit库</a></li>
-        <li><a href="#3加载公钥和私钥">3.加载公钥和私钥</a></li>
-        <li><a href="#4数据加密">4.数据加密</a></li>
-        <li><a href="#5数据解密">5.数据解密</a></li>
-        <li><a href="#6测试">6.测试</a></li>
-        <li><a href="#7执行情况">7.执行情况</a></li>
+        <li><a href="#1引入openssl">1.引入OpenSSL</a></li>
+        <li><a href="#2生成密钥和向量">2.生成密钥和向量</a></li>
+        <li><a href="#3aes256加密">3.AES256加密</a></li>
+        <li><a href="#4aes256解密">4.AES256解密</a></li>
+        <li><a href="#5aes256调用">5.AES256调用</a></li>
       </ul>
     </li>
   </ul>
