@@ -6,7 +6,7 @@ menu: "main"
 weight: 50
 
 # you can close something for this content if you open it in config.toml.
-comment: false
+comment: true
 mathjax: false
 ---
 
@@ -14,4 +14,4 @@ mathjax: false
 
 微信号:ksnowlv 
 
-聚集于移动互联网开发，在腾讯，阿里，搜狗等互联网公司从事多年移动端开发。
+聚焦于移动互联网开发，在腾讯，阿里，搜狗等互联网公司从事多年移动端开发。
