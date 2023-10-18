@@ -2,9 +2,9 @@
 title: "Mac-nginx安装及运行"
 date: 2023-08-28T08:46:20+08:00
 lastmod: 2023-08-28T08:46:20+08:00
-keywords: ["后台开发","nginx"]
-tags: ["后台开发","nginx"]
-categories: ["后台开发","nginx"]
+keywords: ["后端开发","nginx"]
+tags: ["后端开发","nginx"]
+categories: ["后端开发","nginx"]
 
 comment: true
 toc: true

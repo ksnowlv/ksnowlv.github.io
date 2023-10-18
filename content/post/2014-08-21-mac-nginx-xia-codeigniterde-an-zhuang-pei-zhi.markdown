@@ -3,9 +3,9 @@ title: "Mac-nginx下CodeIgniter的安装配置"
 date: 2014-08-21
 lastmod: 2014-08-21
 categories:
-  - "后台开发"
+  - "后端开发"
 tags:
-  - "后台开发"
+  - "后端开发"
 comment: true
 toc: true
 autoCollapseToc: false

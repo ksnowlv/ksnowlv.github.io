@@ -89,8 +89,8 @@ mathjax: false
             return
 
         # 填充手机号码和密码,验证码
-        phone_input.send_keys("15210795183")
-        password_input.send_keys("gc2053GCO")
+        phone_input.send_keys("账号")
+        password_input.send_keys("密码")
         code_input.send_keys(text)
         # 点击登录按钮
         login_button.click()

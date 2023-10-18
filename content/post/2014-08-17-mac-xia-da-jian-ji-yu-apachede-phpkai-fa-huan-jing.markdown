@@ -3,9 +3,9 @@ title: "Mac下搭建基于Apache的PHP开发环境"
 date: 2014-08-17
 lastmod: 2014-08-17
 categories:
-  - "后台开发"
+  - "后端开发"
 tags:
-  - "后台开发"
+  - "后端开发"
 comment: true
 toc: true
 autoCollapseToc: false

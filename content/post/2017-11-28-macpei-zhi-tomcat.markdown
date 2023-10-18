@@ -3,9 +3,9 @@ title: "Mac配置tomcat"
 date: 2017-11-28
 lastmod: 2017-11-28
 categories:
-  - "后台开发"
+  - "后端开发"
 tags:
-  - "后台开发"
+  - "后端开发"
 comment: true
 toc: true
 autoCollapseToc: false

@@ -3,9 +3,9 @@ title: "Mac-nginx下codeigniter域名服务访问"
 date: 2014-08-21
 lastmod: 2014-08-21
 categories:
-  - "后台开发"
+  - "后端开发"
 tags:
-  - "后台开发"
+  - "后端开发"
 comment: true
 toc: true
 autoCollapseToc: false
