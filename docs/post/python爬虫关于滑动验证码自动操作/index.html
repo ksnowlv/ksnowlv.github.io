@@ -76,7 +76,7 @@
 <meta itemprop="name" content="Python爬虫关于滑块验证码自动操作">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-10-18T17:22:23+08:00" />
 <meta itemprop="dateModified" content="2023-10-18T17:22:23+08:00" />
-<meta itemprop="wordCount" content="3499">
+<meta itemprop="wordCount" content="3684">
 <meta itemprop="keywords" content="Python,爬虫," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Python爬虫关于滑块验证码自动操作"/>
 <meta name="twitter:description" content=""/>
@@ -345,8 +345,8 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 3499 字 -
-        预计阅读 7 分钟
+        约 3684 字 -
+        预计阅读 8 分钟
       </span>
 
     <div class="post-meta-category">
@@ -691,6 +691,10 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">249
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">250
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">251
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">252
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">253
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">254
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">255
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
@@ -767,183 +771,187 @@
 </span></span><span style="display:flex;"><span>    self<span style="color:#f92672">.</span>loop()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_images</span>(self):
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>panel_element <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 在网页中，有时会使用 iframe 或 frame 元素嵌入其他网页或内容。如果要在 Selenium 中操作这些嵌入的网页或内容，就需要先切换到相应的 iframe 或 frame 中。</span>
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 使用 driver.switch_to.frame() 方法可以通过 iframe 或 frame 元素的索引、名称或 WebElement 对象来切换到相应的 iframe 或 frame 中</span>
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 使用 driver.switch_to.default_content() 方法可以切换回默认的上下文，即切回到主文档或最外层的窗口，以便继续操作其他元素。</span>
-</span></span><span style="display:flex;"><span>     iframe <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>find_element(By<span style="color:#f92672">.</span>ID, <span style="color:#e6db74">&#34;tcaptcha_iframe_dy&#34;</span>)
-</span></span><span style="display:flex;"><span>     self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>switch_to<span style="color:#f92672">.</span>frame(iframe)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>     panel_element <span style="color:#f92672">=</span> WebDriverWait(self<span style="color:#f92672">.</span>driver, <span style="color:#ae81ff">12</span>)<span style="color:#f92672">.</span>until(
-</span></span><span style="display:flex;"><span>      EC<span style="color:#f92672">.</span>visibility_of_element_located((By<span style="color:#f92672">.</span>CLASS_NAME, <span style="color:#e6db74">&#34;body-wrap&#34;</span>))
-</span></span><span style="display:flex;"><span>     )
-</span></span><span style="display:flex;"><span>     self<span style="color:#f92672">.</span>panel_element <span style="color:#f92672">=</span> panel_element
-</span></span><span style="display:flex;"><span>     print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;元素已经加载完成：&#34;</span>, self<span style="color:#f92672">.</span>panel_element)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    element <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>panel_element<span style="color:#f92672">.</span>find_element(By<span style="color:#f92672">.</span>XPATH, <span style="color:#e6db74">&#34;//*[@id=&#39;slideBg&#39;]&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 获取元素的background-image属性值</span>
-</span></span><span style="display:flex;"><span>    bg_image <span style="color:#f92672">=</span> element<span style="color:#f92672">.</span>get_attribute(<span style="color:#e6db74">&#34;style&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 从background-image属性值中提取图片链接</span>
-</span></span><span style="display:flex;"><span>    start_index <span style="color:#f92672">=</span> bg_image<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;(&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>    end_index <span style="color:#f92672">=</span> bg_image<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;)&#34;</span>)
-</span></span><span style="display:flex;"><span>    image_url <span style="color:#f92672">=</span> bg_image[start_index:end_index]
-</span></span><span style="display:flex;"><span>    image_url <span style="color:#f92672">=</span> image_url<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;&#34;&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;背景图片链接：</span><span style="color:#e6db74">{</span>image_url<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(image_url, stream<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>    bk_image <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(io<span style="color:#f92672">.</span>BytesIO(response<span style="color:#f92672">.</span>content))
-</span></span><span style="display:flex;"><span>    bk_image<span style="color:#f92672">.</span>save(SliderCaptchaDemo<span style="color:#f92672">.</span>BK_IMAGE)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 找到指定的元素</span>
-</span></span><span style="display:flex;"><span>    slider_element <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>panel_element<span style="color:#f92672">.</span>find_element(By<span style="color:#f92672">.</span>XPATH, <span style="color:#e6db74">&#34;//*[@id=&#39;tcOperation&#39;]/div[@class=&#39;tc-fg-item&#39;]&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 获取元素的background-image属性值</span>
-</span></span><span style="display:flex;"><span>    slider_image <span style="color:#f92672">=</span> slider_element<span style="color:#f92672">.</span>get_attribute(<span style="color:#e6db74">&#34;style&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 从background-image属性值中提取图片链接</span>
-</span></span><span style="display:flex;"><span>    start_index <span style="color:#f92672">=</span> slider_image<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;(&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>    end_index <span style="color:#f92672">=</span> slider_image<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;)&#34;</span>)
-</span></span><span style="display:flex;"><span>    image_url <span style="color:#f92672">=</span> slider_image[start_index:end_index]
-</span></span><span style="display:flex;"><span>    image_url <span style="color:#f92672">=</span> image_url<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;&#34;&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;图片链接：</span><span style="color:#e6db74">{</span>image_url<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(image_url, stream<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>    image <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(io<span style="color:#f92672">.</span>BytesIO(response<span style="color:#f92672">.</span>content))
-</span></span><span style="display:flex;"><span>    image<span style="color:#f92672">.</span>save(SliderCaptchaDemo<span style="color:#f92672">.</span>FULL_SLIDER_IMAGE)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 获取验证码x,y轴坐标</span>
-</span></span><span style="display:flex;"><span>    crop_point <span style="color:#f92672">=</span> (<span style="color:#ae81ff">71</span>, <span style="color:#ae81ff">248</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 获取验证码的长宽</span>
-</span></span><span style="display:flex;"><span>    crop_size <span style="color:#f92672">=</span> (<span style="color:#ae81ff">61</span>, <span style="color:#ae81ff">61</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 设备分辨率为2</span>
-</span></span><span style="display:flex;"><span>    scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>    rangle <span style="color:#f92672">=</span> (crop_point[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> scale,
-</span></span><span style="display:flex;"><span>              crop_point[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> scale,
-</span></span><span style="display:flex;"><span>              crop_point[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> scale <span style="color:#f92672">+</span> crop_size[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> scale,
-</span></span><span style="display:flex;"><span>              crop_point[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> scale <span style="color:#f92672">+</span> crop_size[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> scale
-</span></span><span style="display:flex;"><span>              )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    verification_image <span style="color:#f92672">=</span> image<span style="color:#f92672">.</span>crop(rangle)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># verification_image = verification_image.convert(&#39;RGB&#39;)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 保存我们截取的验证码图片，并读取验证码内容</span>
-</span></span><span style="display:flex;"><span>    verification_image<span style="color:#f92672">.</span>save(SliderCaptchaDemo<span style="color:#f92672">.</span>SLIDER_IMAGE)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 返回路径</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> SliderCaptchaDemo<span style="color:#f92672">.</span>BK_IMAGE, SliderCaptchaDemo<span style="color:#f92672">.</span>SLIDER_IMAGE
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>panel_element <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 在网页中，有时会使用 iframe 或 frame 元素嵌入其他网页或内容。如果要在 Selenium 中操作这些嵌入的网页或内容，就需要先切换到相应的 iframe 或 frame 中。</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 使用 driver.switch_to.frame() 方法可以通过 iframe 或 frame 元素的索引、名称或 WebElement 对象来切换到相应的 iframe 或 frame 中</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 使用 driver.switch_to.default_content() 方法可以切换回默认的上下文，即切回到主文档或最外层的窗口，以便继续操作其他元素。</span>
+</span></span><span style="display:flex;"><span>      iframe <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>find_element(By<span style="color:#f92672">.</span>ID, <span style="color:#e6db74">&#34;tcaptcha_iframe_dy&#34;</span>)
+</span></span><span style="display:flex;"><span>      self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>switch_to<span style="color:#f92672">.</span>frame(iframe)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>      panel_element <span style="color:#f92672">=</span> WebDriverWait(self<span style="color:#f92672">.</span>driver, <span style="color:#ae81ff">12</span>)<span style="color:#f92672">.</span>until(
+</span></span><span style="display:flex;"><span>       EC<span style="color:#f92672">.</span>visibility_of_element_located((By<span style="color:#f92672">.</span>CLASS_NAME, <span style="color:#e6db74">&#34;body-wrap&#34;</span>))
+</span></span><span style="display:flex;"><span>      )
+</span></span><span style="display:flex;"><span>      self<span style="color:#f92672">.</span>panel_element <span style="color:#f92672">=</span> panel_element
+</span></span><span style="display:flex;"><span>      print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;元素已经加载完成：&#34;</span>, self<span style="color:#f92672">.</span>panel_element)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     element <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>panel_element<span style="color:#f92672">.</span>find_element(By<span style="color:#f92672">.</span>XPATH, <span style="color:#e6db74">&#34;//*[@id=&#39;slideBg&#39;]&#34;</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 获取元素的background-image属性值</span>
+</span></span><span style="display:flex;"><span>     bg_image <span style="color:#f92672">=</span> element<span style="color:#f92672">.</span>get_attribute(<span style="color:#e6db74">&#34;style&#34;</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 从background-image属性值中提取图片链接</span>
+</span></span><span style="display:flex;"><span>     start_index <span style="color:#f92672">=</span> bg_image<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;(&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>     end_index <span style="color:#f92672">=</span> bg_image<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span>     image_url <span style="color:#f92672">=</span> bg_image[start_index:end_index]
+</span></span><span style="display:flex;"><span>     image_url <span style="color:#f92672">=</span> image_url<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;&#34;&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>     print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;背景图片链接：</span><span style="color:#e6db74">{</span>image_url<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>     response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(image_url, stream<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>     bk_image <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(io<span style="color:#f92672">.</span>BytesIO(response<span style="color:#f92672">.</span>content))
+</span></span><span style="display:flex;"><span>     bk_image<span style="color:#f92672">.</span>save(SliderCaptchaDemo<span style="color:#f92672">.</span>BK_IMAGE)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 找到指定的元素</span>
+</span></span><span style="display:flex;"><span>     slider_element <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>panel_element<span style="color:#f92672">.</span>find_element(By<span style="color:#f92672">.</span>XPATH, <span style="color:#e6db74">&#34;//*[@id=&#39;tcOperation&#39;]/div[@class=&#39;tc-fg-item&#39;]&#34;</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 获取元素的background-image属性值</span>
+</span></span><span style="display:flex;"><span>     slider_image <span style="color:#f92672">=</span> slider_element<span style="color:#f92672">.</span>get_attribute(<span style="color:#e6db74">&#34;style&#34;</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 从background-image属性值中提取图片链接</span>
+</span></span><span style="display:flex;"><span>     start_index <span style="color:#f92672">=</span> slider_image<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;(&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>     end_index <span style="color:#f92672">=</span> slider_image<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span>     image_url <span style="color:#f92672">=</span> slider_image[start_index:end_index]
+</span></span><span style="display:flex;"><span>     image_url <span style="color:#f92672">=</span> image_url<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;&#34;&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>     print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;图片链接：</span><span style="color:#e6db74">{</span>image_url<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(image_url, stream<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>     image <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(io<span style="color:#f92672">.</span>BytesIO(response<span style="color:#f92672">.</span>content))
+</span></span><span style="display:flex;"><span>     image<span style="color:#f92672">.</span>save(SliderCaptchaDemo<span style="color:#f92672">.</span>FULL_SLIDER_IMAGE)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 获取验证码x,y轴坐标</span>
+</span></span><span style="display:flex;"><span>     crop_point <span style="color:#f92672">=</span> (<span style="color:#ae81ff">71</span>, <span style="color:#ae81ff">248</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 获取验证码的长宽</span>
+</span></span><span style="display:flex;"><span>     crop_size <span style="color:#f92672">=</span> (<span style="color:#ae81ff">61</span>, <span style="color:#ae81ff">61</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 设备分辨率为2</span>
+</span></span><span style="display:flex;"><span>     scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>     rangle <span style="color:#f92672">=</span> (crop_point[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> scale,
+</span></span><span style="display:flex;"><span>               crop_point[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> scale,
+</span></span><span style="display:flex;"><span>               crop_point[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> scale <span style="color:#f92672">+</span> crop_size[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> scale,
+</span></span><span style="display:flex;"><span>               crop_point[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> scale <span style="color:#f92672">+</span> crop_size[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> scale
+</span></span><span style="display:flex;"><span>               )
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     verification_image <span style="color:#f92672">=</span> image<span style="color:#f92672">.</span>crop(rangle)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># verification_image = verification_image.convert(&#39;RGB&#39;)</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 保存我们截取的验证码图片，并读取验证码内容</span>
+</span></span><span style="display:flex;"><span>     verification_image<span style="color:#f92672">.</span>save(SliderCaptchaDemo<span style="color:#f92672">.</span>SLIDER_IMAGE)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 返回路径</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> SliderCaptchaDemo<span style="color:#f92672">.</span>BK_IMAGE, SliderCaptchaDemo<span style="color:#f92672">.</span>SLIDER_IMAGE
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">loop</span>(self):
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 得到验证码图片</span>
-</span></span><span style="display:flex;"><span>    full_image, slider_image <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_images()
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 匹配缺口照片在完整照片的位置，因设备分辨率为2，所以图片匹配的像素距离除2；因滑块相比图片最左边缘已偏移23，所以减去23</span>
-</span></span><span style="display:flex;"><span>    slider_offset <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>match_picture(full_image, slider_image) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">23</span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;match_picture 滑块移动：</span><span style="color:#e6db74">{</span>slider_offset<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    find_image_slider_offset <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>find_image(full_image, slider_image) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">23</span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;find_image 滑块移动：</span><span style="color:#e6db74">{</span>find_image_slider_offset<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 机器模拟人工滑动轨迹</span>
-</span></span><span style="display:flex;"><span>    self<span style="color:#f92672">.</span>sliding_track(slider_offset)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 若失败，循环触发。</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>judge_show():
-</span></span><span style="display:flex;"><span>     self<span style="color:#f92672">.</span>loop()
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>     self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>switch_to<span style="color:#f92672">.</span>default_content()
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 得到验证码图片</span>
+</span></span><span style="display:flex;"><span>     full_image, slider_image <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_images()
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 匹配缺口照片在完整照片的位置，因设备分辨率为2，所以图片匹配的像素距离除2；因滑块相比图片最左边缘已偏移23，所以减去23</span>
+</span></span><span style="display:flex;"><span>     slider_offset <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>match_picture(full_image, slider_image) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">23</span>
+</span></span><span style="display:flex;"><span>     print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;match_picture 滑块移动：</span><span style="color:#e6db74">{</span>slider_offset<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     find_image_slider_offset <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>find_image(full_image, slider_image) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">23</span>
+</span></span><span style="display:flex;"><span>     print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;find_image 滑块移动：</span><span style="color:#e6db74">{</span>find_image_slider_offset<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 机器模拟人工滑动轨迹</span>
+</span></span><span style="display:flex;"><span>     self<span style="color:#f92672">.</span>sliding_track(slider_offset)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 若失败，循环触发。</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>judge_show():
+</span></span><span style="display:flex;"><span>      self<span style="color:#f92672">.</span>loop()
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>      self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>switch_to<span style="color:#f92672">.</span>default_content()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">@staticmethod</span>
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">find_image</span>(full_image, slider_image):
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 读取图片文件信息</span>
-</span></span><span style="display:flex;"><span>    img_full <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(full_image)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 以灰度模式加载图片</span>
-</span></span><span style="display:flex;"><span>    template <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(slider_image)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 方法</span>
-</span></span><span style="display:flex;"><span>    methods <span style="color:#f92672">=</span> [cv2<span style="color:#f92672">.</span>TM_SQDIFF_NORMED, cv2<span style="color:#f92672">.</span>TM_CCORR_NORMED, cv2<span style="color:#f92672">.</span>TM_CCOEFF_NORMED]
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 记录每个方法的距离</span>
-</span></span><span style="display:flex;"><span>    left <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 最接近值</span>
-</span></span><span style="display:flex;"><span>    min_ <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> method <span style="color:#f92672">in</span> methods:
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 匹配</span>
-</span></span><span style="display:flex;"><span>     res <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>matchTemplate(img_full, template, method)
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 获取相关内容</span>
-</span></span><span style="display:flex;"><span>     min_val, max_val, min_loc, max_loc <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>minMaxLoc(res)
-</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">if</span> method <span style="color:#f92672">==</span> cv2<span style="color:#f92672">.</span>TM_SQDIFF_NORMED:
-</span></span><span style="display:flex;"><span>      min_<span style="color:#f92672">.</span>append(min_val <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.0</span>)
-</span></span><span style="display:flex;"><span>      left<span style="color:#f92672">.</span>append(min_loc[<span style="color:#ae81ff">0</span>])
-</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>      min_<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">1.0</span> <span style="color:#f92672">-</span> max_val)
-</span></span><span style="display:flex;"><span>      left<span style="color:#f92672">.</span>append(max_loc[<span style="color:#ae81ff">0</span>])
-</span></span><span style="display:flex;"><span>    index <span style="color:#f92672">=</span> min_<span style="color:#f92672">.</span>index(numpy<span style="color:#f92672">.</span>min(min_))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> left[index]
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 读取图片文件信息</span>
+</span></span><span style="display:flex;"><span>     img_full <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(full_image)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 以灰度模式加载图片</span>
+</span></span><span style="display:flex;"><span>     template <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(slider_image)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 方法</span>
+</span></span><span style="display:flex;"><span>     methods <span style="color:#f92672">=</span> [cv2<span style="color:#f92672">.</span>TM_SQDIFF_NORMED, cv2<span style="color:#f92672">.</span>TM_CCORR_NORMED, cv2<span style="color:#f92672">.</span>TM_CCOEFF_NORMED]
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 记录每个方法的距离</span>
+</span></span><span style="display:flex;"><span>     left <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 最接近值</span>
+</span></span><span style="display:flex;"><span>     min_ <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">for</span> method <span style="color:#f92672">in</span> methods:
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 匹配</span>
+</span></span><span style="display:flex;"><span>      res <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>matchTemplate(img_full, template, method)
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 获取相关内容</span>
+</span></span><span style="display:flex;"><span>      min_val, max_val, min_loc, max_loc <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>minMaxLoc(res)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> method <span style="color:#f92672">==</span> cv2<span style="color:#f92672">.</span>TM_SQDIFF_NORMED:
+</span></span><span style="display:flex;"><span>       min_<span style="color:#f92672">.</span>append(min_val <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.0</span>)
+</span></span><span style="display:flex;"><span>       left<span style="color:#f92672">.</span>append(min_loc[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>       min_<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">1.0</span> <span style="color:#f92672">-</span> max_val)
+</span></span><span style="display:flex;"><span>       left<span style="color:#f92672">.</span>append(max_loc[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>     index <span style="color:#f92672">=</span> min_<span style="color:#f92672">.</span>index(numpy<span style="color:#f92672">.</span>min(min_))
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> left[index]
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">@staticmethod</span>
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">match_picture</span>(full_image_path, slider_image_path):
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 读取背景图片和缺口图片</span>
-</span></span><span style="display:flex;"><span>    full_image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(full_image_path)
-</span></span><span style="display:flex;"><span>    slider_image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(slider_image_path)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 识别图片边缘</span>
-</span></span><span style="display:flex;"><span>    full_image_edge <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>Canny(full_image, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>)
-</span></span><span style="display:flex;"><span>    slider_image_edge <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>Canny(slider_image, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 转换图片格式,图片边缘的灰度图，进一步将其图片格式转为RGB格式</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># !!!很关键！否则缺口匹配将不准确</span>
-</span></span><span style="display:flex;"><span>    full_image_grey <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(full_image_edge, cv2<span style="color:#f92672">.</span>COLOR_GRAY2RGB)
-</span></span><span style="display:flex;"><span>    slider_image_grey <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(slider_image_edge, cv2<span style="color:#f92672">.</span>COLOR_GRAY2RGB)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 缺口匹配</span>
-</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>matchTemplate(full_image_grey, slider_image_grey, cv2<span style="color:#f92672">.</span>TM_CCOEFF_NORMED)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 寻找最优匹配</span>
-</span></span><span style="display:flex;"><span>    min_val, max_val, min_loc, max_loc <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>minMaxLoc(res)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> max_loc[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 读取背景图片和缺口图片</span>
+</span></span><span style="display:flex;"><span>     full_image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(full_image_path)
+</span></span><span style="display:flex;"><span>     slider_image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(slider_image_path)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 识别图片边缘，获取灰度图</span>
+</span></span><span style="display:flex;"><span>     full_image_edge <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>Canny(full_image, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>     slider_image_edge <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>Canny(slider_image, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>     cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;full_image_edge.png&#34;</span>, full_image_edge)
+</span></span><span style="display:flex;"><span>     cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;slider_image_edge.png&#34;</span>, slider_image_edge)
+</span></span><span style="display:flex;"><span>     
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 转换图片格式,灰度图像转换为 RGB 彩色图像，以便于与其他彩色图像进行叠加或处理</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># !!!很关键！否则缺口匹配将不准确</span>
+</span></span><span style="display:flex;"><span>     full_image_grey <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(full_image_edge, cv2<span style="color:#f92672">.</span>COLOR_GRAY2RGB)
+</span></span><span style="display:flex;"><span>     slider_image_grey <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(slider_image_edge, cv2<span style="color:#f92672">.</span>COLOR_GRAY2RGB)
+</span></span><span style="display:flex;"><span>     cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;full_image_grey.png&#34;</span>, full_image_grey)
+</span></span><span style="display:flex;"><span>     cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;slider_image_grey.png&#34;</span>, slider_image_grey)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 缺口匹配</span>
+</span></span><span style="display:flex;"><span>     res <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>matchTemplate(full_image_grey, slider_image_grey, cv2<span style="color:#f92672">.</span>TM_CCOEFF_NORMED)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 寻找最优匹配</span>
+</span></span><span style="display:flex;"><span>     min_val, max_val, min_loc, max_loc <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>minMaxLoc(res)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> max_loc[<span style="color:#ae81ff">0</span>]
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>   <span style="color:#75715e"># 判断是否完成操作</span>
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">judge_show</span>(self):
-</span></span><span style="display:flex;"><span>    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
-</span></span><span style="display:flex;"><span>    show <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;return document.getElementsByClassName(</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">tc-captcha tc-drag</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">)&#39;</span>
-</span></span><span style="display:flex;"><span>    show_is <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>execute_script(show)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> len(show_is) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>     time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>     show <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;return document.getElementsByClassName(</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">tc-captcha tc-drag</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">)&#39;</span>
+</span></span><span style="display:flex;"><span>     show_is <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>execute_script(show)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> len(show_is) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sliding_track</span>(self, distance):
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 获取轨迹</span>
-</span></span><span style="display:flex;"><span>    track <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_tracks(distance)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 获取按钮</span>
-</span></span><span style="display:flex;"><span>    slider <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>panel_element<span style="color:#f92672">.</span>find_element(By<span style="color:#f92672">.</span>XPATH,
-</span></span><span style="display:flex;"><span>                                             <span style="color:#e6db74">&#34;//*[@id=&#39;tcOperation&#39;]/div[@class=&#39;tc-fg-item tc-slider-normal&#39;]&#34;</span>)
-</span></span><span style="display:flex;"><span>    action_chains <span style="color:#f92672">=</span> ActionChains(self<span style="color:#f92672">.</span>driver)
-</span></span><span style="display:flex;"><span>    action_chains<span style="color:#f92672">.</span>click_and_hold(slider)<span style="color:#f92672">.</span>perform()
-</span></span><span style="display:flex;"><span>    print(track)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> track:
-</span></span><span style="display:flex;"><span>     action_chains<span style="color:#f92672">.</span>move_by_offset(xoffset<span style="color:#f92672">=</span>t, yoffset<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>perform()
-</span></span><span style="display:flex;"><span>    action_chains<span style="color:#f92672">.</span>release()<span style="color:#f92672">.</span>perform()
-</span></span><span style="display:flex;"><span>    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 获取轨迹</span>
+</span></span><span style="display:flex;"><span>     track <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_tracks(distance)
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 获取按钮</span>
+</span></span><span style="display:flex;"><span>     slider <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>panel_element<span style="color:#f92672">.</span>find_element(By<span style="color:#f92672">.</span>XPATH,
+</span></span><span style="display:flex;"><span>                                              <span style="color:#e6db74">&#34;//*[@id=&#39;tcOperation&#39;]/div[@class=&#39;tc-fg-item tc-slider-normal&#39;]&#34;</span>)
+</span></span><span style="display:flex;"><span>     action_chains <span style="color:#f92672">=</span> ActionChains(self<span style="color:#f92672">.</span>driver)
+</span></span><span style="display:flex;"><span>     action_chains<span style="color:#f92672">.</span>click_and_hold(slider)<span style="color:#f92672">.</span>perform()
+</span></span><span style="display:flex;"><span>     print(track)
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> track:
+</span></span><span style="display:flex;"><span>      action_chains<span style="color:#f92672">.</span>move_by_offset(xoffset<span style="color:#f92672">=</span>t, yoffset<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>perform()
+</span></span><span style="display:flex;"><span>     action_chains<span style="color:#f92672">.</span>release()<span style="color:#f92672">.</span>perform()
+</span></span><span style="display:flex;"><span>     time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">@staticmethod</span>
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_tracks</span>(distance, rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.4</span>, t<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>, v<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>):
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    tracks <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 加速减速的临界值</span>
-</span></span><span style="display:flex;"><span>    mid <span style="color:#f92672">=</span> rate <span style="color:#f92672">*</span> distance
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 当前位移</span>
-</span></span><span style="display:flex;"><span>    s <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 循环</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> s <span style="color:#f92672">&lt;</span> distance:
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 初始速度</span>
-</span></span><span style="display:flex;"><span>     v0 <span style="color:#f92672">=</span> v
-</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">if</span> s <span style="color:#f92672">&lt;</span> mid:
-</span></span><span style="display:flex;"><span>      a <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
-</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>      a <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 计算当前t时间段走的距离</span>
-</span></span><span style="display:flex;"><span>     s0 <span style="color:#f92672">=</span> v0 <span style="color:#f92672">*</span> t <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5</span> <span style="color:#f92672">*</span> a <span style="color:#f92672">*</span> t <span style="color:#f92672">*</span> t
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 计算当前速度</span>
-</span></span><span style="display:flex;"><span>     v <span style="color:#f92672">=</span> v0 <span style="color:#f92672">+</span> a <span style="color:#f92672">*</span> t
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 四舍五入距离，因为像素没有小数</span>
-</span></span><span style="display:flex;"><span>     tracks<span style="color:#f92672">.</span>append(round(s0))
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 计算当前距离</span>
-</span></span><span style="display:flex;"><span>     s <span style="color:#f92672">+=</span> s0
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> tracks
+</span></span><span style="display:flex;"><span>     tracks <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 加速减速的临界值</span>
+</span></span><span style="display:flex;"><span>     mid <span style="color:#f92672">=</span> rate <span style="color:#f92672">*</span> distance
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 当前位移</span>
+</span></span><span style="display:flex;"><span>     s <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 循环</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">while</span> s <span style="color:#f92672">&lt;</span> distance:
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 初始速度</span>
+</span></span><span style="display:flex;"><span>      v0 <span style="color:#f92672">=</span> v
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> s <span style="color:#f92672">&lt;</span> mid:
+</span></span><span style="display:flex;"><span>       a <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>       a <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 计算当前t时间段走的距离</span>
+</span></span><span style="display:flex;"><span>      s0 <span style="color:#f92672">=</span> v0 <span style="color:#f92672">*</span> t <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5</span> <span style="color:#f92672">*</span> a <span style="color:#f92672">*</span> t <span style="color:#f92672">*</span> t
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 计算当前速度</span>
+</span></span><span style="display:flex;"><span>      v <span style="color:#f92672">=</span> v0 <span style="color:#f92672">+</span> a <span style="color:#f92672">*</span> t
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 四舍五入距离，因为像素没有小数</span>
+</span></span><span style="display:flex;"><span>      tracks<span style="color:#f92672">.</span>append(round(s0))
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 计算当前距离</span>
+</span></span><span style="display:flex;"><span>      s <span style="color:#f92672">+=</span> s0
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> tracks
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="3执行情况">3.执行情况</h3>
@@ -965,7 +973,24 @@
 </span></span><span style="display:flex;"><span>[0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 8, 9, 10, 11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10]
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="三问题">三.问题</h2>
+</div><h4 id="1bk_imagepng">1.bk_image.png</h4>
+<p><img src="/images/post/python%E7%88%AC%E8%99%AB%E5%85%B3%E4%BA%8E%E6%BB%91%E5%8A%A8%E9%AA%8C%E8%AF%81%E7%A0%81%E8%87%AA%E5%8A%A8%E6%93%8D%E4%BD%9C/bk_image.png" alt="image"></p>
+<h4 id="2slider_imagepng">2.slider_image.png</h4>
+<p><img src="/images/post/python%E7%88%AC%E8%99%AB%E5%85%B3%E4%BA%8E%E6%BB%91%E5%8A%A8%E9%AA%8C%E8%AF%81%E7%A0%81%E8%87%AA%E5%8A%A8%E6%93%8D%E4%BD%9C/slider_image.png" alt="image"></p>
+<h4 id="3full_image_edgepng">3.full_image_edge.png</h4>
+<p><img src="/images/post/python%E7%88%AC%E8%99%AB%E5%85%B3%E4%BA%8E%E6%BB%91%E5%8A%A8%E9%AA%8C%E8%AF%81%E7%A0%81%E8%87%AA%E5%8A%A8%E6%93%8D%E4%BD%9C/full_image_edge.png" alt="image"></p>
+<h4 id="4full_image_greypng">4.full_image_grey.png</h4>
+<p><img src="/images/post/python%E7%88%AC%E8%99%AB%E5%85%B3%E4%BA%8E%E6%BB%91%E5%8A%A8%E9%AA%8C%E8%AF%81%E7%A0%81%E8%87%AA%E5%8A%A8%E6%93%8D%E4%BD%9C/full_image_grey.png" alt="image"></p>
+<h4 id="5slider_image_edgepng">5.slider_image_edge.png</h4>
+<p><img src="/images/post/python%E7%88%AC%E8%99%AB%E5%85%B3%E4%BA%8E%E6%BB%91%E5%8A%A8%E9%AA%8C%E8%AF%81%E7%A0%81%E8%87%AA%E5%8A%A8%E6%93%8D%E4%BD%9C/slider_image_edge.png" alt="image"></p>
+<h4 id="6slider_image_greypng">6.slider_image_grey.png</h4>
+<p><img src="/images/post/python%E7%88%AC%E8%99%AB%E5%85%B3%E4%BA%8E%E6%BB%91%E5%8A%A8%E9%AA%8C%E8%AF%81%E7%A0%81%E8%87%AA%E5%8A%A8%E6%93%8D%E4%BD%9C/slider_image_grey.png" alt="image"></p>
+<h4 id="6小结">6.小结</h4>
+<ul>
+<li>full_image_edge.png 和slider_image_edge.png都是灰度图</li>
+<li>full_image_edge.png和full_image_grey.png, slider_image_edge.png和slider_image_grey.png都是灰色图，不同的是前者是8位色，后者是24位色。图片大小不同，色彩表现完全相同。</li>
+</ul>
+<h2 id="三问题">三.问题</h2>
 <h3 id="1滑块为什么不能正常滑动">1.滑块为什么不能正常滑动？</h3>
 <p>可能被反爬虫策略命中</p>
 <p>实际上，我们使用默认的方式初始化 WebDriver 打开一个网站，下面这段 JS 代码永远为 true，而手动打开目标网站的话，则为：undefined

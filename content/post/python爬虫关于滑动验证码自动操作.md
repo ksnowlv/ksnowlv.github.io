@@ -154,183 +154,187 @@ class SliderCaptchaDemo(object):
     self.loop()
 
    def get_images(self):
-
-    if self.panel_element is None:
-     # 在网页中，有时会使用 iframe 或 frame 元素嵌入其他网页或内容。如果要在 Selenium 中操作这些嵌入的网页或内容，就需要先切换到相应的 iframe 或 frame 中。
-     # 使用 driver.switch_to.frame() 方法可以通过 iframe 或 frame 元素的索引、名称或 WebElement 对象来切换到相应的 iframe 或 frame 中
-     # 使用 driver.switch_to.default_content() 方法可以切换回默认的上下文，即切回到主文档或最外层的窗口，以便继续操作其他元素。
-     iframe = self.driver.find_element(By.ID, "tcaptcha_iframe_dy")
-     self.driver.switch_to.frame(iframe)
-
-     panel_element = WebDriverWait(self.driver, 12).until(
-      EC.visibility_of_element_located((By.CLASS_NAME, "body-wrap"))
-     )
-     self.panel_element = panel_element
-     print(f"元素已经加载完成：", self.panel_element)
-
-    element = self.panel_element.find_element(By.XPATH, "//*[@id='slideBg']")
-    # 获取元素的background-image属性值
-    bg_image = element.get_attribute("style")
-    # 从background-image属性值中提取图片链接
-    start_index = bg_image.index("(") + 1
-    end_index = bg_image.index(")")
-    image_url = bg_image[start_index:end_index]
-    image_url = image_url.replace('"', '')
-    print(f"背景图片链接：{image_url}")
-    response = requests.get(image_url, stream=True)
-    bk_image = Image.open(io.BytesIO(response.content))
-    bk_image.save(SliderCaptchaDemo.BK_IMAGE)
-
-    # 找到指定的元素
-    slider_element = self.panel_element.find_element(By.XPATH, "//*[@id='tcOperation']/div[@class='tc-fg-item']")
-    # 获取元素的background-image属性值
-    slider_image = slider_element.get_attribute("style")
-    # 从background-image属性值中提取图片链接
-    start_index = slider_image.index("(") + 1
-    end_index = slider_image.index(")")
-    image_url = slider_image[start_index:end_index]
-    image_url = image_url.replace('"', '')
-    print(f"图片链接：{image_url}")
-
-    response = requests.get(image_url, stream=True)
-    image = Image.open(io.BytesIO(response.content))
-    image.save(SliderCaptchaDemo.FULL_SLIDER_IMAGE)
-
-    # 获取验证码x,y轴坐标
-    crop_point = (71, 248)
-
-    # 获取验证码的长宽
-    crop_size = (61, 61)
-
-    # 设备分辨率为2
-    scale = 2
-    rangle = (crop_point[0] * scale,
-              crop_point[1] * scale,
-              crop_point[0] * scale + crop_size[0] * scale,
-              crop_point[1] * scale + crop_size[1] * scale
-              )
-
-    verification_image = image.crop(rangle)
-    # verification_image = verification_image.convert('RGB')
-    # 保存我们截取的验证码图片，并读取验证码内容
-    verification_image.save(SliderCaptchaDemo.SLIDER_IMAGE)
-    # 返回路径
-    return SliderCaptchaDemo.BK_IMAGE, SliderCaptchaDemo.SLIDER_IMAGE
+ 
+     if self.panel_element is None:
+      # 在网页中，有时会使用 iframe 或 frame 元素嵌入其他网页或内容。如果要在 Selenium 中操作这些嵌入的网页或内容，就需要先切换到相应的 iframe 或 frame 中。
+      # 使用 driver.switch_to.frame() 方法可以通过 iframe 或 frame 元素的索引、名称或 WebElement 对象来切换到相应的 iframe 或 frame 中
+      # 使用 driver.switch_to.default_content() 方法可以切换回默认的上下文，即切回到主文档或最外层的窗口，以便继续操作其他元素。
+      iframe = self.driver.find_element(By.ID, "tcaptcha_iframe_dy")
+      self.driver.switch_to.frame(iframe)
+ 
+      panel_element = WebDriverWait(self.driver, 12).until(
+       EC.visibility_of_element_located((By.CLASS_NAME, "body-wrap"))
+      )
+      self.panel_element = panel_element
+      print(f"元素已经加载完成：", self.panel_element)
+ 
+     element = self.panel_element.find_element(By.XPATH, "//*[@id='slideBg']")
+     # 获取元素的background-image属性值
+     bg_image = element.get_attribute("style")
+     # 从background-image属性值中提取图片链接
+     start_index = bg_image.index("(") + 1
+     end_index = bg_image.index(")")
+     image_url = bg_image[start_index:end_index]
+     image_url = image_url.replace('"', '')
+     print(f"背景图片链接：{image_url}")
+     response = requests.get(image_url, stream=True)
+     bk_image = Image.open(io.BytesIO(response.content))
+     bk_image.save(SliderCaptchaDemo.BK_IMAGE)
+ 
+     # 找到指定的元素
+     slider_element = self.panel_element.find_element(By.XPATH, "//*[@id='tcOperation']/div[@class='tc-fg-item']")
+     # 获取元素的background-image属性值
+     slider_image = slider_element.get_attribute("style")
+     # 从background-image属性值中提取图片链接
+     start_index = slider_image.index("(") + 1
+     end_index = slider_image.index(")")
+     image_url = slider_image[start_index:end_index]
+     image_url = image_url.replace('"', '')
+     print(f"图片链接：{image_url}")
+ 
+     response = requests.get(image_url, stream=True)
+     image = Image.open(io.BytesIO(response.content))
+     image.save(SliderCaptchaDemo.FULL_SLIDER_IMAGE)
+ 
+     # 获取验证码x,y轴坐标
+     crop_point = (71, 248)
+ 
+     # 获取验证码的长宽
+     crop_size = (61, 61)
+ 
+     # 设备分辨率为2
+     scale = 2
+     rangle = (crop_point[0] * scale,
+               crop_point[1] * scale,
+               crop_point[0] * scale + crop_size[0] * scale,
+               crop_point[1] * scale + crop_size[1] * scale
+               )
+ 
+     verification_image = image.crop(rangle)
+     # verification_image = verification_image.convert('RGB')
+     # 保存我们截取的验证码图片，并读取验证码内容
+     verification_image.save(SliderCaptchaDemo.SLIDER_IMAGE)
+     # 返回路径
+     return SliderCaptchaDemo.BK_IMAGE, SliderCaptchaDemo.SLIDER_IMAGE
 
    def loop(self):
-    # 得到验证码图片
-    full_image, slider_image = self.get_images()
-    # 匹配缺口照片在完整照片的位置，因设备分辨率为2，所以图片匹配的像素距离除2；因滑块相比图片最左边缘已偏移23，所以减去23
-    slider_offset = self.match_picture(full_image, slider_image) / 2 - 23
-    print(f"match_picture 滑块移动：{slider_offset}")
-
-    find_image_slider_offset = self.find_image(full_image, slider_image) / 2 - 23
-    print(f"find_image 滑块移动：{find_image_slider_offset}")
-
-    # 机器模拟人工滑动轨迹
-    self.sliding_track(slider_offset)
-    # 若失败，循环触发。
-    if self.judge_show():
-     self.loop()
-    else:
-     self.driver.switch_to.default_content()
+     # 得到验证码图片
+     full_image, slider_image = self.get_images()
+     # 匹配缺口照片在完整照片的位置，因设备分辨率为2，所以图片匹配的像素距离除2；因滑块相比图片最左边缘已偏移23，所以减去23
+     slider_offset = self.match_picture(full_image, slider_image) / 2 - 23
+     print(f"match_picture 滑块移动：{slider_offset}")
+ 
+     find_image_slider_offset = self.find_image(full_image, slider_image) / 2 - 23
+     print(f"find_image 滑块移动：{find_image_slider_offset}")
+ 
+     # 机器模拟人工滑动轨迹
+     self.sliding_track(slider_offset)
+     # 若失败，循环触发。
+     if self.judge_show():
+      self.loop()
+     else:
+      self.driver.switch_to.default_content()
 
    @staticmethod
    def find_image(full_image, slider_image):
-    # 读取图片文件信息
-    img_full = cv2.imread(full_image)
-    # 以灰度模式加载图片
-    template = cv2.imread(slider_image)
-    # 方法
-    methods = [cv2.TM_SQDIFF_NORMED, cv2.TM_CCORR_NORMED, cv2.TM_CCOEFF_NORMED]
-    # 记录每个方法的距离
-    left = []
-    # 最接近值
-    min_ = []
-    for method in methods:
-     # 匹配
-     res = cv2.matchTemplate(img_full, template, method)
-     # 获取相关内容
-     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-     if method == cv2.TM_SQDIFF_NORMED:
-      min_.append(min_val - 0.0)
-      left.append(min_loc[0])
-     else:
-      min_.append(1.0 - max_val)
-      left.append(max_loc[0])
-    index = min_.index(numpy.min(min_))
-
-    return left[index]
+     # 读取图片文件信息
+     img_full = cv2.imread(full_image)
+     # 以灰度模式加载图片
+     template = cv2.imread(slider_image)
+     # 方法
+     methods = [cv2.TM_SQDIFF_NORMED, cv2.TM_CCORR_NORMED, cv2.TM_CCOEFF_NORMED]
+     # 记录每个方法的距离
+     left = []
+     # 最接近值
+     min_ = []
+     for method in methods:
+      # 匹配
+      res = cv2.matchTemplate(img_full, template, method)
+      # 获取相关内容
+      min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+      if method == cv2.TM_SQDIFF_NORMED:
+       min_.append(min_val - 0.0)
+       left.append(min_loc[0])
+      else:
+       min_.append(1.0 - max_val)
+       left.append(max_loc[0])
+     index = min_.index(numpy.min(min_))
+ 
+     return left[index]
 
    @staticmethod
    def match_picture(full_image_path, slider_image_path):
-    # 读取背景图片和缺口图片
-    full_image = cv2.imread(full_image_path)
-    slider_image = cv2.imread(slider_image_path)
-
-    # 识别图片边缘
-    full_image_edge = cv2.Canny(full_image, 100, 200)
-    slider_image_edge = cv2.Canny(slider_image, 100, 200)
-
-    # 转换图片格式,图片边缘的灰度图，进一步将其图片格式转为RGB格式
-    # !!!很关键！否则缺口匹配将不准确
-    full_image_grey = cv2.cvtColor(full_image_edge, cv2.COLOR_GRAY2RGB)
-    slider_image_grey = cv2.cvtColor(slider_image_edge, cv2.COLOR_GRAY2RGB)
-
-    # 缺口匹配
-    res = cv2.matchTemplate(full_image_grey, slider_image_grey, cv2.TM_CCOEFF_NORMED)
-    # 寻找最优匹配
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-    return max_loc[0]
+     # 读取背景图片和缺口图片
+     full_image = cv2.imread(full_image_path)
+     slider_image = cv2.imread(slider_image_path)
+ 
+     # 识别图片边缘，获取灰度图
+     full_image_edge = cv2.Canny(full_image, 100, 200)
+     slider_image_edge = cv2.Canny(slider_image, 100, 200)
+     cv2.imwrite("full_image_edge.png", full_image_edge)
+     cv2.imwrite("slider_image_edge.png", slider_image_edge)
+     
+     # 转换图片格式,灰度图像转换为 RGB 彩色图像，以便于与其他彩色图像进行叠加或处理
+     # !!!很关键！否则缺口匹配将不准确
+     full_image_grey = cv2.cvtColor(full_image_edge, cv2.COLOR_GRAY2RGB)
+     slider_image_grey = cv2.cvtColor(slider_image_edge, cv2.COLOR_GRAY2RGB)
+     cv2.imwrite("full_image_grey.png", full_image_grey)
+     cv2.imwrite("slider_image_grey.png", slider_image_grey)
+ 
+     # 缺口匹配
+     res = cv2.matchTemplate(full_image_grey, slider_image_grey, cv2.TM_CCOEFF_NORMED)
+     # 寻找最优匹配
+     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+     return max_loc[0]
 
    # 判断是否完成操作
    def judge_show(self):
-    time.sleep(2)
-    show = 'return document.getElementsByClassName(\'tc-captcha tc-drag\')'
-    show_is = self.driver.execute_script(show)
-    return len(show_is) > 0
+     time.sleep(2)
+     show = 'return document.getElementsByClassName(\'tc-captcha tc-drag\')'
+     show_is = self.driver.execute_script(show)
+     return len(show_is) > 0
 
    def sliding_track(self, distance):
 
-    # 获取轨迹
-    track = self.get_tracks(distance)
-    # 获取按钮
-    slider = self.panel_element.find_element(By.XPATH,
-                                             "//*[@id='tcOperation']/div[@class='tc-fg-item tc-slider-normal']")
-    action_chains = ActionChains(self.driver)
-    action_chains.click_and_hold(slider).perform()
-    print(track)
-    for t in track:
-     action_chains.move_by_offset(xoffset=t, yoffset=0).perform()
-    action_chains.release().perform()
-    time.sleep(2)
+     # 获取轨迹
+     track = self.get_tracks(distance)
+     # 获取按钮
+     slider = self.panel_element.find_element(By.XPATH,
+                                              "//*[@id='tcOperation']/div[@class='tc-fg-item tc-slider-normal']")
+     action_chains = ActionChains(self.driver)
+     action_chains.click_and_hold(slider).perform()
+     print(track)
+     for t in track:
+      action_chains.move_by_offset(xoffset=t, yoffset=0).perform()
+     action_chains.release().perform()
+     time.sleep(2)
 
    @staticmethod
    def get_tracks(distance, rate=0.4, t=0.2, v=0):
 
-    tracks = []
-    # 加速减速的临界值
-    mid = rate * distance
-    # 当前位移
-    s = 0
-    # 循环
-    while s < distance:
-     # 初始速度
-     v0 = v
-     if s < mid:
-      a = 20
-     else:
-      a = -3
-     # 计算当前t时间段走的距离
-     s0 = v0 * t + 0.5 * a * t * t
-     # 计算当前速度
-     v = v0 + a * t
-     # 四舍五入距离，因为像素没有小数
-     tracks.append(round(s0))
-     # 计算当前距离
-     s += s0
-
-    return tracks
+     tracks = []
+     # 加速减速的临界值
+     mid = rate * distance
+     # 当前位移
+     s = 0
+     # 循环
+     while s < distance:
+      # 初始速度
+      v0 = v
+      if s < mid:
+       a = 20
+      else:
+       a = -3
+      # 计算当前t时间段走的距离
+      s0 = v0 * t + 0.5 * a * t * t
+      # 计算当前速度
+      v = v0 + a * t
+      # 四舍五入距离，因为像素没有小数
+      tracks.append(round(s0))
+      # 计算当前距离
+      s += s0
+ 
+     return tracks
 
 ```
 
@@ -346,7 +350,32 @@ find_image 滑块移动：117.0
 
 ```
 
-## 三.问题
+## 三.图片情况
+### 1.bk_image.png
+
+![image](/images/post/python爬虫关于滑动验证码自动操作/bk_image.png)
+
+### 2.slider_image.png
+![image](/images/post/python爬虫关于滑动验证码自动操作/slider_image.png)
+
+### 3.full_image_edge.png
+![image](/images/post/python爬虫关于滑动验证码自动操作/full_image_edge.png)
+
+### 4.full_image_grey.png
+![image](/images/post/python爬虫关于滑动验证码自动操作/full_image_grey.png)
+
+### 5.slider_image_edge.png
+![image](/images/post/python爬虫关于滑动验证码自动操作/slider_image_edge.png)
+
+### 6.slider_image_grey.png
+![image](/images/post/python爬虫关于滑动验证码自动操作/slider_image_grey.png)
+
+### 7.小结
+
+* full_image_edge.png 和slider_image_edge.png都是灰度图
+* full_image_edge.png和full_image_grey.png, slider_image_edge.png和slider_image_grey.png都是灰色图，不同的是前者是8位色，后者是24位色。图片大小不同，色彩表现完全相同。
+
+## 四.问题
 
 ### 1.滑块为什么不能正常滑动？
 
