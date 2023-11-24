@@ -2,9 +2,9 @@
 title: "Mac系统GridFS的安装和使用"
 date: 2023-11-21T14:02:27+08:00
 lastmod: 2023-11-21T14:02:27+08:00
-keywords: ["Python", "GridFS", "存储"]
-tags: ["Python", "存储"]
-categories: ["Python", "存储"]
+keywords: ["Python", "GridFS", "存储", "fastapi"]
+tags: ["Python", "存储", "fastapi", "后端开发"]
+categories: ["Python", "存储","fastapi","后端开发"]
 
 comment: true
 toc: true
