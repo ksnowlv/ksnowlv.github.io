@@ -25,11 +25,13 @@ mathjax: false
 ### 查看文件列表
 
 示例：hdfs dfs -ls /path/to/directory
+
 说明：用于列出指定目录下的文件和子目录。
 
 ### 创建目录
 
 示例：hdfs dfs -mkdir /path/to/new/directory
+
 说明：在指定路径下创建新的目录。
 
 ```terminal
@@ -47,6 +49,7 @@ mkdir: `hdfs://127.0.0.1:9000/user': No such file or directory
 ### 上传文件
 
 示例：hdfs dfs -put localfile.txt /path/in/hdfs/
+
 说明：将本地文件上传到HDFS指定目录。也可以用-copyFromLocal参数。
 
 ```terminal
@@ -70,6 +73,7 @@ Found 2 items
 ### 下载文件
 
 示例：hdfs dfs -get /path/in/hdfs/file.txt localfile.txt
+
 说明：将HDFS中的文件下载到本地文件系统。也可以用-copyToLocal参数。
 
 ```terminal
@@ -85,6 +89,7 @@ Found 2 items
 移动文件：
 
 示例：hdfs dfs -mv /path/in/hdfs/sourcefile.txt /path/in/hdfs/destination/
+
 说明：将HDFS中的文件移动到指定目录。
 
 ```terminal
@@ -92,9 +97,10 @@ base) lvwei@lvweideMacBook-Pro sbin % hdfs dfs -cp /user/lvwei/1.zip /user/lvwei
 2023-12-05 16:27:03,496 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 ```
 
-### 删除文件或目录：
+### 删除文件或目录
 
 示例：hdfs dfs -rm /path/in/hdfs/file.txt 或 hdfs dfs -rm -r /path/in/hdfs/directory
+
 说明：用于删除HDFS中的文件或目录。-r选项用于递归删除整个目录。
 
 ```terminal
@@ -108,9 +114,10 @@ Deleted /user/lvwei/uploadfile/1.zip
 (base) lvwei@lvweideMacBook-Pro sbin % 
 ```
 
-### 查看文件内容：
+### 查看文件内容
 
 示例：hdfs dfs -cat /path/in/hdfs/file.txt
+
 说明：用于查看HDFS中文件的内容。
 
 ```terminal

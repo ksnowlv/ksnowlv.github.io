@@ -6,7 +6,7 @@
     <description>Recent content on ksnowlv技术笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 05 Dec 2023 16:29:59 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 06 Dec 2023 10:33:22 +0800</lastBuildDate>
     
         <atom:link href="https://ksnowlv.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -25,6 +25,147 @@
     </item>
     
     <item>
+      <title>Fastapi支持http2</title>
+      <link>https://ksnowlv.github.io/post/fastapi%E6%94%AF%E6%8C%81http2/</link>
+      <pubDate>Wed, 06 Dec 2023 10:33:22 +0800</pubDate>
+      
+      <guid>https://ksnowlv.github.io/post/fastapi%E6%94%AF%E6%8C%81http2/</guid>
+      
+        <description>&lt;h2 id=&#34;fastapi使用http2&#34;&gt;fastapi使用http2&lt;/h2&gt;
+&lt;p&gt;Hypercorn是支持http2的，如何使用fastapi和Hypercorn开启http2呢？&lt;/p&gt;
+&lt;h3 id=&#34;1hypercorn安装&#34;&gt;1.Hypercorn安装&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ --upgrade hypercorn
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple/
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Collecting hypercorn
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/75/01/454a0127f2e554502fca9aca2a3b39ab850c7962dbabf32ce5ab113f229f/hypercorn-0.15.0-py3-none-any.whl (57 kB)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.8/57.8 kB 678.0 kB/s eta 0:00:00
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Requirement already satisfied: h11 in ./venv/lib/python3.11/site-packages (from hypercorn) (0.14.0)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Collecting h2&amp;gt;=3.1.0 (from hypercorn)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/2a/e5/db6d438da759efbb488c4f3fbdab7764492ff3c3f953132efa6b9f0e9e53/h2-4.1.0-py3-none-any.whl (57 kB)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.5/57.5 kB 804.7 kB/s eta 0:00:00
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Collecting priority (from hypercorn)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/5e/5f/82c8074f7e84978129347c2c6ec8b6c59f3584ff1a20bc3c940a3e061790/priority-2.0.0-py3-none-any.whl (8.9 kB)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Collecting wsproto&amp;gt;=0.14.0 (from hypercorn)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/78/58/e860788190eba3bcce367f74d29c4675466ce8dddfba85f7827588416f01/wsproto-1.2.0-py3-none-any.whl (24 kB)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Collecting hyperframe&amp;lt;7,&amp;gt;=6.0 (from h2&amp;gt;=3.1.0-&amp;gt;hypercorn)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/d7/de/85a784bcc4a3779d1753a7ec2dee5de90e18c7bcf402e71b51fcf150b129/hyperframe-6.0.1-py3-none-any.whl (12 kB)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Collecting hpack&amp;lt;5,&amp;gt;=4.0 (from h2&amp;gt;=3.1.0-&amp;gt;hypercorn)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/d5/34/e8b383f35b77c402d28563d2b8f83159319b509bc5f760b15d60b0abf165/hpack-4.0.0-py3-none-any.whl (32 kB)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Installing collected packages: wsproto, priority, hyperframe, hpack, h2, hypercorn
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Successfully installed h2-4.1.0 hpack-4.0.0 hypercorn-0.15.0 hyperframe-6.0.1 priority-2.0.0 wsproto-1.2.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[notice] A new release of pip is available: 23.2.1 -&amp;gt; 23.3.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[notice] To update, run: pip install --upgrade pip
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;2证书安装&#34;&gt;2.证书安装&lt;/h3&gt;
+&lt;p&gt;http2是强制加密的，所以需要安装证书才行&lt;/p&gt;
+&lt;p&gt;所以需生成key.pem的私钥文件和一个名为cert.pem的证书文件，用于启用 SSL/TLS 加密连接。这个自签名证书适用于测试和开发环境，但在生产环境中建议使用由权威的证书颁发机构（CA）签发的证书。&lt;/p&gt;
+&lt;p&gt;OpenSSL 生成自签名 SSL 证书的命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 730 -nodes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;req：表示使用 OpenSSL 的证书请求子命令&lt;/p&gt;
+&lt;p&gt;-x509：表示生成自签名证书而不是证书请求&lt;/p&gt;
+&lt;p&gt;-newkey rsa:4096：表示生成一个 RSA 密钥对，密钥长度为 4096 bit&lt;/p&gt;
+&lt;p&gt;-keyout key.pem：表示将私钥保存到 key.pem 文件中&lt;/p&gt;
+&lt;p&gt;-out cert.pem：表示将证书保存到 cert.pem 文件中&lt;/p&gt;
+&lt;p&gt;-days 730：表示证书的有效期为 730 天&lt;/p&gt;
+&lt;p&gt;-nodes：表示不加密私钥，生成的私钥文件无密码保护&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro Documents % mkdir cerfile
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro Documents % cd cerfile 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro cerfile % openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 730 -nodes
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...+.......+...+...+.....+.......+...+..+.+..+.......+..+....+.....+..........+.........+.....+......+++++++++++++++++++++++++++++++++++++++++++++*............+...+......+.........+..........+......+.....+......+....+..+++++++++++++++++++++++++++++++++++++++++++++*...+..+....+.....+.............+...+++++
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...+..+.+........+.+...+..+.+............+.....+...+............+.+.....+.+++++++++++++++++++++++++++++++++++++++++++++*........+.......+..+.......+...........+...+....+.....+.+.....+.......+...+.....+.+..............+......+...+..........+++++++++++++++++++++++++++++++++++++++++++++*.........+.....+........................+.+...+..+......+...+....+........+............+..........+...............+............+........+.+..............+.+.................+...............+..........+.....+....+...+........+.......+.....+...............+.............+...............+........+....+..+...............+.+..+...+.......+..+..........+......+...+.....+.......+..+.......+......+..+.+..+....+........+...+..........+..............+.+.........+...........+...+.......+...+..+...+.+.........+.....+............+..............................+...........................+.+..+....+........+.+..+.........+...+.+...........................+........+...................+............+.....................+..+.............+...+......+.......................+...+...+....+...........+.......+.....+.........+..........+........+.+.........+..+.+..+.+.....+................+...........+..................+......+...+.......+..................+...............+..+....+........................+...........+....+......+..+...+......+...+......................+...+.....+.+..+...+....+.....+......+.+......+...........................+..+....+..............+.+.........+..................+..+..........+.....+............+.+............+.................+....+.........+.....+.+.........+...........+.........+.+....................+.+.........+...........+.+....................+.......+......+...........+...+..................+.........+................+........+.+..............+......+...............+..........+.....+...+.+..+..........+...+.....+....+.....................+.....+...........................+...+....+...............+..+.........+....+...+........+.........+............+.+..+.+.........+.....+.........................+..+.+.....+...............+...+..........+...........+.........+......+.+..+.+..+...+....+..+.............+...+..............+.+..+...+++++
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-----
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;You are about to be asked to enter information that will be incorporated
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;into your certificate request.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;What you are about to enter is what is called a Distinguished Name or a DN.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;There are quite a few fields but you can leave some blank
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;For some fields there will be a default value,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;If you enter &amp;#39;.&amp;#39;, the field will be left blank.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-----
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Country Name (2 letter code) [AU]:china
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;String too long, must be at most 2 bytes long
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Country Name (2 letter code) [AU]:cn
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;State or Province Name (full name) [Some-State]:beijing
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Locality Name (eg, city) []:beijing
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Organization Name (eg, company) [Internet Widgits Pty Ltd]:my
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Organizational Unit Name (eg, section) []:test
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Common Name (e.g. server FQDN or YOUR name) []:fastapi
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Email Address []:ksnowlv@163.com
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro cerfile % ls
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cert.pem	key.pem
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro cerfile % 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;3http2服务重启&#34;&gt;3.http2服务重启&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/fastapi%E6%94%AF%E6%8C%81http2/fastapi_key_cert_setting.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;如图配置好自签名证书后，通过hypercorn命令启动服务&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hypercorn --keyfile key.pem --certfile cert.pem main:app
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在浏览器中打开&lt;a href=&#34;https://127.0.0.1:8000/docs&#34;&gt;https://127.0.0.1:8000/docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/fastapi%E6%94%AF%E6%8C%81http2/fastapi_http2_overview.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/fastapi%E6%94%AF%E6%8C%81http2/fastapi_http2.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;无论是网页还是接口请求，出现Server: hypercorn-h2字样，http2即生效&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
       <title>Hadoop Hdfs Dfs常用命令</title>
       <link>https://ksnowlv.github.io/post/hadoop-hdfs-dfs%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
       <pubDate>Tue, 05 Dec 2023 16:29:59 +0800</pubDate>
@@ -35,11 +176,11 @@
 &lt;p&gt;当使用HDFS的命令行工具时，hdfs dfs是常用的命令。
 下面是一些常用的hdfs dfs命令的示例及说明：&lt;/p&gt;
 &lt;h3 id=&#34;查看文件列表&#34;&gt;查看文件列表&lt;/h3&gt;
-&lt;p&gt;示例：hdfs dfs -ls /path/to/directory
-说明：用于列出指定目录下的文件和子目录。&lt;/p&gt;
+&lt;p&gt;示例：hdfs dfs -ls /path/to/directory&lt;/p&gt;
+&lt;p&gt;说明：用于列出指定目录下的文件和子目录。&lt;/p&gt;
 &lt;h3 id=&#34;创建目录&#34;&gt;创建目录&lt;/h3&gt;
-&lt;p&gt;示例：hdfs dfs -mkdir /path/to/new/directory
-说明：在指定路径下创建新的目录。&lt;/p&gt;
+&lt;p&gt;示例：hdfs dfs -mkdir /path/to/new/directory&lt;/p&gt;
+&lt;p&gt;说明：在指定路径下创建新的目录。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
@@ -65,8 +206,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;上传文件&#34;&gt;上传文件&lt;/h3&gt;
-&lt;p&gt;示例：hdfs dfs -put localfile.txt /path/in/hdfs/
-说明：将本地文件上传到HDFS指定目录。也可以用-copyFromLocal参数。&lt;/p&gt;
+&lt;p&gt;示例：hdfs dfs -put localfile.txt /path/in/hdfs/&lt;/p&gt;
+&lt;p&gt;说明：将本地文件上传到HDFS指定目录。也可以用-copyFromLocal参数。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
@@ -104,8 +245,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;下载文件&#34;&gt;下载文件&lt;/h3&gt;
-&lt;p&gt;示例：hdfs dfs -get /path/in/hdfs/file.txt localfile.txt
-说明：将HDFS中的文件下载到本地文件系统。也可以用-copyToLocal参数。&lt;/p&gt;
+&lt;p&gt;示例：hdfs dfs -get /path/in/hdfs/file.txt localfile.txt&lt;/p&gt;
+&lt;p&gt;说明：将HDFS中的文件下载到本地文件系统。也可以用-copyToLocal参数。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
@@ -120,8 +261,8 @@
 &lt;p&gt;示例：hdfs dfs -cp /path/in/hdfs/sourcefile.txt /path/in/hdfs/destination/
 说明：将HDFS中的文件复制到另一个目录。
 移动文件：&lt;/p&gt;
-&lt;p&gt;示例：hdfs dfs -mv /path/in/hdfs/sourcefile.txt /path/in/hdfs/destination/
-说明：将HDFS中的文件移动到指定目录。&lt;/p&gt;
+&lt;p&gt;示例：hdfs dfs -mv /path/in/hdfs/sourcefile.txt /path/in/hdfs/destination/&lt;/p&gt;
+&lt;p&gt;说明：将HDFS中的文件移动到指定目录。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
@@ -132,9 +273,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-05 16:27:03,496 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;删除文件或目录&#34;&gt;删除文件或目录：&lt;/h3&gt;
-&lt;p&gt;示例：hdfs dfs -rm /path/in/hdfs/file.txt 或 hdfs dfs -rm -r /path/in/hdfs/directory
-说明：用于删除HDFS中的文件或目录。-r选项用于递归删除整个目录。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;删除文件或目录&#34;&gt;删除文件或目录&lt;/h3&gt;
+&lt;p&gt;示例：hdfs dfs -rm /path/in/hdfs/file.txt 或 hdfs dfs -rm -r /path/in/hdfs/directory&lt;/p&gt;
+&lt;p&gt;说明：用于删除HDFS中的文件或目录。-r选项用于递归删除整个目录。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
@@ -157,9 +298,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro sbin % 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;查看文件内容&#34;&gt;查看文件内容：&lt;/h3&gt;
-&lt;p&gt;示例：hdfs dfs -cat /path/in/hdfs/file.txt
-说明：用于查看HDFS中文件的内容。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;查看文件内容&#34;&gt;查看文件内容&lt;/h3&gt;
+&lt;p&gt;示例：hdfs dfs -cat /path/in/hdfs/file.txt&lt;/p&gt;
+&lt;p&gt;说明：用于查看HDFS中文件的内容。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
@@ -5687,56 +5828,6 @@ window.navigator.webdriver
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-      
-    </item>
-    
-    <item>
-      <title>Mac下抓包工具</title>
-      <link>https://ksnowlv.github.io/post/mac%E4%B8%8B%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/</link>
-      <pubDate>Thu, 14 Sep 2023 16:53:34 +0800</pubDate>
-      
-      <guid>https://ksnowlv.github.io/post/mac%E4%B8%8B%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/</guid>
-      
-        <description>&lt;h2 id=&#34;mac下抓包工具有哪些好用的呢&#34;&gt;Mac下抓包工具有哪些好用的呢？&lt;/h2&gt;
-&lt;h3 id=&#34;1charles&#34;&gt;1.charles&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;官网地址：&lt;a href=&#34;https://www.charlesproxy.com/&#34;&gt;官网链接&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;适用范围:http/https等协议,Mac/Windows/iOS/Android等设备&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;2wireshark&#34;&gt;2.Wireshark&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;官网地址：&lt;a href=&#34;https://www.wireshark.org/&#34;&gt;官网链接&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;适用范围:使用WinPCAP作为接口，直接与网卡进行数据报文交换，http/https,tcp，ip，dns，icp等协议，Mac/Windows/iOS/Android等设备
-&lt;ul&gt;
-&lt;li&gt;移动设备上https受限，如果有证书，也可。&lt;/li&gt;
-&lt;li&gt;Mac/windows上 https可以使用chrome截包。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;3proxyman&#34;&gt;3.proxyman&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;官网地址：&lt;a href=&#34;https://proxyman.io/&#34;&gt;官网链接&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;适用范围:http/https等协议,Mac/Windows/iOS/Android等设备。&lt;/li&gt;
-&lt;li&gt;其它：限制截包域名个数，需要购买升级&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;4reqable&#34;&gt;4.Reqable&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;官网地址：&lt;a href=&#34;https://reqable.com/zh-CN/&#34;&gt;官网链接&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;适用范围:http/https等协议,Mac/Windows/iOS/Android等设备。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;reqable的使用&#34;&gt;Reqable的使用&lt;/h2&gt;
-&lt;h3 id=&#34;1安装reqable安装证书&#34;&gt;1.安装Reqable/安装证书.&lt;/h3&gt;
-&lt;p&gt;以iOS手机上截包为例,&lt;/p&gt;
-&lt;p&gt;电脑上在图示位置进入后，分别在电脑和iOS手机上安装证书，在iOS手机上注意代理的设置
-&lt;img src=&#34;https://ksnowlv.github.io/images/post/Mac%E4%B8%8B%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/overview4.jpg&#34; alt=&#34;image&#34;&gt;
-&lt;img src=&#34;https://ksnowlv.github.io/images/post/Mac%E4%B8%8B%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/overview5.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;2ios微博截包&#34;&gt;2.iOS微博截包&lt;/h3&gt;
-&lt;h4 id=&#34;1-http请求头响应头&#34;&gt;1. http请求头/响应头&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/Mac%E4%B8%8B%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/overview1.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;2-http请求体响应体&#34;&gt;2. http请求体/响应体&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/Mac%E4%B8%8B%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/overview2.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;3-http总览&#34;&gt;3. http总览&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/Mac%E4%B8%8B%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/overview3.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
       
     </item>
     
