@@ -726,7 +726,7 @@ HelloWorld	hello		mysql		mysql.tar	nginx.tar
 mysql.tar
 ```
 
-### 14.docker
+### 14.docker制作镜像
 
 命令：
 
@@ -744,6 +744,24 @@ What's Next?
   View a summary of image vulnerabilities and recommendations → docker scout quickview ubuntu:20.04
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker run -it ubuntu:20.04 /bin/bash
 root@74
+```
+
+### 15.docker运行容器
+
+#### docker run：用于启动一个新的容器。
+-it：表示创建一个交互式的会话，允许您与容器进行交互。-i 保持标准输入打开，-t 为容器分配一个伪终端。
+--name my-ubuntu-container：为容器指定一个名称（在此示例中，容器名称设置为 my-ubuntu-container）。
+ubuntu:20.04：指定要使用的镜像的名称和标签。在此处，我们使用的是 Ubuntu 20.04 的官方镜像。
+/bin/bash：容器启动时，运行的命令是 /bin/bash，这将进入容器的交互式 Shell 环境。
+
+#### docker start:启动现有容器
+```terminal
+lvwei@lvweideMacBook-Pro ubuntu % docker run -it --name linux  ubuntu:1.0 /bin/bash
+root@e98d4323b3e5:/app# exit
+exit
+lvwei@lvweideMacBook-Pro ubuntu % docker start linux
+linux
+lvwei@lvweideMacBook-Pro ubuntu %
 ```
 
 ## 二.docker网络
