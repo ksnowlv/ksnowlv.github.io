@@ -2,9 +2,9 @@
 title: "Fastapi项目docker部署"
 date: 2023-12-08T15:42:41+08:00
 lastmod: 2023-12-08T15:42:41+08:00
-keywords: ["Fastapi", "docker", "后端开发"]
-tags: ["Fastapi", "docker", "后端开发"]
-categories: ["Fastapi", "docker", "后端开发"]
+keywords: ["Fastapi", "Docker", "后端开发"]
+tags: ["Fastapi", "Docker", "后端开发"]
+categories: ["Fastapi", "Docker", "后端开发"]
 
 comment: true
 toc: true
