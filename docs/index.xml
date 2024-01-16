@@ -6,7 +6,7 @@
     <description>Recent content on ksnowlv技术笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 13 Jan 2024 17:21:05 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jan 2024 23:12:36 +0800</lastBuildDate>
     
         <atom:link href="https://ksnowlv.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -21,6 +21,148 @@
         <description>&lt;p&gt;微信号:ksnowlv&lt;/p&gt;
 &lt;p&gt;聚焦于移动互联网开发，在腾讯，阿里，搜狗等互联网公司从事多年移动端开发。&lt;/p&gt;
 </description>
+      
+    </item>
+    
+    <item>
+      <title>Docker部署redis</title>
+      <link>https://ksnowlv.github.io/post/docker%E9%83%A8%E7%BD%B2redis/</link>
+      <pubDate>Sat, 13 Jan 2024 23:12:36 +0800</pubDate>
+      
+      <guid>https://ksnowlv.github.io/post/docker%E9%83%A8%E7%BD%B2redis/</guid>
+      
+        <description>&lt;h2 id=&#34;heading&#34;&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;1创建my-redis-container文件夹&#34;&gt;1.创建my-redis-container文件夹&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;1.docker-compose.yml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;version: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;3&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;services:&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;  redis:&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;    image: redis&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;    container_name: redis_container&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;    command: redis-server --requirepass &lt;span style=&#34;color:#ae81ff&#34;&gt;123456&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;    ports:&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;      - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;6379:6379&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;    volumes:&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;      - ./redis_data:/data&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;    restart: always&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;2.redis_data文件夹&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2启动redis容器服务&#34;&gt;2.启动redis容器服务&lt;/h3&gt;
+&lt;p&gt;通过docker-compose up -d下载并启动redis容器服务
+通过docker exec -it redis_container redis-cli -a 123456进入redis服务中&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;30
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;31
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;32
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;33
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;34
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;35
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;36
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;37
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;38
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;39
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;40
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;41
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;42
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;43
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lvwei@lvweideMacBook-Pro my-redis-container % docker-compose up -d
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[+] Running 9/9
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; ✔ redis 8 layers [⣿⣿⣿⣿⣿⣿⣿⣿]      0B/0B      Pulled                                                                         390.3s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   ✔ a5573528b1f0 Pull complete                                                                                             333.3s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   ✔ 5510d86d1248 Pull complete                                                                                               2.7s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   ✔ da38f099d0c0 Pull complete                                                                                               2.2s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   ✔ 1c7eb85776c1 Pull complete                                                                                               8.6s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   ✔ b01ad51b2004 Pull complete                                                                                             383.7s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   ✔ ced83491d1f3 Pull complete                                                                                              10.8s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   ✔ 4f4fb700ef54 Pull complete                                                                                              12.3s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   ✔ 4ee968e6f056 Pull complete                                                                                              15.0s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[+] Building 0.0s (0/0)                                                                                       docker:desktop-linux
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[+] Running 2/2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; ✔ Network my-redis-container_default  Created                                                                                0.0s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; ✔ Container redis_container           Started                                                                                0.2s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lvwei@lvweideMacBook-Pro my-redis-container % docker exec -it redis_container redis-cli -a 123456
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Warning: Using a password with &amp;#39;-a&amp;#39; or &amp;#39;-u&amp;#39; option on the command line interface may not be safe.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; KEYS *
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(empty array)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; SET name &amp;#34;ksnowlv&amp;#34; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; KEYS *
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1) &amp;#34;name&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; GET name
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;#34;ksnowlv&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; set age  40
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; get age
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;#34;40&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; set address &amp;#34;beijinghaidian&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; keys *
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1) &amp;#34;address&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2) &amp;#34;age&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;3) &amp;#34;name&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; values
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(error) ERR unknown command &amp;#39;values&amp;#39;, with args beginning with: 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; values *
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(error) ERR unknown command &amp;#39;values&amp;#39;, with args beginning with: &amp;#39;*&amp;#39; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1:6379&amp;gt; exit
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lvwei@lvweideMacBook-Pro my-redis-container % pwd
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/Users/lvwei/Documents/python_projects/fastapitest/files/my-redis-container
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lvwei@lvweideMacBook-Pro my-redis-container % 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
       
     </item>
     
@@ -9039,552 +9181,6 @@ FastAPI无法连接到MySQL服务器。&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-      
-    </item>
-    
-    <item>
-      <title>M1 Mac安装hadoop</title>
-      <link>https://ksnowlv.github.io/post/m1-mac%E5%AE%89%E8%A3%85hadoop/</link>
-      <pubDate>Fri, 01 Dec 2023 16:29:29 +0800</pubDate>
-      
-      <guid>https://ksnowlv.github.io/post/m1-mac%E5%AE%89%E8%A3%85hadoop/</guid>
-      
-        <description>&lt;h2 id=&#34;hadoop安装&#34;&gt;hadoop安装&lt;/h2&gt;
-&lt;h3 id=&#34;1jdk安装&#34;&gt;1.JDK安装&lt;/h3&gt;
-&lt;p&gt;官网&lt;a href=&#34;https://www.oracle.com/hk/java/technologies/downloads/#java8-mac&#34;&gt;jdk&lt;/a&gt;
-下载java， 最好是安装1.8版本的jdk。&lt;/p&gt;
-&lt;h4 id=&#34;验证java版本&#34;&gt;验证java版本&lt;/h4&gt;
-&lt;p&gt;安装完成后，使用java -version验证下版本。如果多个版本，使用/usr/libexec/java_home -V显示所有已安装的版本&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro ~ % java -version
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;openjdk version &amp;#34;1.8.0_382&amp;#34;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;OpenJDK Runtime Environment Corretto-8.382.05.1 (build 1.8.0_382-b05)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;OpenJDK 64-Bit Server VM Corretto-8.382.05.1 (build 25.382-b05, mixed mode)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro ~ % /usr/libexec/java_home -V
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Matching Java Virtual Machines (3):
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    1.8.391.13 (arm64) &amp;#34;Oracle Corporation&amp;#34; - &amp;#34;Java&amp;#34; /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    1.8.0_391 (arm64) &amp;#34;Oracle Corporation&amp;#34; - &amp;#34;Java SE 8&amp;#34; /Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    1.8.0_382 (arm64) &amp;#34;Amazon&amp;#34; - &amp;#34;Amazon Corretto 8&amp;#34; /Users/lvwei/Library/Java/JavaVirtualMachines/corretto-1.8.0_382/Contents/Home
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;配置java_home&#34;&gt;配置java_home&lt;/h4&gt;
-&lt;p&gt;打开.bash_profile文件，配置java_home环境变量&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export PATH=$JAVA_HOME/bin:$PATH:.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;重启终端, 通过echo $JAVA_HOME显示java位置&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro ~ % echo $JAVA_HOME
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;2ssh免密设置&#34;&gt;2.SSH免密设置&lt;/h3&gt;
-&lt;p&gt;打开系统偏好设置,找到“远程登陆”， 如果没有hadoop系统用户，则添加。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/M1-Mac%E5%AE%89%E8%A3%85hadoop/ssh_setting_1.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/M1-Mac%E5%AE%89%E8%A3%85hadoop/ssh_setting_2.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;ssh localhost&lt;/strong&gt;验证&lt;/p&gt;
-&lt;p&gt;打开终端，依次输入各命令进行验证&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro ~ % 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ssh-keygen -t rsa -P &amp;#39;&amp;#39; -f ~/.ssh/id_rsa
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Generating public/private rsa key pair.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/Users/lvwei/.ssh/id_rsa already exists.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Overwrite (y/n)? n
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro ~ % cat ~/.ssh/id_rsa.pub &amp;gt;&amp;gt; ~/.ssh/authorized_keys
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro ~ % chmod 0600 ~/.ssh/id_rsa.pub
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro ~ % ssh localhost
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Last login: Fri Dec  1 16:37:01 2023
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/Users/lvwei/.zprofile:18: command no
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;3hadoop下载&#34;&gt;3.hadoop下载&lt;/h3&gt;
-&lt;h4 id=&#34;1hadoop下载&#34;&gt;1.hadoop下载&lt;/h4&gt;
-&lt;p&gt;从&lt;a href=&#34;https://hadoop.apache.org/releases.html&#34;&gt;hadoop官网&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/M1-Mac%E5%AE%89%E8%A3%85hadoop/hadoop_download.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/M1-Mac%E5%AE%89%E8%A3%85hadoop/hadoop_download_url.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;2hadoop目录配置&#34;&gt;2.hadoop目录配置&lt;/h4&gt;
-&lt;p&gt;把hadoop-3.3.6解压后，配置到根目录下(users/用户名/hadoop-3.3.6),我的目录为：/Users/lvwei/hadoop-3.3.6&lt;/p&gt;
-&lt;h4 id=&#34;3zprofile配置&#34;&gt;3..zprofile配置&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Hadoop&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export HADOOP_HOME&lt;span style=&#34;color:#f92672&#34;&gt;=/&lt;/span&gt;Users&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;lvwei&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;hadoop&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3.3.6&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export HADOOP_INSTALL&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;HADOOP_HOME
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export HADOOP_MAPRED_HOME&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;HADOOP_HOME
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export HADOOP_COMMON_HOME&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;HADOOP_HOME
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export HADOOP_HDFS_HOME&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;HADOOP_HOME export YARN_HOME&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;HADOOP_HOME
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export HADOOP_COMMON_LIB_NATIVE_DIR&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;HADOOP_HOME&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;lib&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;native
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export PATH&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;PATH:&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;HADOOP_HOME&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;sbin:&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;HADOOP_HOME&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;bin
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export HADOOP_OPTS&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;-Djava.library.path=$HADOOP_HOME/lib/nativ&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;————————————————&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#原文链接：https://blog.csdn.net/xiaoqingqing521/article/details/133770612&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;4hadoop配置文件&#34;&gt;4.hadoop配置文件&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;4.1 hadoop-env.sh&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;配置java_home环境&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# export JAVA_HOME=&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;export JAVA_HOME&lt;span style=&#34;color:#f92672&#34;&gt;=/&lt;/span&gt;Library&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;Java&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;JavaVirtualMachines&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;jdk&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1.8&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;jdk&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;Contents&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;Home
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;4.2 core-site.sh&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;configuration&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;hadoop&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;tmp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dir&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;/&lt;/span&gt;Users&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;lvwei&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;hdfs&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;tmp&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;fs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;default&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;hdfs:&lt;span style=&#34;color:#f92672&#34;&gt;//&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;127.0.0.1&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;9000&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;configuration&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;4.3 hdfs-site.xml&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;configuration&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;dfs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dir&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;/&lt;/span&gt;Users&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;lvwei&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;hdfs&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;namenode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;dfs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dir&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;/&lt;/span&gt;Users&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;lvwei&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;hdfs&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;datanode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;dfs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;replication&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;configuration&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/M1-Mac%E5%AE%89%E8%A3%85hadoop/hadoop_hdfs_setting.png&#34; alt=&#34;img.png&#34;&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;4.4 mapred-site.xml&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;configuration&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;mapreduce&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;framework&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;yarn&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;configuration&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;4.5 yarn-site.xml&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;configuration&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt; Site specific YARN configuration properties &lt;span style=&#34;color:#f92672&#34;&gt;--&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;yarn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nodemanager&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;aux&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;services&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;mapreduce_shuffle&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;yarn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nodemanager&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;aux&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;services&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;mapreduce&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;shuffle&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;class&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hadoop&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;mapred&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ShuffleHandler&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;yarn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;resourcemanager&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hostname&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;127.0.0.1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;yarn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;acl&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enable&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;yarn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nodemanager&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;env&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;whitelist&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;name&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PERPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;property&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;configuration&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;5hadoop-hdfs格式化&#34;&gt;5.hadoop hdfs格式化&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;30
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;31
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;32
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;33
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;34
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;35
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;36
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;37
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;38
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;39
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;40
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;41
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;42
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;43
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;44
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;45
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;46
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;47
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;48
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;49
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;50
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;51
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;52
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;53
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;54
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;55
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;56
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;57
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;58
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;59
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;60
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;61
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;62
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;63
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;64
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;65
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;66
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;67
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;68
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;69
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;70
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;71
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;72
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;73
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;74
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;75
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;76
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;77
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;78
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;79
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;80
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;81
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;82
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;83
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;84
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;85
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;86
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro bin % ./hdfs namenode -format
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;WARNING: /Users/lvwei/hadoop-3.3.6//logs does not exist. Creating.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:05,991 INFO namenode.NameNode: STARTUP_MSG: 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/************************************************************
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;STARTUP_MSG: Starting NameNode
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;STARTUP_MSG:   host = lvweideMacBook-Pro.local/127.0.0.1
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;STARTUP_MSG:   args = [-format]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;STARTUP_MSG:   version = 3.3.6
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;STARTUP_MSG:   classpath = /Users/lvwei/hadoop-3.3.6//etc/hadoop:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jaxb-impl-2.2.3-1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/curator-client-5.2.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/reload4j-1.2.22.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jackson-core-2.12.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-buffer-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-io-2.8.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/hadoop-annotations-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-native-epoll-4.1.89.Final-linux-x86_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-configuration2-2.8.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/slf4j-api-1.7.36.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-classes-kqueue-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerby-xdr-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/failureaccess-1.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/checker-qual-2.5.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jersey-servlet-1.19.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/slf4j-reload4j-1.7.36.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/hadoop-auth-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jetty-servlet-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/woodstox-core-5.4.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/curator-framework-5.2.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/httpcore-4.4.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/snappy-java-1.1.8.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-logging-1.1.3.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-native-kqueue-4.1.89.Final-osx-x86_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerby-pkix-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/avro-1.7.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/dnsjava-2.1.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-udt-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jetty-security-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-resolver-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jersey-json-1.20.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-net-3.9.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/javax.servlet-api-3.1.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jersey-server-1.19.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerb-server-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/hadoop-shaded-guava-1.1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-handler-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-cli-1.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/guava-27.0-jre.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-handler-ssl-ocsp-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-native-unix-common-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/protobuf-java-2.5.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/gson-2.9.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jcip-annotations-1.0-1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerby-asn1-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-classes-epoll-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jetty-http-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jsr311-api-1.1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/stax2-api-4.2.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-memcache-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerb-identity-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-socks-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerby-config-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerb-util-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jetty-xml-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-stomp-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/zookeeper-3.6.3.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jaxb-api-2.2.11.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jakarta.activation-api-1.2.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jackson-core-asl-1.9.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jetty-webapp-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-compress-1.21.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/metrics-core-3.2.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jsp-api-2.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerb-crypto-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jersey-core-1.19.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-common-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerb-admin-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-resolver-dns-native-macos-4.1.89.Final-osx-aarch_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/audience-annotations-0.5.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-xml-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-dns-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-native-kqueue-4.1.89.Final-osx-aarch_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/j2objc-annotations-1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jul-to-slf4j-1.7.36.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/paranamer-2.3.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerb-client-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jetty-util-ajax-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-http-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-collections-3.2.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-codec-1.15.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jettison-1.5.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-redis-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-native-epoll-4.1.89.Final-linux-aarch_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/token-provider-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/curator-recipes-5.2.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-beanutils-1.9.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerb-common-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-resolver-dns-native-macos-4.1.89.Final-osx-x86_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-resolver-dns-classes-macos-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-resolver-dns-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerb-simplekdc-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jackson-annotations-2.12.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jsch-0.1.55.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-haproxy-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-http2-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jackson-databind-2.12.7.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/re2j-1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-all-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-smtp-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-lang3-3.12.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerb-core-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/nimbus-jose-jwt-9.8.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/httpclient-4.5.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jetty-util-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jetty-server-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-rxtx-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/animal-sniffer-annotations-1.17.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-handler-proxy-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jetty-io-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/kerby-util-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jsr305-3.0.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/jackson-mapper-asl-1.9.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-math3-3.1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-daemon-1.0.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/hadoop-shaded-protobuf_3_7-1.1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-mqtt-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-transport-sctp-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/commons-text-1.10.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/netty-codec-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/lib/zookeeper-jute-3.6.3.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/hadoop-common-3.3.6-tests.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/hadoop-nfs-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/hadoop-common-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/hadoop-registry-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/common/hadoop-kms-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jaxb-impl-2.2.3-1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/curator-client-5.2.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/reload4j-1.2.22.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jackson-core-2.12.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-buffer-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-io-2.8.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/hadoop-annotations-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-native-epoll-4.1.89.Final-linux-x86_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-configuration2-2.8.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-classes-kqueue-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerby-xdr-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/failureaccess-1.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/checker-qual-2.5.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jersey-servlet-1.19.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/hadoop-auth-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jetty-servlet-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/woodstox-core-5.4.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/curator-framework-5.2.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/httpcore-4.4.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/snappy-java-1.1.8.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-logging-1.1.3.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-native-kqueue-4.1.89.Final-osx-x86_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerby-pkix-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/avro-1.7.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/dnsjava-2.1.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-udt-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kotlin-stdlib-common-1.4.10.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jetty-security-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-resolver-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jersey-json-1.20.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-net-3.9.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/javax.servlet-api-3.1.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jersey-server-1.19.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerb-server-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/hadoop-shaded-guava-1.1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-handler-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-cli-1.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/guava-27.0-jre.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-handler-ssl-ocsp-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-native-unix-common-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/protobuf-java-2.5.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/gson-2.9.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jcip-annotations-1.0-1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerby-asn1-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kotlin-stdlib-1.4.10.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-classes-epoll-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jetty-http-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jsr311-api-1.1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/stax2-api-4.2.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-memcache-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerb-identity-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-socks-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerby-config-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerb-util-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jetty-xml-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-stomp-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/zookeeper-3.6.3.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jaxb-api-2.2.11.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/json-simple-1.1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jakarta.activation-api-1.2.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jackson-core-asl-1.9.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jetty-webapp-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-compress-1.21.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/metrics-core-3.2.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerb-crypto-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jersey-core-1.19.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-common-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerb-admin-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-resolver-dns-native-macos-4.1.89.Final-osx-aarch_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/audience-annotations-0.5.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-xml-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-dns-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-native-kqueue-4.1.89.Final-osx-aarch_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/j2objc-annotations-1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/paranamer-2.3.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerb-client-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jetty-util-ajax-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-http-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-collections-3.2.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-codec-1.15.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-3.10.6.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jettison-1.5.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-redis-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-native-epoll-4.1.89.Final-linux-aarch_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/token-provider-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/curator-recipes-5.2.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-beanutils-1.9.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerb-common-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-resolver-dns-native-macos-4.1.89.Final-osx-x86_64.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-resolver-dns-classes-macos-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-resolver-dns-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerb-simplekdc-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jackson-annotations-2.12.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jsch-0.1.55.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-haproxy-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-http2-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/okio-2.8.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jackson-databind-2.12.7.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/re2j-1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-all-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-smtp-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/HikariCP-java7-2.4.12.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-lang3-3.12.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerb-core-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/nimbus-jose-jwt-9.8.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/httpclient-4.5.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jetty-util-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jetty-server-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-rxtx-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/animal-sniffer-annotations-1.17.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-handler-proxy-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/okhttp-4.9.3.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/leveldbjni-all-1.8.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jetty-io-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/kerby-util-1.0.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jsr305-3.0.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/jackson-mapper-asl-1.9.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-math3-3.1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-daemon-1.0.13.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/hadoop-shaded-protobuf_3_7-1.1.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-mqtt-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-transport-sctp-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/commons-text-1.10.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/netty-codec-4.1.89.Final.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/lib/zookeeper-jute-3.6.3.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-3.3.6-tests.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-client-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-native-client-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-rbf-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-nfs-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-native-client-3.3.6-tests.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-rbf-3.3.6-tests.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-httpfs-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/hdfs/hadoop-hdfs-client-3.3.6-tests.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-common-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-shuffle-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-hs-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-core-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-uploader-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-3.3.6-tests.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-app-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-nativetask-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/mapreduce/hadoop-mapreduce-client-hs-plugins-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/javax.websocket-api-1.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jakarta.xml.bind-api-2.3.2.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jackson-jaxrs-base-2.12.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/bcprov-jdk15on-1.68.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/aopalliance-1.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jetty-plus-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/java-util-1.9.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/javax-websocket-server-impl-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/snakeyaml-2.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/bcpkix-jdk15on-1.68.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jetty-jndi-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jackson-jaxrs-json-provider-2.12.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/geronimo-jcache_1.0_spec-1.0-alpha-1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/objenesis-2.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jline-3.9.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/websocket-server-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/asm-commons-9.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/javax-websocket-client-impl-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/fst-2.50.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/guice-servlet-4.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jetty-client-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/mssql-jdbc-6.2.1.jre7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/asm-tree-9.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/websocket-servlet-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/websocket-api-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jersey-client-1.19.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/javax.websocket-client-api-1.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/ehcache-3.3.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/websocket-common-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jna-5.2.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/json-io-2.5.1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jersey-guice-1.19.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/guice-4.0.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jackson-module-jaxb-annotations-2.12.7.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/websocket-client-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/javax.inject-1.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/swagger-annotations-1.5.4.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/lib/jetty-annotations-9.4.51.v20230217.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-services-core-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-applications-mawo-core-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-server-router-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-server-common-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-server-resourcemanager-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-services-api-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-client-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-common-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-server-nodemanager-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-server-web-proxy-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-server-tests-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-api-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-registry-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-server-sharedcachemanager-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-applications-distributedshell-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-server-timeline-pluginstorage-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-applications-unmanaged-am-launcher-3.3.6.jar:/Users/lvwei/hadoop-3.3.6//share/hadoop/yarn/hadoop-yarn-server-applicationhistoryservice-3.3.6.jar
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;STARTUP_MSG:   build = https://github.com/apache/hadoop.git -r 1be78238728da9266a4f88195058f08fd012bf9c; compiled by &amp;#39;ubuntu&amp;#39; on 2023-06-18T08:22Z
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;STARTUP_MSG:   java = 1.8.0_391
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;************************************************************/
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,008 INFO namenode.NameNode: registered UNIX signal handlers for [TERM, HUP, INT]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,058 INFO namenode.NameNode: createNameNode [-format]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,169 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,429 INFO namenode.NameNode: Formatting using clusterid: CID-3c5a3774-4ffd-4c23-9eb8-7236178561f9
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,449 INFO namenode.FSEditLog: Edit logging is async:true
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,466 INFO namenode.FSNamesystem: KeyProvider: null
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,467 INFO namenode.FSNamesystem: fsLock is fair: true
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,467 INFO namenode.FSNamesystem: Detailed lock hold time metrics enabled: false
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,492 INFO namenode.FSNamesystem: fsOwner                = lvwei (auth:SIMPLE)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,492 INFO namenode.FSNamesystem: supergroup             = supergroup
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,492 INFO namenode.FSNamesystem: isPermissionEnabled    = true
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,492 INFO namenode.FSNamesystem: isStoragePolicyEnabled = true
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,493 INFO namenode.FSNamesystem: HA Enabled: false
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,522 INFO common.Util: dfs.datanode.fileio.profiling.sampling.percentage set to 0. Disabling file IO profiling
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,614 INFO blockmanagement.DatanodeManager: dfs.block.invalidate.limit : configured=1000, counted=60, effected=1000
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,614 INFO blockmanagement.DatanodeManager: dfs.namenode.datanode.registration.ip-hostname-check=true
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,617 INFO blockmanagement.BlockManager: dfs.namenode.startup.delay.block.deletion.sec is set to 000:00:00:00.000
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,617 INFO blockmanagement.BlockManager: The block deletion will start around 2023 十二月 01 16:27:06
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,617 INFO util.GSet: Computing capacity for map BlocksMap
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,618 INFO util.GSet: VM type       = 64-bit
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,618 INFO util.GSet: 2.0% max memory 3.6 GB = 72.8 MB
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,618 INFO util.GSet: capacity      = 2^23 = 8388608 entries
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,622 INFO blockmanagement.BlockManager: Storage policy satisfier is disabled
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,622 INFO blockmanagement.BlockManager: dfs.block.access.token.enable = false
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManagerSafeMode: dfs.namenode.safemode.threshold-pct = 0.999
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManagerSafeMode: dfs.namenode.safemode.min.datanodes = 0
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManagerSafeMode: dfs.namenode.safemode.extension = 30000
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManager: defaultReplication         = 1
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManager: maxReplication             = 512
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManager: minReplication             = 1
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManager: maxReplicationStreams      = 2
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManager: redundancyRecheckInterval  = 3000ms
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManager: encryptDataTransfer        = false
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,626 INFO blockmanagement.BlockManager: maxNumBlocksToLog          = 1000
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,704 INFO namenode.FSDirectory: GLOBAL serial map: bits=29 maxEntries=536870911
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,704 INFO namenode.FSDirectory: USER serial map: bits=24 maxEntries=16777215
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,704 INFO namenode.FSDirectory: GROUP serial map: bits=24 maxEntries=16777215
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,704 INFO namenode.FSDirectory: XATTR serial map: bits=24 maxEntries=16777215
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,711 INFO util.GSet: Computing capacity for map INodeMap
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,711 INFO util.GSet: VM type       = 64-bit
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,711 INFO util.GSet: 1.0% max memory 3.6 GB = 36.4 MB
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,711 INFO util.GSet: capacity      = 2^22 = 4194304 entries
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,712 INFO namenode.FSDirectory: ACLs enabled? true
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,712 INFO namenode.FSDirectory: POSIX ACL inheritance enabled? true
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,712 INFO namenode.FSDirectory: XAttrs enabled? true
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,712 INFO namenode.NameNode: Caching file names occurring more than 10 times
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,715 INFO snapshot.SnapshotManager: Loaded config captureOpenFiles: false, skipCaptureAccessTimeOnlyChange: false, snapshotDiffAllowSnapRootDescendant: true, maxSnapshotLimit: 65536
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,716 INFO snapshot.SnapshotManager: SkipList is disabled
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,718 INFO util.GSet: Computing capacity for map cachedBlocks
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,718 INFO util.GSet: VM type       = 64-bit
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,718 INFO util.GSet: 0.25% max memory 3.6 GB = 9.1 MB
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,718 INFO util.GSet: capacity      = 2^20 = 1048576 entries
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,784 INFO metrics.TopMetrics: NNTop conf: dfs.namenode.top.window.num.buckets = 10
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,784 INFO metrics.TopMetrics: NNTop conf: dfs.namenode.top.num.users = 10
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,784 INFO metrics.TopMetrics: NNTop conf: dfs.namenode.top.windows.minutes = 1,5,25
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,786 INFO namenode.FSNamesystem: Retry cache on namenode is enabled
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,786 INFO namenode.FSNamesystem: Retry cache will use 0.03 of total heap and retry cache entry expiry time is 600000 millis
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,788 INFO util.GSet: Computing capacity for map NameNodeRetryCache
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,788 INFO util.GSet: VM type       = 64-bit
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,789 INFO util.GSet: 0.029999999329447746% max memory 3.6 GB = 1.1 MB
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,789 INFO util.GSet: capacity      = 2^17 = 131072 entries
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,801 INFO namenode.FSImage: Allocated new BlockPoolId: BP-297451916-127.0.0.1-1701419226798
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,808 INFO common.Storage: Storage directory /Users/lvwei/hdfs/tmp/dfs/name has been successfully formatted.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,823 INFO namenode.FSImageFormatProtobuf: Saving image file /Users/lvwei/hdfs/tmp/dfs/name/current/fsimage.ckpt_0000000000000000000 using no compression
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,886 INFO namenode.FSImageFormatProtobuf: Image file /Users/lvwei/hdfs/tmp/dfs/name/current/fsimage.ckpt_0000000000000000000 of size 400 bytes saved in 0 seconds .
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,894 INFO namenode.NNStorageRetentionManager: Going to retain 1 images with txid &amp;gt;= 0
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,907 INFO namenode.FSNamesystem: Stopping services started for active state
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,907 INFO namenode.FSNamesystem: Stopping services started for standby state
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,909 INFO namenode.FSImage: FSImageSaver clean checkpoint: txid=0 when meet shutdown.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-01 16:27:06,909 INFO namenode.NameNode: SHUTDOWN_MSG: 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/************************************************************
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;SHUTDOWN_MSG: Shutting down NameNode at lvweideMacBook-Pro.local/127.0.0.1
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;************************************************************/
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) 
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;SHUTDOWN_MSG: Shutting down NameNode at lvweideMacBook-Pro.local/127.0.0.1 表明hadoop已格式化&lt;/p&gt;
-&lt;h3 id=&#34;6hadoop启动&#34;&gt;6.hadoop启动&lt;/h3&gt;
-&lt;p&gt;打开终端，切换到hadoop-3.3.6/sbin目录,启动hadoop服务&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro sbin % start-all.sh
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;WARNING: Attempting to start all Apache Hadoop daemons as lvwei in 10 seconds.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;WARNING: This is not a recommended production deployment configuration.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;WARNING: Use CTRL-C to abort.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting namenodes on [localhost]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting datanodes
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting secondary namenodes [lvweideMacBook-Pro.local]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023-12-04 17:19:56,553 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting resourcemanager
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting nodemanagers
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(base) lvwei@lvweideMacBook-Pro sbin % jps
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;70019 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;868 ResourceManager
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;564 SecondaryNameNode
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1381 NodeManager
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;22534 Jps
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;310 DataNode
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;96585 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;99468 NameNode
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;resourcemanager和nodemanagers已启动成功&lt;/p&gt;
-&lt;h3 id=&#34;7hadoop启动验证&#34;&gt;7.hadoop启动验证&lt;/h3&gt;
-&lt;p&gt;浏览器打开http://localhost:9870网页&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/M1-Mac%E5%AE%89%E8%A3%85hadoop/hadoop_overview1.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/M1-Mac%E5%AE%89%E8%A3%85hadoop/hadoop_overview2.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
       
     </item>
     
