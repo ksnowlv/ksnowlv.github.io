@@ -34,8 +34,6 @@ rust_lib \
 
 #### build.rs创建
 
-内容如下
-
 ```rust
 extern crate cbindgen;
 
@@ -54,14 +52,14 @@ fn main() {
 ```
 
 #### build.rs配置
-创建build.rs,用来在编译期间，生成rust库导出的.h头文件，工程目录如下
+build.rs,用来在编译期间，生成rust库导出的.h头文件，工程目录如下
 
-rust_lib
----src
-------lib.rs
----Cargo.toml
----Cargo.lock
----build.rs
+rust_lib\
+---src \
+------lib.rs \
+---Cargo.toml \
+---Cargo.lock \
+---build.rs 
 
 然后在Cargo.toml文件中，配置build.rs文件
 
@@ -140,7 +138,7 @@ pub extern "C" fn add(a: i32, b: i32) -> i32 {
 
 ```
 
-### 4.生成动态库
+### 4.生成静态库
 
 使用cargo build生成debug版本库，如果是release版本,使用cargo build --release命令
 
