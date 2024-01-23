@@ -1,5 +1,5 @@
 ---
-title: "C++调用rust"
+title: "C++以库的形式调用rust"
 date: 2024-01-21T20:11:49+08:00
 lastmod: 2024-01-21T20:11:49+08:00
 keywords: ["C++", "rust"]
@@ -16,7 +16,7 @@ mathjax: false
 
 <!--more-->
 
-## C++ 如何调用rust
+## C++如何以库的形式调用rust
 
 ## 一.rust库工程
 
@@ -199,7 +199,7 @@ warning: `rust_lib` (lib) generated 1 warning
     Finished release [optimized] target(s) in 10.22s  
 ```
 
-![image](/images/post/C++调用rust/cargo_debug_release_lib.png)
+![image](/images/post/C++以库的形式调用rust/cargo_debug_release_lib.png)
 
 
 ## 二.C++工程
@@ -298,7 +298,7 @@ int main() {
 ### 4.执行情况
 
 
-![image](/images/post/C++调用rust/cpp_call_rust_result.png)
+![image](/images/post/C++以库的形式调用rust/cpp_call_rust_result.png)
 
 
 
