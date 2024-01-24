@@ -53,7 +53,7 @@ Docker 默认会为容器分配一个唯一的名称，你可以使用这个名�
         
         docker restart mysql
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker network connect mynet mysql
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker restart mysql
 mysql
@@ -66,7 +66,7 @@ f1a5aeb83045   mysql          "docker-entrypoint.s…"   4 days ago       Up 6 s
 
 ### 3.fastapi连接到自定义网络,重启fastapi服务
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker network connect mynet newapp
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker restart newapp              
 newapp

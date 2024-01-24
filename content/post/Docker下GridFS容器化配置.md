@@ -21,7 +21,7 @@ mathjax: false
 ### 1.启动Docker,拉取MongoDB镜像
 终端下使用**docker pull mongo**命令摘取MongoDB镜像
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro mysql % docker pull mongo
 Using default tag: latest
 latest: Pulling from library/mongo
@@ -76,7 +76,7 @@ mongodb的镜像已生成
     docker restart  mongodb
 
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro mysql % docker run -d -p 27017:27017 --name mongodb -v /Users/lvwei/gridfsdata:/data/db mongo
 e7f94f8f7c1055e5e09fd453e63c08837125cc3168b1f8698077af3c52f02b76
 (base) lvwei@lvweideMacBook-Pro mysql % docker ps                                                                            
@@ -369,7 +369,7 @@ Docker容器之间的连接，通常应该使用Docker的服务名称而不是lo
 
 在工程目录下，使用docker build打包，然后停止并删除fastapi容器，然后重新启动fastapi容器。
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro fastapitest %  docker build -t fastapitest-app .
 
 

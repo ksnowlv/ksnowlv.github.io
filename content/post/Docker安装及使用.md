@@ -22,7 +22,7 @@ mathjax: false
 Docker官方网站:[https://www.docker.com/get-started](https://www.docker.com/get-started)下载Mac版本的Docker安装
 
 安装完成后，打开终端（Terminal）Docker是否已经正确安装
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro watch-fastapi % docker --version
 Docker version 24.0.6, build ed223bc
 ```
@@ -32,7 +32,7 @@ Docker version 24.0.6, build ed223bc
 
 Docker24.0.6已包含docker-compose，故不需要直接安装，直接查看docker-compose版本即可
   
-```terminal                                                                             
+```shell                                                                             
 (base) lvwei@lvweideMacBook-Pro watch-fastapi % docker-compose --version
 Docker Compose version v2.22.0-desktop.2
 ```

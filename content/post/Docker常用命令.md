@@ -21,7 +21,7 @@ mathjax: false
 ### 1.docker的版本信息
 命令：docker version
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker version
 Client:
  Cloud integration: v1.0.35+desktop.5
@@ -56,7 +56,7 @@ Server: Docker Desktop 4.24.2 (124339)
 ### 2.docker的系统信息
 命令：docker info
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker info
 Client:
  Version:    24.0.6
@@ -190,7 +190,7 @@ Server:
 
 命令：docker inspect containerId或containerName
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker inspect newapp
 [
     {
@@ -436,7 +436,7 @@ Server:
 
 命令：docker top containerId或containerName
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker top newapp
 UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
 root                9047                9021                0                   Dec12               ?                   00:00:31            /usr/local/bin/python /usr/local/bin/uvicorn main:app --host 0.0.0.0 --port 8081
@@ -447,7 +447,7 @@ root                9047                9021                0                   
 
 命令：docker stats
 
-```terminal
+```shell
 CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O        PIDS
 2019aa4e114e   newapp    0.70%     77.42MiB / 7.667GiB   0.99%     7.66kB / 6.08kB   46MB / 43.5MB    8
 1178ee9492f1   mysql_1   0.95%     406.1MiB / 7.667GiB   5.17%     3.01kB / 0B       29.8MB / 270MB   39
@@ -473,7 +473,7 @@ f1a5aeb83045   mysql     0.94%     356.4MiB / 7.667GiB   4.54%     3.94kB / 3.34
 ### 8.docker显示所有运行容器
 
 命令：docker ps
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker ps   
 CONTAINER ID   IMAGE             COMMAND                   CREATED        STATUS        PORTS                               NAMES
 2019aa4e114e   fastapitest-app   "uvicorn main:app --…"   16 hours ago   Up 16 hours   0.0.0.0:8081->8081/tcp              newapp
@@ -485,7 +485,7 @@ f1a5aeb83045   mysql             "docker-entrypoint.s…"   4 days ago     Up 16
 ### 9.docker显示所有容器,包括非运行中的容器
 
 命令：docker ps -a
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker ps -a
 CONTAINER ID   IMAGE                    COMMAND                   CREATED        STATUS                      PORTS                               NAMES
 2019aa4e114e   fastapitest-app          "uvicorn main:app --…"   16 hours ago   Up 16 hours                 0.0.0.0:8081->8081/tcp              newapp
@@ -519,7 +519,7 @@ f1a5aeb83045   mysql                    "docker-entrypoint.s…"   4 days ago   
     docker load -i 文件  
     docker image inspect imageName                      #查看镜像详情
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker images
 REPOSITORY               TAG       IMAGE ID       CREATED        SIZE
 fastapi-admin            latest    d1cc409585b7   46 hours ago   339MB
@@ -676,7 +676,7 @@ f1a5aeb83045   mysql             "docker-entrypoint.s…"   5 days ago     Up 18
 
 命令：docker history imagename
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker history mysql
 IMAGE          CREATED       CREATED BY                                       SIZE      COMMENT
 9c61872d4987   7 weeks ago   CMD ["mysqld"]                                   0B        buildkit.dockerfile.v0
@@ -717,7 +717,7 @@ IMAGE          CREATED       CREATED BY                                       SI
 
     docker save [OPTIONS] IMAGE [IMAGE...]
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo %  docker save mysql -o mysql/mysql.tar
 (base) lvwei@lvweideMacBook-Pro rustdemo % ls
 HelloWorld	hello		mysql		mysql.tar	nginx.tar
@@ -732,7 +732,7 @@ mysql.tar
 
     docker pull [OPTIONS] NAME[:TAG|@DIGEST]
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro rustdemo % docker pull ubuntu:20.04
 20.04: Pulling from library/ubuntu
 dae58cbd668a: Pull complete 
@@ -755,7 +755,7 @@ ubuntu:20.04：指定要使用的镜像的名称和标签。在此处，我们�
 /bin/bash：容器启动时，运行的命令是 /bin/bash，这将进入容器的交互式 Shell 环境。
 
 #### docker start:启动现有容器
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro ubuntu % docker run -it --name linux  ubuntu:1.0 /bin/bash
 root@e98d4323b3e5:/app# exit
 exit
@@ -799,7 +799,7 @@ Docker网络的实现主要是依赖Linux网络有关的技术，这些技术有
     使用 --net=bridge 指定，默认设置。
     bridge模式，桥接模式，默认的模式。
 
-```terminal
+```shell
 
 (base) lvwei@lvweideMacBook-Pro mysql % docker network ls
 NETWORK ID     NAME                    DRIVER    SCOPE

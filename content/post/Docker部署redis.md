@@ -44,7 +44,7 @@ services:
 通过docker-compose up -d下载并启动redis容器服务
 通过docker exec -it redis_container redis-cli -a 123456进入redis服务中
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro my-redis-container % docker-compose up -d
 [+] Running 9/9
  ✔ redis 8 layers [⣿⣿⣿⣿⣿⣿⣿⣿]      0B/0B      Pulled                                                                         390.3s 
