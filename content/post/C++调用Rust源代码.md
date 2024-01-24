@@ -145,7 +145,7 @@ pub extern "C" fn add(a: i32, b: i32) -> i32 {
 
 使用cargo build生成debug版本库，如果是release版本,使用cargo build --release命令
 
-```terminal
+```bash
 lvwei@lvweideMacBook-Pro rust_lib % cargo build
    Compiling rust_lib v0.1.0 (/Users/lvwei/Documents/clion_cpp_demo/rust_lib)
     Finished dev [unoptimized + debuginfo] target(s) in 0.79s
@@ -232,7 +232,7 @@ cppcallrustproject \
 
 ### 2.CMakeLists.txt配置
 
-```CMakeLists.txt
+```CMake
 cmake_minimum_required(VERSION 3.26)
 project(cppcallrustproject)
 

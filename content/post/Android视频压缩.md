@@ -34,7 +34,7 @@ Android设备使用相机进行视频录像后，生成视频文件；视频文�
 
 ## 三.fps压缩
 
-```android
+```Java
 
  void fpsCompressVidio(File file) {
 
@@ -127,7 +127,7 @@ Android设备使用相机进行视频录像后，生成视频文件；视频文�
 
 ## 四.720P压缩
 
-```android
+```Java
 
     void compressVideo(File file) {
 
@@ -196,24 +196,24 @@ python_fps/high_codec目录下所有文件大小:1686972766,共1.571115819737315
 在Android设备中，在使用相机录制时，检查设备是否支持H.265编码？如果支持，对相机录制进行配置。如果不支持，使用H264编码。
 
 
-#### 1.检查设备支持
+####  1.检查设备支持
 检查设备是否支持 H.265 编码器,通过检查**CamcorderProfile**类中的**QUALITY_HEVC**属性来判断，例如：
 
-```android
+```Java
 boolean isHEVCSupported = CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HEVC);
 ```
 
 #### 2.配置 MediaRecorder
 
 使用 MediaRecorder 对象进行录制时，你需要将视频编码器属性设置为 VideoEncoder.HEVC，例如：
-```android
+```Java
 mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.HEVC);
 ```
 
 #### 3.配置CamcorderProfile类
 
 如果你想使用 CamcorderProfile 类来设置摄像机参数，你可以将 videoCodec 属性设置为 MediaRecorder.VideoEncoder.HEVC，例如：
-```android
+```Java
 CamcorderProfile camcorderProfile = CamcorderProfile.get(cameCamcorderProfile.QUALITY_HIGH);
 camcorderProfile.videoCodec = MediaRecorder.VideoEncoder.HEVC;
 ```

@@ -34,8 +34,10 @@ mathjax: false
 
 #### CMakeLists.txt目录指定
 
+```CMake
     # 添加rapidjson库
     target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson)
+```
 
 详细配置如下
 
@@ -46,7 +48,7 @@ mathjax: false
 
 添加CurlTest类，CurlTest.h头文件
 
-```c++
+```C++
 //
 // Created by lvwei on 2023/12/18.
 //
@@ -74,7 +76,7 @@ void handleCurlPostJsonParse(const std::string& json);
 
 CurlTest.cpp文件
 
-```c++
+``` C++
 //
 // Created by lvwei on 2023/12/18.
 //
@@ -311,7 +313,7 @@ void CurlTest::handleCurlPostJsonParse(const std::string& json) {
 
 ### 4.测试
 
-```c++
+```C++
 
 #include "CurlTest.h"
 
@@ -329,7 +331,7 @@ int main() {
 
 ### 5.执行
 
-```terminal
+```shell
 /Users/lvwei/Documents/cpp_projects/libcurltest/cmake-build-debug/libcurltest
 0x16faea0e8
 0x16faea0e8

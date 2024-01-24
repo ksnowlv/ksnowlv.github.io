@@ -474,93 +474,93 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">87
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> void fpsCompressVidio(File file) {
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Java" data-lang="Java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fpsCompressVidio</span><span style="color:#f92672">(</span>File file<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        String sourcePath = file.getPath();
-</span></span><span style="display:flex;"><span>        String fileName = file.getName();
-</span></span><span style="display:flex;"><span>        long fileSize =  file.length()/1000;
-</span></span><span style="display:flex;"><span>        String resFilePath = fpsFilePath + fileName;
-</span></span><span style="display:flex;"><span>        Uri uri = Uri.parse(sourcePath);
+</span></span><span style="display:flex;"><span>        String sourcePath <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span><span style="color:#a6e22e">getPath</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        String fileName <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> fileSize <span style="color:#f92672">=</span>  file<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()/</span>1000<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        String resFilePath <span style="color:#f92672">=</span> fpsFilePath <span style="color:#f92672">+</span> fileName<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        Uri uri <span style="color:#f92672">=</span> Uri<span style="color:#f92672">.</span><span style="color:#a6e22e">parse</span><span style="color:#f92672">(</span>sourcePath<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        long duration = 0;
-</span></span><span style="display:flex;"><span>        int width = 0;
-</span></span><span style="display:flex;"><span>        int height = 0;
-</span></span><span style="display:flex;"><span>        float aveFrameRate = 0.0f;
-</span></span><span style="display:flex;"><span>        int frameRate = 0;
-</span></span><span style="display:flex;"><span>        try {
-</span></span><span style="display:flex;"><span>            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-</span></span><span style="display:flex;"><span>            retriever.setDataSource(this,uri);
-</span></span><span style="display:flex;"><span>            int bitrate = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
-</span></span><span style="display:flex;"><span>            retriever.release();
-</span></span><span style="display:flex;"><span>            MediaExtractor extractor = new MediaExtractor();
-</span></span><span style="display:flex;"><span>            extractor.setDataSource(this,uri,null);
-</span></span><span style="display:flex;"><span>            MediaFormat format = extractor.getTrackFormat(VideoUtil.selectTrack(extractor, false));
-</span></span><span style="display:flex;"><span>            frameRate = format.containsKey(MediaFormat.KEY_FRAME_RATE) ? format.getInteger(MediaFormat.KEY_FRAME_RATE) : -1;
-</span></span><span style="display:flex;"><span>            aveFrameRate = VideoUtil.getAveFrameRate(new VideoProcessor.MediaSource(this,uri));
-</span></span><span style="display:flex;"><span>            width = format.getInteger(MediaFormat.KEY_WIDTH);
-</span></span><span style="display:flex;"><span>            height = format.getInteger(MediaFormat.KEY_HEIGHT);
-</span></span><span style="display:flex;"><span>            int rotation = format.containsKey(MediaFormat.KEY_ROTATION) ? format.getInteger(MediaFormat.KEY_ROTATION) : -1;
-</span></span><span style="display:flex;"><span>            duration = format.containsKey(MediaFormat.KEY_DURATION) ? format.getLong(MediaFormat.KEY_DURATION) : -1;
-</span></span><span style="display:flex;"><span>            String KEY_MIME= format.containsKey(MediaFormat.KEY_MIME) ? format.getString(MediaFormat.KEY_MIME) : &#34;&#34;;
-</span></span><span style="display:flex;"><span>            String  videoInfo = String.format(Locale.ENGLISH,&#34;size:%dX%d,framerate:%d,aveFrameRate:%f,rotation:%d,bitrate:%d,duration:%.1fs&#34;, width, height, frameRate,aveFrameRate, rotation, bitrate,
-</span></span><span style="display:flex;"><span>                    duration / 1000f / 1000f);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> duration <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> width <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> height <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> aveFrameRate <span style="color:#f92672">=</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">0f</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> frameRate <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            MediaMetadataRetriever retriever <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MediaMetadataRetriever<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            retriever<span style="color:#f92672">.</span><span style="color:#a6e22e">setDataSource</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span>uri<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> bitrate <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>retriever<span style="color:#f92672">.</span><span style="color:#a6e22e">extractMetadata</span><span style="color:#f92672">(</span>MediaMetadataRetriever<span style="color:#f92672">.</span><span style="color:#a6e22e">METADATA_KEY_BITRATE</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>            retriever<span style="color:#f92672">.</span><span style="color:#a6e22e">release</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            MediaExtractor extractor <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MediaExtractor<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            extractor<span style="color:#f92672">.</span><span style="color:#a6e22e">setDataSource</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span>uri<span style="color:#f92672">,</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            MediaFormat format <span style="color:#f92672">=</span> extractor<span style="color:#f92672">.</span><span style="color:#a6e22e">getTrackFormat</span><span style="color:#f92672">(</span>VideoUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">selectTrack</span><span style="color:#f92672">(</span>extractor<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>            frameRate <span style="color:#f92672">=</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">containsKey</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_FRAME_RATE</span><span style="color:#f92672">)</span> <span style="color:#f92672">?</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">getInteger</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_FRAME_RATE</span><span style="color:#f92672">)</span> <span style="color:#f92672">:</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            aveFrameRate <span style="color:#f92672">=</span> VideoUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">getAveFrameRate</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> VideoProcessor<span style="color:#f92672">.</span><span style="color:#a6e22e">MediaSource</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span>uri<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>            width <span style="color:#f92672">=</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">getInteger</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_WIDTH</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            height <span style="color:#f92672">=</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">getInteger</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_HEIGHT</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> rotation <span style="color:#f92672">=</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">containsKey</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_ROTATION</span><span style="color:#f92672">)</span> <span style="color:#f92672">?</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">getInteger</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_ROTATION</span><span style="color:#f92672">)</span> <span style="color:#f92672">:</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            duration <span style="color:#f92672">=</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">containsKey</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_DURATION</span><span style="color:#f92672">)</span> <span style="color:#f92672">?</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">getLong</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_DURATION</span><span style="color:#f92672">)</span> <span style="color:#f92672">:</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            String KEY_MIME<span style="color:#f92672">=</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">containsKey</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_MIME</span><span style="color:#f92672">)</span> <span style="color:#f92672">?</span> format<span style="color:#f92672">.</span><span style="color:#a6e22e">getString</span><span style="color:#f92672">(</span>MediaFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">KEY_MIME</span><span style="color:#f92672">)</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>            String  videoInfo <span style="color:#f92672">=</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span>Locale<span style="color:#f92672">.</span><span style="color:#a6e22e">ENGLISH</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;size:%dX%d,framerate:%d,aveFrameRate:%f,rotation:%d,bitrate:%d,duration:%.1fs&#34;</span><span style="color:#f92672">,</span> width<span style="color:#f92672">,</span> height<span style="color:#f92672">,</span> frameRate<span style="color:#f92672">,</span>aveFrameRate<span style="color:#f92672">,</span> rotation<span style="color:#f92672">,</span> bitrate<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                    duration <span style="color:#f92672">/</span> 1000f <span style="color:#f92672">/</span> 1000f<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            extractor.release();
+</span></span><span style="display:flex;"><span>            extractor<span style="color:#f92672">.</span><span style="color:#a6e22e">release</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            Log.e(&#34;--testVidio&#34;,videoInfo);
-</span></span><span style="display:flex;"><span>        } catch (Exception e) {
-</span></span><span style="display:flex;"><span>            e.printStackTrace();
-</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>            Log<span style="color:#f92672">.</span><span style="color:#a6e22e">e</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;--testVidio&#34;</span><span style="color:#f92672">,</span>videoInfo<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        long startTimestamp = System.currentTimeMillis();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> startTimestamp <span style="color:#f92672">=</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        if (frameRate &gt; 25) {
-</span></span><span style="display:flex;"><span>            frameRate = 20;
-</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>frameRate <span style="color:#f92672">&gt;</span> 25<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            frameRate <span style="color:#f92672">=</span> 20<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        final int tempFrameRate = frameRate;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> tempFrameRate <span style="color:#f92672">=</span> frameRate<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        sharedExecutor.execute(new Runnable() {
-</span></span><span style="display:flex;"><span>            @Override
-</span></span><span style="display:flex;"><span>            public void run() {
-</span></span><span style="display:flex;"><span>                try {
+</span></span><span style="display:flex;"><span>        sharedExecutor<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                    VideoProcessor.processor(getApplicationContext())
-</span></span><span style="display:flex;"><span>                            .input(sourcePath)
-</span></span><span style="display:flex;"><span>                            .output(resFilePath)
-</span></span><span style="display:flex;"><span>                            .frameRate(tempFrameRate)
-</span></span><span style="display:flex;"><span>                            .progressListener(new VideoProgressListener() {
-</span></span><span style="display:flex;"><span>                                @Override
-</span></span><span style="display:flex;"><span>                                public void onProgress(float progress) {
-</span></span><span style="display:flex;"><span>                                    int intProgress = (int) (progress * 100);
-</span></span><span style="display:flex;"><span>                                    Log.e(&#34;-VideoProcessor:&#34;, String.valueOf(intProgress));
+</span></span><span style="display:flex;"><span>                    VideoProcessor<span style="color:#f92672">.</span><span style="color:#a6e22e">processor</span><span style="color:#f92672">(</span>getApplicationContext<span style="color:#f92672">())</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">.</span><span style="color:#a6e22e">input</span><span style="color:#f92672">(</span>sourcePath<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">.</span><span style="color:#a6e22e">output</span><span style="color:#f92672">(</span>resFilePath<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">.</span><span style="color:#a6e22e">frameRate</span><span style="color:#f92672">(</span>tempFrameRate<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">.</span><span style="color:#a6e22e">progressListener</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> VideoProgressListener<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onProgress</span><span style="color:#f92672">(</span><span style="color:#66d9ef">float</span> progress<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#66d9ef">int</span> intProgress <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>progress <span style="color:#f92672">*</span> 100<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                                    Log<span style="color:#f92672">.</span><span style="color:#a6e22e">e</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-VideoProcessor:&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>intProgress<span style="color:#f92672">));</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                                    uiAction(new Runnable() {
-</span></span><span style="display:flex;"><span>                                        @Override
-</span></span><span style="display:flex;"><span>                                        public void run() {
-</span></span><span style="display:flex;"><span>                                            tv_count.setText(fileName + &#34;压缩进度:&#34;+ intProgress + &#34;%&#34; );
-</span></span><span style="display:flex;"><span>                                        }
-</span></span><span style="display:flex;"><span>                                    });
+</span></span><span style="display:flex;"><span>                                    uiAction<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                                            tv_count<span style="color:#f92672">.</span><span style="color:#a6e22e">setText</span><span style="color:#f92672">(</span>fileName <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;压缩进度:&#34;</span><span style="color:#f92672">+</span> intProgress <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;%&#34;</span> <span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#f92672">});</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                                    if (intProgress &gt;=100) {
+</span></span><span style="display:flex;"><span>                                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>intProgress <span style="color:#f92672">&gt;=</span>100<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                                        long curTime = System.currentTimeMillis();
-</span></span><span style="display:flex;"><span>                                        long deltaTime = curTime - startTimestamp;
+</span></span><span style="display:flex;"><span>                                        <span style="color:#66d9ef">long</span> curTime <span style="color:#f92672">=</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#66d9ef">long</span> deltaTime <span style="color:#f92672">=</span> curTime <span style="color:#f92672">-</span> startTimestamp<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                                        String res = fileName + &#34;压缩耗时为:&#34; + deltaTime + &#34;ms&#34;;
-</span></span><span style="display:flex;"><span>                                        Log.e(&#34;-VideoProcessor:&#34;, res);
+</span></span><span style="display:flex;"><span>                                        String res <span style="color:#f92672">=</span> fileName <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;压缩耗时为:&#34;</span> <span style="color:#f92672">+</span> deltaTime <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;ms&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                                        Log<span style="color:#f92672">.</span><span style="color:#a6e22e">e</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-VideoProcessor:&#34;</span><span style="color:#f92672">,</span> res<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                                    }
-</span></span><span style="display:flex;"><span>                                }
-</span></span><span style="display:flex;"><span>                            }).process();
+</span></span><span style="display:flex;"><span>                                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">}).</span><span style="color:#a6e22e">process</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                } catch (Exception e) {
-</span></span><span style="display:flex;"><span>                    e.printStackTrace();
-</span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        });
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="四720p压缩">四.720P压缩</h2>
@@ -608,46 +608,46 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    void compressVideo(File file) {
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Java" data-lang="Java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">compressVideo</span><span style="color:#f92672">(</span>File file<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        String sourcePath = file.getPath();
-</span></span><span style="display:flex;"><span>        String fileName = file.getName();
-</span></span><span style="display:flex;"><span>        String resFilePath = w_h_FilePath + fileName;
+</span></span><span style="display:flex;"><span>        String sourcePath <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span><span style="color:#a6e22e">getPath</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        String fileName <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        String resFilePath <span style="color:#f92672">=</span> w_h_FilePath <span style="color:#f92672">+</span> fileName<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        long startTimestamp = System.currentTimeMillis();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> startTimestamp <span style="color:#f92672">=</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        sharedExecutor.execute(new Runnable() {
-</span></span><span style="display:flex;"><span>            @Override
-</span></span><span style="display:flex;"><span>            public void run() {
-</span></span><span style="display:flex;"><span>                try {
-</span></span><span style="display:flex;"><span>                    VideoProcessor.processor(getApplicationContext())
-</span></span><span style="display:flex;"><span>                            .input(sourcePath)
-</span></span><span style="display:flex;"><span>                            .output(resFilePath)
-</span></span><span style="display:flex;"><span>                            .outWidth(1280).outHeight(720)
-</span></span><span style="display:flex;"><span>                            .progressListener(new VideoProgressListener() {
-</span></span><span style="display:flex;"><span>                                @Override
-</span></span><span style="display:flex;"><span>                                public void onProgress(float progress) {
-</span></span><span style="display:flex;"><span>                                    int intProgress = (int) (progress * 100);
-</span></span><span style="display:flex;"><span>                                    Log.e(&#34;-VideoProcessor:&#34;, String.valueOf(intProgress));
+</span></span><span style="display:flex;"><span>        sharedExecutor<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    VideoProcessor<span style="color:#f92672">.</span><span style="color:#a6e22e">processor</span><span style="color:#f92672">(</span>getApplicationContext<span style="color:#f92672">())</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">.</span><span style="color:#a6e22e">input</span><span style="color:#f92672">(</span>sourcePath<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">.</span><span style="color:#a6e22e">output</span><span style="color:#f92672">(</span>resFilePath<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">.</span><span style="color:#a6e22e">outWidth</span><span style="color:#f92672">(</span>1280<span style="color:#f92672">).</span><span style="color:#a6e22e">outHeight</span><span style="color:#f92672">(</span>720<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">.</span><span style="color:#a6e22e">progressListener</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> VideoProgressListener<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onProgress</span><span style="color:#f92672">(</span><span style="color:#66d9ef">float</span> progress<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#66d9ef">int</span> intProgress <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>progress <span style="color:#f92672">*</span> 100<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                                    Log<span style="color:#f92672">.</span><span style="color:#a6e22e">e</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-VideoProcessor:&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>intProgress<span style="color:#f92672">));</span>
 </span></span><span style="display:flex;"><span>                                    
-</span></span><span style="display:flex;"><span>                                    if (intProgress &gt;=100) {
+</span></span><span style="display:flex;"><span>                                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>intProgress <span style="color:#f92672">&gt;=</span>100<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                                        long curTime = System.currentTimeMillis();
-</span></span><span style="display:flex;"><span>                                        long deltaTime = curTime - startTimestamp;
+</span></span><span style="display:flex;"><span>                                        <span style="color:#66d9ef">long</span> curTime <span style="color:#f92672">=</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                                        <span style="color:#66d9ef">long</span> deltaTime <span style="color:#f92672">=</span> curTime <span style="color:#f92672">-</span> startTimestamp<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                                        String res = fileName + &#34;压缩耗时为:&#34; + deltaTime + &#34;ms&#34;;
-</span></span><span style="display:flex;"><span>                                        Log.e(&#34;-VideoProcessor:&#34;, res);
-</span></span><span style="display:flex;"><span>                                    }
-</span></span><span style="display:flex;"><span>                                }
-</span></span><span style="display:flex;"><span>                            }).process();
+</span></span><span style="display:flex;"><span>                                        String res <span style="color:#f92672">=</span> fileName <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;压缩耗时为:&#34;</span> <span style="color:#f92672">+</span> deltaTime <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;ms&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                                        Log<span style="color:#f92672">.</span><span style="color:#a6e22e">e</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-VideoProcessor:&#34;</span><span style="color:#f92672">,</span> res<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">}).</span><span style="color:#a6e22e">process</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                } catch (Exception e) {
-</span></span><span style="display:flex;"><span>                    e.printStackTrace();
-</span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        });
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="五视频文件转码为h265">五.视频文件转码为H265</h2>
@@ -698,7 +698,7 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>boolean isHEVCSupported = CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HEVC);
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Java" data-lang="Java"><span style="display:flex;"><span><span style="color:#66d9ef">boolean</span> isHEVCSupported <span style="color:#f92672">=</span> CamcorderProfile<span style="color:#f92672">.</span><span style="color:#a6e22e">hasProfile</span><span style="color:#f92672">(</span>CamcorderProfile<span style="color:#f92672">.</span><span style="color:#a6e22e">QUALITY_HEVC</span><span style="color:#f92672">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="2配置-mediarecorder">2.配置 MediaRecorder</h4>
@@ -708,7 +708,7 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.HEVC);
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Java" data-lang="Java"><span style="display:flex;"><span>mediaRecorder<span style="color:#f92672">.</span><span style="color:#a6e22e">setVideoEncoder</span><span style="color:#f92672">(</span>MediaRecorder<span style="color:#f92672">.</span><span style="color:#a6e22e">VideoEncoder</span><span style="color:#f92672">.</span><span style="color:#a6e22e">HEVC</span><span style="color:#f92672">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="3配置camcorderprofile类">3.配置CamcorderProfile类</h4>
@@ -719,8 +719,8 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>CamcorderProfile camcorderProfile = CamcorderProfile.get(cameCamcorderProfile.QUALITY_HIGH);
-</span></span><span style="display:flex;"><span>camcorderProfile.videoCodec = MediaRecorder.VideoEncoder.HEVC;
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Java" data-lang="Java"><span style="display:flex;"><span>CamcorderProfile camcorderProfile <span style="color:#f92672">=</span> CamcorderProfile<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>cameCamcorderProfile<span style="color:#f92672">.</span><span style="color:#a6e22e">QUALITY_HIGH</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>camcorderProfile<span style="color:#f92672">.</span><span style="color:#a6e22e">videoCodec</span> <span style="color:#f92672">=</span> MediaRecorder<span style="color:#f92672">.</span><span style="color:#a6e22e">VideoEncoder</span><span style="color:#f92672">.</span><span style="color:#a6e22e">HEVC</span><span style="color:#f92672">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="4android系统关于h265支持情况">4.Android系统关于H.265支持情况</h4>
@@ -1207,7 +1207,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.344f6007d8de1e3e7d9bc6f6e14ec3020ebbbb492b473c7c3c4bfc968948cc14.js" integrity="sha256-NE9gB9jeHj59m8b24U7DAg67u0krRzx8PEv8lolIzBQ=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/main.0fc196ae409ebd93c1dc40bf6e2ee9c3028bbcff6df2d1cf9bd86aaaf3ea70b0.js" integrity="sha256-D8GWrkCevZPB3EC/bi7pwwKLvP9t8tHPm9hqqvPqcLA=" crossorigin="anonymous"></script>
 
 
 
