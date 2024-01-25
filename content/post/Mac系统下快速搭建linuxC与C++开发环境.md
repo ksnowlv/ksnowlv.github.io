@@ -42,7 +42,7 @@ RUN apt update && apt install -y cmake g++ gdb
 
 启动docker，打开终端后，切换到dockerfile所在的目录，制作镜像。
 
-```terminal
+```shell
 ksnowlv@MacBook-Pro-3 docker % docker build -t linux/cmake:1.0 .
 [+] Building 100.9s (6/6) FINISHED                                                                                            docker:desktop-linux
  => [internal] load .dockerignore                                                                                                             0.0s

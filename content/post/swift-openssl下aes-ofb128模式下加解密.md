@@ -154,7 +154,7 @@ AES OFB（Output Feedback）模式是一种基于反馈的密码模式，它将 
 
 ### 3.执行情况
 
-```terminal
+```shell
 ---AES test OFB---
 Generated Key: [156, 128, 85, 45, 109, 126, 221, 53, 67, 104, 129, 204, 168, 219, 70, 153],
  key len:16

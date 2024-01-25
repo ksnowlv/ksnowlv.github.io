@@ -164,7 +164,7 @@ func decryptedDataWithCFB1(_ key: [UInt8], _ iv: [UInt8], _ data: Data) -> Data?
 
 ### 4.执行情况
 
-```terminal
+```shell
 ---AES testCFB1---
 Generated Key: [104, 247, 101, 146, 249, 6, 239, 133, 109, 115, 7, 13, 137, 243, 27, 4],
  key len:16

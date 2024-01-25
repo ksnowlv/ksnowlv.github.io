@@ -22,20 +22,20 @@ mathjax: false
 
 RUSTUP_DIST_SERVER （用于更新 toolchain）：
 
-```terminal
+```shell
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 
 ```
 
 RUSTUP_UPDATE_ROOT （用于更新 rustup）：
 
-```terminal
+```shell
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 ```
 
 ### 2 下载安装脚本
 
-```terminal
+```shell
 ksnowlv@MacBook-Pro-3 rustdemo % curl -O https://cdn.jsdelivr.net/gh/rust-lang-nursery/rustup.rs/rustup-init.sh
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -48,7 +48,7 @@ rustup-init.sh
 
 rustup-init.sh安装脚本下载成功
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro hello % curl -O https://cdn.jsdelivr.net/gh/rust-lang-nursery/rustup.rs/rustup-init.sh
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -61,14 +61,14 @@ curl: (35) Recv failure: Connection reset by peer
 
 #### 如果是x86_64架构，可以使用
 
-```terminal
+```shell
 curl -O https://static.rust-lang.org/rustup/dist/x86_64-apple-darwin/rustup-init
 
 ```
 
 #### 如果是ARM架构，可以使用
 
-```terminal
+```shell
 curl -O https://static.rust-lang.org/rustup/dist/aarch64-apple-darwin/rustup-init
 
 ```
@@ -78,7 +78,7 @@ curl -O https://static.rust-lang.org/rustup/dist/aarch64-apple-darwin/rustup-ini
 
 #### 如果是x86_64架构下
 
-```terminal
+```shell
 ksnowlv@MacBook-Pro-3 rustdemo % chmod 777 rustup-init.sh 
 ksnowlv@MacBook-Pro-3 rustdemo % sh rustup-init.sh        
 info: downloading installer
@@ -173,7 +173,7 @@ ksnowlv@MacBook-Pro-3 rustdemo %
 ```
 
 如果是arm64架构下
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro hello % curl -O https://static.rust-lang.org/rustup/dist/aarch64-apple-darwin/rustup-init
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -285,7 +285,7 @@ rust 安装后，会在home目录创建 .cargo/env，为了以后都从国内镜
 ![image](/images/post/mac-rust环境搭建/env_set.png)
 
 
-```terminal
+```shell
 ksnowlv@MacBook-Pro-3 rustdemo % source "$HOME/.cargo/env"
 
 ksnowlv@MacBook-Pro-3 rustdemo %  cargo --version         

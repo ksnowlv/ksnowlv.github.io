@@ -91,7 +91,7 @@ mathjax: false
 
 
 
-```terminal
+```shell
 
 ---producer--- start
 ---consumer--- start

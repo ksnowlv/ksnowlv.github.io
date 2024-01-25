@@ -21,7 +21,7 @@ mathjax: false
 
 ### 1.confluent-kafka的安装
 
-```terminal
+```shell
  pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ --upgrade confluent-kafka 
 Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple/
 Collecting confluent-kafka
@@ -135,7 +135,7 @@ def consume_messages(topic: str):
 ```
 
 ### 6.执行效果
-```terminal
+```shell
 2023-11-27 19:59:15.499 | INFO     | app.core.xlogger:dispatch:30 - Request: GET http://127.0.0.1:8081/kafka/consume_messages/age Headers({'host': '127.0.0.1:8081', 'sec-fetch-site': 'same-origin', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'sec-fetch-mode': 'cors', 'accept': 'application/json', 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15', 'referer': 'http://127.0.0.1:8081/docs', 'sec-fetch-dest': 'empty', 'accept-language': 'zh-CN,zh-Hans;q=0.9'})
 2023-11-27 19:59:15.502 | DEBUG    | app.core.xlogger:dispatch:33 - Request query_params: {}
 msg = None

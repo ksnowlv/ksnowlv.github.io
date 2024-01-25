@@ -22,7 +22,7 @@ mathjax: false
 
 在[https://github.com/conda-forge/miniforge](https://github.com/conda-forge/miniforge)下载arm64 (Apple Silicon) 版本的**miniforge**，下载完成后，在终端通过sh命令安装；按提示进行安装即可。
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro Downloads % sh Miniforge3-MacOSX-arm64.sh
 
 Welcome to Miniforge3 23.3.1-0
@@ -469,19 +469,19 @@ Thank you for installing Miniforge3!
 
 命令如下：
 
-```terminal
+```shell
 conda create -n 虚拟环境名称 python=版本号
 ```
 
 我机器上python版本为3.11.5，示例
 
-```terminal
+```shell
  conda create -n ksnowlv_tensorflow python=3.11 
 ```
 
 执行情况：
 
-```terminal
+```shell
  lvwei@lvweideMacBook-Pro ~ % conda create -n ksnowlv_tensorflow python=3.11.5
 Collecting package metadata (current_repodata.json): done
 Solving environment: done
@@ -563,19 +563,19 @@ Executing transaction: done
 
 * 命令格式
 
-```terminal
+```shell
 conda activate 虚拟环境名
 ```
 
 * 示例
 
-```terminal
+```shell
  conda activate ksnowlv_tensorflow
 ```
 
 * 执行情况：
 
-```terminal
+```shell
 (ksnowlv_tensorflow) lvwei@lvweideMacBook-Pro ~ % conda activate ksnowlv_tensorflow 
 ```
 
@@ -586,13 +586,13 @@ conda activate 虚拟环境名
 考虑到下载速度，使用国内清华的镜像https://pypi.tuna.tsinghua.edu.cn/simple/
 
 * 示例
-```terminal
+```shell
 arch -arm64 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ --upgrade tensorflow 
 ```
 
 * 执行情况
 
-```terminal
+```shell
 (ksnowlv_tensorflow) lvwei@lvweideMacBook-Pro ~ % arch -arm64 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ --upgrade tensorflow      
 Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple/
 Collecting tensorflow
@@ -682,7 +682,7 @@ Successfully installed MarkupSafe-2.1.3 absl-py-1.4.0 astunparse-1.6.3 cachetool
 
 可参考[https://developer.apple.com/metal/tensorflow-plugin/](https://developer.apple.com/metal/tensorflow-plugin/)
 
-```terminal
+```shell
 (ksnowlv_tensorflow) lvwei@lvweideMacBook-Pro ~ % arch -arm64 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ --upgrade tensorflow-metal
 Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple/
 Collecting tensorflow-metal
@@ -698,7 +698,7 @@ Successfully installed tensorflow-metal-1.0.1
 * 命令示例
   arch -arm64 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ --upgrade tensorflow_datasets
 
-```terminal
+```shell
 (ksnowlv_tensorflow) lvwei@lvweideMacBook-Pro ~ % arch -arm64 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ --upgrade tensorflow_datasets
 Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple/
 Collecting tensorflow_datasets
@@ -1030,7 +1030,7 @@ Executing transaction: done
 ## 7.终端测试tensorflow是否安装成功
 
 
-```terminal
+```shell
 (ksnowlv_tensorflow) lvwei@lvweideMacBook-Pro ~ % python3
 Python 3.11.5 | packaged by conda-forge | (main, Aug 27 2023, 03:33:12) [Clang 15.0.7 ] on darwin
 Type "help", "copyright", "credits" or "license" for more information.
@@ -1048,7 +1048,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 使用 **which python3**查看python3安装位置
 
-```terminal
+```shell
 (ksnowlv_tensorflow) lvwei@lvweideMacBook-Pro ~ % which python3    
 /Users/lvwei/miniforge3/envs/ksnowlv_tensorflow/bin/python3
 
@@ -1090,7 +1090,7 @@ if __name__ == '__main__':
 
 #### 测试结果
 
-```terminal
+```shell
 TensorFlow version: 2.13.0
 Num GPUs Available:  1
 Downloading data from https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz

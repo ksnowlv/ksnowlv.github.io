@@ -20,7 +20,7 @@ mathjax: false
 
 ### 1.fastapi安装
 
-```terminal
+```shell
  pip3 install fastapi 
 Collecting fastapi
   Obtaining dependency information for fastapi from https://files.pythonhosted.org/packages/4d/d2/3ad038a2365fefbac19d9a046cab7ce45f4c7bfa81d877cbece9707de9ce/fastapi-0.103.2-py3-none-any.whl.metadata
@@ -34,7 +34,7 @@ Collecting anyio<4.0.0,>=3.7.1 (from fastapi)
 
 ### 2.安装uvicorn
 
-```terminal
+```shell
  
 (venv) (base) lvwei@lvweideMacBook-Pro fastapitest % pip3 install "uvicorn[standard]"
 WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='pypi.org', port=443): Read timed out. (read timeout=15)")': /simple/uvicorn/
@@ -78,7 +78,7 @@ async def read_item(item_id: int, q: Union[str, None] = None):
 
 测试情况
 
-```terminal
+```shell
 (venv) (base) lvwei@lvweideMacBook-Pro fastapitest % uvicorn main:app --reload      
 INFO:     Will watch for changes in these directories: ['/Users/lvwei/Documents/python_projects/fastapitest']
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)

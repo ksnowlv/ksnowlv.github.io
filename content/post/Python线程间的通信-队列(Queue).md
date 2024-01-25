@@ -183,7 +183,7 @@ mathjax: false
 ### 5.执行情况
 
 
-```terminal
+```shell
 
 ---queue---
 ---work---item:0

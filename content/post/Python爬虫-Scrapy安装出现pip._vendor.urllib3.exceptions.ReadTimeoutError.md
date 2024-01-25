@@ -20,7 +20,7 @@ mathjax: false
 
 在Mac上安装Scrapy时出现“ReadTimeoutError”时，如何解决呢？
 
-```terminal
+```shell
 
   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 443, in _error_catcher
     raise ReadTimeoutError(self._pool, None, "Read timed out.")
@@ -37,6 +37,6 @@ pip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files
 ### 使用pip --default-timeout=1000 install -U 模块名 修改超时时间
 
 
-```terminal
+```shell
 pip --default-timeout=1000 install -U 模块名
 

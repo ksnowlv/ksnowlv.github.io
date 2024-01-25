@@ -34,7 +34,7 @@ mathjax: false
 
 可使用**ffprobe -version**命令查看
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro 1 % ffprobe -version
 ffprobe version 6.0 Copyright (c) 2007-2023 the FFmpeg developers
 built with Apple clang version 14.0.3 (clang-1403.0.22.14.1)
@@ -54,7 +54,7 @@ libpostproc    57.  1.100 / 57.  1.100
 
 需要安装的依赖比较多，等待时间会较长；如果安装失败，多试几次即可
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro 1 % arch -arm64 brew install ffmpeg
 ==> Downloading https://formulae.brew.sh/api/formula.jws.json
 ############################################################################################################################################### 100.0%

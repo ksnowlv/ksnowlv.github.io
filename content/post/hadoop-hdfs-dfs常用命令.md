@@ -34,7 +34,7 @@ mathjax: false
 
 说明：在指定路径下创建新的目录。
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro sbin % hdfs dfs -mkdir /user/lvwei   
 2023-12-04 17:54:04,591 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 mkdir: `hdfs://127.0.0.1:9000/user': No such file or directory
@@ -52,7 +52,7 @@ mkdir: `hdfs://127.0.0.1:9000/user': No such file or directory
 
 说明：将本地文件上传到HDFS指定目录。也可以用-copyFromLocal参数。
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro sbin % hdfs dfs -put /Users/lvwei/Documents/123.png /user/lvwei    
 2023-12-05 10:23:03,958 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 (base) lvwei@lvweideMacBook-Pro sbin % hdfs dfs -ls /user/lvwei                                
@@ -76,7 +76,7 @@ Found 2 items
 
 说明：将HDFS中的文件下载到本地文件系统。也可以用-copyToLocal参数。
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro sbin % hdfs dfs -get /user/lvwei/123.png  /Users/lvwei/Pictures/123.png
 2023-12-05 16:25:41,871 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 
@@ -92,7 +92,7 @@ Found 2 items
 
 说明：将HDFS中的文件移动到指定目录。
 
-```terminal
+```shell
 base) lvwei@lvweideMacBook-Pro sbin % hdfs dfs -cp /user/lvwei/1.zip /user/lvwei/uploadfile/1.zip
 2023-12-05 16:27:03,496 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 ```
@@ -103,7 +103,7 @@ base) lvwei@lvweideMacBook-Pro sbin % hdfs dfs -cp /user/lvwei/1.zip /user/lvwei
 
 说明：用于删除HDFS中的文件或目录。-r选项用于递归删除整个目录。
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro sbin % hdfs dfs -ls /user/lvwei/uploadfile
 2023-12-05 16:46:46,388 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 Found 1 items
@@ -120,7 +120,7 @@ Deleted /user/lvwei/uploadfile/1.zip
 
 说明：用于查看HDFS中文件的内容。
 
-```terminal
+```shell
 base) lvwei@lvweideMacBook-Pro sbin % % hdfs dfs -cat /user/lvwei/uploadfile/1.zip 
 2023-12-05 16:27:03,496 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 ```

@@ -28,7 +28,7 @@ mathjax: false
 使用macdeployqt命令生成应用需要的支持类
 ![image](/images/post/Qt应用程序打包/qt_dir.png)
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro build-QAnimationTest-Qt_6_6_1_for_macOS-Release % /Users/lvwei/Qt/6.6.1/macos/bin/macdeployqt QAnimationTest.app
 File exists, skip copy: "QAnimationTest.app/Contents/PlugIns/platforms/libqcocoa.dylib"
 File exists, skip copy: "QAnimationTest.app/Contents/PlugIns/styles/libqmacstyle.dylib"

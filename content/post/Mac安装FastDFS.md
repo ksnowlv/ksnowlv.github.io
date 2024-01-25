@@ -29,7 +29,7 @@ mathjax: false
 
 执行make.sh脚本，然后使用sudo ./make.sh install命令进行安装
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro fastdfs % cd libfastcommon-master/ 
 (base) lvwei@lvweideMacBook-Pro libfastcommon-master % ls
 HISTORY			LICENSE			debian			libfastcommon.spec	php-fastcommon

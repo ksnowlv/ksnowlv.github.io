@@ -117,7 +117,7 @@ class ThreadPoolTest(object):
 
 ### 7.执行情况
 
-```terminal
+```shell
 ---提交单个任务---
 thread id = 13006442496, task_name:single task
 single task

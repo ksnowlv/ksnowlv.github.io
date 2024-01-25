@@ -102,7 +102,7 @@ reward: true
 ```
 
 ### 5.执行情况
-```terminal
+```shell
 producer is working!!!
 consumer is working!!!
 producer is working!!!

@@ -20,18 +20,18 @@ mathjax: false
 
 ### 1.Mac安装OpenSSL
 
-```terminal
+```shell
 brew install openssl
 ```
 ### 2.生成 ECDHE 密钥对
 
-```terminal
+```shell
 openssl ecparam -name prime256v1 -genkey -noout -out private_key.pem
 ```
 终端命令将生成一个 prime256v1（也称为 P-256）曲线的 ECDHE 私钥，并将私钥保存到 private_key.pem 文件中。
 
 ### 3.导出公钥
-```terminal
+```shell
 openssl ec -in private_key.pem -pubout -out public_key.pem
 ```
 
@@ -156,7 +156,7 @@ openssl ec -in private_key.pem -pubout -out public_key.pem
 
 ### 7.执行情况
 
-```terminal
+```shell
 Shared Secret: 32 bytes
 ---helloWorld :Hello World!
 ---encryptedData :Optional(40 bytes)

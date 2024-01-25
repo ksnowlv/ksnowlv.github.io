@@ -23,7 +23,7 @@ Wireshark默认进行http，TCP，DNS等数据截包，如何进行https截包�
 
 ### 1.启动Wireshark
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro wireshark_log % sudo wireshark
 Password:
  ** (wireshark:10663) 16:23:45.621380 [GUI WARNING] -- Populating font family aliases took 219 ms. Replace uses of missing font family "SF Mono" with one that exists to avoid this cost. 
@@ -47,12 +47,12 @@ Password:
 
 示例如下
 
-```terminal
+```shell
 sudo /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --ssl-key-log-file=/Users/lvwei/Documents/wireshark_log/log.log
 ```
 
 详细情况
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro wireshark % sudo /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --ssl-key-log-file=/Users/lvwei/Documents/wireshark_log/log.log
 
 Password:

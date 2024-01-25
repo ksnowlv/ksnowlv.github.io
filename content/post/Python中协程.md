@@ -36,7 +36,7 @@ async def my_coroutine_test(self):
 
 执行情况
 
-```terminal
+```shell
 my_coroutine_test start
 my_coroutine_test finish
 ```
@@ -64,7 +64,7 @@ my_coroutine_test finish
 
 执行情况
 
-```terminal
+```shell
 task:0
 task:1
 task:2
@@ -101,7 +101,7 @@ task:9
 
 执行情况
 
-```terminal
+```shell
 wait_my_task start
 wait_my_task start
 wait_my_task start
@@ -161,7 +161,7 @@ None
 
 执行情况
 
-```terminal
+```shell
 ---produce coroutine---
 produce:0
 ---consumer coroutine---
@@ -217,7 +217,7 @@ Consumed:9
 ```
 
 执行情况
-```terminal
+```shell
 使用 asyncio.Event 进行通信
 event_test---1
 event event_send---1

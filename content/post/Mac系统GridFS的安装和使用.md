@@ -21,7 +21,7 @@ mathjax: false
 ### 1.安装MongoDB。
 打开终端，并执行以下命令安装 MongoDB：
 
-```terminal
+```shell
 arch -arm64 brew tap mongodb/brew
 arch -arm64 brew install mongodb-community
 
@@ -29,12 +29,12 @@ arch -arm64 brew install mongodb-community
 
 
 ### 2.安装 pymongo 和 gridfs 包
-```terminal
+```shell
 arch -arm64 pip3 install pymongo
 ```
 
 ### 3.启动MongoDB 服务
-```terminal
+```shell
 brew services start mongodb-community
 ```
 

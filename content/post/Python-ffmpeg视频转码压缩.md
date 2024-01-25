@@ -84,7 +84,7 @@ class FfmpegManager(object):
 ```
 
 #### H264转H265视频文件压缩效果
-```terminal
+```shell
 
 python_fps/high 目录下所有文件大小:4367638719, 共4.0676805367693305G
 python_fps/high_codec目录下所有文件大小:1686972766,共1.5711158197373152G

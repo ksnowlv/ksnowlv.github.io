@@ -84,7 +84,7 @@ CMD ["sh", "-c", "echo Hello, World!"]
 制作helloworld镜像，注意Dockerfile与sources.list在同一目录下。
 
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro clion_cpp_demo % docker build -t helloworld .
 [+] Building 4.4s (12/12) FINISHED                                                                            docker:desktop-linux
 => [internal] load .dockerignore                                                                                             0.0s
@@ -130,7 +130,7 @@ View a summary of image vulnerabilities and recommendations → docker scout qui
   * 增加调用堆栈的深度。
 
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro clion_cpp_demo % docker run -it --rm helloworld valgrind --leak-check=full --show-leak-kinds=all /app/HelloWorld
 ==1== Memcheck, a memory error detector
 ==1== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
@@ -335,7 +335,7 @@ int main(int argc, char *argv[])
 
 重新打包并使用valgrind进行内存检查
 
-```terminal
+```shell
 
 lvwei@lvweideMacBook-Pro clion_cpp_demo % docker run -it --rm helloworld valgrind --leak-check=full --show-leak-kinds=all /app/HelloWorld
 ==1== Memcheck, a memory error detector
@@ -702,7 +702,7 @@ lvwei@lvweideMacBook-Pro clion_cpp_demo %
 ```
 上述检查结果直接显示
 
-```terminal
+```shell
 
 ==30== Invalid write of size 4
 ==30==    at 0x15648C: main (main.cpp:15)
@@ -726,7 +726,7 @@ valgrind --tool=callgrind your_program [your_program_arguments]
 * --branch-sim=yes：这个选项让 Callgrind 模拟程序的分支预测。这可以帮助你了解你的程序的分支预测效率，但也会使 Callgrind 运行得更慢
 
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro clion_cpp_demo % docker start mytest                                            
 mytest
 lvwei@lvweideMacBook-Pro clion_cpp_demo % docker exec -it mytest valgrind --tool=callgrind /app/HelloWorld
@@ -765,7 +765,7 @@ KCacheGrind为Linux平台设计的，MacOS下，QCacheGrind是KCacheGrind的MacO
 
 安装qcachegrind
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro clion_cpp_demo % arch -arm64 brew install qcachegrind
 Running `brew update --auto-update`...
 Error: Failed to download https://formulae.brew.sh/api/formula.jws.json!

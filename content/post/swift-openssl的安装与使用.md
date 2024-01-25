@@ -37,7 +37,7 @@ end
 
 ### 2.pod安装
 
-```terminal
+```shell
 pod install
 Analyzing dependencies
 Downloading dependencies
@@ -48,7 +48,7 @@ Pod installation complete! There is 1 dependency from the Podfile and 1 total po
 ```
 ### 3.查看openssl支持的算法库
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro SwiftSecretTest % openssl ciphers -V | column -t
 0x13,0x02  -  TLS_AES_256_GCM_SHA384         TLSv1.3  Kx=any       Au=any    Enc=AESGCM(256)             Mac=AEAD
 0x13,0x03  -  TLS_CHACHA20_POLY1305_SHA256   TLSv1.3  Kx=any       Au=any    Enc=CHACHA20/POLY1305(256)  Mac=AEAD
@@ -253,7 +253,7 @@ func decryptedData(_ key: [UInt8], _ iv: [UInt8], _ data: Data) -> Data? {
 ```
 
 执行情况
-```terminal
+```shell
 Generated Key: [162, 231, 91, 155, 215, 253, 224, 101, 8, 143, 64, 142, 39, 11, 11, 237, 185, 127, 213, 147, 20, 20, 251, 88, 157, 96, 28, 28, 42, 174, 63, 45],
  key len:32
 IV: [246, 239, 34, 73, 154, 100, 89, 195, 192, 52, 55, 235, 125, 80, 111, 165]

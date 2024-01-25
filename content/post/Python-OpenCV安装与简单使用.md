@@ -24,7 +24,7 @@ mathjax: false
 
 使用清华大学的镜像源
 
-```terminal
+```shell
 # 安装cmake
 (venv) lvwei@lvweideMacBook-Pro opencvdemo % pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ --upgrade cmake
 Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple/

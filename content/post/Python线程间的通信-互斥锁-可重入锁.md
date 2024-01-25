@@ -59,7 +59,7 @@ mathjax: false
 
 
 
-```terminal
+```shell
 
 count:10
 count:20

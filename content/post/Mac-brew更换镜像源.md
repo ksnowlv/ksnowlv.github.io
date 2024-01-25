@@ -28,7 +28,7 @@ Homebrew官方源下载包会很慢,所以通常我们都是用国内的镜像�
 
 ### 1.查看 brew.git 当前源
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro homebrew % cd "$(brew --repo homebrew/core)" && git remote -v
 origin	git@github.com:Homebrew/homebrew-core (fetch)
 origin	git@github.com:Homebrew/homebrew-core (push)
@@ -36,7 +36,7 @@ origin	git@github.com:Homebrew/homebrew-core (push)
 
 ### 2.查看 homebrew-core.git 当前源
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro homebrew % cd "$(brew --repo homebrew/core)" && git remote -v
 origin	git@github.com:Homebrew/homebrew-core (fetch)
 origin	git@github.com:Homebrew/homebrew-core (push)
@@ -44,7 +44,7 @@ origin	git@github.com:Homebrew/homebrew-core (push)
 
 ### 3. Homebrew 镜像源切换为中科大镜像源
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro homebrew-core % cd "$(brew --repo)" && git remote set-url origin https://mirrors.ustc.edu.cn/brew.git
 lvwei@lvweideMacBook-Pro homebrew % cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core" && git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-core.git                                                          
 lvwei@lvweideMacBook-Pro homebrew-core % cd "$(brew --repo)/Library/Taps/homebrew/homebrew-cask" && git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-cask.git  
@@ -53,20 +53,20 @@ lvwei@lvweideMacBook-Pro homebrew-core % cd "$(brew --repo)/Library/Taps/homebre
 ### 4.替换homebrew-bottles镜像
 
 在.bash_profile文件中添加
-```terminal
+```shell
 HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 export HOMEBREW_BOTTLE_DOMAIN
 ```
 
 命令行
 
-```terminal
+```shell
 echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles' >> ~/.bash_profile
 ```
 
 ### 5.刷新brew源
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro homebrew-core % brew update
 Installing from the API is now the default behaviour!
 You can save space and time by running:
@@ -89,7 +89,7 @@ or list them with brew outdated.
 
 ### 6.执行情况
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro ~ % cd "$(brew --repo)" && git remote -v
 origin	git@github.com:Homebrew/brew.git (fetch)
 origin	git@github.com:Homebrew/brew.git (push)

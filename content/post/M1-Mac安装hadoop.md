@@ -29,7 +29,7 @@ mathjax: false
 
 安装完成后，使用java -version验证下版本。如果多个版本，使用/usr/libexec/java_home -V显示所有已安装的版本
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro ~ % java -version
 openjdk version "1.8.0_382"
 OpenJDK Runtime Environment Corretto-8.382.05.1 (build 1.8.0_382-b05)
@@ -48,7 +48,7 @@ Matching Java Virtual Machines (3):
 
 打开.bash_profile文件，配置java_home环境变量
 
-```terminal
+```shell
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home
 export PATH=$JAVA_HOME/bin:$PATH:.
 export CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.
@@ -56,7 +56,7 @@ export CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.
 
 重启终端, 通过echo $JAVA_HOME显示java位置
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro ~ % echo $JAVA_HOME
 /Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home
 ```
@@ -74,7 +74,7 @@ export CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.
 
 打开终端，依次输入各命令进行验证
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro ~ % 
 ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 Generating public/private rsa key pair.
@@ -216,7 +216,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home
 
 ### 5.hadoop hdfs格式化
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro bin % ./hdfs namenode -format
 WARNING: /Users/lvwei/hadoop-3.3.6//logs does not exist. Creating.
 2023-12-01 16:27:05,991 INFO namenode.NameNode: STARTUP_MSG: 
@@ -311,7 +311,7 @@ SHUTDOWN_MSG: Shutting down NameNode at lvweideMacBook-Pro.local/127.0.0.1 表�
 ### 6.hadoop启动
 
 打开终端，切换到hadoop-3.3.6/sbin目录,启动hadoop服务
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro sbin % start-all.sh
 WARNING: Attempting to start all Apache Hadoop daemons as lvwei in 10 seconds.
 WARNING: This is not a recommended production deployment configuration.

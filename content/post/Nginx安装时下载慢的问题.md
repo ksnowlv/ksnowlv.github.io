@@ -26,7 +26,7 @@ export HOMEBREW_NO_INSTALL_FROM_API=1
 
 ## 三.执行情况
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro scrapydemo % arch -arm64 brew install nginx
 Running `brew update --auto-update`...
 ==> Auto-updated Homebrew!

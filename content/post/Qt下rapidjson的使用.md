@@ -328,7 +328,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 ### 5.执行
 
-```terminal
+```shell
 11:29:45: Starting /Users/lvwei/Pictures/qtdemo/build-QTNetwork-Qt_6_6_1_for_macOS-Debug/QTNetwork.app/Contents/MacOS/QTNetwork...
 0x16eecaaa8
 0x16eecaaa8

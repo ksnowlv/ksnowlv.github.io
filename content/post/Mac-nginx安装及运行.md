@@ -20,26 +20,26 @@ Mac arm64设备安装nginx
 
 ### 1.安装nginx
 
-```terminal
+```shell
 arch -arm64 brew install nginx
 ```
 
 ### 2.启动nginx
 
-```terminal
+```shell
 brew services start nginx
 ```
 
 ### 3.停止nginx
 
-```terminal
+```shell
 brew services stop nginx
 ```
 
 
 ### 4.执行情况
 
-```terminal
+```shell
 
 lvwei@lvweideMacBook-Pro scrapydemo % arch -arm64 brew install nginx
 Running `brew update --auto-update`...

@@ -17,7 +17,7 @@ reward: true
 
 ## 一.安装pyinstaller
 
-```terminal
+```shell
 pip install pyinstaller
 
 ```
@@ -26,7 +26,7 @@ pip install pyinstaller
 
 在终端中，切换到您的 Python 应用程序所在的目录，然后使用以下命令将其打包为可执行文件；
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro queue_test % pyinstaller __main__.py 
 431 INFO: PyInstaller: 5.6.2
 431 INFO: Python: 3.11.0
@@ -149,7 +149,7 @@ app = BUNDLE(
 
 ## 四.使用pkgbuild打包生成安装文件
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro queue_test % pkgbuild --identifier com.queue_test.app --version 1.0 --root ./dist/ --install-location /Applications YourApp.pkg
 pkgbuild: Inferring bundle components from contents of ./dist/
 pkgbuild: Wrote package to YourApp.pkg

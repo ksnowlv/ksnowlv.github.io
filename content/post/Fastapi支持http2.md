@@ -24,7 +24,7 @@ Hypercorn是支持http2的，如何使用fastapi和Hypercorn开启http2呢？
 
 ### 1.Hypercorn安装
 
-```terminal
+```shell
  pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ --upgrade hypercorn
 Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple/
 Collecting hypercorn
@@ -75,7 +75,7 @@ req：表示使用 OpenSSL 的证书请求子命令
 
 -nodes：表示不加密私钥，生成的私钥文件无密码保护
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro Documents % mkdir cerfile
 (base) lvwei@lvweideMacBook-Pro Documents % cd cerfile 
 (base) lvwei@lvweideMacBook-Pro cerfile % openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 730 -nodes

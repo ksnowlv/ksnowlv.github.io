@@ -349,7 +349,7 @@ void MyObject::callNativeMethod(const QString &message)
 
 ![image](/images/post/Qt中QWebEngineView下C++与JS互调/qt_result.png)
 
-```terminal
+```shell
 
 15:46:54: Starting /Users/lvwei/Documents/qtprojects/build-QtWebViewTest-Qt_6_6_1_for_macOS-Debug/QtWebViewTest.app/Contents/MacOS/QtWebViewTest...
 doh set to ""  --  SystemOnly

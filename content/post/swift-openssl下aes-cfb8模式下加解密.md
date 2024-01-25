@@ -166,7 +166,7 @@ func testCFB8() {
 
 ### 4.执行情况
 
-```terminal
+```shell
 ---AES testCFB8---
 Generated Key: [30, 249, 172, 111, 96, 217, 206, 190, 45, 33, 115, 28, 167, 127, 7, 168],
  key len:16

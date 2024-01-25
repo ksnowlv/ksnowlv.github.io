@@ -20,7 +20,7 @@ mathjax: false
 
 ### 1.问题
 
-```terminal
+```shell
 lvwei@lvweideMacBook-Pro clion_cpp_demo % docker build -t helloworld .
 [+] Building 64.9s (5/10)                                                                                     docker:desktop-linux
  => [internal] load build definition from Dockerfile                                                                          0.0s

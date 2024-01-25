@@ -27,7 +27,7 @@ mathjax: false
 
 本文linux环境：MacOS上使用docker安装ubuntu:20.04版本
 
- ```terminal
+ ```shell
  (base) lvwei@lvweideMacBook-Pro rustdemo % docker pull ubuntu:20.04
 20.04: Pulling from library/ubuntu
 dae58cbd668a: Pull complete 
@@ -74,7 +74,7 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 ### 2.iostat(中央处理器统计信息)
 
 安装sysstat包，
-```terminal
+```shell
 root@74423150804c:/# apt install sysstat
 Reading package lists... Done
 Building dependency tree       
@@ -159,7 +159,7 @@ dstat -t -s 5 10 在此示例中，-t 参数用于显示时间戳，-s 参数指
 dstat -cdlmn --output data.csv 在此示例中，-cdlmn 参数用于指定需要统计的内容，--output 参数指定输出到 CSV 文件 data.csv。
 
 
-```terminal
+```shell
 
 root@74423150804c:/# apt install dstat
 Reading package lists... Done
@@ -214,7 +214,7 @@ usr sys idl wai stl| read  writ| recv  send|  in   out | int   csw
 根据这些数据，您可以了解到系统的 CPU 使用情况、磁盘和网络的读写量、分页和系统处理的中断和上下文切换次数。这些统计数据可以帮助您分析系统的性能瓶颈和负载情况。请注意，输出中的数据是实时更新的，每行代表一个间隔时间的统计。
 
 
-```terminal
+```shell
 
 # 显示系统负载情况
 root@74423150804c:/# dstat -l
@@ -276,7 +276,7 @@ pidstat -n
 * 显示指定进程的网络统计信息（以进程ID为例，您需要将<pid>替换为实际的进程ID）：
 pidstat -p <pid> -n
 
-```terminal
+```shell
 
 root@74423150804c:/# pidstat
 Linux 6.4.16-linuxkit (74423150804c) 	12/12/23 	_aarch64_	(8 CPU)
@@ -373,7 +373,7 @@ Linux 6.4.16-linuxkit (74423150804c) 	12/12/23 	_aarch64_	(8 CPU)
 ### 5.top（显示系统性能信息）
 
 
-```terminal
+```shell
 
 root@74423150804c:/# top
 
@@ -412,7 +412,7 @@ MiB Swap:   1024.0 total,    976.0 free,     48.0 used.   6318.8 avail Mem
 ### 6.mpstat（CPU的一些统计信息）
 
 
-```terminal
+```shell
 
 root@74423150804c:/# mpstat
 Linux 6.4.16-linuxkit (74423150804c) 	12/12/23 	_aarch64_	(8 CPU)
@@ -438,7 +438,7 @@ Linux 6.4.16-linuxkit (74423150804c) 	12/12/23 	_aarch64_	(8 CPU)
 
 ### 7.netstat(显示与 IP、TCP、UDP和 ICMP 协议相关的统计数据)
 
-```terminal
+```shell
 root@74423150804c:/# sudo apt install net-tools
 Reading package lists... Done
 Building dependency tree       

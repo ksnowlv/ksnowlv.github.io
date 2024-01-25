@@ -20,7 +20,7 @@ mathjax: false
 
 ### 1.requirements.txt生成
 Fastapi项目根目录（与main.py同级目录），使用pip3 freeze生成requirements.txt文件
-```terminal
+```shell
 pip3 freeze > requirements.txt
 ```
 
@@ -116,7 +116,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8081"]
 
 命令行进入到Dockerfile配置文件所在目录，执行如下：
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro fastapitest % docker build -t fastapitest-app .                     
 [+] Building 84.5s (9/9) FINISHED                                                                                                docker:desktop-linux
  => [internal] load build definition from Dockerfile                                                                                             0.0s
@@ -147,7 +147,7 @@ What's Next?
 
 上面构建镜像为fastapitest-app，操作情况如下：
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro fastapitest % docker run -d --name newapp --network mynet -p 8081:8081 fastapitest-app
 a46d63fd7bbf0140db8f873bad3950831ec47a86c36b65f0b1605597f214a585
 (base) lvwei@lvweideMacBook-Pro fastapitest % docker ps -a                                                           
@@ -201,7 +201,7 @@ FastAPI无法连接到MySQL服务器。
 
 详细操作步骤参考
 
-```terminal
+```shell
 (base) lvwei@lvweideMacBook-Pro fastapitest % docker network create mynet    
 297e608290472a23fec759a75e6b323771773d7bcfbaada11aa0c9fd285d8a76
 (base) lvwei@lvweideMacBook-Pro fastapitest % docker ps                  
