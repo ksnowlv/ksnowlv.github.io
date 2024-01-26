@@ -127,7 +127,7 @@ pub extern "C" fn get_name_from_struct(ptr: *const MyStruct) -> *const c_char {
 pub extern "C" fn free_my_struct(ptr: *mut MyStruct) {
     unsafe {
         if !ptr.is_null() {
-            Box::from_raw(ptr);
+            let _ = Box::from_raw(ptr);
         }
     }
 }
@@ -185,20 +185,6 @@ lvwei@lvweideMacBook-Pro rust_lib % cargo build
    Compiling serde_derive v1.0.195
    Compiling toml v0.5.11
    Compiling rust_lib v0.1.0 (/Users/lvwei/Documents/clion_cpp_demo/rust_lib)
-warning: unused return value of `Box::<T>::from_raw` that must be used
-  --> src/lib.rs:33:13
-   |
-33 |             Box::from_raw(ptr);
-   |             ^^^^^^^^^^^^^^^^^^
-   |
-   = note: call `drop(Box::from_raw(ptr))` if you intend to drop the `Box`
-   = note: `#[warn(unused_must_use)]` on by default
-help: use `let _ = ...` to ignore the resulting value
-   |
-33 |             let _ = Box::from_raw(ptr);
-   |             +++++++
-
-warning: `rust_lib` (lib) generated 1 warning
     Finished release [optimized] target(s) in 10.22s  
 ```
 
