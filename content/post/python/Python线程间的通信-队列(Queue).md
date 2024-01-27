@@ -16,7 +16,7 @@ mathjax: false
 
 <!--more-->
 
-## Python 互斥锁/可重入锁
+## Python线程间的通信-队列(Queue)
 
  Python多线程场景下，线程间的通信可以使用Queue，分为
  * FIFO（先入先出)队列Queue: Queue.Queue:队列顺序为先进先出
