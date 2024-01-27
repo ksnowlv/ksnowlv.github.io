@@ -284,7 +284,7 @@ int main() {
 ### 4.执行情况
 
 
-![Local Image](../../images/post/C++以库的形式调用rust/cpp_call_rust_result.png)
+![Local Image](/images/post/C++以库的形式调用rust/cpp_call_rust_result.png)
 
 
 
