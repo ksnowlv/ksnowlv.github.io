@@ -360,4 +360,4 @@ int main() {
 
 ### 4.执行情况
 
-![Local Image](../../images/post/C++调用Rust源代码/cpp_call_rust_code_result.png)
+![Image](\../../images/post/C++调用Rust源代码/cpp_call_rust_code_result.png)
