@@ -188,7 +188,7 @@ lvwei@lvweideMacBook-Pro rust_lib % cargo build
     Finished release [optimized] target(s) in 10.22s  
 ```
 
-![image](/images/post/C++以库的形式调用rust/cargo_debug_release_lib.png)
+![image](../../images/post/C++以库的形式调用rust/cargo_debug_release_lib.png)
 
 
 ## 二.C++工程
@@ -360,7 +360,4 @@ int main() {
 
 ### 4.执行情况
 
-
-![image](/images/post/C++调用Rust源代码/cpp_call_rust_code_result.png)
-
-
+![image](../../images/post/C++调用Rust源代码/cpp_call_rust_code_result.png)

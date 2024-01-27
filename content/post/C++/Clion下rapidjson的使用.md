@@ -25,7 +25,7 @@ mathjax: false
 
 目录结构
 
-![image](/images/post/Clion下rapidjson的使用/rapidjson_overview.png)
+![image](../../images/post/Clion下rapidjson的使用/rapidjson_overview.png)
 
 ### 2.配置rapidjson
 
@@ -41,7 +41,7 @@ mathjax: false
 
 详细配置如下
 
-![image](/images/post/Clion下rapidjson的使用/rapidjson_config.jpg)
+![image](../../images/post/Clion下rapidjson的使用/rapidjson_config.jpg)
 
 
 ### 3.rapidjson的使用
