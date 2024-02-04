@@ -15,12 +15,12 @@ mathjax: false
 ---
 
 <!--more-->
-### Rust中的智能指针
+## Rust中的智能指针
 Rust中的智能指针使用时，需要考虑到内存管理和并发访问的情况。
 
 Rust提供了几种不同的智能指针类型，如Box，Rc，Arc，RefCell和Cell，每种都有特定的使用场景和适用性。
 
-#### 1.Box 智能指针
+### 1.Box 智能指针
 
 Box 是用于在堆上分配内存的智能指针，常用于需要在编译时无法确定大小或需要在多个位置共享所有权的情况。
 
@@ -42,7 +42,7 @@ fn box_pointer_test() {
 }
 ```
 
-#### 2.Rc 智能指针
+### 2.Rc 智能指针
 
 Rc（Reference Counting）智能指针用于在 Rust 中进行引用计数共享所有权。它允许对数据进行多次所有权共享，且可以动态跟踪当前的引用计数。
 
@@ -64,7 +64,7 @@ fn rc_pointer_test()  {
 }
 ```
 
-#### 3.Arc 智能指针
+### 3.Arc 智能指针
 
 Arc（Atomic Reference Counting）智能指针是 Rc 的线程安全版本，适用于多线程环境中对数据进行共享所有权。
 
@@ -97,7 +97,7 @@ fn arc_pointer_test() {
 
 ```
 
-#### 4.RefCell 智能指针
+### 4.RefCell 智能指针
 
 RefCell 提供了内部可变性，允许在不可变引用的同时对数据进行修改。它适用于在编译时无法确定是否需要可变性的场景。
 
@@ -125,7 +125,7 @@ fn refcell_pointer_test() {
 }
 ```
 
-#### 5.Cell 智能指针
+### 5.Cell 智能指针
 
 Cell 是一个轻量级的可变容器，适用于需要在不可变引用中进行数据更新的场景。
 
@@ -154,7 +154,7 @@ fn cell_test() {
 }
 ```
 
-#### 6.效果
+### 6.效果
 
 ```shell
 ---smart_pointer_test---
