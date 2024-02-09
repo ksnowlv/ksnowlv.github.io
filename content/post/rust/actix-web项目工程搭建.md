@@ -134,10 +134,11 @@ async fn main() -> std::io::Result<()> {
 
 ### 5.接口测试
 注意接口路径，5个接口测试通过
-1.http://127.0.0.1:8080/user/login
-2.http://127.0.0.1:8080/user/regist
-3.http://127.0.0.1:8080/user/get_sms_code
-4.http://127.0.0.1:8080/user/update
-5.http://127.0.0.1:8080/user/delete
+
+* 1.http://127.0.0.1:8080/user/login
+* 2.http://127.0.0.1:8080/user/regist
+* 3.http://127.0.0.1:8080/user/get_sms_code
+* 4.http://127.0.0.1:8080/user/update
+* 5.http://127.0.0.1:8080/user/delete
 
 
