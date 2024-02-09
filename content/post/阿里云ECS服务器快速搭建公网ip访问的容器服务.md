@@ -28,26 +28,26 @@ mathjax: false
   
 
 
-![image](../images/post/阿里云ECS服务器快速搭建公网ip访问的容器服务/ali_ecs_server.jpg)
+![image](阿里云ECS服务器快速搭建公网ip访问的容器服务/ali_ecs_server.jpg)
 
 
 ### 2.阿里云ECS网络安全组设定规则
 
-![image](../images/post/阿里云ECS服务器快速搭建公网ip访问的容器服务/ali_ecs_server_config_list.jpg)
+![image](阿里云ECS服务器快速搭建公网ip访问的容器服务/ali_ecs_server_config_list.jpg)
 选择网络与安全下的安全组，进入”管理规则“，配置入口规则；
 
 添加规则如下
 
     开通端口10277（宝塔运维使用）和8001（测试服务使用）
 
-![image](../images/post/阿里云ECS服务器快速搭建公网ip访问的容器服务/ali_ecs_server_config.jpg)
+![image](阿里云ECS服务器快速搭建公网ip访问的容器服务/ali_ecs_server_config.jpg)
 
 ### 3.fastapi容器服务。
 
 #### 创建fastapi项目
 登陆宝塔，在www目录下创建myfastapiapp项目,上传main.py,requirements.txt,Docker三个文件。如图
 
-![image](../images/post/阿里云ECS服务器快速搭建公网ip访问的容器服务/fastapiapp_docker_service.jpg)
+![image](阿里云ECS服务器快速搭建公网ip访问的容器服务/fastapiapp_docker_service.jpg)
 
 * main.py
 
@@ -141,7 +141,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
 
 ### 5.容器服务测试
 在宝塔docker功能选项中查看myfastapi服务
-![image](../images/post/阿里云ECS服务器快速搭建公网ip访问的容器服务/fastapi_docker_service_test.jpg)
+![image](阿里云ECS服务器快速搭建公网ip访问的容器服务/fastapi_docker_service_test.jpg)
 
 可以通过curl http://172.17.0.2:8001测试容器服务连通性。
 
@@ -155,7 +155,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
 
 ### 6.nginx配置
 
-![image](../images/post/阿里云ECS服务器快速搭建公网ip访问的容器服务/fastapi_nginx.jpg)
+![image](阿里云ECS服务器快速搭建公网ip访问的容器服务/fastapi_nginx.jpg)
 按上述配置nginx，并重启。
 ```shell
 # nginx重启
@@ -184,5 +184,5 @@ myfastapp
 
 ### 8.效果
 浏览器中打开http:服务器公网ip:8001/docs可进入swagger
-![image](../images/post/阿里云ECS服务器快速搭建公网ip访问的容器服务/fastapi_test_result.jpg)
+![image](阿里云ECS服务器快速搭建公网ip访问的容器服务/fastapi_test_result.jpg)
 
