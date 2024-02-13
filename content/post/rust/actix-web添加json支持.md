@@ -44,28 +44,31 @@ serde_derive = "1.0"
 ```
 ### 3.代码示例
 
-#### User数据定义
+#### MyData数据定义
 ```rust
-use serde::{Serialize, Deserialize};
-
 #[derive(Debug, Serialize, Deserialize)]
-pub struct User {
-    pub id: u32,
-    pub user_id: String,
-    pub phone: String,
-    pub age: u32,
-    pub name: String,
-    pub token: String,
-    pub sms_code: String,
+struct MyData {
+  code: i32,
+  message: String,
 }
 
 ``` 
 
-#### 接口引用User
+#### 接口引用MyData
 
 ```rust
-pub  async fn  get_user() -> impl Responder{
-    let user = User{id:1, user_id: "abc".to_string(), phone: "15210".to_string(), age: 10, name:"ksnowlv".to_string(), token:"aaaa".to_string(), sms_code:"123456".to_string()};
-    HttpResponse::Ok().json(user)
+
+#[post("/from_json")]
+async fn from_json(my_data: web::Json<MyData>) -> impl Responder {
+  println!("Received mydata from JSON: {:?}", my_data);
+  HttpResponse::Ok().json(my_data)
 }
+
+#[post("/to_json")]
+async fn to_json() -> impl Responder {
+  let my_data = MyData { code: 1, message: "OK".to_string() };
+  let json_data = serde_json::to_string(&my_data).unwrap();
+  HttpResponse::Ok().body(json_data)
+}
+
 ```

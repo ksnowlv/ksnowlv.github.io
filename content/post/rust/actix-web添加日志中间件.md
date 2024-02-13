@@ -18,6 +18,8 @@ mathjax: false
 
 ## 日志中间件
 
+日志中间件，用于在处理HTTP请求时记录请求和响应的相关信息。
+
 ### 1.添加日志依赖
 
 ```toml
@@ -27,6 +29,8 @@ chrono = "0.4.19"
 ```
 
 ### 2.日志中间件
+
+定义了一个名为Logging的日志中间件结构体，并实现了 Transform trait。这个结构体负责处理中间件的创建和初始化，以便于在应用中使用。
 
 ```toml
 
@@ -102,6 +106,8 @@ impl<S, B> Service<ServiceRequest> for LoggingMiddleware<S>
 
 ```
 
+日志中间件的主要逻辑在 LoggingMiddleware 结构体的实现中。这个结构体实现了 Service trait，用于处理HTTP请求和响应，并记录相应的日志信息。
+
 ### 3.日志中间件使用
 
 ```toml
@@ -115,9 +121,8 @@ async fn main() -> std::io::Result<()> {
         App::new().service(scope("/api/v1/swagger")
                 .configure(swagger(spec, config)))
             .wrap(middleware::Logger::default())
-//           //.wrap(auth_middleware::Auth)
+           //.wrap(auth_middleware::Auth)
             .wrap(logging_middleware::Logging)
-           // .wrap(heartbeat_middleware::Heartbeat)
             .configure(user_routes).route("/{value}", web::get().to(index))
     });
 
@@ -126,7 +131,52 @@ async fn main() -> std::io::Result<()> {
     .await
 }
 ```
+初始化了日志记录器，然后创建了一个HTTP服务器，默认的请求日志中间件和自定义的日志中间件,用于记录应用程序中处理的HTTP请求和响应的相关信息。在实际应用中，可以帮助开发人员更好地理解请求的处理过程和故障排查。
 
-### 4.效果
+
+### 4.初始化日志记录器
+
+```rust
+use chrono::Local;
+use env_logger::fmt::Color;
+use env_logger::Env;
+use log::{LevelFilter, info};
+use std::io::Write;
+
+pub fn init_logger() {
+	let env = Env::default().filter_or("MY_LOG_LEVEL", "debug");
+	// 设置日志打印格式
+	env_logger::Builder::from_env(env).format(|buf, record| {
+		Ok({
+			let level_color = match record.level() {
+				log::Level::Error => Color::Red,
+				log::Level::Warn => Color::Yellow,
+				log::Level::Info => Color::Green,
+				log::Level::Debug | log::Level::Trace => Color::Cyan,
+			};
+
+			let mut level_style = buf.style();
+			level_style.set_color(level_color).set_bold(true);
+
+			let mut style = buf.style();
+			style.set_color(Color::White).set_dimmed(true);
+
+			write!(buf, "{} {} [ {} ] {}\n",
+				   Local::now().format("%Y-%m-%d %H:%M:%S"),
+				   level_style.value(record.level()),
+				   style.value(record.module_path().unwrap_or("<unnamed>")),
+				   record.args()).unwrap();
+		})
+	}).filter(None, LevelFilter::Debug).init();
+	info!("env_logger initialized.");
+}
+
+
+```
+初始化日志记录器的函数init_logger。使用 Env::default() 创建了一个默认的环境变量，并指定了过滤级别。在这里，它会读取名为 MY_LOG_LEVEL
+
+
+
+### 5.效果
 
 ![image](/images/post/actix-web添加日志中间件/logger_res.png)

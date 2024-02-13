@@ -76,7 +76,7 @@
 <meta itemprop="name" content="Actix Web添加json支持">
 <meta itemprop="description" content=""><meta itemprop="datePublished" content="2024-01-31T19:35:34+08:00" />
 <meta itemprop="dateModified" content="2024-01-31T19:35:34+08:00" />
-<meta itemprop="wordCount" content="403">
+<meta itemprop="wordCount" content="407">
 <meta itemprop="keywords" content="rust,Actix Web,后端开发," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Actix Web添加json支持"/>
 <meta name="twitter:description" content=""/>
@@ -345,7 +345,7 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 403 字 -
+        约 407 字 -
         预计阅读 1 分钟
       </span>
 
@@ -413,7 +413,24 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="3代码示例">3.代码示例</h3>
-<h4 id="user数据定义">User数据定义</h4>
+<h4 id="mydata数据定义">MyData数据定义</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[derive(Debug, Serialize, Deserialize)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyData</span> {
+</span></span><span style="display:flex;"><span>  code: <span style="color:#66d9ef">i32</span>,
+</span></span><span style="display:flex;"><span>  message: String,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="接口引用mydata">接口引用MyData</h4>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -428,34 +445,21 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> serde::{Serialize, Deserialize};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#[derive(Debug, Serialize, Deserialize)]</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">User</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> id: <span style="color:#66d9ef">u32</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> user_id: String,
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> phone: String,
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> age: <span style="color:#66d9ef">u32</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> name: String,
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> token: String,
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> sms_code: String,
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[post(</span><span style="color:#e6db74">&#34;/from_json&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">from_json</span>(my_data: <span style="color:#a6e22e">web</span>::Json<span style="color:#f92672">&lt;</span>MyData<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">impl</span> Responder {
+</span></span><span style="display:flex;"><span>  println!(<span style="color:#e6db74">&#34;Received mydata from JSON: </span><span style="color:#e6db74">{:?}</span><span style="color:#e6db74">&#34;</span>, my_data);
+</span></span><span style="display:flex;"><span>  HttpResponse::Ok().json(my_data)
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="接口引用user">接口引用User</h4>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span>  <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span>  <span style="color:#a6e22e">get_user</span>() -&gt; <span style="color:#a6e22e">impl</span> Responder{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> user <span style="color:#f92672">=</span> User{id:<span style="color:#ae81ff">1</span>, user_id: <span style="color:#e6db74">&#34;abc&#34;</span>.to_string(), phone: <span style="color:#e6db74">&#34;15210&#34;</span>.to_string(), age: <span style="color:#ae81ff">10</span>, name:<span style="color:#e6db74">&#34;ksnowlv&#34;</span>.to_string(), token:<span style="color:#e6db74">&#34;aaaa&#34;</span>.to_string(), sms_code:<span style="color:#e6db74">&#34;123456&#34;</span>.to_string()};
-</span></span><span style="display:flex;"><span>    HttpResponse::Ok().json(user)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[post(</span><span style="color:#e6db74">&#34;/to_json&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">to_json</span>() -&gt; <span style="color:#a6e22e">impl</span> Responder {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> my_data <span style="color:#f92672">=</span> MyData { code: <span style="color:#ae81ff">1</span>, message: <span style="color:#e6db74">&#34;OK&#34;</span>.to_string() };
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> json_data <span style="color:#f92672">=</span> serde_json::to_string(<span style="color:#f92672">&amp;</span>my_data).unwrap();
+</span></span><span style="display:flex;"><span>  HttpResponse::Ok().body(json_data)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
