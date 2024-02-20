@@ -18,7 +18,7 @@ mathjax: false
 ## GridFS上传和下载文件
 
 
-Actix-web框架下，如何通过异步编程（通过 async/await）和 MongoDB 的 GridFS 存储系统，来实现文件的上传和下载呢？
+Actix-web框架下，如何通过异步编程（通过 async/await)和MongoDB的GridFS存储系统，来实现文件的上传和下载呢？
 
 ### 1.思路
 #### 上传文件

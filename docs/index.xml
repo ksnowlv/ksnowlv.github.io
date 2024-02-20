@@ -6,7 +6,7 @@
     <description>Recent content on ksnowlv技术笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 20 Feb 2024 11:26:47 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 20 Feb 2024 18:41:17 +0800</lastBuildDate>
     
         <atom:link href="https://ksnowlv.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -25,6 +25,207 @@
     </item>
     
     <item>
+      <title>Actix Web在GridFS重命名文件</title>
+      <link>https://ksnowlv.github.io/post/rust/actix-web%E5%9C%A8gridfs%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Tue, 20 Feb 2024 18:41:17 +0800</pubDate>
+      
+      <guid>https://ksnowlv.github.io/post/rust/actix-web%E5%9C%A8gridfs%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/</guid>
+      
+        <description>&lt;h2 id=&#34;gridfs重命名文件&#34;&gt;GridFS重命名文件&lt;/h2&gt;
+&lt;p&gt;Actix-web框架下，GridFS存储系统，如何重命名文件呢？&lt;/p&gt;
+&lt;h3 id=&#34;1gridfs重命名文件&#34;&gt;1.gridfs重命名文件&lt;/h3&gt;
+&lt;p&gt;在xgridfs.rs中新增文件重命名函数&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rename_file_from_gridfs&lt;/span&gt;(file_id: &lt;span style=&#34;color:#66d9ef&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;str&lt;/span&gt;, new_filename: &lt;span style=&#34;color:#66d9ef&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;str&lt;/span&gt;, client: &lt;span style=&#34;color:#66d9ef&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Client&lt;/span&gt;) -&amp;gt; Result&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;GridFSFileRenameInfo, Box&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;dyn&lt;/span&gt; std::error::Error&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; db &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; client.database(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mydb&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mut&lt;/span&gt; bucket &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; GridFSBucket::new(db.clone(), Some(Default::default()));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; file_id_obj &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ObjectId::parse_str(file_id)&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mut&lt;/span&gt; update_result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; bucket.rename(file_id_obj, new_filename).&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	println!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;matched_count:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, modified_count: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, upserted_id:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{:?}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			 update_result.matched_count,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			 update_result.modified_count, update_result.upserted_id);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; info &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; GridFSFileRenameInfo {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		modified_count:&lt;span style=&#34;color:#a6e22e&#34;&gt;update_result&lt;/span&gt;.modified_count
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	Ok(info)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;2gridfsfilerenameinfo&#34;&gt;2.GridFSFileRenameInfo&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[derive(Debug, Serialize)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;GridFSFileRenameInfo&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; modified_count: &lt;span style=&#34;color:#66d9ef&#34;&gt;u64&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;3http重命名接口&#34;&gt;3.http重命名接口&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 定义从GridFS重命名文件的处理函数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rename_file_from_gridfs&lt;/span&gt;(info: &lt;span style=&#34;color:#a6e22e&#34;&gt;web&lt;/span&gt;::Path&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;(String, String)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;, client: &lt;span style=&#34;color:#a6e22e&#34;&gt;web&lt;/span&gt;::Data&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Client&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;) -&amp;gt; Result&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;HttpResponse, Error&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;match&lt;/span&gt; xgridfs::rename_file_from_gridfs(info.&lt;span style=&#34;color:#ae81ff&#34;&gt;0.&lt;/span&gt;as_str(), info.&lt;span style=&#34;color:#ae81ff&#34;&gt;1.&lt;/span&gt;as_str(), &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;client).&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		Ok(info) &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// 返回文件下载成功的响应
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			api_response::ok_handler(Some(info), Some(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;文件重命名成功&amp;#34;&lt;/span&gt;.to_string())).&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		Err(err) &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			api_response::error_handler::&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(err.to_string().as_str()).&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;4测试&#34;&gt;4.测试&lt;/h3&gt;
+&lt;p&gt;curl命令测试&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;base&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; lvwei@lvweideMacBook-Pro Documents % curl -i -k -X POST  https://127.0.0.1:8080/api/file/rename_file_from_gridfs/65d43d160f661065fb0a2998/3.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;HTTP/2 &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;content-length: &lt;span style=&#34;color:#ae81ff&#34;&gt;74&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;content-type: application/json
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt; Feb &lt;span style=&#34;color:#ae81ff&#34;&gt;2024&lt;/span&gt; 08:00:49 GMT
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;code&amp;#34;&lt;/span&gt;:200,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;文件重命名成功&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;data&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;modified_count&amp;#34;&lt;/span&gt;:1&lt;span style=&#34;color:#f92672&#34;&gt;}}&lt;/span&gt;%                                                           
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;base&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; lvwei@lvweideMacBook-Pro Documents
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;5其它&#34;&gt;5.其它&lt;/h3&gt;
+&lt;p&gt;如果采用json数据作为body数据进行http请求,&lt;/p&gt;
+&lt;h4 id=&#34;主要代码&#34;&gt;主要代码&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[derive(Deserialize)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;GridFSFileRenameRequest&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; file_id: String,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; file_name: String,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 定义从GridFS重命名文件的处理函数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rename_file_from_gridfs_with_json&lt;/span&gt;(req: &lt;span style=&#34;color:#a6e22e&#34;&gt;web&lt;/span&gt;::Json&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;GridFSFileRenameRequest&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;, client: &lt;span style=&#34;color:#a6e22e&#34;&gt;web&lt;/span&gt;::Data&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Client&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;) -&amp;gt; Result&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;HttpResponse, Error&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;match&lt;/span&gt; xgridfs::rename_file_from_gridfs(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;req.file_id, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;req.file_name, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;client).&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		Ok(info) &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#75715e&#34;&gt;// 返回文件下载成功的响应
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;			api_response::ok_handler(Some(info), Some(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;文件重命名成功&amp;#34;&lt;/span&gt;.to_string())).&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		Err(err) &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			api_response::error_handler::&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(err.to_string().as_str()).&lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;curl命令测试&#34;&gt;curl命令测试&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;base&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; lvwei@lvweideMacBook-Pro Documents % curl -i -k -X POST https://127.0.0.1:8080/api/file/rename_file_from_gridfs_with_json &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;-H &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Content-Type: application/json&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;-d &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;{&amp;#34;file_id&amp;#34;: &amp;#34;65d43d160f661065fb0a2996&amp;#34;, &amp;#34;file_name&amp;#34;: &amp;#34;456.png&amp;#34;}&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;HTTP/2 &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;content-length: &lt;span style=&#34;color:#ae81ff&#34;&gt;74&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;content-type: application/json
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt; Feb &lt;span style=&#34;color:#ae81ff&#34;&gt;2024&lt;/span&gt; 11:02:13 GMT
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;code&amp;#34;&lt;/span&gt;:200,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;文件重命名成功&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;data&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;modified_count&amp;#34;&lt;/span&gt;:1&lt;span style=&#34;color:#f92672&#34;&gt;}}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                                                
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;base&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; lvwei@lvweideMacBook-Pro Documents % 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+      
+    </item>
+    
+    <item>
       <title>Actix Web通过GridFS上传和下载文件</title>
       <link>https://ksnowlv.github.io/post/rust/actix-web%E9%80%9A%E8%BF%87gridfs%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/</link>
       <pubDate>Tue, 20 Feb 2024 11:26:47 +0800</pubDate>
@@ -32,7 +233,7 @@
       <guid>https://ksnowlv.github.io/post/rust/actix-web%E9%80%9A%E8%BF%87gridfs%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/</guid>
       
         <description>&lt;h2 id=&#34;gridfs上传和下载文件&#34;&gt;GridFS上传和下载文件&lt;/h2&gt;
-&lt;p&gt;Actix-web框架下，如何通过异步编程（通过 async/await）和 MongoDB 的 GridFS 存储系统，来实现文件的上传和下载呢？&lt;/p&gt;
+&lt;p&gt;Actix-web框架下，如何通过异步编程（通过 async/await)和MongoDB的GridFS存储系统，来实现文件的上传和下载呢？&lt;/p&gt;
 &lt;h3 id=&#34;1思路&#34;&gt;1.思路&lt;/h3&gt;
 &lt;h4 id=&#34;上传文件&#34;&gt;上传文件&lt;/h4&gt;
 &lt;ul&gt;
@@ -6131,84 +6332,6 @@
 &lt;/div&gt;&lt;h3 id=&#34;3效果&#34;&gt;3.效果&lt;/h3&gt;
 &lt;p&gt;打开127.0.0.1:8080，效果如下&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/post/actix-web%E9%A1%B9%E7%9B%AE%E5%88%9D%E8%AF%95/rust_web_app.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
-      
-    </item>
-    
-    <item>
-      <title>Rust线程沲</title>
-      <link>https://ksnowlv.github.io/post/rust/rust%E7%BA%BF%E7%A8%8B%E6%B2%B2/</link>
-      <pubDate>Mon, 29 Jan 2024 23:20:17 +0800</pubDate>
-      
-      <guid>https://ksnowlv.github.io/post/rust/rust%E7%BA%BF%E7%A8%8B%E6%B2%B2/</guid>
-      
-        <description>&lt;h2 id=&#34;rust线程沲&#34;&gt;rust线程沲&lt;/h2&gt;
-&lt;h3 id=&#34;1背景&#34;&gt;1.背景&lt;/h3&gt;
-&lt;p&gt;如果在rust中使用线程沲,因rust自身没有ThreadPool,需要使用第三方库；例如：知名的&lt;a href=&#34;https://github.com/rayon-rs/rayon&#34;&gt;rayon&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;2解决方案&#34;&gt;2.解决方案&lt;/h3&gt;
-&lt;p&gt;在Cargo.toml中添加&lt;strong&gt;rayon&lt;/strong&gt;的配置，最新版本为1.8&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;dependencies&lt;/span&gt;]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;rayon&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.8.0&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;3使用示例&#34;&gt;3.使用示例&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;use&lt;/span&gt; rayon::prelude::&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;thread_pool_test&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mut&lt;/span&gt;  v &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Box::new(Vec::new());
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//注意别越界了
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; v_size: &lt;span style=&#34;color:#66d9ef&#34;&gt;u64&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10000000&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	v.reserve(v_size.try_into().unwrap());
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;..&lt;/span&gt;v_size  {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		v.push(i);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; sum:  &lt;span style=&#34;color:#66d9ef&#34;&gt;u64&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; v.into_par_iter().map(&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			i
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		})
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		.sum();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	println!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;v sum:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;, sum);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;4效果&#34;&gt;4.效果&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;v sum:49999995000000
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
       
     </item>
     
