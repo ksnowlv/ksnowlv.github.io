@@ -3,8 +3,8 @@ title: "Actix Web添加接口-关于查询参数"
 date: 2024-02-12T22:07:54+08:00
 lastmod: 2024-02-12T22:07:54+08:00
 keywords: ["actix web", "rust", "接口查询参数"]
-tags: ["actix web", "rust", "接口查询参数"]
-categories: ["actix web", "rust", "接口查询参数"]
+tags: ["actix web", "rust"]
+categories: ["actix web", "rust"]
 
 comment: true
 toc: true

@@ -3,8 +3,8 @@ title: "Npm淘宝镜像报错"
 date: 2024-02-21T09:49:48+08:00
 lastmod: 2024-02-21T09:49:48+08:00
 keywords: ["npm","前端","淘宝镜像"]
-tags: ["npm","前端"]
-categories: ["npm","前端"]
+tags: ["前端开发"]
+categories: ["前端开发"]
 
 comment: true
 toc: true

@@ -3,8 +3,8 @@ title: "Docker下GridFS容器化配置"
 date: 2023-12-18T14:51:39+08:00
 lastmod: 2023-12-18T14:51:39+08:00
 keywords: ["Mac", "Docker", "GridFS"]
-tags: ["Mac", "Docker", "GridFS"]
-categories: ["Mac", "Docker", "GridFS"]
+tags: ["Mac", "Docker", "存储"]
+categories: ["Mac", "Docker", "存储"]
 
 comment: true
 toc: true

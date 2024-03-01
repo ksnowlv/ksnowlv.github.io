@@ -3,8 +3,8 @@ title: "Linux性能分析工具的使用"
 date: 2023-12-12T14:17:57+08:00
 lastmod: 2023-12-12T14:17:57+08:00
 keywords: ["linux", "性能分析"]
-tags: ["linux", "性能分析"]
-categories: ["linux", "性能分析"]
+tags: ["linux", "性能"]
+categories: ["linux", "性能"]
 
 comment: true
 toc: true

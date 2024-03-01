@@ -2,9 +2,9 @@
 title: "Actix Web项目初试"
 date: 2024-01-30T19:04:11+08:00
 lastmod: 2024-01-30T19:04:11+08:00
-keywords: ["rust", "actix_web"]
-tags: ["rust", "actix_web"]
-categories: ["rust", "actix_web"]
+keywords: ["rust", "Actix Web"]
+tags: ["rust", "Actix Web"]
+categories: ["rust", "Actix Web"]
 
 comment: true
 toc: true
