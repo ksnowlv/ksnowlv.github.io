@@ -1,5 +1,5 @@
 ---
-title: "Actix Web在GridFS上传文件支持查重"
+title: "actix web在GridFS上传文件支持查重"
 date: 2024-02-22T19:29:29+08:00
 lastmod: 2024-02-22T19:29:29+08:00
 keywords: ["rust", "Actix Web", "后端开发", "存储"]
