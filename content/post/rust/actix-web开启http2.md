@@ -3,8 +3,8 @@ title: "Actix Web开启http2"
 date: 2024-02-09T22:35:06+08:00
 lastmod: 2024-02-09T22:35:06+08:00
 keywords: ["rust", "Actix Web", "后端开发", "http2"]
-tags: ["rust", "Actix Web", "后端开发", "http2"]
-categories: ["rust", "Actix Web", "后端开发", "http2"]
+tags: ["rust", "Actix Web", "后端开发"]
+categories: ["rust", "Actix Web", "后端开发"]
 
 comment: true
 toc: true

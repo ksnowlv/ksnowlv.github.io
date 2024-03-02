@@ -3,8 +3,8 @@ title: "Mac下解决obsidian国内无法访问第三方插件的问题"
 date: 2024-01-25T19:13:51+08:00
 lastmod: 2024-01-25T19:13:51+08:00
 keywords: ["Mac", "obsidian", "第三方插件"]
-tags: ["Mac", "obsidian"]
-categories: ["Mac", "obsidian"]
+tags: ["Mac"]
+categories: ["Mac"]
 
 comment: true
 toc: true

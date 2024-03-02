@@ -3,8 +3,8 @@ title: "Fastapi关于kafka消息组件的使用"
 date: 2023-11-27T19:47:36+08:00
 lastmod: 2023-11-27T19:47:36+08:00
 keywords: ["Fastapi", "kafka", "消息组件", "后端开发"]
-tags: ["Fastapi", "kafka", "消息组件", "后端开发"]
-categories: ["Fastapi", "kafka", "消息组件", "后端开发"]
+tags: ["Fastapi", "后端开发"]
+categories: ["Fastapi", "后端开发"]
 
 comment: true
 toc: true

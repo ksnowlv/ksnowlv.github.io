@@ -3,8 +3,8 @@ title: "M1 Mac安装hadoop"
 date: 2023-12-01T16:29:29+08:00
 lastmod: 2023-12-01T16:29:29+08:00
 keywords: ["Mac", "hadoop", "大数据"]
-tags: ["Mac", "hadoop", "大数据"]
-categories: ["Mac", "hadoop", "大数据"]
+tags: ["Mac", "hadoop", "存储"]
+categories: ["Mac", "hadoop", "存储"]
 
 comment: true
 toc: true

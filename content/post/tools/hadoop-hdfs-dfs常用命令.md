@@ -2,9 +2,9 @@
 title: "Hadoop Hdfs Dfs常用命令"
 date: 2023-12-05T16:29:59+08:00
 lastmod: 2023-12-05T16:29:59+08:00
-keywords: ["Hadoop", "大数据"]
-tags: ["Hadoop",  "大数据"]
-categories: ["Hadoop", "大数据"]
+keywords: ["Hadoop", "存储"]
+tags: ["Hadoop",  "存储"]
+categories: ["Hadoop", "存储"]
 
 comment: true
 toc: true
