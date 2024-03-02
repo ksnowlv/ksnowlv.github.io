@@ -16,7 +16,6 @@ mathjax: false
 
 <!--more-->
 
-
 ### Mac安装postgresql数据库
 
 ```shell
@@ -286,6 +285,45 @@ To start postgresql@14 now and restart at login:
 Or, if you don't want/need a background service you can just run:
   /usr/local/opt/postgresql@14/bin/postgres -D /usr/local/var/postgresql@14
 ksnowlv@MacBook-Pro-3 ~ % 
+
+ksnowlv@MacBook-Pro-3 homebrew %  brew reinstall postgresql
+Warning: Formula postgresql was renamed to postgresql@14.
+Warning: Formula postgresql was renamed to postgresql@14.
+Warning: Formula postgresql was renamed to postgresql@14.
+==> Downloading https://ghcr.io/v2/homebrew/core/postgresql/14/manifests/14.11_1
+########################################################################################################################################################################## 100.0%
+==> Fetching postgresql@14
+==> Downloading https://ghcr.io/v2/homebrew/core/postgresql/14/blobs/sha256:8215acbfa15734c5f1742ec0d9a3fd415e0e082fc59186607b2ca5153af8f2bf
+########################################################################################################################################################################## 100.0%
+==> Reinstalling postgresql@14 
+==> Pouring postgresql@14--14.11_1.sonoma.bottle.tar.gz
+==> Caveats
+This formula has created a default database cluster with:
+  initdb --locale=C -E UTF-8 /usr/local/var/postgresql@14
+For more details, read:
+  https://www.postgresql.org/docs/14/app-initdb.html
+
+To start postgresql@14 now and restart at login:
+  brew services start postgresql@14
+Or, if you don't want/need a background service you can just run:
+  /usr/local/opt/postgresql@14/bin/postgres -D /usr/local/var/postgresql@14
+==> Summary
+🍺  /usr/local/Cellar/postgresql@14/14.11_1: 3,319 files, 45.1MB
+==> Running `brew cleanup postgresql@14`...
+Disable this behaviour by setting HOMEBREW_NO_INSTALL_CLEANUP.
+Hide these hints with HOMEBREW_NO_ENV_HINTS (see `man brew`).
+ksnowlv@MacBook-Pro-3 homebrew %  brew services start postgresql@14
+==> Tapping homebrew/services
+Cloning into '/usr/local/Homebrew/Library/Taps/homebrew/homebrew-services'...
+remote: Enumerating objects: 2720, done.
+remote: Counting objects: 100% (413/413), done.
+remote: Compressing objects: 100% (161/161), done.
+remote: Total 2720 (delta 277), reused 315 (delta 248), pack-reused 2307
+Receiving objects: 100% (2720/2720), 729.23 KiB | 13.00 KiB/s, done.
+Resolving deltas: 100% (1314/1314), done.
+Tapped 1 command (48 files, 917.4KB).
+==> Successfully started `postgresql@14` (label: homebrew.mxcl.postgresql@14)
+
 
 ```
 
