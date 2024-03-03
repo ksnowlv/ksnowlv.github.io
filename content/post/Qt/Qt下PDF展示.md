@@ -3,8 +3,8 @@ title: "Qt下PDF展示"
 date: 2024-01-01T21:52:22+08:00
 lastmod: 2024-01-01T21:52:22+08:00
 keywords: ["Qt", "PDF"]
-tags: ["Qt", "PDF"]
-categories: ["Qt", "PDF"]
+tags: ["Qt","C++"]
+categories: ["Qt", "C++"]
 
 comment: true
 toc: true
