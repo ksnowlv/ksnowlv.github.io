@@ -264,7 +264,7 @@ DROP TABLE posts-- This file should undo anything in `up.sql`
 cargo install diesel_cli --no-default-features --features postgres
 ```
 
-### 7.效果
+### 8.效果
 ![image](/images/rust/actix-web使用基于postgres的diesel的安装及初始化/db_overview.png)
 
 ### 9.其它
