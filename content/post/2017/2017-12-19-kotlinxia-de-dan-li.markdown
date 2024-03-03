@@ -5,7 +5,7 @@ lastmod: 2017-12-19
 categories:
   - "Android"
 tags:
-  - "Kotlin"
+  - "Android"
 comment: true
 toc: true
 autoCollapseToc: false

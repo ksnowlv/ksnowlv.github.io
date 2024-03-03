@@ -4,8 +4,8 @@ date: 2023-08-15T19:54:42+08:00
 lastmod: 2023-08-15T19:54:42+08:00
 keywords: ["github-博客", "Gicus", "Hugo"]
 description: ""
-tags: ["github-博客", "Hugo"]
-categories: ["github-博客", "Hugo"]
+tags: ["git"]
+categories: ["git"]
 
 comment: true
 toc: true

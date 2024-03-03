@@ -3,8 +3,8 @@ title: "Swift中DispatchGroup之管理异步任务"
 date: 2021-06-13T18:03:47+08:00
 lastmod: 2021-06-13T18:03:47+08:00
 keywords: ["Swift", "GCD","DispatchGroup", "多线程", "iOS"]
-tags: ["Swift", "GCD", "多线程", "iOS"]
-categories: ["Swift", "GCD", "多线程", "iOS"]
+tags: ["Swift", "多线程", "iOS"]
+categories: ["Swift", "多线程", "iOS"]
 
 comment: true
 toc: true

@@ -3,8 +3,8 @@ title: "Mac安装FastDFS"
 date: 2023-11-25T18:49:46+08:00
 lastmod: 2023-11-25T18:49:46+08:00
 keywords: ["FastDFS", "存储", "后端开发", "Mac"]
-tags: ["FastDFS", "存储", "后端开发", "Mac"]
-categories: ["FastDFS", "存储", "后端开发", "Mac"]
+tags: ["存储", "后端开发", "Mac"]
+categories: ["存储", "后端开发", "Mac"]
 
 comment: true
 toc: true

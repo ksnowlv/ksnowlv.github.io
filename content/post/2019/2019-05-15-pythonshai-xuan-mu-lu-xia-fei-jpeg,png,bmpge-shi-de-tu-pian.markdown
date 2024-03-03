@@ -4,10 +4,8 @@ date: 2019-05-15
 lastmod: 2019-05-15
 categories:
   - "Python"
-  - “图像”
 tags:
   - "Python"
-  - “图像”
 comment: true
 toc: true
 autoCollapseToc: false
