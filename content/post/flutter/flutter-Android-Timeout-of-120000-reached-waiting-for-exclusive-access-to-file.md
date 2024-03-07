@@ -80,3 +80,42 @@ distributionUrl=https://services.gradle.org/distributions/gradle-7.4.2-all.zip
 ![image](/images/flutter/flutter-Android-Timeout-of-120000-reached-waiting-for-exclusive-access-to-file/gradle_offline.jpg)
 
 把zip压缩包放到1所示目录，然后，解压同步即可。
+
+#### 4.VSCode下效果
+
+```shell
+ksnowlv@MacBook-Pro-3 android % cd android     
+./gradlew clean
+cd: no such file or directory: android
+Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
+Downloading https://services.gradle.org/distributions/gradle-7.5.1-all.zip
+........................................................................................................................................................................................................................^C%                                                                                   
+ksnowlv@MacBook-Pro-3 android % cd android
+./gradlew clean
+cd: no such file or directory: android
+Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
+Unzipping /Users/ksnowlv/.gradle/wrapper/dists/gradle-7.5.1-all/1ehga6e77gqps5uk2kc5kf1vc/gradle-7.5.1-all.zip to /Users/ksnowlv/.gradle/wrapper/dists/gradle-7.5.1-all/1ehga6e77gqps5uk2kc5kf1vc
+Set executable permissions for: /Users/ksnowlv/.gradle/wrapper/dists/gradle-7.5.1-all/1ehga6e77gqps5uk2kc5kf1vc/gradle-7.5.1/bin/gradle
+
+Welcome to Gradle 7.5.1!
+
+Here are the highlights of this release:
+ - Support for Java 18
+ - Support for building with Groovy 4
+ - Much more responsive continuous builds
+ - Improved diagnostics for dependency resolution
+
+For more details see https://docs.gradle.org/7.5.1/release-notes.html
+
+Starting a Gradle Daemon (subsequent builds will be faster)
+
+> Task :gradle:compileGroovy
+Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
+
+BUILD SUCCESSFUL in 1m 40s
+6 actionable tasks: 5 executed, 1 up-to-date
+ksnowlv@MacBook-Pro-3 android % 
+
+```
+
+
