@@ -23,7 +23,7 @@ mathjax: false
 从[VTK官网](https://vtk.org/download/)下载VTK源代码
 
 
-![image](../../images/vtk/Mac下vtk之HelloVTK/vtk_download.png)
+![image](/images/vtk/Mac下vtk之HelloVTK/vtk_download.png)
 
 可以从上图下载vtk9.3版本的源码，进行编译。
 
@@ -31,7 +31,7 @@ mathjax: false
 
 从[CMake官网](https://cmake.org/download/)下载macOS 10.13 or later版本，并安装。
 
-![image](../../images/vtk/Mac下vtk之HelloVTK/cmake_download.png)
+![image](/images/vtk/Mac下vtk之HelloVTK/cmake_download.png)
 ### 3.编译Mac下VTK库
 
 #### VTK设置
@@ -41,11 +41,11 @@ mathjax: false
 * 勾选Grouped和Advanced选项
 * 点击**Configure**按钮，选择Unix Makefiles编译项目，如下图
 
-![image](../../images/vtk/Mac下vtk之HelloVTK/cmake_setting.png)
+![image](/images/vtk/Mac下vtk之HelloVTK/cmake_setting.png)
 
 * 点击done后，等待编译完成。
 
-![image](../../images/vtk/Mac下vtk之HelloVTK/vtk_cmake_build_ok.png)
+![image](/images/vtk/Mac下vtk之HelloVTK/vtk_cmake_build_ok.png)
 
 #### _build目录下编译
 
