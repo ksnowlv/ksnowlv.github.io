@@ -32,9 +32,8 @@ mathjax: false
 从[CMake官网](https://cmake.org/download/)下载macOS 10.13 or later版本，并安装。
 
 ![image](/images/vtk/Mac下vtk之HelloVTK/cmake_download.png)
-### 3.编译Mac下VTK库
 
-#### VTK设置
+### 3. CMake工具关于VTK设置
 
 * 打开CMake工具，选择源码目录：/Users/ksnowlv/Downloads/VTK-9.3.0；
 * VTK-9.3.0目录下，创建_build目录，然后选择/Users/ksnowlv/Downloads/VTK-9.3.0/_build的编译目录；
@@ -47,7 +46,7 @@ mathjax: false
 
 ![image](/images/vtk/Mac下vtk之HelloVTK/vtk_cmake_build_ok.png)
 
-#### _build目录下编译
+### 4. VTK源码下_build目录编译
 
 ```shell
 ksnowlv@MacBook-Pro-3 _build % cmake ..
@@ -73,9 +72,9 @@ ksnowlv@MacBook-Pro-3 _build % cmake ..
 
 ```
 
-#### _build目录下生成库文件
+### 5.VTK源码下_build目录下生成库文件
 
-使用make命令生成库和头文件
+使用**make**命令生成库和头文件
 
 <details>
   <summary>点击展开</summary>
@@ -6072,9 +6071,9 @@ __deprecated_msg("This function is provided for compatibility reasons only.  Due
 ```
 </details>
 
-#### _build目录下生成库文件安装到系统目录
+### 6.VTK源码下_build目录下生成库文件安装到系统目录
 
-使用sudo make install命令把生成的头文件和库安装到系统目录
+使用**sudo make install**命令把生成的头文件和库安装到系统目录
 
 <details>
   <summary>点击展开</summary>
