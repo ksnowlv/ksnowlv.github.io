@@ -6645,6 +6645,11 @@ int main() {
 
 ```
 
-### 3.效果
+### 4.效果
 
 ![image](/images/vtk/Mac下vtk之HelloVTK/vtk_demo.png)
+
+源代码见[git仓库](https://github.com/ksnowlv/VTKProjects/tree/main/HelloVTK)
+
+
+
