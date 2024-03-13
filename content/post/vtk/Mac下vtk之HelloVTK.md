@@ -1,10 +1,10 @@
 ---
-title: "Mac下vtk之HelloVTK"
+title: "Mac下VTK之HelloVTK"
 date: 2024-03-12T12:22:45+08:00
 lastmod: 2024-03-12T12:22:45+08:00
-keywords: ["Mac","vtk","C++"]
-tags: ["Mac","vtk","C++"]
-categories: ["Mac","vtk","C++"]
+keywords: ["Mac","VTK","C++"]
+tags: ["Mac","VTK","C++"]
+categories: ["Mac","VTK","C++"]
 
 comment: true
 toc: true
