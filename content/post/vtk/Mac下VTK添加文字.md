@@ -23,6 +23,26 @@ mathjax: false
 
 ```c++
 
+#include <vtkTextProperty.h>
+#include <vtkTextActor.h>
+
+void ShapeRender::TextRender() {
+    
+    // 创建文字属性
+    vtkSmartPointer<vtkTextProperty> textProperty = vtkSmartPointer<vtkTextProperty>::New();
+    textProperty->SetColor(1.0, 0.0, 1.0);  // 设置文字颜色为紫色
+    textProperty->SetFontSize(24);  // 设置字号大小
+    textProperty->SetJustificationToCentered();  // 设置文字居中显示
+    
+    // 创建文字对象
+    vtkSmartPointer<vtkTextActor> textActor = vtkSmartPointer<vtkTextActor>::New();
+    textActor->SetInput("Hello, VTK!");  // 设置文字内容
+    textActor->SetTextProperty(textProperty);
+    
+    textActor->SetPosition(600, 400);  // 设置文字位置屏幕居中
+    
+    VTKRender(textActor);
+}
 
 ```
 
