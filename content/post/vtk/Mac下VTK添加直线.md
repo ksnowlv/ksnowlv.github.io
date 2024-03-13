@@ -20,6 +20,26 @@ mathjax: false
 ### 1.VTK绘制直线
 
 ```c++
+#include <vtkSmartPointer.h>
+#include <vtkCylinderSource.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkActor.h>
+#include <vtkRenderer.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkProperty.h>
+
+//cubeRender
+#include <vtkCubeSource.h>
+#include <vtkJPEGReader.h>
+#include <vtkTexture.h>
+#include <vtkPNGReader.h>
+
+//lineRender
+#include <vtkLineSource.h>
+#include <vtkPolyData.h>
+#include <vtkPointData.h>
+
 void ShapeRender::LineRender() {
     
     vtkSmartPointer<vtkLineSource> lineSource = vtkSmartPointer<vtkLineSource>::New();
