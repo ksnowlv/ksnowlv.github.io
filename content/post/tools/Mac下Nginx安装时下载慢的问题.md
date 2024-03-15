@@ -2,7 +2,7 @@
 title: "Nginx安装时Operation too slow. Less than 100 bytes/sec transferred the last 5 seconds的问题"
 date: 2023-08-24T20:51:14+08:00
 lastmod: 2023-08-24T20:51:14+08:00
-keywords: ["Nginx"]
+keywords: ["Nginx","后端开发"]
 tags: ["Nginx", "后端开发"]
 categories: ["Nginx", "后端开发"]
 
