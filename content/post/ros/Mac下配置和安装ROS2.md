@@ -1,10 +1,10 @@
 ---
-title: "Mac下配置和安装ROS"
+title: "Mac下配置和安装ROS2"
 date: 2024-03-14T13:01:57+08:00
 lastmod: 2024-03-14T13:01:57+08:00
-keywords: ["Mac", "ROS", "C++"]
-tags: ["Mac", "ROS", "C++"]
-categories: ["Mac", "ROS", "C++"]
+keywords: ["Mac", "ROS2", "C++"]
+tags: ["Mac", "ROS2", "C++"]
+categories: ["Mac", "ROS2", "C++"]
 
 comment: true
 toc: true
@@ -70,6 +70,7 @@ Receiving objects:   6% (57724/905485), 31.66 MiB | 28.00 KiB/s
 * brew install ros-melodic-desktop
 
 ### 4.配置ROS环境变量
+
 在bash配置文件（如~/.bash_profile或~/.bashrc）中添加ROS环境变量，执行以下命令进行配置：
 
 echo "source /usr/local/opt/ros-melodic/setup.bash" >> ~/.bash_profile
