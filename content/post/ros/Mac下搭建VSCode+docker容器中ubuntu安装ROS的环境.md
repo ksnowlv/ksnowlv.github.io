@@ -36,7 +36,7 @@ Command+Shift+P（或者Ctrl+Shift+P）打开命令面板，选择 "Dokcer",
 
 ### 5.测试ros2容器服务
 
-打开终端，
+打开终端，开启ROS2 Python listener
 
 ```shell
 root@acf5b27d6036:~/ros2_ws# ros2 run demo_nodes_py listener
@@ -49,11 +49,16 @@ root@acf5b27d6036:~/ros2_ws# ros2 run demo_nodes_py listener
 [INFO] [1710589379.931520993] [listener]: I heard: [Hello World: 7]
 ```
 
-打开另一终端
+打开另一终端,开启ROS2 C++ talker.
 
 ```shell
-
+root@acf5b27d6036:~/ros2_ws# ros2 run demo_nodes_cpp talker
+[INFO] [1710589373.930197135] [talker]: Publishing: 'Hello World: 1'
+[INFO] [1710589374.930331507] [talker]: Publishing: 'Hello World: 2'
+[INFO] [1710589375.930224145] [talker]: Publishing: 'Hello World: 3'
+[INFO] [1710589376.930231354] [talker]: Publishing: 'Hello World: 4'
+[INFO] [1710589377.930409419] [talker]: Publishing: 'Hello World: 5'
+[INFO] [1710589378.930200203] [talker]: Publishing: 'Hello World: 6'
+[INFO] [1710589379.930267633] [talker]: Publishing: 'Hello World: 7'
 ```
-
-![image](../../images/ros/Mac下搭建VSCode+docker容器中ubuntu安装ROS的环境/result.png)
 
