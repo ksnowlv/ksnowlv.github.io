@@ -20,7 +20,7 @@ mathjax: false
 
 ### 1.Lottie
 
-官方链接见[https://pub-web.flutter-io.cn/packages/hive](https://pub-web.flutter-io.cn/packages/hive)
+官方链接见[https://pub-web.flutter-io.cn/packages/lottie](https://pub-web.flutter-io.cn/packages/lottie)
 
 支持Android/iOS/linux/MacOS/Windows
 
