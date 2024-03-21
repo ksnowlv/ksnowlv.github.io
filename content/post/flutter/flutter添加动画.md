@@ -19,7 +19,6 @@ mathjax: false
 ## Flutter添加动画
 Flutter有许多不同的方式来实现各种动画效果。
 
-
 ### 1.显式动画（Explicit Animations）
 
 显式动画通过AnimationController来控制动画状态，通常用于处理需要手动控制的动画效果。
