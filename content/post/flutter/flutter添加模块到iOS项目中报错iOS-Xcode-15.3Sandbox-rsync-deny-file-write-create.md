@@ -2,9 +2,9 @@
 title: "Flutter添加模块到iOS项目中报错iOS Xcode 15.3Sandbox Rsync Deny File Write Create"
 date: 2024-03-22T11:48:26+08:00
 lastmod: 2024-03-22T11:48:26+08:00
-keywords: ["flutter"]
-tags: ["flutter"]
-categories: ["flutter"]
+keywords: ["flutter", "iOS"]
+tags: ["flutter", "iOS"]
+categories: ["flutter", "iOS"]
 comment: true
 toc: true
 autoCollapseToc: true

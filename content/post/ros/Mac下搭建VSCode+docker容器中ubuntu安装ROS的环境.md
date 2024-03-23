@@ -29,9 +29,9 @@ mathjax: false
 
 Command+Shift+P（或者Ctrl+Shift+P）打开命令面板，选择 "Dokcer",
 
-![image](../../images/ros/Mac下搭建VSCode+docker容器中ubuntu安装ROS的环境/docker_open.png)
+![image](/images/ros/Mac下搭建VSCode+docker容器中ubuntu安装ROS的环境/docker_open.png)
 
-![image](../../images/ros/Mac下搭建VSCode+docker容器中ubuntu安装ROS的环境/docker_overview.png)
+![image](/images/ros/Mac下搭建VSCode+docker容器中ubuntu安装ROS的环境/docker_overview.png)
 然后选择ros2_sdk:1.0容器，附加到Visual Studio Code 打开容器。
 
 ### 5.测试ros2容器服务

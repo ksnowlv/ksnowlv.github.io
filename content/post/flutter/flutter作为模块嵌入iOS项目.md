@@ -2,9 +2,9 @@
 title: "Flutter作为模块嵌入iOS项目"
 date: 2024-03-22T13:33:37+08:00
 lastmod: 2024-03-22T13:33:37+08:00
-keywords: ["flutter"]
-tags: ["flutter"]
-categories: ["flutter"]
+keywords: ["flutter", "iOS"]
+tags: ["flutter", "iOS"]
+categories: ["flutter", "iOS"]
 
 comment: true
 toc: true
@@ -77,6 +77,25 @@ post_install do |installer|
   flutter_post_install(installer) if defined?(flutter_post_install)
 end
 
+```
+
+使用**pod install**命令安装
+
+```shell
+ksnowlv@MacBook-Pro-3 FlutterModuleTest % pod install
+Analyzing dependencies
+Downloading dependencies
+Installing Flutter (1.0.0)
+Installing FlutterPluginRegistrant (0.0.1)
+Installing Masonry (1.1.0)
+Generating Pods project
+Integrating client project
+
+[!] Please close any current Xcode sessions and use `FlutterModuleTest.xcworkspace` for this project from now on.
+Pod installation complete! There are 3 dependencies from the Podfile and 3 total pods installed.
+
+[!] Your project does not explicitly specify the CocoaPods master specs repo. Since CDN is now used as the default, you may safely remove it from your repos directory via `pod repo remove master`. To suppress this warning please add `warn_for_unused_master_specs_repo => false` to your Podfile.
+ksnowlv@MacBook-Pro-3 FlutterModuleTest % 
 
 ```
 
@@ -105,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  }
 ```
 
-* AppDelegate.swift
+* ViewController.swift
 
 ```swift
 import UIKit
