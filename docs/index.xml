@@ -6,7 +6,7 @@
     <description>Recent content on ksnowlv技术笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 22 Mar 2024 13:33:37 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 25 Mar 2024 19:32:40 +0800</lastBuildDate>
     
         <atom:link href="https://ksnowlv.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -21,6 +21,574 @@
         <description>&lt;p&gt;微信号:ksnowlv&lt;/p&gt;
 &lt;p&gt;聚焦于移动互联网开发，在腾讯，阿里，搜狗等互联网公司从事多年移动端开发。&lt;/p&gt;
 </description>
+      
+    </item>
+    
+    <item>
+      <title>Mac搭建vscode&#43;linux容器中的flutter开发环境1</title>
+      <link>https://ksnowlv.github.io/post/flutter/mac%E6%90%AD%E5%BB%BAvscode&#43;linux%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9A%84flutter%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%831/</link>
+      <pubDate>Mon, 25 Mar 2024 19:32:40 +0800</pubDate>
+      
+      <guid>https://ksnowlv.github.io/post/flutter/mac%E6%90%AD%E5%BB%BAvscode&#43;linux%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9A%84flutter%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%831/</guid>
+      
+        <description>&lt;h2 id=&#34;mac搭建vscodelinux容器中的flutter开发环境&#34;&gt;Mac搭建vscode+linux容器中的flutter开发环境&lt;/h2&gt;
+&lt;h3 id=&#34;1-mac本机创建flutter工程hello_world&#34;&gt;1. Mac本机创建flutter工程hello_world。&lt;/h3&gt;
+&lt;h3 id=&#34;2制作镜像的dockerfile&#34;&gt;2.制作镜像的Dockerfile&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;30
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;31
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;32
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;33
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;34
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;35
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;36
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;37
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;38
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;39
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;40
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;41
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 使用官方的Ubuntu 20.04镜像作为基础镜像&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; ubuntu:20.04&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置环境变量，防止在安装过程中出现交互式提示&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENV&lt;/span&gt; DEBIAN_FRONTEND&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;noninteractive
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 更新软件包列表并安装基本依赖&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; apt-get update &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  git &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  unzip &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  curl &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  build-essential &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  cmake &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  ninja-build &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  clang &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  lldb &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  lld &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  gdb&lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  pkg-config&lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;  libgtk-3-dev&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 从指定的git仓库下载Flutter&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; /app&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; git clone https://github.com/flutter/flutter.git&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 配置Flutter的环境变量&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENV&lt;/span&gt; PATH&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/app/flutter/bin:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;PATH&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 安装Flutter插件&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; /app/flutter/bin/flutter config --no-analytics &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    /app/flutter/bin/flutter doctor -v&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; mkdir -p /app/FlutterProjects/hello_world&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 复制上一级目录的同级目录到/app/FlutterProjects&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; hello_world /app/FlutterProjects/hello_world&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 暴露端口&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;EXPOSE&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; 8080&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置默认的工作目录&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; /app&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ksnowlv@MacBook-Pro-3 LinuxFlutter %  docker build -t flutter_nogl .
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Building 880.8s &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;13/13&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; FINISHED                                                                                                                          docker:desktop-linux
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;internal&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; load build definition from Dockerfile                                                                                                                          0.0s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; transferring dockerfile: 1.71kB                                                                                                                                        0.0s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;internal&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; load .dockerignore                                                                                                                                             0.0s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; transferring context: 2B                                                                                                                                               0.0s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;internal&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; load metadata &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; docker.io/library/ubuntu:20.04                                                                                                              15.5s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; CACHED &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;1/8&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; FROM docker.io/library/ubuntu:20.04@sha256:626ffe58f6e7566e00254b638eb7e0f3b11d4da9675088f4781a50ae288f3322                                                  0.0s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;internal&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; load build context                                                                                                                                             0.3s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; transferring context: 126.43kB                                                                                                                                         0.3s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;2/8&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; RUN apt-get update &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y   git   unzip   curl   build-essential   cmake   ninja-build   clang   lldb   lld   gdb  pkg-config  libgtk-3-dev        601.9s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;3/8&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; WORKDIR /app                                                                                                                                                        0.1s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;4/8&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; RUN git clone https://github.com/flutter/flutter.git                                                                                                              117.2s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;5/8&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; RUN /app/flutter/bin/flutter config --no-analytics &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;     /app/flutter/bin/flutter doctor -v                                                                      119.2s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;6/8&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; WORKDIR /app                                                                                                                                                        0.0s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;7/8&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; RUN mkdir -p /app/FlutterProjects/hello_world                                                                                                                       0.5s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;8/8&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; COPY hello_world /app/FlutterProjects/hello_world                                                                                                                   6.8s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; exporting to image                                                                                                                                                       19.4s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; exporting layers                                                                                                                                                      19.3s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; writing image sha256:bebf15e8f29786f1d161a2ef3044abe8e3911538a4ecea32fee99d53f8c418a4                                                                                  0.0s 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;gt; naming to docker.io/library/flutter_nogl                                                                                                                               0.0s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/k3fjcrbid51xixzgndv76iszi
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;What&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;s Next?
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  View a summary of image vulnerabilities and recommendations → docker scout quickview
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ksnowlv@MacBook-Pro-3 LinuxFlutter %  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;3启动容器&#34;&gt;3.启动容器&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ksnowlv@MacBook-Pro-3 LinuxFlutter %  docker run -it  -e DISPLAY&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;host.docker.internal:0  -v /tmp/.X11-unix:/tmp/.X11-unix  --name flutter_nogl  flutter_nogl /bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;上述命令启动了一个名为flutter_nogl的容器，并将其设置为交互式容器（-it 选项）。&lt;/p&gt;
+&lt;p&gt;docker run: 运行一个新的容器&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;-it: 指定交互式执行，通常用于需要交互的命令行应用程序&lt;/li&gt;
+&lt;li&gt;-e DISPLAY=host.docker.internal:0: 设置名为 DISPLAY 的环境变量，用于指定容器内的图形界面显示到宿主机的X服务器。host.docker.internal 是Docker针对宿主机的主机名，0 则表示 X 服务器的显示编号。&lt;/li&gt;
+&lt;li&gt;-v /tmp/.X11-unix:/tmp/.X11-unix: 将宿主机的 X11 UNIX 域套接字（指向 X 服务器的通信管道）映射到容器内的相同位置。这允许容器内的应用程序连接到宿主机的 X 服务器以显示图形界面。&lt;/li&gt;
+&lt;li&gt;&amp;ndash;name flutter_nogl: 为容器指定一个名称，即 flutter_nogl
+flutter_nogl: 要使用的镜像名称，也即您要从其中启动容器的镜像名称&lt;/li&gt;
+&lt;li&gt;/bin/bash: 在容器内启动的命令，这里是启动一个 bash shell
+综合起来，这个命令的目的是创建一个带有图形界面的容器，允许在其中执行需要图形界面的命令或应用程序。通常情况下，这样的容器会用于运行需要图形界面的应用程序或者开发环境，比如在容器内运行带有图形界面的Flutter开发环境&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;4mac安装xquartz并完成允许从网络客户端连接设置&#34;&gt;4.Mac安装XQuartz，并完成允许从网络客户端连接设置&lt;/h3&gt;
+&lt;p&gt;从&lt;a href=&#34;https://www.xquartz.org&#34;&gt;https://www.xquartz.org&lt;/a&gt;下载&lt;strong&gt;XQuartz&lt;/strong&gt;，并完成安装。&lt;/p&gt;
+&lt;p&gt;在Mac应用程序中，找到实用工具中的&lt;strong&gt;XQuartz&lt;/strong&gt;，并打开。&lt;/p&gt;
+&lt;p&gt;在&lt;strong&gt;XQuartz&lt;/strong&gt;的偏好设置中，选择安全性选项卡，然后，勾选“鉴定连接”和“允许从网络客户端连接”，确保这两项选中。然后，重启&lt;strong&gt;XQuartz&lt;/strong&gt;，使设置生效。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/flutter/Mac%E6%90%AD%E5%BB%BAvscode+linux%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9A%84flutter%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%831/x11_setting.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ksnowlv@MacBook-Pro-3 base_demo % xhost +
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;access control disabled, clients can connect from any host
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ksnowlv@MacBook-Pro-3 base_demo % xeyes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;XQuartz&lt;/strong&gt;返回上述信息就代表，已完成设置；输入&lt;strong&gt;xeyes&lt;/strong&gt;你将看到鼠标的眼睛。&lt;/p&gt;
+&lt;h3 id=&#34;5-vscode打开容器中的hello_world工程&#34;&gt;5. VSCode打开容器中的hello_world工程&lt;/h3&gt;
+&lt;p&gt;VSCode 安装docker插件，安装完成后， &lt;strong&gt;control+option+p&lt;/strong&gt; ，选择Docker： 焦点在 Containers 视图上
+Docker: Focus on Containers View，并打开。
+&lt;img src=&#34;https://ksnowlv.github.io/images/flutter/Mac%E6%90%AD%E5%BB%BAvscode+linux%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9A%84flutter%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%831/vscode_container.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;6效果&#34;&gt;6.效果&lt;/h3&gt;
+&lt;p&gt;右击运行的容器，并打开&lt;strong&gt;附加 Visual Studio Code&lt;/strong&gt;，启动vscode后，运行linux应用&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ksnowlv.github.io/images/flutter/Mac%E6%90%AD%E5%BB%BAvscode+linux%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9A%84flutter%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%831/result.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;能跑起来，报错libGL error: No matching fbConfigs or visuals found
+libGL error: failed to load driver: swrast知道是OPENGL出错了，试了许多办法，无效果。&lt;/p&gt;
+&lt;p&gt;有知道的，还请指点。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;  1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;  2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;  3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;  4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;  5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;  6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;  7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;  8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;  9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 19
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 20
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 21
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 22
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 23
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 24
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 25
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 26
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 27
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 28
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 29
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 30
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 31
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 32
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 33
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 34
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 35
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 36
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 37
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 38
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 39
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 40
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 41
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 42
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 43
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 44
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 45
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 46
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 47
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 48
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 49
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 50
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 51
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 52
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 53
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 54
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 55
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 56
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 57
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 58
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 59
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 60
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 61
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 62
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 63
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 64
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 65
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 66
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 67
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 68
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 69
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 70
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 71
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 72
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 73
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 74
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 75
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 76
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 77
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 78
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 79
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 80
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 81
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 82
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 83
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 84
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 85
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 86
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 87
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 88
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 89
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 90
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 91
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 92
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 93
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 94
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 95
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 96
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 97
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 98
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 99
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;100
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;101
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;102
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;103
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;104
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;105
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;106
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;107
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;108
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;109
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;110
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;111
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;112
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;113
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;114
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;115
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;116
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;117
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;118
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;119
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;120
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;121
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;122
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;123
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;124
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;125
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;126
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;127
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;128
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;129
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;130
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;131
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;132
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;133
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;134
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;135
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;136
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;137
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;138
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;139
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;140
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;141
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;142
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;143
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;144
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;145
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;146
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;147
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;148
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;149
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;150
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;151
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;152
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;153
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;154
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;155
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;156
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;157
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;158
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;159
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;160
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;161
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;162
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;163
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;164
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;165
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;166
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;167
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;168
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;169
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;170
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;171
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;172
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;173
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;174
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;175
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;176
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Launching lib/main.dart on Linux in debug mode...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;✓ Built build/linux/x64/debug/bundle/hello_world
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;libGL error: No matching fbConfigs or visuals found
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;libGL error: failed to load driver: swrast
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: Gdk-CRITICAL **: 15:22:14.928: gdk_gl_context_make_current: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;GDK_IS_GL_CONTEXT (context)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: WARNING **: 15:22:14.928: Failed to initialize GLArea: Unable to create a GL context
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.146: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.154: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.163: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.171: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.179: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.187: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.195: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.203: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.211: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.219: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.227: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.235: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.243: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.251: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.259: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.268: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.275: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.284: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.291: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.302: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:15.992: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.002: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.008: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.019: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.026: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.034: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.041: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.050: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.057: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.066: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.073: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.084: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.089: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.102: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.105: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.113: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.121: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.129: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.137: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.145: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.333: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.339: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.347: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.355: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.364: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.372: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.380: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.388: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.395: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.403: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.411: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.420: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.427: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.437: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.444: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.452: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.460: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.469: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.477: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.484: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.492: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.501: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.508: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.518: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.524: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.533: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.540: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.549: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.567: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.597: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.621: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.629: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.637: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.653: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.661: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.670: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.678: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.686: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.694: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.711: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.728: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.736: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.742: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;** &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hello_world:51854&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: CRITICAL **: 15:22:16.751: void fl_keyboard_manager_sync_modifier_if_needed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;FlKeyboardManager *, guint, double&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;: assertion &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;FL_IS_KEYBOARD_MANAGER(self)&amp;#39;&lt;/span&gt; failed
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
       
     </item>
     
@@ -4848,99 +5416,6 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; _webViewController.loadRequest(Uri.parse(url));
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
-      
-    </item>
-    
-    <item>
-      <title>Flutter添加shared_preferences</title>
-      <link>https://ksnowlv.github.io/post/flutter/flutter%E6%B7%BB%E5%8A%A0shared_preferences/</link>
-      <pubDate>Sun, 17 Mar 2024 08:47:00 +0800</pubDate>
-      
-      <guid>https://ksnowlv.github.io/post/flutter/flutter%E6%B7%BB%E5%8A%A0shared_preferences/</guid>
-      
-        <description>&lt;h2 id=&#34;shared_preferences的使用&#34;&gt;shared_preferences的使用&lt;/h2&gt;
-&lt;h3 id=&#34;1shared_preferences&#34;&gt;1.shared_preferences&lt;/h3&gt;
-&lt;p&gt;官方链接见&lt;a href=&#34;https://pub.dev/packages/shared_preferences&#34;&gt;https://pub.dev/packages/shared_preferences&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;轻量级数据存储，在各平台存储位置如下&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;平台&lt;/th&gt;
-&lt;th&gt;位置&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Android&lt;/td&gt;
-&lt;td&gt;SharedPreferences&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;iOS&lt;/td&gt;
-&lt;td&gt;NSUserDefaults&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Linux&lt;/td&gt;
-&lt;td&gt;In the XDG_DATA_HOME directory&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;macOS&lt;/td&gt;
-&lt;td&gt;NSUserDefaults&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Web&lt;/td&gt;
-&lt;td&gt;LocalStorage&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Windows&lt;/td&gt;
-&lt;td&gt;In the roaming AppData directory&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;2pubspecyaml添加依赖&#34;&gt;2.pubspec.yaml添加依赖&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;shared_preferences&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;^2.2.2&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;3示例&#34;&gt;3.示例&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-dart&#34; data-lang=&#34;dart&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// 加载姓名
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;_loadName() &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  SharedPreferences prefs &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; SharedPreferences.getInstance();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  setState(() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; prefs.getString(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;??&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  });
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 保存姓名
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;_saveName() &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  SharedPreferences prefs &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; SharedPreferences.getInstance();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; prefs.setString(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;, _nameController.text);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  _loadName(); &lt;span style=&#34;color:#75715e&#34;&gt;// 保存完成后重新加载已保存的文本
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
