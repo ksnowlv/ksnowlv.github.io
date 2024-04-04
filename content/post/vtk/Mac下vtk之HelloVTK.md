@@ -20,7 +20,7 @@ mathjax: false
 
 ### 1.下载VTK
 
-从[VTK官网](https://vtk.org/download/)下载VTK源代码
+从VTK官网[https://vtk.org/download/](https://vtk.org/download/)下载VTK源代码
 
 
 ![image](/images/vtk/Mac下vtk之HelloVTK/vtk_download.png)

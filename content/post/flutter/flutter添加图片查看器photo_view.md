@@ -16,8 +16,6 @@ mathjax: false
 
 <!--more-->
 
-
-
 ## photo_view的使用
 
 ### 1.photo_view

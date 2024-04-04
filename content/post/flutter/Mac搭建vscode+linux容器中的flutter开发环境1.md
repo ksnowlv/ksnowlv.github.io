@@ -138,7 +138,9 @@ Docker: Focus on Containers View，并打开。
 
 ### 6.效果
 
-右击运行的容器，并打开**附加 Visual Studio Code**，启动vscode后，运行linux应用
+右击运行的容器，并打开**附加 Visual Studio Code**；
+![image](/images/flutter/Mac搭建vscode+linux容器中的flutter开发环境1/vscode_start.png)
+启动vscode后，运行linux应用
 
 ![image](/images/flutter/Mac搭建vscode+linux容器中的flutter开发环境1/result.png)
 
