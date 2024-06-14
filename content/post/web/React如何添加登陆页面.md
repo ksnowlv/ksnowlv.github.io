@@ -14,7 +14,6 @@ mathjax: false
 
 ---
 
-<!--more-->
 
 ### 1.UI布局的核心
 
