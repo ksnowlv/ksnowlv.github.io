@@ -24,7 +24,7 @@ mathjax: false
 
 支持iOS/Android/Web/MacOS/Linux/Windows
 
-### 2.pubspec.yaml添加依赖
+### 2.pubspec.yaml中添加依赖
 
 ```yaml
   roundcheckbox: ^2.0.5
@@ -144,4 +144,5 @@ class RoundCheckboxPage extends StatelessWidget {
 
 * 使用roundcheckbox包来创建自定义样式的复选框，通过不同属性设置，展示了多种圆形复选框的样式。
   * 设置大小、选中与非选中状态的颜色、边框样式、选中与非选中状态的图标、动画时长、禁用状态下的颜色等。
+  
 
