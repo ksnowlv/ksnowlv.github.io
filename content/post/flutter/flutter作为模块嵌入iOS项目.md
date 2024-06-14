@@ -159,3 +159,10 @@ class ViewController: UIViewController {
 ![image](/images/flutter/flutter作为模块嵌入iOS项目/result_1.png)
 
 ![image](/images/flutter/flutter作为模块嵌入iOS项目/result_2.png)
+
+
+### 6.可能遇见的问题
+
+* 问题一：libarclite库缺失
+  
+    SDK does not contain 'libarclite' at the path '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc/libarclite_iphonesimulator.a'; try increasing the minimum deployment target

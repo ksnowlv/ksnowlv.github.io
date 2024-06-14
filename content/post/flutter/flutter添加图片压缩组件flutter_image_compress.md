@@ -20,6 +20,16 @@ mathjax: false
 
 ## flutter_image_compress的使用
 
+
+flutter_image_compress是一个图片压缩的Flutter插件。
+
+主要用途：
+
+* 减少存储空间占用：通过压缩图片，可以减少应用占用的存储空间。
+* 加快图片加载速度：压缩后的图片文件更小，加载和渲染速度更快，提升用户体验。
+* 节省网络带宽：在网络上传输较小的图片文件可以节省带宽，减少数据使用量。
+* 适应不同的分辨率和屏幕尺寸：可以调整图片大小，以适应不同分辨率和屏幕尺寸的设备
+
 ### 1.flutter_image_compress
 
 官方链接见[https://pub-web.flutter-io.cn/packages/flutter_image_compress](https://pub-web.flutter-io.cn/packages/flutter_image_compress)
