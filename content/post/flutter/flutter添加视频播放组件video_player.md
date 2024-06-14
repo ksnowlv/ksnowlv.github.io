@@ -2,9 +2,9 @@
 title: "Flutter添加视频播放组件video_player"
 date: 2024-03-28T21:39:34+08:00
 lastmod: 2024-03-28T21:39:34+08:00
-keywords: ["flutter"]
-tags: ["flutter"]
-categories: ["flutter"]
+keywords: ["Flutter"]
+tags: ["Flutter"]
+categories: ["Flutter"]
 
 comment: true
 toc: true

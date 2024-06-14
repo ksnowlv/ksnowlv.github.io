@@ -2,9 +2,9 @@
 title: "Flutter跨多个层级共享数据 InheritedWidget的使用"
 date: 2024-04-02T16:57:43+08:00
 lastmod: 2024-04-02T16:57:43+08:00
-keywords: ["flutter"]
-tags: ["flutter"]
-categories: ["flutter"]
+keywords: ["Flutter"]
+tags: ["Flutter"]
+categories: ["Flutter"]
 
 comment: true
 toc: true

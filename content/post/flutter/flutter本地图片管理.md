@@ -2,8 +2,8 @@
 title: "Flutter本地图片管理"
 date: 2024-03-05T10:51:25+08:00
 lastmod: 2024-03-05T10:51:25+08:00
-keywords: ["flutter"]
-tags: ["flutter"]
+keywords: ["Flutter"]
+tags: ["Flutter"]
 categories: ["flutter"]
 
 comment: true

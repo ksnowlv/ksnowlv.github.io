@@ -2,9 +2,9 @@
 title: "Mac搭建vscode+linux容器中的flutter开发环境1"
 date: 2024-03-25T19:32:40+08:00
 lastmod: 2024-03-25T19:32:40+08:00
-keywords: ["flutter", "linux"]
-tags: ["flutter", "linux"]
-categories: ["flutter", "linux"]
+keywords: ["Flutter", "Linux"]
+tags: ["Flutter", "Linux"]
+categories: ["Flutter", "Linux"]
 
 comment: true
 toc: true
