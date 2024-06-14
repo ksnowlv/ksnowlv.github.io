@@ -3,9 +3,9 @@ title: "由滴滴打车看地图"
 date: 2014-07-22
 lastmod: 2014-07-22
 categories:
-  - "生活片段"
+  - "其它"
 tags:
-  - "生活片段"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

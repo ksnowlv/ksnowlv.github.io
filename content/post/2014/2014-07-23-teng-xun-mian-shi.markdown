@@ -3,9 +3,9 @@ title: "腾讯面试"
 date: 2014-07-23
 lastmod: 2014-07-23
 categories:
-  - "职业生涯"
+  - "其它"
 tags:
-  - "职业生涯"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

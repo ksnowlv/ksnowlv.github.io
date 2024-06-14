@@ -3,8 +3,8 @@ title: "Linux下加载动态库cannot Open Shared Object File No Such File or Di
 date: 2024-01-13T17:21:05+08:00
 lastmod: 2024-01-13T17:21:05+08:00
 keywords: ["Linux", "C++", "clion"]
-tags: ["Linux", "C++", "clion"]
-categories: ["Linux", "C++", "clion"]
+tags: ["Linux", "C++"]
+categories: ["Linux", "C++"]
 
 comment: true
 toc: true

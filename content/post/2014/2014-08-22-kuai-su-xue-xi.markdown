@@ -3,9 +3,9 @@ title: "快速学习的捷径"
 date: 2014-08-22
 lastmod: 2014-08-22
 categories:
-  - "生活片段"
+  - "其它"
 tags:
-  - "生活片段"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

@@ -2,9 +2,9 @@
 title: "Rust线程沲"
 date: 2024-01-29T23:20:17+08:00
 lastmod: 2024-01-29T23:20:17+08:00
-keywords: ["rust","线程沲", "rayon"]
-tags: ["rust","线程沲"]
-categories: ["rust","线程沲"]
+keywords: ["rust", "rayon"]
+tags: ["rust"]
+categories: ["rust"]
 
 comment: true
 toc: true

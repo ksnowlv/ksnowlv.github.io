@@ -3,8 +3,8 @@ title: "Mac下Android Apk反编译重新打包-反编译修改代码(上篇)"
 date: 2024-04-12T10:20:39+08:00
 lastmod: 2024-04-12T10:20:39+08:00
 keywords: ["Mac", "Android","破解", "反编译"]
-tags: ["Mac", "Android","工具"]
-categories: ["Mac", "Android","工具"]
+tags: ["Mac", "Android","其它"]
+categories: ["Mac", "Android","其它"]
 
 comment: true
 toc: true

@@ -3,9 +3,9 @@ title: "入职腾讯"
 date: 2011-08-10
 lastmod: 2011-08-10
 categories:
-  - "职业生涯"
+  - "其它"
 tags:
-  - "职业生涯"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

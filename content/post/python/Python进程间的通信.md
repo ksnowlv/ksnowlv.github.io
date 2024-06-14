@@ -3,8 +3,8 @@ title: "Python进程间的通信"
 date: 2023-08-24T15:38:19+08:00
 lastmod: 2023-08-24T15:38:19+08:00
 keywords: ["Python", "多进程", "队列", "信号量", "进程池"]
-tags: ["Python", "多进程"]
-categories: ["Python", "多进程"]
+tags: ["Python"]
+categories: ["Python"]
 
 comment: true
 toc: true

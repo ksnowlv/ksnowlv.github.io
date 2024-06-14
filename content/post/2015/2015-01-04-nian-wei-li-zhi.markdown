@@ -3,9 +3,9 @@ title: "年尾离职"
 date: 2015-01-04
 lastmod: 2015-01-04
 categories:
-  - "职业生涯"
+  - "其它"
 tags:
-  - "职业生涯"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

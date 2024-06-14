@@ -2,9 +2,9 @@
 title: "Qt中QWebEngineView下C++与JS互调"
 date: 2023-12-25T11:42:15+08:00
 lastmod: 2023-12-25T11:42:15+08:00
-keywords: ["Qt", "C++", "WebView"]
-tags: ["Qt", "C++", "WebView"]
-categories: ["Qt", "C++", "WebView"]
+keywords: ["Qt", "C++"]
+tags: ["Qt", "C++"]
+categories: ["Qt", "C++"]
 
 comment: true
 toc: true

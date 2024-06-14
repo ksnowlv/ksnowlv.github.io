@@ -5,7 +5,7 @@ lastmod: 2019-04-05
 categories:
   - "其它"
 tags:
-  - "理财"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

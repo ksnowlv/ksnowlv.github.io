@@ -3,9 +3,9 @@ title: "读罗辑思维20140613-大国不能不识数"
 date: 2014-08-03
 lastmod: 2014-08-03
 categories:
-  - "读书"
+  - "其它"
 tags:
-  - "读书"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

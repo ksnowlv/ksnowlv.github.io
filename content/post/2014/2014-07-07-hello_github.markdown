@@ -3,9 +3,9 @@ title: "blog转移"
 date: 2014-07-07
 lastmod: 2014-07-07
 categories:
-  - "生活片段"
+  - "其它"
 tags:
-  - "生活片段"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

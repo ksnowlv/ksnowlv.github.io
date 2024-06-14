@@ -3,8 +3,8 @@ title: "MacOS arm64芯片下如何安装tensorflow"
 date: 2023-08-31T23:17:34+08:00
 lastmod: 2023-08-31T23:17:34+08:00
 keywords: ["Python", "tensorflow", "arm64"]
-tags: ["Python", "tensorflow"]
-categories: ["Python", "tensorflow"]
+tags: ["Python"]
+categories: ["Python"]
 
 comment: true
 toc: true

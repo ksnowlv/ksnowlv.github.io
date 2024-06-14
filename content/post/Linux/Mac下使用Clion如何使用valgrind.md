@@ -3,8 +3,8 @@ title: "Mac下使用Clion如何使用valgrind"
 date: 2023-12-31T19:30:54+08:00
 lastmod: 2023-12-31T19:30:54+08:00
 keywords: ["Mac", "Clion", "linux", "valgrind"]
-tags: ["Mac", "Clion", "linux", "性能"]
-categories: ["Mac", "Clion", "linux", "性能"]
+tags: ["Mac", "linux", "性能"]
+categories: ["Mac", "linux", "性能"]
 
 comment: true
 toc: true

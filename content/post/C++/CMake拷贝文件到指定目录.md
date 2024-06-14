@@ -2,9 +2,9 @@
 title: "CMake拷贝文件到指定目录"
 date: 2024-01-24T15:14:58+08:00
 lastmod: 2024-01-24T15:14:58+08:00
-keywords: ["CMake"]
-tags: ["CMake"]
-categories: ["CMake"]
+keywords: ["C++"]
+tags: ["C++"]
+categories: ["C++"]
 
 comment: true
 toc: true

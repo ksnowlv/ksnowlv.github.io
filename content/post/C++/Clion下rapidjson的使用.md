@@ -3,8 +3,8 @@ title: "Clion下rapidjson的使用"
 date: 2023-12-19T09:49:05+08:00
 lastmod: 2023-12-19T09:49:05+08:00
 keywords: ["Mac", "clion",  "json", "C++"]
-tags: ["Mac", "clion", "C++"]
-categories: ["Mac", "clion", "C++"]
+tags: ["Mac",  "C++"]
+categories: ["Mac", "C++"]
 
 comment: true
 toc: true

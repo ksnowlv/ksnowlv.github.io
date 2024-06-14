@@ -3,9 +3,9 @@ title: "八月相遇"
 date: 2014-08-25
 lastmod: 2014-08-25
 categories:
-  - "生活片段"
+  - "其它"
 tags:
-  - "生活片段"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

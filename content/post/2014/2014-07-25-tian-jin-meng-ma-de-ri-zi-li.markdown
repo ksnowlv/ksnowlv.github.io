@@ -3,9 +3,9 @@ title: "天津猛犸的日子里"
 date: 2014-07-25
 lastmod: 2014-07-25
 categories:
-  - "职业生涯"
+  - "其它"
 tags:
-  - "职业生涯"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

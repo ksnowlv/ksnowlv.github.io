@@ -3,9 +3,9 @@ title: "杭州西溪园区九-九的夜晚"
 date: 2014-09-22
 lastmod: 2014-09-22
 categories:
-  - "生活片段"
+  - "其它"
 tags:
-  - "生活片段"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

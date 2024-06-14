@@ -3,9 +3,9 @@ title: "读逻辑思维-20140718-托克维尔讲什么"
 date: 2014-08-03
 lastmod: 2014-08-03
 categories:
-  - "读书"
+  - "其它"
 tags:
-  - "读书"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

@@ -5,7 +5,7 @@ lastmod: 2014-11-06
 categories:
   - "其它"
 tags:
-  - "axure"
+  - "其它"
 comment: true
 toc: true
 autoCollapseToc: false

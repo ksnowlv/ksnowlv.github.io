@@ -2,9 +2,9 @@
 title: "React如何添加路由参数-useSearchParams传参"
 date: 2024-06-14T15:45:35+08:00
 lastmod: 2024-06-14T15:45:35+08:00
-keywords: ["Web"]
-tags: ["Web"]
-categories: ["Web"]
+keywords: ["前端开发", "React"]
+tags: ["前端开发","React"]
+categories: ["前端开发","React"]
 
 comment: true
 toc: true
