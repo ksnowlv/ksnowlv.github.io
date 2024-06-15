@@ -2,9 +2,9 @@
 title: "Mac brew安装mysql时,出现curl: (92) HTTP/2 stream 1 was not closed cleanly: PROTOCOL_ERROR (err 1)"
 date: 2024-03-02T10:10:27+08:00
 lastmod: 2024-03-02T10:10:27+08:00
-keywords: ["mysql", "Mac"]
-tags: ["mysql", "Mac"]
-categories: ["mysql", "Mac"]
+keywords: ["Mac","数据库","后端开发"]
+tags: ["Mac","数据库","后端开发"]
+categories: ["Mac","数据库","后端开发"]
 
 comment: true
 toc: true

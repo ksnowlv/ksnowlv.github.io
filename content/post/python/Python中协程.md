@@ -2,9 +2,9 @@
 title: "Python中协程"
 date: 2023-08-19T16:31:49+08:00
 lastmod: 2023-08-19T16:31:49+08:00
-keywords: ["Python", "协程", "并发"]
-tags: ["Python", "协程"]
-categories: ["Python", "协程"]
+keywords: ["Python", "并发"]
+tags: ["Python"]
+categories: ["Python"]
 
 comment: true
 toc: true

@@ -3,9 +3,9 @@ title: "排序-插入冒泡交换选择与二分查找"
 date: 2013-05-15
 lastmod: 2013-05-15
 categories:
-  - "算法与数据结构"
+  - "C++"
 tags:
-  - "算法与数据结构"
+  - "C++"
 comment: true
 toc: true
 autoCollapseToc: false

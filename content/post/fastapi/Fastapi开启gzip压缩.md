@@ -2,9 +2,9 @@
 title: "Fastapi开启gzip压缩"
 date: 2023-11-24T22:11:42+08:00
 lastmod: 2023-11-24T22:11:42+08:00
-keywords: ["python", "fastapi", "解压缩"]
-tags: ["python", "fastapi", "解压缩", "后端开发"]
-categories: ["python", "fastapi", "解压缩", "后端开发"]
+keywords: ["python", "fastapi"]
+tags: ["python", "fastapi","后端开发"]
+categories: ["python", "fastapi", "后端开发"]
 
 comment: true
 toc: true
