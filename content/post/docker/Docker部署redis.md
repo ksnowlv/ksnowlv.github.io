@@ -2,9 +2,9 @@
 title: "Docker部署redis"
 date: 2024-01-13T23:12:36+08:00
 lastmod: 2024-01-13T23:12:36+08:00
-keywords: ["Docker", "redis", "后端开发"]
-tags: ["Docker", "redis", "后端开发"]
-categories: ["Docker", "redis", "后端开发"]
+keywords: ["Docker", "存储", "后端开发"]
+tags: ["Docker", "存储", "后端开发"]
+categories: ["Docker", "存储", "后端开发"]
 
 comment: true
 toc: true

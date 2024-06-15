@@ -4,8 +4,8 @@ date: 2015-08-19
 lastmod: 2015-08-19
 
 keywords: ["Android", "解压缩"]
-tags: ["Android", "Java"]
-categories: ["Android", "Java"]
+tags: ["Android"]
+categories: ["Android"]
 
 comment: true
 toc: true

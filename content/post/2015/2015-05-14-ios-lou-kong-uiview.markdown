@@ -5,7 +5,7 @@ lastmod: 2015-05-14
 categories:
   - "iOS"
 tags:
-  - "UI"
+  - "iOS"
 comment: true
 toc: true
 autoCollapseToc: false
